@@ -1,0 +1,429 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-09T17:26:13.082127+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: microbench
+  version: 0.5.0
+  revision: f731b4a5bbbd706cc4d905a5745008745d4399f9
+  digest: pF34jRToGTxi0OnhR4ZNiNPZcODwro3ItB5aa9VYfxg
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+wmrVBNOP6wvAZDuxKrTt0cyKcCf2m69UhSTfUu2z_SjKmBrJR_gKBa4A4gT-vSaOr4ZFinvvXJmr1dViJRrICg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-09T17:27:24.275039+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: sourcefile
+  version: 0.1.4
+  digest: _GslysjAg1wRo6gyS1o7P4pvjYpdnSOVlv0YH1VCkEc
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+DyDEKg7crCaxNOxuGwCjtNBn70sEy7noZRfHImd847bgogj60ey_TIgL1Uj2v5swpkezqMcXL912w5uVomsrAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-09T18:00:58.345529+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: version_check
+  version: 0.1.5
+  revision: f2d5df160f2c533852e45ddf6670906f3406a17b
+  digest: tVEdEb34EQd_VxNnG9MgjmEX6QiTF-vZ1A6gEN9HpWE
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ZlKH7hK8zrOSlwDQ_H--mtO6C-2unnmUfvnAOFqzs0NryKyiiaWshfOlmEyZBrKiW3gVA6y3BpSPjjizgI1xAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T12:43:47.339896+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: atty
+  version: 0.2.13
+  revision: 0e6ef0422750c8d24f3e34695758684f48b7a27e
+  digest: W36qEbMrthMZf6ZfK6t7oCXPyKvmTY5BLJtD0gs54ow
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+jXYXj86RBjuMHf1vzJcTbhWsd7OQeQv1keQ09A4sf3u2yDen1dn4OdEY0UPb_3sFLhuVAxiMEs6E_i25EfeWAg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T12:46:10.650342+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: c2-chacha
+  version: 0.2.2
+  revision: e1001cd237f8c7ce0a1a84c7c82771ffb9ed38d0
+  digest: keNLvnqhWc0zIW0eFg9SOucgG0w-0SuAC5OPFigNTss
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+tcMe83BFnrv-DFg6A5wMju7sPcBlGqYOZFuFdWiwl0Vo3HCr6r9ZIKpNNjXG0DV3-eKeOqXS4rKI4dsPTsFmCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T12:51:14.612314+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: chrono
+  version: 0.4.7
+  revision: d8c68f6bd095e3db295d63439f2527f2b74de956
+  digest: maJWkfT_-dTmy9X9Tgp7qcRuhuwr7rlRD4OBmlEbYGM
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+jdTHcGhH3s72Ajnw0LtixU6Xw_5DN5GiS9RvHpo9B4eTRaOiBatfBHhofxnJ4mr50uNviUxYIBB5kVL5gKZzAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T12:53:02.028728+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: colored
+  version: 1.8.0
+  revision: 7954e6f52d46604bd0bfa90a4f220312ecddb341
+  digest: eElU-R6CMHFMzlOmKwp_lPbqmnNxw4RPlv3iKkKCfTc
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+KVU2f5xRrFwyssp-o0enJXeXtEiKc3Q1W4nfdNdg2kcSwWQHVsfBI6xJaRxpuHQbCL3GLhazhltT-k712ebfCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T12:56:27.877635+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cookie_store
+  version: 0.7.0
+  revision: f6bb77af94088f9cda0988aaae200aec9a9e6a50
+  digest: ECGawro0kv_bxsR8Ujx49QsAQRfhtdkawzWmO2UfGRw
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ENNXBDMqxxSy2Z19ZYfJyMdxqwqLB2_-_eLGaDRd2FtWXk5fdl4pxlj4kMwHoFBs3fuw-9SVOz0C4_2OepPgDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T12:57:59.302704+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: difference
+  version: 2.0.0
+  digest: ArYnuulewo1YL35zlwIcpULzXClAv3gZf-_lumkYT5M
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+q3UBP1SO8R6D3pWXUUaJnqWhAagJ0809ECBo9EqNwtZ-XxpXZMYjbES4T_09G9wLWRBH65u4KeQ_0a7i89fvDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:02:05.591347+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: encoding
+  version: 0.2.33
+  digest: auXrxTZhBwvS3Nj1NAoek0aFkCXAJC07kIA0rwlqglM
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |
+  big macros + transmute
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+aJPkxm8VI-QRYPSnMCvpUBD9G5S5s2w1IahLV332EguDjJi89RRcX1OZwebpM_6X-uyXxZXOUvg-3Cz-BTFuCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:07:52.841765+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: encoding_index_tests
+  version: 0.1.4
+  digest: LU2jWheQwviHXudFLOXiiROXJE3xtbmGdRNvSjKcAyU
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+qcnxl2Iw-NKfu4S-b2o0QoKo6eazmtrVny5KFg_B0eeur6o3kUUUoeZmVrbzmE7GOLWARRoyVx2TAb28xdRsCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:11:36.543551+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: generic-array
+  version: 0.12.3
+  revision: 58d3cc99342aebd7a046807109bba561c2dd5028
+  digest: 4mz0vg_agnw3tT2bnKeo-EN0__3ApT-hH_YNm9FSAPs
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+u6iWK3ggcFBanHhpycfZ6NAeqCdyoTEx7RUuxtClhhTybpyvwCCNOQoTuKTgRaFDs62cX9_J3y6DenQk74ojCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:12:49.058003+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: httpdate
+  version: 0.3.2
+  digest: yDjj0fkOny1BqWbtDohOAcoE9wKPXHFgF50UwFNghs8
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+uZ8WFYYfYqU08oDsCwnl0uBggVNOq_a7OKPToEw-0LO1_DHPvimIJk5WqifsoFwX9KV_Q6Lh8ya9PhRHA7tPBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:15:59.542035+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: humantime
+  version: 1.2.0
+  revision: 040e5d0aecb450f55ea00b839bb1310bfd286645
+  digest: 6mDHJeqFK94bUr-w0M6ffh1TrNmLfrXpoCe3M4NyQ5A
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+gt7v6SxoqjMxlL0AlQ52UOQ-Zgz2WaFcCJp18GxcmhI6CtVDB3hJzB_P5WFyo2bzlrXeN66Q2k-B8uDHZy_iAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:18:51.333959+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: iovec
+  version: 0.1.2
+  digest: fu3QZYIjMuYOtT6Hrd8nCUtkxKKgLaJRIjHccE68hPU
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |
+  Full of transmute. This is playing with fire
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+snsyiBq3-UGifP7Xh1dCq0Qh8aEQw4KizwKwKHMUjVPPAp2PPE6ZFid8BfIoEOj7y1ERrkVlxQVAA7KqFlE5DA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:21:21.054334+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ipconfig
+  version: 0.1.9
+  digest: 343eM1fbmBxRGFkNbpkRJGJywDMy4VhUoMIbdfnj_C4
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+8lF6VaNQaOK27AaoTO6a28fc0otHlMF9FdAfpHAjQsOUQQWGicwnZGWkj4f-f8CrKdEiGho8byxZXhfB4tNLBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:22:36.574070+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: language-tags
+  version: 0.2.2
+  digest: bpAGt6ax6Dqu8EkhVw2thl7l0LePkBc9tfSyei_TF-o
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+n3ic_EBXr6CIjwrwt5mlaF_oF2MVZct-0utzPdSwoR7rizsEAb_yiqqPPzUfJZKUPrqXUotQBpd8Ilyp-VKeBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:24:40.273273+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazycell
+  version: 1.2.1
+  revision: db9289a32df4ba3b1de8c383b68b342be4a8a1ba
+  digest: OTFhRO_g4ERePDGYGCIuqm7mzhlOMunZ-rgnKgG8BP4
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+SxF7DNcLe-oehtNyeTWXhB-eKb7FWpr3RfcuKSchF15kl5ccMQXwRzia1hK9j6VQggrqK2NCAppVgksa92J_Bw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T13:30:51.915766+01:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lock_api
+  version: 0.3.1
+  revision: 1dbf100fbcc9a2722ac12cc10c153e2eb807a0ce
+  digest: cYmDDbd0MhqGqFnj0zQw0zjzOgzVW-et_naxmW6Esnk
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+9RJbvb7BYw9X0NssW3ce64AMC59jMvRlieIbxKIgCcnrWvoB2djGWy37UHctIrktjm5AIDQc6GXPyvecET4zDw
+-----END CREV PACKAGE REVIEW-----
+

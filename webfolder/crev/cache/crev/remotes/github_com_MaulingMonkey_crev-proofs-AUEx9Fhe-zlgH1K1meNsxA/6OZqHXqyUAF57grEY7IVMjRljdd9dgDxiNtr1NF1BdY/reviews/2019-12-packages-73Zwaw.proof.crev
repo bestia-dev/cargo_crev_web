@@ -1,0 +1,383 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-22T13:01:28.621507800-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: autocfg
+  version: 0.1.7
+  revision: 15ea2ca3b6bcdc2af7dab514b571e55fd9370957
+  digest: onR-c2700A2mdkCKb5pjnVF4COVvIPlvKCiIO7vHo1A
+package-diff-base:
+  source: "https://crates.io"
+  name: autocfg
+  version: 0.1.6
+  revision: 0f87a09a981694844b6f36f105c69d228b772f4f
+  digest: 4lc9vVY0Lry7N__5WNBeHUCCfrz3OXbeaGpfr3xXnFk
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  LGTM, starts using RUSTFLAGS
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Bw2uPGJ4UUWTJgAHVM8-bWN46tgv1o2OVSwqyDQrweZPfG19yymp-pba_CrTSEYRDj2UFFxnWrDZdKQKz9CgBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-22T13:28:24.373305-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.5.1
+  revision: 6905bdbb8a873c3e5c965833b56e494b26b1c816
+  digest: ILW_2oyKH_-rucIHtJl5LhYsU6TihosxsC_rkGsNS2g
+package-diff-base:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.5.0
+  revision: ea591bc2de5202790c600638c96efa392413001c
+  digest: 3r8WHcSBZQlVWMztXEoti0owtKbDkZujK9--6_TNlgM
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: neutral
+comment: |
+  Stack/value variable length arrays without heap fallback.
+  
+  Pros:
+  * Maybe sound?
+  * Better than what you'll write.
+  
+  Cons:
+  * History of unsoundness (0.4.10 and earlier)
+  * Disturbing amounts of unsafe
+  
+  This version switched some slices possibly containing uninit (UB!) to use
+  pointers instead.  This makes `encode_utf8` unsafe, sadly.
+  
+  | Diff                                  | Rating | Notes |
+  | ------------------------------------- | ------ | ----- |
+  | .cargo_vcs_info.json                  | +1 | |
+  | .gitignore                            | +1 | |
+  | Cargo.lock                            | +1 | Rust version bump?
+  | Cargo.toml                            | +1 | debug \[profile.*\]
+  | Cargo.toml.orig                       | +1 | debug \[profile.*\]
+  | README.rst                            | +1 | |
+  | *.{events,string_data,string_index}   | 0 | Binary test files, unreviewed
+  | src/array.rs                          | +1 | Removed `#[inline]`
+  | src/array_string.rs                   | +1 | Added `fn len`, removed `#[inline]`, use ptr instead of slice
+  | src/chars.rs                          | +1 | `encode_utf8` is now sadly unsafe, more test coverage
+  | src/lib.rs                            | +1 | Inline tweaks, more (correct) ptr use, add `as_*_ptr` to match Vec (safe/sound)
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+nDa9-CK_qxjSLfVeQRYItD4Z4IUBkA_lnm2SGznk70DS13IyoC0hTXD8VJD-SmJP5ZyXS7UviEOMfihS_KasAg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-22T13:56:28.440059100-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cargo_metadata
+  version: 0.9.0
+  revision: b540f76635a023a100a5e354902c520657396ed0
+  digest: The4fIJhIakKU4pwoJMHqWeGBNATanQzCYDWsj5jP7g
+package-diff-base:
+  source: "https://crates.io"
+  name: cargo_metadata
+  version: 0.8.2
+  revision: b72eaa6475633fdc14f57316855200666e322771
+  digest: 7bFGe3GO9u5f7kJeQ5YCy5AddExJGsT7pMBYKgMudSM
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  Parse `cargo metadata` and `cargo build --message-format=json` output.
+  
+  0.9.0
+  =====
+  
+  | Diff                                          | Rating | Notes |
+  | --------------------------------------------- | ------ | ----- |
+  | .cargo_vcs_info.json                          | +1 | |
+  | Cargo.toml                                    | +1 | |
+  | Cargo.toml.orig                               | +1 | |
+  | src/errors.rs                                 | +1 | Added `Error::NoJson`
+  | src/lib.rs                                    | 0  | Various safe but breaking code changes
+  | src/messages.rs                               | +1 | |
+  | tests/selftest.rs                             | +1 | |
+  | tests/test_samples.rs                         | +1 | |
+  
+  0.8.2
+  =====
+  
+  | File                                          | Rating | Notes |
+  | --------------------------------------------- | ------ | ----- |
+  | src/dependency.rs                             | +1 | |
+  | src/diagnostic.rs                             | +1 | |
+  | src/errors.rs                                 | +1 | |
+  | [src/lib.rs](src/lib.rs)                      | 0 | MetadataCommand makes me slightly paranoid
+  | src/messages.rs                               | +1 | |
+  | tests/selftest.rs                             | +1 | |
+  | tests/test_samples.rs                         | +1 | |
+  | .cargo_vcs_info.json                          | +1 | |
+  | .cargo-ok                                     | +1 | |
+  | .gitignore                                    | +1 | |
+  | .travis.yml                                   | +1 | 1.32.0 MSRV
+  | Cargo.toml                                    | +1 | |
+  | Cargo.toml.orig                               | +1 | |
+  | LICENSE-MIT                                   | +1 | |
+  | README.md                                     | +1 | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | +1    | None
+  | fs        | +1    | None
+  | io        | 0     | Can invoke `cargo metadata`.  Looks sane, but if passed malicious feature names etc...
+  | docs      | +1    | |
+  | tests     | +1    | |
+  
+  src/lib.rs
+  ----------
+  | Line  | What  | Notes |
+  | -----:| ----- | ----- |
+  | 495 | exec | shell access, and I'm paranoid about shell param escaping...
+  | 500 | exec | shell access, and I'm paranoid about shell param escaping...
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+xOl1-vY7DRu46Bhpe_CUj1CTOGGmtjKcY_VxUc7LwEvlKrox9KfgcDZJAEnR-Qd4LXT8uNsFxX_LmUfaWpT_DA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-22T14:08:03.631440800-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cargo_metadata
+  version: 0.9.1
+  revision: b0402002af3009a6143d3fdc29d6d15dac4dcd3c
+  digest: OIum-_Y1WW_4qWt0tP_Ku5ZOLWgkr0AsLwefd33SECw
+package-diff-base:
+  source: "https://crates.io"
+  name: cargo_metadata
+  version: 0.9.0
+  revision: b540f76635a023a100a5e354902c520657396ed0
+  digest: The4fIJhIakKU4pwoJMHqWeGBNATanQzCYDWsj5jP7g
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  Parse `cargo metadata` and `cargo build --message-format=json` output.
+  
+  Pros:
+  * Way better than parsing it yourself
+  * Safe code
+  
+  Cons:
+  * If you're feeling particularly paranoid, `cargo metadata` could be passed bad
+    feature names (see 0.8.2 review for details)
+  
+  0.9.1
+  =====
+  | crev          |   |
+  | ------------- |---|
+  | thoroughness  | medium
+  | understanding | medium
+  | rating        | positive
+  
+  | Diff                                          | Rating | Notes |
+  | --------------------------------------------- | ------ | ----- |
+  | .cargo_vcs_info.json                          | +1 | |
+  | Cargo.toml                                    | +1 | |
+  | Cargo.toml.orig                               | +1 | |
+  | src/dependency.rs                             | +1 | |
+  | src/lib.rs                                    | +1 | |
+  | src/messages.rs                               | +1 | |
+  | tests/test_samples.rs                         | +1 | |
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+SjtBZBF5iRDHI66CxiHZMzgpcldgKnIjFAd4tv6SA5zcqA9q6FbPTLbX_pmzZA44MDvDJmUsVcjiwEcAxk5hCA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-27T17:54:56.169076900-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rustversion
+  version: 1.0.0
+  revision: 7c6a94656b240a7805d6cb56a3db5fc78fce644d
+  digest: R21QOxs6cL2f3liNj0rxiY6Mv2IziE5QyszqWACEws0
+review:
+  thoroughness: high
+  understanding: medium
+  rating: positive
+comment: |
+  Excellent looking crate.
+  Full notes:  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/rustversion.md#100
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+CaqqPUFe_pROmc3nSPfD2lKRYSLEJF8cQCzSNJD7Fenfs9kB5XUiHOiMeDEBqu9lpapCdUgGqRdeFDjFL3IqAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-27T21:19:54.422083-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: inventory
+  version: 0.1.4
+  revision: 31b0974e6ab749967ee3506d166302c5a138221c
+  digest: MmRO364II8puCiweXVfa1xBjC0dvPlidhbUS-EQmmpg
+review:
+  thoroughness: high
+  understanding: high
+  rating: negative
+issues:
+  - id: "https://github.com/dtolnay/inventory/pull/15"
+    severity: high
+    comment: Soundness issues with pre-main multithreading
+comment: |
+  Great crate, but currently unsound.  Also doesn't work with WASM.
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/inventory.md#014
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+YmB2bNCRqhJNQXhgP2nxffRCezgZV_TYpHptX4Q9CVwRYteji5MF5jZTtH8nRhzist4f5SCGcsGaW4YWO8FjCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-27T21:38:48.283952300-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: inventory
+  version: 0.1.5
+  revision: 743744731fe6c5afbf12d0486a64cfa05fb8d58d
+  digest: 4X9J5_0qce07YmjhqZfbD5EUG2fTNbhGVOcE80ny7lU
+package-diff-base:
+  source: "https://crates.io"
+  name: inventory
+  version: 0.1.4
+  revision: 31b0974e6ab749967ee3506d166302c5a138221c
+  digest: MmRO364II8puCiweXVfa1xBjC0dvPlidhbUS-EQmmpg
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: |
+  Great crate.  Doesn't work with WASM.
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/inventory.md#015
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+5SG0txPDiTYPL4oHpCvmqD4kgygmCJq4s9Gaivvd1C_LBTeCM78JpfaIqkmlTkqWlVOLm5rODAkq9AhdWk1iCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-27T21:55:26.928305600-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: inventory
+  version: 0.1.5
+  revision: 743744731fe6c5afbf12d0486a64cfa05fb8d58d
+  digest: 4X9J5_0qce07YmjhqZfbD5EUG2fTNbhGVOcE80ny7lU
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+advisories:
+  - ids:
+      - "https://github.com/dtolnay/inventory/pull/15"
+    severity: high
+    comment: Soundness fix
+comment: |
+  Great crate.  Doesn't work with WASM.
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/inventory.md#015
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+9r13pepwse9OrZwq6VEGfdPiiOJSFPSjax3DO2idNEFlIqURvKSralHIlPwxDUvZ6fDc0GREQ_dZ7q10PCFMAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-27T22:15:36.546437-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: foreign-types
+  version: 0.4.0
+  revision: 263ab4afdb1268073e1cbbf010768198fae388ec
+  digest: KwDZcumPuuS0gstJ0jE_YQWmcrfQ9YAa8j1g0ebC5BA
+review:
+  thoroughness: low
+  understanding: medium
+  rating: negative
+issues:
+  - id: "https://github.com/sfackler/foreign-types/issues/10"
+    severity: medium
+    comment: Hides unsound C APIs without user-facing unsafe keyword
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/foreign-types.md#040--032
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+1W9jRPw8ydJp-S0KfFIaQsSRi3JHNeA2YSI3uyDcsMTzPmlaMVt_vJH-Ls23Wh7XxucPWQOrecPMhnvuSHQ3CA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-12-27T22:19:20.963581300-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: foreign-types
+  version: 0.5.0
+  revision: c5a90ed3f39dd5fe8b5af6e9cee1bc446746272c
+  digest: mbGgx9JxPmINeyuLCMiXEmPBD247VZKf5YCn8hPvvKs
+review:
+  thoroughness: none
+  understanding: medium
+  rating: neutral
+advisories:
+  - ids:
+      - "https://github.com/sfackler/foreign-types/issues/10"
+    severity: high
+    comment: ""
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/foreign-types.md#050
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+7cP8G3eyV6A4yFHXWTbjxtygSk022FFjjm5SF_0cSbeiMu8vT5iOd5yPzAZWbFNdtNbI6_shqgioNCCuSm2vBA
+-----END CREV PACKAGE REVIEW-----
+

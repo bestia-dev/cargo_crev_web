@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-29T19:56:06.928860200-06:00"
+from:
+  id-type: crev
+  id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+  url: "https://github.com/Lokathor/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+comment: "dpc is the maker of cargo-crev. If we don't trust them then we can hardly trust the tool that's telling us who to trust."
+-----BEGIN CREV TRUST SIGNATURE-----
+rTokHNN1VoyPKvmu1JXb1WqeHmEH0gD-6SVsjowJ-XrJCX9BOqMXugXscz-YYJIhldn5Z7v9r-uld4NM0-mOBg
+-----END CREV TRUST-----
+

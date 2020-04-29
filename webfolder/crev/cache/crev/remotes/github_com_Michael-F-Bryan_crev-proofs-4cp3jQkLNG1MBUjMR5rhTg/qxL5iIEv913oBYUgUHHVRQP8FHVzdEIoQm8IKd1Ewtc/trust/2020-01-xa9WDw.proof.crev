@@ -1,0 +1,17 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2020-01-18T03:58:23.256224132+08:00"
+from:
+  id-type: crev
+  id: qxL5iIEv913oBYUgUHHVRQP8FHVzdEIoQm8IKd1Ewtc
+  url: "https://github.com/Michael-F-Bryan/crev-proofs"
+ids:
+  - id-type: crev
+    id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+    url: "https://github.com/cad97/crev-proofs"
+trust: medium
+----- SIGN CREV PROOF -----
+A-hc-E-6gvohFs7RN556R1coTvJlt5ZF_393twS2SCnx4okosAZXEdHfpJLs4_DdDpOb17MOPpDVuJn7bgryAg
+----- END CREV PROOF -----
+

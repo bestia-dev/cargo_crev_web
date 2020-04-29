@@ -1,0 +1,19 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-12-11T15:40:24.290916989+01:00"
+from:
+  id-type: crev
+  id: ZOm7om6WZyEf3SBmDC69BXs8sc1VPniYx7Nfz2Du6hM
+  url: "https://gitlab.com/KonradBorowski/crev-proofs"
+ids:
+  - id-type: crev
+    id: VylyTuk8CMGqIxgHixWaqfiUn3xZyzOA1wFrQ0sR1As
+    url: "https://github.com/BurntSushi/crev-proofs"
+trust: medium
+comment: |-
+  Author of many popular crates including regex
+----- SIGN CREV PROOF -----
+FFvKQYUSlFleSIXz_qqtWqpb4TDFO-3W_I4Iwe7Og9YvYPJCVZVJkpKpLyjH0YAgz0KRAJAzFUSNhIzig5efDA
+----- END CREV PROOF -----
+

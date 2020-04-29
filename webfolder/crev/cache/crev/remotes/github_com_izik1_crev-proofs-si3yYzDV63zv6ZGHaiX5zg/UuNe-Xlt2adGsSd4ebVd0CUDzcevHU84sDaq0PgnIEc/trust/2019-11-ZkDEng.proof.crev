@@ -1,0 +1,18 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-11-10T15:17:37.753939836-08:00"
+from:
+  id-type: crev
+  id: UuNe-Xlt2adGsSd4ebVd0CUDzcevHU84sDaq0PgnIEc
+  url: "https://github.com/izik1/crev-proofs"
+ids:
+  - id-type: crev
+    id: VylyTuk8CMGqIxgHixWaqfiUn3xZyzOA1wFrQ0sR1As
+    url: "https://github.com/BurntSushi/crev-proofs"
+trust: medium
+comment: "BurntSushi is responsible for many crates including regex and byteorder, which I find trustworthy. In general I find BurntSushi's code and opinions to be trustworthy, therefor I find BurntSushi trustworthy."
+----- SIGN CREV PROOF -----
+lEkKowK0ytsKOLqo59-BkatMUMIZO_JvNlxMsZp7hvtSCweUYtt3Q1Ht0X8U9S0MV1fVueRXq8w1f7NcUd8eAQ
+----- END CREV PROOF -----
+

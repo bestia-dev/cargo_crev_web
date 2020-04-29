@@ -1,0 +1,23 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-09-04T15:31:14.834963100-06:00"
+from:
+  id-type: crev
+  id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+  url: "https://github.com/Lokathor/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: libc
+  version: 0.2.62
+  revision: 37f8f8dc233a79ea9cc89b102aa30ff6e402fe94
+  digest: bEx5yA_EFGw9_MNIJrneXTn6cNbs8bWc48zelJ_16FU
+review:
+  thoroughness: low
+  understanding: medium
+  rating: neutral
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Smi_Mhvy_RqmzkUmRUNpjdp6yeAaYRorpeHSnkuBCIS2H6K-0n2INU99S5IS99_VBYqeG-ardTtNrU81WQXjDQ
+-----END CREV PACKAGE REVIEW-----
+

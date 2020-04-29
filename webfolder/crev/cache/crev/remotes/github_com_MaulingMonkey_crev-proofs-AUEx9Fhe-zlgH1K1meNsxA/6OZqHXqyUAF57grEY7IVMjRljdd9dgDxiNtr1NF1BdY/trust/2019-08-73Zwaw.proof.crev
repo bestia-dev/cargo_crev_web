@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-31T16:16:37.095687600-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+ids:
+  - id-type: crev
+    id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+    url: "https://github.com/Lokathor/crev-proofs"
+trust: low
+comment: "One of the nifty discord regulars and #wg-gamedev participants.\nShares my dislike for C/C++ dependencies and my interest in CIing all the things.\nAuthored rusty-xinput and other rust things, which is neato.\n"
+-----BEGIN CREV TRUST SIGNATURE-----
+1ZFj7yL9cC0drOh2FCe9yi4-eIPBSQWQ5pnPNpUiRLbOPHNYI4ovMHQap_-2X21rgc5DuDkktGjTQX5JhVGjDA
+-----END CREV TRUST-----
+

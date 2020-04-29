@@ -1,0 +1,80 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-18T14:20:38.622871924+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: btoi
+  version: 0.4.2
+  revision: 9530a97242f6b3d2e33e1721cbc3c6c3a8001942
+  digest: dvpYusNCAqWndY48quC8amXaLY67-VAJ8UUYwo8D-QE
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+alternatives:
+  - source: "https://crates.io"
+    name: cluatio
+  - source: "https://crates.io"
+    name: atoi
+comment: |-
+  Parses integers directly from ASCII byte slices.
+  
+  As the author of this crate, I tried to apply relevant best practices.
+  I have high confidence in its correctness.
+  
+  * Rust API guidelines checklist complete, except C-STABLE, due to the
+    num-traits dependency.
+  * No unsafe code.
+  * Using quickcheck for fuzz testing (no panics, equivalent to
+    `str::from_utf8()` followed by `{integer}::from_str_radix()` from the
+    standard library).
+----- SIGN CREV PROOF -----
+-vlh_EAcBgNByb-JskDd7qDeb2sW1f4hy23VqjlAImxs5KAMDzXfBgiBFd4G1icDh3BleYacKmMhhzv2_KPrAA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-24T14:53:43.582191387+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: gift
+  version: 0.3.1
+  revision: 6c306ccd6dcb66d2d215001d427c96bd423e1b87
+  digest: Ts4iXjbZZD4WR49J4VcVGyXzKiz5nurm4fx31g3lawU
+review:
+  thoroughness: low
+  understanding: medium
+  rating: neutral
+issues:
+  - id: "3"
+    severity: medium
+    comment: ""
+alternatives:
+  - source: "https://crates.io"
+    name: gif
+comment: |-
+  gift allows decoding and encoding gifs, providing lower level APIs around
+  blocks and higher level abstractions.
+  
+  The design (layers for blocks, frames and rasters) is quite elegant.
+  
+  The crate does not use any unsafe code.
+  
+  Before using the decoder on untrusted inputs more review/testing/fuzzing
+  is required to prevent denial of service. For example the following
+  quadratic blowup in image size would have been discovered by anyone using the
+  decoder on more than tiny images: https://github.com/DougLau/gift/pull/3.
+----- SIGN CREV PROOF -----
+GOigIcCf6TiasHHdYqs_F2B9f2buVcxZLF4kafn7lj_6nvQgrG4wB4mIcNYjCPuVUTnV6G-dzVvln3WINafDBA
+----- END CREV PROOF -----
+

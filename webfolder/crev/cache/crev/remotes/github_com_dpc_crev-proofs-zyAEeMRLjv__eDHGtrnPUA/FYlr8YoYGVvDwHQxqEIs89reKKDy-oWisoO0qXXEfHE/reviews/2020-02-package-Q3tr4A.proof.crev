@@ -1,0 +1,55 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-24T13:01:13.788519995-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: hostname
+  version: 0.3.0
+  revision: 8d7efaaf89d5b3adf2e9c5b3cc43f72d29ba174b
+  digest: R6mx5mxi4XnaoZEdtg1XEUskmfHtqZlsyhVmZUT5rpk
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+----- SIGN CREV PROOF -----
+NvBa0VLoQUKooKH0KS5-H_lb-gGILAB7MmDtGjQxGZp__wD84GWo_ldrQrCWB1ozRYR4XAoRv6Z283vaJBM4DQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-24T16:23:39.773952522-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: attohttpc
+  version: 0.11.1
+  revision: f7a0d0f5a1fdb94fd0db8891297445b5c43bc31d
+  digest: JxgK9VEJN-tci8pnwlvl3abmjhXnV18lW49URxW6gB8
+package-diff-base:
+  source: "https://crates.io"
+  name: attohttpc
+  version: 0.10.0
+  revision: ebd722069f5c1969e65c38fca49515e422ae1423
+  digest: kF9h8LZTNrTJipGZ4uJidnsICtBlwTKRBsqvDtraFkU
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+alternatives:
+  - source: "https://crates.io"
+    name: reqwest
+  - source: "https://crates.io"
+    name: ureq
+----- SIGN CREV PROOF -----
+80BD4iUTmlADXkiCDjEe-l1NBt2epFkOD1-EGTXRmo_nH_jFDdKqNDJJa7f6Kpk-F6j4luhMAGNeUD58qnD_Bg
+----- END CREV PROOF -----
+

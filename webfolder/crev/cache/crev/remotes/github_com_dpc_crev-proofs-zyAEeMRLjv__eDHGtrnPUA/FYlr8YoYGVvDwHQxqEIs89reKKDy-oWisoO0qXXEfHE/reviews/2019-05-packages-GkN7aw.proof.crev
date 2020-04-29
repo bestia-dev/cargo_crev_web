@@ -1,0 +1,50 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-05-30T15:42:20.546702471-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: protobuf
+  version: 1.7.5
+  revision: 941fbf4266508a4b6a2e0e2512de5f156b43fb68
+  digest: nrqFPkTV1g6CYXasLrEXKJ1FZ54JHjV5_uJ7tWStN0Y
+review:
+  thoroughness: none
+  understanding: none
+  rating: neutral
+advisory:
+  affected: major
+  critical: true
+comment: "https://github.com/oherrala/advisory-db/blob/bfc6f36d20a7ab36b6c6ecd99b53ca320bd429fb/crates/protobuf/RUSTSEC-2019-0003.toml"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+NTOUgnieR7nXlMZnGOXoq21ruIrk7pjH1ae47EINeUXhe_E_2vFPnovSKHXaDL46gGmqhrohHn4ys9T1soRQCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-05-30T15:43:10.488912452-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: protobuf
+  version: 2.6.0
+  revision: e506e962b2524be296429aca080ccadb296c36e3
+  digest: azosegiV1f_Lf9FRRYNTDeIb9sYjwiJjmno3sNKCpXU
+review:
+  thoroughness: none
+  understanding: none
+  rating: neutral
+advisory:
+  affected: major
+  critical: true
+comment: "https://github.com/oherrala/advisory-db/blob/bfc6f36d20a7ab36b6c6ecd99b53ca320bd429fb/crates/protobuf/RUSTSEC-2019-0003.toml"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Yoj3IMgeSboYYW8v9Cc-TW_Pw5TQ5jDmMSaq8D-NIym8EvokTTWcvUAYbNPFNN0wcEDZ1XhKlco6vFfxaafhDg
+-----END CREV PACKAGE REVIEW-----
+

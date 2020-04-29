@@ -1,0 +1,37 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-09-02T03:18:55.238702747+09:00"
+from:
+  id-type: crev
+  id: wO-tKiJm4SRMJeJSAo_gT54GAoY2KhwMGHzEZUcTmbk
+  url: "https://github.com/lo48576/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: string-interner
+  version: 0.7.1
+  revision: 685623308fab819bdbb9314df930316f80804994
+  digest: oD2wwy-ov68OwUONnpluZGa5UvOkJ-CkjIHjCRFMjxU
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: |
+  I have reviewed the previous version (0.7.0) and sent some patches to make the crate safer.
+  
+  In this version, I found no security problems and no malicious code.
+  
+  * `unsafe` at line 158 is safe because
+      + both `InternalStrRef`s and strings referred by them are immutable,
+      + strings referred by `InternalStrRef`s won't be dropped until the owning interner is dropped,
+      + they have `*const str` referring inside private `Vec<Box<str>>` which is owned by the same interner, and
+      + `InternalStrRef`s are not taken or copied to the outside of `StringInterner` type.
+  * `unsafe impl`s at line 248 and 254 is safe as commented in the source.
+      + Addresses of strings in `Vec<Box<str>>` is not changed until the owning interner is dropped.
+      + `InternalStrRef`s and their content pointers are not exposed to the users.
+      + Pointers to the strings are read-only.
+  
+  I think this crate is safe to use.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+rrt-GZy9AT77i5fk_kQK6fiM64LoHoh8iz8LpaoV-YkqSQyqkwghEkZ1ZwmFYnDO2vifRuvm3IL1kh1O24J_AA
+-----END CREV PACKAGE REVIEW-----
+

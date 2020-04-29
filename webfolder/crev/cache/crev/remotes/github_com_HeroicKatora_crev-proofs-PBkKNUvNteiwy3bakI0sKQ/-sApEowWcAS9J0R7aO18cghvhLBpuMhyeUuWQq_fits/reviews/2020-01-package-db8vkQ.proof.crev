@@ -1,0 +1,142 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-11T00:30:19.934588024+01:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ucs2
+  version: 0.2.0
+  revision: 8941a97048940e3821dc93c4d52ca40fb1b47637
+  digest: f1JtOpAb-zzObFNrS_Hz5nStHTdva-JXaScBjsRjt3o
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: |-
+  Contains unsafe code as a mechanism to eliminate bounds checks by asserting
+  properties with unreachable_unchecked. However, this appears to make proper
+  (and only proper) use of the unsafe assertion that strings are valid UTF-8
+  given by the standard library.
+  
+  The unsafe code is documented and the reasoning behind it is explained. The
+  only minor flaw is that it does not properly explain that the validity
+  invariant used is being tested for. Since it does reference both utf-8 and
+  the byte length in its argument this should be straightforward to the reader
+  though.
+  
+  A slightly cleaner way of testing the conditions might have been matching the
+  first byte with integer ranges, which would have eliminated the last bounds
+  check without an additional unreachable assertion.
+  
+  No `strong` rating since the crate is incomplete and the trust of maintainers
+  is not clearly established.
+----- SIGN CREV PROOF -----
+Astc4uR2jO2-7cDrvPkVDa5w5YfHXKTaLJaT-hEs64RY77BLUWX2riZSKvvyhGBIqLj6U8igH6PzkQ9Rpp3uCw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-12T19:11:15.180998625+01:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: tokio-current-thread
+  version: 0.2.0-alpha.1
+  revision: 50e5d401df9931eafabee554bb1a370958fc57d2
+  digest: m8MaeDAatGNK6DlA-4VGmN32LVzYhorUDZGyzBUY1u8
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: |-
+  Best summarized as a flood of unsafe blocks.
+  
+  The `src/lib.rs` already looks somewhat suspicious. We have a thread local
+  containing a pointer that is unsafely accessed. It is set by transmuting a
+  local reference to a dynamic trait object which has its lifetime erased. This
+  particular portion might be fine if no code that uses the trait depends on
+  that lifetime. However, all of this is worryingly done without any statement
+  of purpose, any reference to the overall structure, and little to no
+  comments.
+  
+  Then we look into `src/scheduler.rs` and find our worst nightmares come to
+  life. Here's a short list of unexplained stuff:
+  
+  * uncommented impls of Sync and Send 
+  * an adhoc implementation of an intrusive queue/linked-list, giving a blog
+    post about C (!) as the source. Maybe one of the better sources, I do not
+    know, but it appears somewhat unmotivated and is intertwined with the rest of
+    the code.
+  * several different UnsafeCell that have been encapsulated with telepathy,
+    apparently, since there are no comments explaining them nor their access.
+  * unsafe blocks spanning ~70 lines
+  * and the amazing unsafe fn ptr2arc<T>(ptr: *const T) -> Arc<T>  containing
+  
+    ```rust
+    let anchor = mem::transmute::<usize, Arc<T>>(0x10);
+    ```
+  
+    without further explanation. Note that `T` is a type parameter that is
+    exposed to the user through the type parameter `P` of `CurrrentThread`.
+    This is restricted to `tokio-executor::park::Park` and provides an
+    associated type which is later used as the `T` in question. Note that a
+    public constructor exists.
+  
+    This is slightly unsound at best, if the node must be aligned to more than
+    that function guarantees, and horrible with regards to how the pointer is
+    used as a manual memoffset calculation afterwards.
+  
+  * The part where `Node` is used to ignore the lifetime of a contained object
+    and only its Drop implementation double panicking protects against using and
+    dropping the object out of its own lifetime is the least worrying here. Also,
+    since the comment refers to some type parameter `T` that doesn't exist in the
+    impl.
+----- SIGN CREV PROOF -----
+giPSiniQUfZOQNqKV4wDnGiLDKy38xG7FZgfVqtDhFO3OMjGhqq7grlVuV3sNwwcMrcBHAKL16bJc9pjNsPXBA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-18T14:33:10.429831632+01:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: tinyvec
+  version: 0.2.0
+  revision: 90dee40fbfa7a28c94eebce18cc97d3e3cef04bf
+  digest: ZFq1iMgDRaNs_dQzTEwvec6xfjvIOZ79qIHu3Lj8YYs
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: |-
+  Very focussed `forbid(unsafe)` crate.
+  
+  The minor flaws are introduced by trying to mimic the std interface too much
+  and too quickly. This leads to some misbehaviour in remove and drain, several
+  known slowness issues—algorithmic complexity as well as efficiency of
+  operations—and poorly documented interfaces with slightly non-standard panic
+  behaviour, and unknown decision making for adding them.
+  
+  Why implement `fmt::*` interface when the standard library does not for Vec?
+  How can Extend be called without risking panicking?
+  
+  No safety critical flaws though and I expect most to be fixable within the
+  interface that was published (except the abundance of trait impls that is a
+  matter of taste).
+----- SIGN CREV PROOF -----
+LOvefffdxtWRpS84ipEPY5BICPmBcnyyC0WrO_b2r-CCI6CIJ_TxhzgS6HgMyV5RJkewYr_W-zHGkAQfwzXJBA
+----- END CREV PROOF -----
+

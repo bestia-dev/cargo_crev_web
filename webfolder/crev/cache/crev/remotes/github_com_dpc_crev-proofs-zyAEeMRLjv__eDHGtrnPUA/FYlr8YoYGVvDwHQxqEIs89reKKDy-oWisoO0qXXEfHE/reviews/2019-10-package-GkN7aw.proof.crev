@@ -1,0 +1,43 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-10-28T16:52:34.031131441-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: futures-cpupool
+  version: 0.1.8
+  digest: A5ZE3ZTIXc1uQNzXFo_Mk8nOhe3ZQ3wQBmpOwAvIL8o
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+----- SIGN CREV PROOF -----
+aCuBEVW9ZpVjddptWlRJ-pOZUnxXKPxPFB-B9acqhLen1BF-_zP2z5ow2Bgvr5FdGw8GiKqpDVYD8vDVgAckBQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-10-28T17:19:55.848925538-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: quote
+  version: 1.0.2
+  revision: 727436c6c137b20f0f34dde5d8fda2679b9747ad
+  digest: hrgPRS0J1hhfkfcEs-h_EqQcs5nWa1rirEk4i5kIWyg
+review:
+  thoroughness: low
+  understanding: none
+  rating: positive
+----- SIGN CREV PROOF -----
+sBDOTCPnF3l1Uf-zRsZz-GyLE3yAcKCEkdZb7_BuCWY8r8dWlW5A47wtA3cuVbJnT_ijRifOgyeg_fRdFk9FBg
+----- END CREV PROOF -----
+

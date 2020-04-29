@@ -1,0 +1,23 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-09-03T18:03:56.345378+01:00"
+from:
+  id-type: crev
+  id: Qf4cHJBEoho61fd5zoeweyrFCIZ7Pb5X5ggc5iw4B50
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lts
+  version: 0.1.5
+  revision: bd46ec08f93dfaa1823e0c9f6131cc36e920fc7b
+  digest: XTRzQeG27LnTU0bRBj-FIeTgGhN8RsdwJhKCt26o8Pk
+review:
+  thoroughness: high
+  understanding: high
+  rating: strong
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+N9LEBLFRN52ytB_rCZnr9mM30NIETY5LXbN_v007TNI6kHYwtiVlnVPTxPYNiDtISIrffMn34zJ86fYPNSF7CQ
+-----END CREV PACKAGE REVIEW-----
+

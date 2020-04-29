@@ -1,0 +1,86 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-09-08T23:54:04.395649072+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: dtb
+  version: 0.1.2
+  revision: 3ece19f405b704938d95520e0c36d45323e6b828
+  digest: nkDZRU4Tg42fvuClrvUh7NbguaE65xfq_YTu9BmGh7M
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+advisories:
+  - ids:
+      - "https://github.com/ababo/dtb/issues/5"
+    severity: high
+    comment: ""
+  - ids:
+      - "https://github.com/ababo/dtb/issues/2"
+    severity: medium
+    comment: ""
+  - ids:
+      - "https://github.com/ababo/dtb/issues/6"
+    severity: medium
+    comment: ""
+comment: |
+  Liberal use of `unsafe` and sparse validation of in puts indices and offsets.
+  In principle, the dtb format lends itself well to this use as the file format
+  itself already requires the alignment of many members and takes care to have
+  naturally packed structs–with aligned members but no padding.
+  
+  It is thus possibly safe to map many parts of an immutable input directly to
+  structs marked as `repr(C)`, which also correctly appears.
+  
+  However, the `unsafe` blocks contain only few indications of consideration of
+  their safety. Sometimes alignment checks appear obviously above but most
+  iterators implicitely trust their callers on the alignment of internal
+  buffers. It also seems that not all functions relying on `unsafe`
+  preconditions are marked `unsafe`. This applies to internal functions only
+  but may make the crate more brittle than necessary.
+  
+  Another antipattern is that of a byte output buffer: A `StructItem` offers
+  reading its value as strings or a `u32` list. But instead of an iterator over
+  the backing memory the implementation takes an mutable reference to a byte
+  slice, manually aligns it to fit the output type, casts it, and writes the
+  data types `&'_ str` and `u32`. I have not found concrete misbehaviour from
+  this but it seems awkward.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+lGKlyLSoDPyjTx-a5-mL87PG6r_8TfqjUdOyOJ5BShDUJ_WrzPu-5HFAorGXoMHtUsEHrrXaihr415ZmLK3HAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-09-14T02:21:59.809908299+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: image-canvas
+  version: 0.0.4
+  revision: f1837fb05ba679dd41ee197c5df91782031dfd9a
+  digest: vXoBzQs9HGk18weHqVGMvtmHs-n_r1hV3yAdtepi-D8
+review:
+  thoroughness: medium
+  understanding: high
+  rating: strong
+comment: |
+  I'm the author and this packet avoids internal unsafe wherever it can. In its
+  current state it only requires it to perform a rather trivial cast for a
+  transparent `[u8]` wrapper type.
+  
+  The package also considers resource exhaustion and interfaces with
+  potentially panicking, internal allocation generally come with a twin that
+  instead tries to perform the operation inplace and is a no-op error if that
+  is not possible.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+YOcZeX87--CEO8I0soZ6tFzezypJ4PLnW4N7SNxgTSNNxpYS8o7kRdyBb5vqe5eXDa1e0OgWLWNqdekXZQu6Dg
+-----END CREV PACKAGE REVIEW-----
+

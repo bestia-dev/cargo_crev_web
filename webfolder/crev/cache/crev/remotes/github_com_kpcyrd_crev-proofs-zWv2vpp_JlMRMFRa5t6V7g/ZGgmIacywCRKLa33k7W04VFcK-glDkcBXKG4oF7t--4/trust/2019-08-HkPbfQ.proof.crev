@@ -1,0 +1,32 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-30T12:13:34.190277845+02:00"
+from:
+  id-type: crev
+  id: ZGgmIacywCRKLa33k7W04VFcK-glDkcBXKG4oF7t--4
+  url: "https://github.com/kpcyrd/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+-----BEGIN CREV TRUST SIGNATURE-----
+S9EFgNaIqnvl6oSqUKajbXpET8HvrQ6zpU6kLNM9dyKQpHbStbkpP1X9DTT62uXjAYLHK0SFx5vnmxTomo7YDw
+-----END CREV TRUST-----
+
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-30T12:15:57.395661243+02:00"
+from:
+  id-type: crev
+  id: ZGgmIacywCRKLa33k7W04VFcK-glDkcBXKG4oF7t--4
+  url: "https://github.com/kpcyrd/crev-proofs"
+ids:
+  - id-type: crev
+    id: VylyTuk8CMGqIxgHixWaqfiUn3xZyzOA1wFrQ0sR1As
+    url: "https://github.com/BurntSushi/crev-proofs"
+trust: medium
+-----BEGIN CREV TRUST SIGNATURE-----
+6bupQ5P8Um30Y99Ing-vYttmrvY6dgoFuB4aHUAGd6pyCfyIHq_C6HoFnBZ6cZ5GwtUBFUWEet8On3vRe9eIDw
+-----END CREV TRUST-----
+

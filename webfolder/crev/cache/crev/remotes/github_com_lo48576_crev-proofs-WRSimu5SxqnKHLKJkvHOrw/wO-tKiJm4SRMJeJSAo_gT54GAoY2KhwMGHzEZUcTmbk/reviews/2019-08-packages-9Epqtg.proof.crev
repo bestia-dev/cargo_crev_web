@@ -1,0 +1,114 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-24T19:14:05.720753097+09:00"
+from:
+  id-type: crev
+  id: wO-tKiJm4SRMJeJSAo_gT54GAoY2KhwMGHzEZUcTmbk
+  url: "https://github.com/lo48576/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: indextree
+  version: 4.0.0
+  revision: 1570522235dc1d7dd3e57abbc6581cfb0b794a95
+  digest: _dWJwlGpeSXH1k1-KnUncNHaIDYOIItP2tnRiex-IBA
+review:
+  thoroughness: high
+  understanding: medium
+  rating: positive
+comment: "I've sent some patches and read whole sources carefully.\nData structure used by this crate is simple enough.\nAdditionally it contains many assertions and has no `unsafe` code.\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+WYPLxPHJ8ymUwSB_sbXuZVwvtb5BfqMKFM1SwjXLGbkbsDH02mxsAeOdvo7IZ6sV_abVhTlFSo5RqUYgcRDeCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-24T19:52:00.608829218+09:00"
+from:
+  id-type: crev
+  id: wO-tKiJm4SRMJeJSAo_gT54GAoY2KhwMGHzEZUcTmbk
+  url: "https://github.com/lo48576/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rle-decode-fast
+  version: 1.0.1
+  revision: 5c91716f0ce8b4a702505496d096440f5b915158
+  digest: 9DA_NyzwVCzhpsj7TD1ygXjxRERd5jZ8VZLo-MJal6o
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: "This crate contains a single `unsafe` block and it seems ok."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+4UH6aGlXa0sF5Fj-66zHcLen9NUnufjkJrvK_k3za52r6mdIAKOr0yWxejxb4k_oT473PBi_QnlOM09etPPwAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-25T00:53:26.854533305+09:00"
+from:
+  id-type: crev
+  id: wO-tKiJm4SRMJeJSAo_gT54GAoY2KhwMGHzEZUcTmbk
+  url: "https://github.com/lo48576/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: string-interner
+  version: 0.7.0
+  digest: yHdXxkDzrlfIE8CxaVQzNGw5Ol5aEfZeS2GQzlAW3Ys
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: "I've found unsoundness and reported it: <https://github.com/Robbepop/string-interner/issues/9>.\nThis is use after free, but user cannot access that dangling pointer directly,\nand invalid write access will not happen.\nThis issue is caused by `StringInterner::clone()` followed by `StringInterner::{get,get_or_intern}`,\nso this would affect many use cases.\nThis is the reason of negative rating.\n\nExcept for that issue, there seems no problem.\n\n* `unsafe` at line 125 is safe thanks to `assert!` at the previous line.\n* `unsafe` at line 165 is safe because\n    + `InternalStrRef`s are immutable,\n    + they have `*const str` referring inside private `Vec<Box<str>>`, and\n    + `InternalStrRef`s are not taken or copied to the outside of `StringInterner` type.\n    + (It is unsafe that `InternalStrRef` refers string owned by another interner instance,\n      and it is reported as stated above.)\n* `unsafe impl`s at line 233 and 239 is safe as commented in the source.\n    + Addresses of strings in `Vec<Box<str>>` is not changed until drop.\n    + `InternalStrRef` and its content pointers are not exposed to the users.\n    + Pointers to the strings are read-only.\n\nOnce the UB bug is fixed, this crate would be safe.\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+hJdTdMcUNzTP-5oPm0y0gEGM-e4h8fEq6RwO7aLAACN15CIGfFwLXy_ZgqgXGmyI_w-0uN-ToIY04jHydLxmCA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-26T19:22:25.303818104+09:00"
+from:
+  id-type: crev
+  id: wO-tKiJm4SRMJeJSAo_gT54GAoY2KhwMGHzEZUcTmbk
+  url: "https://github.com/lo48576/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazy-init
+  version: 0.3.0
+  digest: SZ_Fxs3Cm3sOhSlIqQhjpANYyz31VnMyb0O8jKZoxqE
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: "I'm not clear it is safe, but at least it does not seem malicious.\n\nPotential unsoundness is reported at <https://github.com/khuey/lazy-init/issues/9> but it is neither fixed nor refuted.\nThis is the reason of the neutral rating.\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+_3W9EPAe6n3gUsvcpaH5Vbllm9CrvlN06xbAIQlpB97qNiR1S9uOTF9ZjAyQ0SQN7WnYd88NLmPrtuMgU3pkDQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T18:12:44.428731409+09:00"
+from:
+  id-type: crev
+  id: wO-tKiJm4SRMJeJSAo_gT54GAoY2KhwMGHzEZUcTmbk
+  url: "https://github.com/lo48576/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rctree
+  version: 0.3.3
+  revision: 7e3506c96d896af1d6f1103591d695222c277681
+  digest: uM300Z8gUlzeh1zYD08EQc1_jtbO3lzkROfDvHy9mjw
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  It is completely written in safe Rust, and I didn't find any malicious code.
+  
+  I've found a minor issue and a non-obvious behavior which is not documented (yet), but I think they are not severe and they have very easy workarounds.
+  You can see <https://github.com/RazrFalcon/rctree/issues> if you want to know them.
+  
+  In conclusion, I think this crate is safe to use.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+BfRIEPseA5TLO_BMteYPa5qDBz5T90ag_LFTnAJWh451i6q6x3Duxbky_gerLGkGZlS6yBp6dzVhvU2UVkFkAg
+-----END CREV PACKAGE REVIEW-----
+

@@ -1,0 +1,16 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-09-10T12:36:22.038838695-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+ids:
+  - id-type: crev
+    id: WbkiljNHUre6M7n285Qi_AJn77NIbTuwpZ1hyLOqIPg
+    url: "https://github.com/jeremystucki/crev-proofs"
+trust: none
+-----BEGIN CREV TRUST SIGNATURE-----
+ui5mIAiZF-sDESebRRQEIJhSKEebCzFmCuC13jt5x_n5bx6uyz5zKcGEU3vsTXEBg3OyUgFRQkZ0SCxyLXc3DA
+-----END CREV TRUST-----
+

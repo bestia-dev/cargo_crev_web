@@ -1,0 +1,23 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-28T10:31:05.281729597-07:00"
+from:
+  id-type: crev
+  id: UuNe-Xlt2adGsSd4ebVd0CUDzcevHU84sDaq0PgnIEc
+  url: "https://github.com/izik1/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: url
+  version: 2.1.0
+  revision: a93e8cb08443c24dc72c8670e83a773cc02560c5
+  digest: jLAdZpNKNKK0RXQKujMTrw20PLG2ezLW5a6t_R4NXZE
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+JC2VYvJJkRy2jkWZEBy73S_uK0_u_giegbz5izQkJoBkA0OqtBtqtZ9bryNKs2EH_Ove9ElxR0NRAsbnZe_6CQ
+-----END CREV PACKAGE REVIEW-----
+

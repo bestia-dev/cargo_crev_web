@@ -1,0 +1,16 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-06-21T09:54:14.517323729-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+ids:
+  - id-type: crev
+    id: FBkykBV6YaqAaGoUXyvd-XkEqDYxQNM7EUnZ2nuy-XQ
+    url: "https://github.com/Canop/crev-proofs"
+trust: low
+-----BEGIN CREV TRUST SIGNATURE-----
+YKUP4p9dl52fZ_ZJfb_igUwPaUG0cAvZQmNVV8u7fMEIPeVzKA-knG_OKC5SttxBXEF4LGa0TDzY89Y9s7XHBg
+-----END CREV TRUST-----
+

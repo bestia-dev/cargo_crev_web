@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-30T16:49:40.979532327+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+ids:
+  - id-type: crev
+    id: VylyTuk8CMGqIxgHixWaqfiUn3xZyzOA1wFrQ0sR1As
+    url: "https://github.com/BurntSushi/crev-proofs"
+trust: medium
+comment: Tons of real world experience and highly useful crates
+-----BEGIN CREV TRUST SIGNATURE-----
+KygRy8RY7X1GY_oZglp6T5c_Qm3efhs9P8DLTeE4S5-fDVAksHGTCZW3gFHD-hKcgGZbgXd-e3u9O1Nz6J0EBw
+-----END CREV TRUST-----
+

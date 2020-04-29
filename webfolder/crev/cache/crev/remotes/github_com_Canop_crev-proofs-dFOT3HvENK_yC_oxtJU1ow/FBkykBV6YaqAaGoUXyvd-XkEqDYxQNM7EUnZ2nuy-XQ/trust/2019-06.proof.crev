@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-06-21T17:23:11.557675069+02:00"
+from:
+  id-type: crev
+  id: FBkykBV6YaqAaGoUXyvd-XkEqDYxQNM7EUnZ2nuy-XQ
+  url: "https://github.com/Canop/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+comment: "It's dpc. I hope he knows what he does"
+-----BEGIN CREV TRUST SIGNATURE-----
+EKECPtvKelos7scOg5BGN8SaiusXS5A0u7ROcW2vHlBr3oPSrNx4hh9U3U6EGVNqyn2XQKgnFczm1x6f667UBA
+-----END CREV TRUST-----
+

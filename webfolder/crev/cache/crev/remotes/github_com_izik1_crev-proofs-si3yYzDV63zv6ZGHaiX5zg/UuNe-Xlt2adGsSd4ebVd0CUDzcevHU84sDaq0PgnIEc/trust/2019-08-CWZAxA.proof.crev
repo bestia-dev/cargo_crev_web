@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-28T09:43:07.462754027-07:00"
+from:
+  id-type: crev
+  id: UuNe-Xlt2adGsSd4ebVd0CUDzcevHU84sDaq0PgnIEc
+  url: "https://github.com/izik1/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+comment: dpc is a primary author of cargo-crev
+-----BEGIN CREV TRUST SIGNATURE-----
+jL70rd0t-2xZfPre6JDol6XAwbhnz_yRaYEJlMpfwwN6NVDFPz6KVKEMkx4j1ilSOstWVGF4BTAxYCPWGWlICA
+-----END CREV TRUST-----
+

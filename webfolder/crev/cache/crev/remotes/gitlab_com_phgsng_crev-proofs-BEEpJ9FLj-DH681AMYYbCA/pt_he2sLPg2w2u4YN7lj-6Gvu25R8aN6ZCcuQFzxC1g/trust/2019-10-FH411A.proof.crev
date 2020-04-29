@@ -1,0 +1,16 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-10-10T09:33:56.043562512+02:00"
+from:
+  id-type: crev
+  id: pt_he2sLPg2w2u4YN7lj-6Gvu25R8aN6ZCcuQFzxC1g
+  url: "https://gitlab.com/phgsng/crev-proofs"
+ids:
+  - id-type: crev
+    id: pt_he2sLPg2w2u4YN7lj-6Gvu25R8aN6ZCcuQFzxC1g
+    url: "https://gitlab.com/phgsng/crev-proofs"
+trust: high
+-----BEGIN CREV TRUST SIGNATURE-----
+8QhYupK1tgzhSe9Qu3prWLnVRoEnQ2pdJCUl8jswkvva58zK7dHu0v-CuccmZNml71qYmF51q2y3k4lpPnhQDw
+-----END CREV TRUST-----
+

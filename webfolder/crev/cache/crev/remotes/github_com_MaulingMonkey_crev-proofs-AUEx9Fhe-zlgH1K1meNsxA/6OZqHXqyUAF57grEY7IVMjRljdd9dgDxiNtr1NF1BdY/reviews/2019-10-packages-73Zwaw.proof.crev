@@ -1,0 +1,58 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-10-13T10:21:46.442270800-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: instant
+  version: 0.1.2
+  revision: 98c8d0afc57fa7baa942fe815aa6ee35ed8fdf4a
+  digest: mzCaRrANEggOooRRh9TMbW1GGTJr_4W8FcIjXsrkbuM
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: |
+  std::time::Instant alternative that doesn't panic on wasm targets.
+  
+  Pros:
+  - Doesn't panic!
+  - Just std::time::Instant on native, no performance hit or anything
+  
+  Cons:
+  - Just std::time::Instant on native, easy to accidentally use new std APIs unavailable on wasm
+  - f64 repr for Instant makes me nervous
+  - Unusual license choice for rust projects
+  - Could use more test coverage
+  
+  | File                                          | Rating | Notes |
+  | --------------------------------------------- | ------ | ----- |
+  | .circleci/config.yml                          | +1 | |
+  | src/lib.rs                                    | +1 | |
+  | src/native.rs                                 | +1 | I would've preferred a wrap Instant for ensuring compat, but sure.
+  | src/wasm.rs                                   |  0 | f64 repr might accumulate poorly
+  | tests/wasm.rs                                 |  0 | test_instant_now could spuriously fail if elapsed() == 0, would like to see more test coverage
+  | .cargo_vcs_info.json                          | +1 | |
+  | .cargo-ok                                     | +1 | |
+  | .gitignore                                    | +1 | Overkill
+  | AUTHORS                                       | +1 | |
+  | Cargo.lock                                    |  0 | Pointless, shouldn't be part of the package
+  | Cargo.toml                                    | +1 | BSD-3-Clause
+  | Cargo.toml.orig                               | +1 | BSD-3-Clause
+  | LICENSE                                       | +1 | BSD-3-Clause?
+  | README.md                                     | +1 | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | +1 | None
+  | fs        | +1 | None
+  | io        | +1 | None
+  | docs      |  0 | Mostly unnecessary
+  | tests     |  0 | Could use more
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+RnCkZL-O3dgdE5OHVF_Zd8eSCGYf0RpGzdrYuTvoiKZgC433aeFWIvr_FeQoRYQhVV8am4roAGOzeZBvTNazCA
+-----END CREV PACKAGE REVIEW-----
+

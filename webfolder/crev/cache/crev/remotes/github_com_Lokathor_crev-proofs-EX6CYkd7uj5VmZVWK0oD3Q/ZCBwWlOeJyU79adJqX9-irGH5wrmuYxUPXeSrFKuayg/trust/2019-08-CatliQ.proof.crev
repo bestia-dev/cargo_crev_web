@@ -1,0 +1,34 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-29T20:50:42.327388300-06:00"
+from:
+  id-type: crev
+  id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+  url: "https://github.com/Lokathor/crev-proofs"
+ids:
+  - id-type: crev
+    id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+    url: "https://git.sr.ht/~icefox/crev-proofs"
+trust: medium
+comment: "If Icefox turns on us we're all in trouble."
+-----BEGIN CREV TRUST SIGNATURE-----
+b0QUaLR_bSuIwZ2Za04Qfu9XRlT4eAAcCJgXtsYWaAR4cjC5loPDzUy2rPOfTWbNzAmVEG9MIRs4nMgao0PWBA
+-----END CREV TRUST-----
+
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-29T22:00:44.039846700-06:00"
+from:
+  id-type: crev
+  id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+  url: "https://github.com/Lokathor/crev-proofs"
+ids:
+  - id-type: crev
+    id: WXavKFY7LG0tRmmHdo36gcGxsfhLF1IhXrsQgQJjSZ0
+    url: "https://github.com/Ralith/crev-proofs"
+trust: medium
+comment: Ralith takes details very seriously.
+-----BEGIN CREV TRUST SIGNATURE-----
+ibOLid2v5yU175zzCd0QMHctLIMjXdGc1sH3aBb8oI938EqN1rwM6GqWahY-aU3fJ20iitT8an5wPNzoGrI7Ag
+-----END CREV TRUST-----
+

@@ -1,0 +1,33 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-18T05:55:55.177871115+08:00"
+from:
+  id-type: crev
+  id: qxL5iIEv913oBYUgUHHVRQP8FHVzdEIoQm8IKd1Ewtc
+  url: "https://github.com/Michael-F-Bryan/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: kurbo
+  version: 0.5.6
+  revision: 8794a25ed309b786ed9510012978c7066ea60f33
+  digest: pLrHZuyJarFxyDwe8JIGO41cGBCyl-Uwl-6IsXOgR24
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: strong
+comment: |-
+  
+  This is a really high quality crate!
+  
+  The library implements graphical primitives, so there's no use of `unsafe`.
+  Where applicable, the author has quoted sources (e.g. "approximation taken
+  from http://example.com/") and made explicit comments in regards to accuracy
+  and assumptions made. A lot of code has direct links to academic research,
+  and it's obvious the author has gone to great lengths to ensure good
+  algorithmic complexity (most operations are constant time where possible, no
+  use of loops to brute-force a solution, etc.).
+----- SIGN CREV PROOF -----
+qamaRNUfMAYWwooN3x8d_jM_9bLMitEKDl3iuWF4PsQ6URlh5ppKv6BiodW-iEeK7iF5jKB70JTSQAVuJzxlBg
+----- END CREV PROOF -----
+

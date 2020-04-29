@@ -1,0 +1,212 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-08T12:24:49.012582800-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.0
+  digest: HBsfV66jwBnJ3XvNTshwysV_0Pz9ECesg_i6JHmO2bY
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/proc-macro-crate.md#010
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+7s3lEwsAa2Eg2KnFCg7aedBFZu-Xhl2yfXS_0KyOuXGPbMdLtGWEx3Z94uhtIrL-MhkiDwQPZGZTHsjOZRoRDQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-08T12:29:29.603295700-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.1
+  digest: Uv0bdQUtFXHezhaLW1rJdSpp_hokPBxn8XQHdmh2cfw
+package-diff-base:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.0
+  digest: HBsfV66jwBnJ3XvNTshwysV_0Pz9ECesg_i6JHmO2bY
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/proc-macro-crate.md#011
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+_W_tfL6ObdedpRwq5gkV-EDNDUD9blbjimL9NwNo7r35421rb4AgLzQVKkEsp_xWZltSNgZfs9XikI59cmS_CQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-08T12:31:31.780458100-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.2
+  revision: 2e352d2b9d1edd2df2b3ee7c84556ea21296c1ea
+  digest: wVd9FEVkLjC_6dGMnnFz_jFbIE6dfintSQP8S4eY7-M
+package-diff-base:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.1
+  digest: Uv0bdQUtFXHezhaLW1rJdSpp_hokPBxn8XQHdmh2cfw
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/proc-macro-crate.md#012
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+rEPj-E_-nk_7CEGcp_cQb2Oq8UufM9pACUGpKbHYVtAWO8ctFotwdNpcWPNHAaXagjG46s6P5xzioc9EAndrDg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-08T12:33:10.496464-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.3
+  revision: a83501860dced747c19d47f7e9d696d065938f56
+  digest: 7yJasjKipfcph9EoGDMXQcps5wJ5of_P_M3ZLi_TTr4
+package-diff-base:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.2
+  revision: 2e352d2b9d1edd2df2b3ee7c84556ea21296c1ea
+  digest: wVd9FEVkLjC_6dGMnnFz_jFbIE6dfintSQP8S4eY7-M
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/proc-macro-crate.md#013
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+USOeVOP8bTeETW5S5lv8Gos-_sAa4kFqYF3Cy-eu67m2PqdhgECEPnb_aykJ7GdPo-kZTDGRg9IWpi9fozP3CQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-08T12:35:44.257398600-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.4
+  revision: 721d5a9dbdedbfbb6d160a3e4a482226d8edb178
+  digest: W9BADia_HlvpyXk7cEcptpHvRUAQx0ofDLiYLi85zcw
+package-diff-base:
+  source: "https://crates.io"
+  name: proc-macro-crate
+  version: 0.1.3
+  revision: a83501860dced747c19d47f7e9d696d065938f56
+  digest: 7yJasjKipfcph9EoGDMXQcps5wJ5of_P_M3ZLi_TTr4
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/proc-macro-crate.md#014
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+FCrSpH9EGgl20JNE4wZakTQXHl67qmdmn6W0O1_d7sHecH6At_k4lEOSF9EcoW6tk5_1Wv7hBC9xo1PJ78F4Dw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-09T00:01:33.845091-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: microprofile
+  version: 0.2.1
+  revision: 2746d44bbc40cbb32b9739e381590c21af025ebe
+  digest: pJ8MaWnSZIvgFEFR-9SskHwqoyK0RqYOyeCyVstq1bU
+review:
+  thoroughness: low
+  understanding: low
+  rating: negative
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/microprofile.md#021
+  Decent seeming crate, but 98% underdocumented underfuzzed C++ that is network exposed, parses strings, rewrites x86, etc.
+  Might use for development but using it in production would just be begging for CVEs.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+sntxJYbMElPmNMnu_cQEjTVZP8RkQYBF32p4MlqRoOYhp3T58ACGNw8B5wOWL7okMhFX9iuKYKuwrqNHL2j5BA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-29T13:50:02.698058500-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazycell
+  version: 1.2.0
+  digest: ak-Z5ZcDwhK2OGpRfOdMIP0VHoSDC58290c_xWtibzI
+review:
+  thoroughness: high
+  understanding: medium
+  rating: positive
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/lazycell.md#1.2.0
+  Appears quite high quality, only the minimum necessary amount of unsafe code used.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+5EjS7bBGuk6NwNNunggSWrpDM8vOJWNqj_mwFqvr0qB19yT0CRtByDnvKHHTxeczEU8sIUmUcw9kdxsprOQJAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2020-01-29T13:58:24.277634-08:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazycell
+  version: 1.2.1
+  revision: db9289a32df4ba3b1de8c383b68b342be4a8a1ba
+  digest: OTFhRO_g4ERePDGYGCIuqm7mzhlOMunZ-rgnKgG8BP4
+package-diff-base:
+  source: "https://crates.io"
+  name: lazycell
+  version: 1.2.0
+  digest: ak-Z5ZcDwhK2OGpRfOdMIP0VHoSDC58290c_xWtibzI
+review:
+  thoroughness: high
+  understanding: medium
+  rating: positive
+comment: |
+  https://github.com/MaulingMonkey/rust-reviews/blob/master/reviews/lazycell.md#1.2.1
+  Appears quite high quality, only the minimum necessary amount of unsafe code used.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+LmTKh_JEYwQZRNMn4liHYGzTRCsGUKP5UmsR4Ycqqey-bzxGFhXWTkGwAURWnkDy5kNIJPHq-9TGHa6GOiHRAA
+-----END CREV PACKAGE REVIEW-----
+

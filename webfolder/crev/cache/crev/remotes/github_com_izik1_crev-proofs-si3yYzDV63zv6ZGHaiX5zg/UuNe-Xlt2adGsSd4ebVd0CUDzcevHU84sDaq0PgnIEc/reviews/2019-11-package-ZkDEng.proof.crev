@@ -1,0 +1,45 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-10T16:14:43.729075297-08:00"
+from:
+  id-type: crev
+  id: UuNe-Xlt2adGsSd4ebVd0CUDzcevHU84sDaq0PgnIEc
+  url: "https://github.com/izik1/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ucs2
+  version: 0.1.0
+  digest: YpRdmksdhL6xsBlz9bWFi4oLmMd_HKd7l11_5flq0RM
+review:
+  thoroughness: high
+  understanding: high
+  rating: strong
+comment: "Verified by reading the entire crate and ensuring that it matched the utf-8 -> ucs2 transformation format.\n* positives\n  * definitely conforms to transformations, definitely doesn't panic. Definitely safe.\n* negatives\n  * has `Error::BufferUnderflow` and `Error::InvalidData` which are both unreachable due to the guarantees of `&str`."
+----- SIGN CREV PROOF -----
+ZQooZQHC3Q6I99sZdaDKgDyoYcbejTOCCCrM30480KmJbK3MQQr9sqxC3AGGiZYScp0h8iYICe8LNZ1WOe4-Cw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-17T11:51:47.614590252-08:00"
+from:
+  id-type: crev
+  id: UuNe-Xlt2adGsSd4ebVd0CUDzcevHU84sDaq0PgnIEc
+  url: "https://github.com/izik1/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: either
+  version: 1.5.3
+  revision: cd15a341118b5af765450dcb6380c6dee17ed0f2
+  digest: rTo-TzYTg8QSM1Lwtkiz5Bc6gSi8rEb0j9AU1r43kn0
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "Simple `Either` type."
+----- SIGN CREV PROOF -----
+a9VikAQA25RVTtVOxFY_FInJYKIQdYRGeHdMrhu-CCzc_04uVS96YYHyhnLVtd9NT7guxwNEeyDJMaOS-QAACQ
+----- END CREV PROOF -----
+

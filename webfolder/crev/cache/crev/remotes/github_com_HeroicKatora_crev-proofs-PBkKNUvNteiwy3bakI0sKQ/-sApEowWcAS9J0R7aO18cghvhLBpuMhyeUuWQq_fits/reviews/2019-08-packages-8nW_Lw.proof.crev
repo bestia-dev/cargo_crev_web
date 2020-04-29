@@ -1,0 +1,161 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T17:07:50.241838519+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: suffix
+  version: 1.1.0
+  digest: fv_W8b9YQPJmjtyFctm2eMlg3tJdpP1LZZN9G_3o1uE
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  As a side effect of the linear time requirements it also ensures that
+  allocations are bounded. However, there is no built-in way to interoperate
+  with any custom limits, precalculate required memory, or reuse allocations
+  made separately before.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+e1EmdomYnTlG3C3rH0lk8A0hPJiq-l8HCP9KqYxxUmgB8eLjVO5tJwZDjmYzTNDtE14lEeXE8IP3-4xkQTCDBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T17:48:07.899070331+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: num-traits
+  version: 0.2.6
+  digest: FYqj2-tzDNLn-LOmqHSkd7S3rOcijjVxt_ZOZ7rUxkw
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+issues:
+  - id: "https://github.com/rust-num/num-traits/issues/125"
+    severity: medium
+    comment: ""
+comment: |
+  Not quite ready for untrusted input due to panics and not fuzzed. Minor
+  soundness concerns for floating point operations, rooted in Rust language
+  `as` operator not having fully specified behaviour (yet). All is well for the
+  integer part of the library.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+r4IG70nthAbvN0MLLRWYuEB4BH7B3FHfbL0dphBTz3-VlUzeIm1x7lv7QACqQk8-C5CPMy9gdP4UHMGMOFG5CA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T18:51:16.985684219+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazy_static
+  version: 1.4.0
+  revision: 421669662b35fcb455f2902daed2e20bbbba79b6
+  digest: 95REZRx8ItDao_V9l7sOsW9-OB6Jc5C7azc9mNC07fI
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: |
+  A bit puzzling that the inline implementation does not use `UnsafeCell`
+  directly but only through `Cell`. This adds a Sync impl which explicitely can
+  not exist for Cell itself. But the Once is enough to protect against races
+  even though there is no real benefit from using `Cell` over `UnsafeCell`.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+MIgi6KW-TOoY0bYwkU6X74VjkDJDol5MminEGzwLm4TEVeamxRpAx0Opjc9O0oIH3iMrdJqkTWVJfnD16mzlDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T23:38:43.851594204+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: memchr
+  version: 2.1.2
+  revision: 437a177ab53bc1c27b5bcd5c23c3f2b0b6594d73
+  digest: HwYzw7Wrw7a6j5FSuBYeZfA2y7mKxqJ5w4J5_YnjVic
+review:
+  thoroughness: low
+  understanding: medium
+  rating: neutral
+comment: |
+  Not sure about the strict correctness of memrchr under stacked borrows but
+  the forward functions definitely seem fine. That said, miscompilation seems
+  unlikely since stacked borrows is more aggressive than llvm's noalias and raw
+  pointers do not receive that tag anyways.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+DXIPodT4K-EXyTuIvDkKP97HZt0TVHHGYU41EGDUOqJN8sZy0muaQYQfIqJEPaHgjTpsMSthDx-yApYPwY_5Ag
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-31T03:28:41.822311197+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: slab
+  version: 0.4.1
+  digest: U5Id25vB9U4QxxImbNpa6N0WUPdusGqZnR85MRPo9NE
+review:
+  thoroughness: high
+  understanding: high
+  rating: strong
+comment: |
+  No internal use of unsafe. Only an get_unchecked unsafe api without bounds
+  that translates directly to Vec and does not exploit the possible unsafety in
+  its implementation to the fullest extent (unreachable instead of
+  unreachable_unchecked).
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+3ur9BtMa0tLHzI_TlAOS9oo6ow2y6ZsF_BFlrCXg-H_CJGVZZvZRd_LEg7XvkJ0FJ9PGXWp-_jb9u8p0aLo3Dw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-31T04:12:24.198630418+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: hostname
+  version: 0.1.5
+  digest: F1dJ5ohjqBNpVnSCJ6yNTB7sRLwwh89Fx0iR3cLbkG4
+review:
+  thoroughness: high
+  understanding: high
+  rating: negative
+comment: |
+  No references and not compliant to all possible implementations of the POSIX
+  interfaces it utilizes. Manifestation of the unsafety requires the hostname
+  to be set to a 255 byte string by the machine operator and is thus not
+  directly exploitable, especially on Linux or glibc where it is impossible to
+  configure the system into such a state.
+  
+  This is not meant to assign blame towards the author, Crate repository is
+  properly abandoned and reverse dependencies should switch to another
+  implementation.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+_5rfc7qI_f3hqOFtrm_mcxE6VdkET-4z_oM_VIRtsVQdrVbFVLrfyd8BlWASkAlR43N3b9DfKohVg6ia0EYKDQ
+-----END CREV PACKAGE REVIEW-----
+

@@ -1,0 +1,47 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-03-21T17:37:57.500917166+00:00"
+from:
+  id-type: crev
+  id: b5KVguZFzGkZ-ZFynEYB7ttSIOK5pW8sRXlUMZ8U6Ik
+  url: "https://github.com/roblabla/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: core-foundation
+  version: 0.7.0
+  revision: 0a3ac83c1bb38d30a4d30530cd233385b7410b2c
+  digest: IXDPs0XWGmJ9X5_ZEGXvubDL7XHthcxWas2yRV-RT6I
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: |-
+  Contains several flaws leading to Undefined Behavior in purely safe Rust code.
+  Here are the instances of UB I uncovered:
+  
+  CFArray::from_copyable can trivially lead to reading uninitialized memory if
+  the T type argument is not pointer sized. This is GH issue \#291.
+  
+  In many places, NULL checks are missing entirely, leading to types assumed to
+  be safe by construction to be created with a NULL pointer, trivially leading
+  to crashes. This is especially the case in almost every allocating types.
+  Tracked at GH issue \#361.
+  
+  CFMutableDictionary has multiple issues allowing one to trivially cause UB by
+  calling add with arbitrary pointers. Furthermore, the CFMutableDictionary
+  constructor calls `CFDictionaryCreateMutable` with the
+  `kCFTypeDictionary*CallBacks`, causing issues if non-CFTypes are inserted into
+  the dictionary. This is not, however, ensured at the type level. Tracked at
+  GH issue \#362.
+  
+  TCFType is a safe trait that should be implemented on the safe Core Foundation
+  type wrappers. Many functions assume that a type implementing TCFType is in
+  fact core-foundation managed, despite the trait being safe to implement. This
+  can trivially cause UB simply by calling the default `retain_count()` on
+  a broken implementation, or by passing a broken implementation to
+  `CFArray::from_CFTypes`. This is tracked at \#364.
+----- SIGN CREV PROOF -----
+7uvwuGp--L-0rffKsVNbgubh4tO7k1IzHdAAO2ntdU3b6Lv04r6QKOAj6-n9lUGvVUApM7o6OLXGs-4EEjtvAQ
+----- END CREV PROOF -----
+

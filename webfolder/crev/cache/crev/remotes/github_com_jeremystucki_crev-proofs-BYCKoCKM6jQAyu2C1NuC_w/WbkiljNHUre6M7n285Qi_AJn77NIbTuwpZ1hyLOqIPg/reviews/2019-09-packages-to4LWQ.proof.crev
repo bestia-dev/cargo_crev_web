@@ -1,0 +1,45 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-09-08T22:51:56.992429259+02:00"
+from:
+  id-type: crev
+  id: WbkiljNHUre6M7n285Qi_AJn77NIbTuwpZ1hyLOqIPg
+  url: "https://github.com/jeremystucki/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: mockiato
+  version: 0.9.1
+  revision: bcaa315d89dd695a144bbd14460097d4bbd04455
+  digest: mrCLPlVeji0fFxJMXpM3aXSnqfkkzqcMTfBaP8OQvR8
+review:
+  thoroughness: high
+  understanding: high
+  rating: strong
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+SwHCLBkFIyGEZEnMls_FoMHlOFZzGHIbYYSj10tMKUlFMSJbubdMIzCagRH5xJs6oFFMFCn1nCqht9IKBc62DQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-09-08T22:55:40.863528380+02:00"
+from:
+  id-type: crev
+  id: WbkiljNHUre6M7n285Qi_AJn77NIbTuwpZ1hyLOqIPg
+  url: "https://github.com/jeremystucki/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: mockiato-codegen
+  version: 0.9.1
+  digest: 6vHx0hNaNZDdNDIdP6SzHX030QXpIhzISjSXKhNXlfg
+review:
+  thoroughness: high
+  understanding: high
+  rating: strong
+comment: |
+  
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+W_wOZQTS00l7ZBZmnP3wk5WHfeFVpS00wQhrgKI2mYFKuQP9GOnSz_apXh8buKY30hUGTuzXZgnxnq2DfaAOBw
+-----END CREV PACKAGE REVIEW-----
+

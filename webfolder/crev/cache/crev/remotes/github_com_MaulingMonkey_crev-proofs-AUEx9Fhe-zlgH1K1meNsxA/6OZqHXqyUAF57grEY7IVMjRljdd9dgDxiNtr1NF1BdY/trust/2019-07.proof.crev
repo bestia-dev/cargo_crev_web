@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-07-23T11:48:12.571037100-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: low
+comment: "Already using dpc's cargo-crev.  https://github.com/dpc/crev-proofs"
+-----BEGIN CREV TRUST SIGNATURE-----
+WeyVdthHVAgAffdVouh7EIWokICH2gX29nxJjFp5_xqgjM8SL0hxov3xOseFqlzCOxiB5xkGG0MWcMhZClQCAA
+-----END CREV TRUST-----
+

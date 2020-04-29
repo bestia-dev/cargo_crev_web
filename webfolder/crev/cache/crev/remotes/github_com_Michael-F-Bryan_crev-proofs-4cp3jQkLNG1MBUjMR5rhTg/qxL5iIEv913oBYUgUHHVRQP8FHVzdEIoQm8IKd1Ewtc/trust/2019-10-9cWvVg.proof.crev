@@ -1,0 +1,16 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-10-11T23:59:01.186734836+08:00"
+from:
+  id-type: crev
+  id: qxL5iIEv913oBYUgUHHVRQP8FHVzdEIoQm8IKd1Ewtc
+  url: "https://github.com/Michael-F-Bryan/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+-----BEGIN CREV TRUST SIGNATURE-----
+gWGCzfkhQPlm1ck2PWlDLE-YETkSe42C18CO8HCY0e72ole5pF0hxiuFpjJEjoqtK_VQGlJXw60zg52EjqSeBQ
+-----END CREV TRUST-----
+

@@ -1,0 +1,24 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-03-21T11:15:10.577841110-04:00"
+from:
+  id-type: crev
+  id: 2LuQSTppPubecRKRky5i_owgDcpbZhuFE3iXyLky5w4
+  url: "https://github.com/leo60228/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: core-foundation
+  version: 0.7.0
+  revision: 0a3ac83c1bb38d30a4d30530cd233385b7410b2c
+  digest: IXDPs0XWGmJ9X5_ZEGXvubDL7XHthcxWas2yRV-RT6I
+review:
+  thoroughness: none
+  understanding: low
+  rating: negative
+comment: |-
+  Contains large amounts of UB and segfault-prone code. See https://github.com/servo/core-foundation-rs/issues/361 and https://github.com/servo/core-foundation-rs/issues/291.
+----- SIGN CREV PROOF -----
+9ujalLyjUFhE0HGBB4v9XmjkDxY4m7pV1nE3dum0KXtoxWATg2Gt5fYUgW17iLN0vEH2jmQj7BHHnfcwnesUBg
+----- END CREV PROOF -----
+

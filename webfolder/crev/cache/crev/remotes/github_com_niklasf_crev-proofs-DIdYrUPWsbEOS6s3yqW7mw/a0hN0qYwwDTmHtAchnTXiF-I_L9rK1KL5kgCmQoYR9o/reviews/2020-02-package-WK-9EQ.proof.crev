@@ -1,0 +1,236 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-27T16:35:32.427251581+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lzw
+  version: 0.10.0
+  digest: ZsnrkEoM26ersMKHH_2za2XnY_0P09HoQWzIQ_-pUXQ
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |-
+  An implementation of LZW compression. Overall appearance is solid.
+  
+  + No unsafe code.
+  + No unexpected panics. Indirectly fuzz tested by gif encoding crates like
+    gif and gift.
+  - Appears to be unmaintained.
+  - Could use cleanups and performance optimizations.
+  - Small test suite. Could use more roundtrip tests.
+----- SIGN CREV PROOF -----
+esd6gD1A5dsfNm6wUWsKpKHhHsaka10SDB6wr0r6qgrrxmlgn7MPXSri559qu0K-6uq_3lEdOp6PF_QmEY9hDQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-27T16:53:49.667653914+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: gaviota-sys
+  version: 0.1.12
+  revision: e5f6999a28950ae363cc1d998c31238c3f4fadf4
+  digest: mCaYomElWE2NXrLikCpO9waIGqZfMJkg2uTIHBQTvFY
+review:
+  thoroughness: low
+  understanding: high
+  rating: negative
+comment: |-
+  As the author of these bindings, I would not trust the underlying C library
+  to handle malicious input. Verify the checksums of tablebase files! This is a
+  good idea anyway.
+  
+  Assuming that is done, I am quite confident in the corectness of the probing
+  results, based on years of production usage and comparison with Syzygy
+  tablebases.
+----- SIGN CREV PROOF -----
+j9vcsC_eaEnU3RIUv-sWDexvEmdlkC1-ChTKkuFezH8BqO5feQfCFnMVD_7k_sqAzzektdisDOYPwJ4XqJt0BQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-27T17:00:40.589567634+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: shakmaty
+  version: 0.16.2
+  revision: 109698bea4b0ef9c000e81351763a7720de61c2b
+  digest: 9q-vMpokQfbQXU-M2bDHNna--R8iSvhTRPkKk698xy4
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+alternatives:
+  - source: "https://crates.io"
+    name: chess
+  - source: "https://crates.io"
+    name: pleco
+comment: |-
+  Implements chess and chess variant rules and operations.
+  
+  This is a self-assessment. I am the author of this crate.
+  
+  Soundness: I am highly confident in soundness. Unfortunately, I could not
+  avoid two kinds of unsafe blocks, without major performance impact.
+  Instead, all preconditions are explained thoroughly in comments and asserted
+  with debug assertions.
+  
+  (1) The optimizer does not reliably elide bounds checks based on the
+  assumption that u64::trailing_zeros() will never be larger than 63.
+  This is important in many hot loops.
+  
+  (2) The perfect hash function for attack lookups always stays within bounds.
+  This technique is called Magic Bitboards, widely used and very well
+  understood in the chess community. When selecting magic factors, exactly this
+  assumption is tested for all possible inputs.
+  
+  Correctness: For move generation in standard chess, confidence is based on a
+  large test suite of randomly generated, as well as historical and tricky
+  positions, so called perft tests. The numbers are shared in the chess
+  community and compared across a wide array of implementations.
+  
+  I am gradually less confident in other features, especially chess variants,
+  simply because they are less popular and played less often.
+  
+  The library has been used to parse 1 billion recorded real world games
+  (https://database.lichess.org). Some bugs have been found, but in the source
+  of the data, not this library.
+  
+  For handling of input formats (FEN, SAN, UCI) I reviewed the code thoroughly
+  and used fuzz testing to ensure absence of DOS/panics.
+----- SIGN CREV PROOF -----
+GfB6JlCJRlujif2oVCdF20ex0dGQSldUHMYpQdTZcwSWkTIKpFsxHlBJJxZHjOqgQsIVTHQ5BQ31w816FUTsCA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-27T17:25:19.062133983+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: shakmaty-syzygy
+  version: 0.13.0
+  revision: 93d562c257e57a263b5c7555fe9a4b1024c60fe1
+  digest: VyN-KWgtOb8FX-nXnAB6OHscEpbw52dMq2CYP0Vx0yU
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: |-
+  Probes Syzygy tablebases.
+  
+  This is a self-assessment. I am the author of this crate.
+  
+  Soundness: The crate uses no unsafe code. Unlike existing implementations in
+  C/C++, I made a deliberate choice to use the safer pread instead of mmap,
+  despite performance costs.
+  
+  Panics/DOS: I carefully reviewed the code to ensure that all loops and
+  all recursion is bounded. I used fuzz testing to simulate corrupted tablebase
+  files. Nonetheless, it is best to verify the checksums of tablebase files
+  before use, if only for transmission errors.
+  
+  Correctness: The test suite compares the probe results of random and hand
+  picked positions with multiple independent implementations (in other
+  languages). The library has also been used by researchers and players
+  (through the https://lichess.org/analysis#explorer and
+  https://syzygy-tables.info frontends) for years, without reported
+  inconsistencies.
+  
+  I am gradually less confident in the implementation of variant tablebases,
+  simply because they are less popular and used less frequently.
+  
+  During the development of 7-piece Syzygy tablebases, this library was used
+  successfully to find inconsistencies in the new tablebase files. See
+  http://www.talkchess.com/forum3/viewtopic.php?start=0&t=66797&topic_view=flat
+  for details.
+  
+  The Syzygy format itself has a stellar reputation in the chess community.
+----- SIGN CREV PROOF -----
+zRGD4aDVON4XLxC7LFBP2eoH4pqbq4IJcD6OT9gN_ZiD3-YlferBHBeMmI_QG2PqJiMnkLAN8_j3jJO831o8Aw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-27T20:58:36.481901472+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: byteorder
+  version: 1.3.4
+  revision: eaaad370715c04d78334d6a5b49c637549c84c71
+  digest: xIXqrloZPnvGV1h16Xhz7zBbMyjI1ngxuzlfEDXRBi0
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |-
+  Provides methods for encoding and decoding numbers in big-endian and
+  little-endian order.
+  
+  This is a widely used, very well tested, high quality crate.
+  
+  There are two kinds of unsafe blocks:
+  
+  (1) Integer/IEEE754 floating point casting. After bumping MSRV to 1.20.0
+  some of these can be avoided by using {f32,f64}::from_bits() from the
+  standard library.
+  
+  (2) Slice casting (via pointers). It seems to assume that for example u32,
+  i32 and f32 have compatible alignment, which is probably valid. Maybe this
+  should be noted in a comment.
+----- SIGN CREV PROOF -----
+VyU8gHyhrWpbyuWEj1AaZqesKJ7YS2E28gzdWcgf_n3bX7a-YgOoP745uQGLkiXOh4M3YWef66bu5zXUraYSCQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-27T21:28:54.271187110+01:00"
+from:
+  id-type: crev
+  id: a0hN0qYwwDTmHtAchnTXiF-I_L9rK1KL5kgCmQoYR9o
+  url: "https://github.com/niklasf/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: either
+  version: 1.5.3
+  revision: cd15a341118b5af765450dcb6380c6dee17ed0f2
+  digest: rTo-TzYTg8QSM1Lwtkiz5Bc6gSi8rEb0j9AU1r43kn0
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |-
+  Provides enum Either<L, R> { Left(L), Right(R) }, with some convenience
+  methods and macros.
+  
+  High quality micro crate with no unsafe code.
+----- SIGN CREV PROOF -----
+rW4hGB60EPv4ytdRZ66ywHOPW0n9QLCQuHf2Ag4y7SHAW260TCy3l1uzvLvZJRaBrIPVfhJjk2RtN2ml1mUdBQ
+----- END CREV PROOF -----
+

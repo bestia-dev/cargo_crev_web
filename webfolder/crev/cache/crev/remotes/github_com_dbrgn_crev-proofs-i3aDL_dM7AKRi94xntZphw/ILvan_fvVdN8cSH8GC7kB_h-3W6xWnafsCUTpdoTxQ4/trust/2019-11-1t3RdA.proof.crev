@@ -1,0 +1,38 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-11-26T11:43:08.031005312+01:00"
+from:
+  id-type: crev
+  id: ILvan_fvVdN8cSH8GC7kB_h-3W6xWnafsCUTpdoTxQ4
+  url: "https://github.com/dbrgn/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+comment: |-
+  I trust dpc because he's a well-known Rust community member and author of crates like slog or crev.
+----- SIGN CREV PROOF -----
+4z9Pepp-iZ9Zn4KOoU5LUQlj_NDA7qlLUwNyZ7ZV-h__YnGQBcWfPgFxX7d1Xg7a5q30nCccNof6hoIx_hvNBw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-11-26T13:59:43.833285410+01:00"
+from:
+  id-type: crev
+  id: ILvan_fvVdN8cSH8GC7kB_h-3W6xWnafsCUTpdoTxQ4
+  url: "https://github.com/dbrgn/crev-proofs"
+ids:
+  - id-type: crev
+    id: VylyTuk8CMGqIxgHixWaqfiUn3xZyzOA1wFrQ0sR1As
+    url: "https://github.com/BurntSushi/crev-proofs"
+trust: medium
+comment: |-
+  I trust BurntSushi because he's a well-known Rust community member and author of crates like regex, ripgrep or xsv.
+----- SIGN CREV PROOF -----
+szvXNO3-9M8ykzcjPcmiekAFj3Sm8lFac1OQ02MmhfCh7EACREjaiv3SdwVGQzfrIvgNgolMiuy7LdpojqXaAA
+----- END CREV PROOF -----
+

@@ -1,0 +1,68 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-23T14:34:39.571327+00:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: linked-hash-map
+  version: 0.5.2
+  revision: 7a981e1ef3ed8282f9d7c24ee371901ccef6be15
+  digest: 5neoxm02483t7iH1qVq60Q2A-AC4m6qH-t97bEQt5iI
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |-
+  lots of raw pointer manipulation and use of mem::uninitialized()
+----- SIGN CREV PROOF -----
+QabwC65kPAmN4rOgPTDVzfCpigBC7n8MIxND0MNYQAmKwEQWImu8FG86jNG__6rFYNbYWGmzQ6bTCzy7Qz5ODQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-23T14:38:57.087023+00:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ppv-lite86
+  version: 0.2.6
+  revision: 1602bad0a38abbd0032c1d223b9430ed78cd8918
+  digest: 3WfoeGqJdYEHgEHM3ScBhLSomXCyrT2_1sZJCipPQhc
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+----- SIGN CREV PROOF -----
+Jsxyy5YBFJFLWLhdhYfYLqnnSEnnXvYX8dCKOEfmouYWwQtjtUCbmpHxLUUOPFscZa6ZFCsCCvTaSJTRChfyDA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-23T14:41:31.842149+00:00"
+from:
+  id-type: crev
+  id: X98FCpyv5I7z-xv4u-xMWLsFgb_Y0cG7p5xNFHSjbLA
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: tokio-signal
+  version: 0.2.7
+  revision: b117fc1d65e72fa25eb0a921f77e5e2e0a8a49bb
+  digest: 9EsnUVKFBGT94mKuMlt6Ze_CfbrGjnUiwKmvrQ3mx2A
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+----- SIGN CREV PROOF -----
+4h0tTV31gu7BtXnB59vc-3A6fJvFYgjNZ9ws_Co-AT7JktyCq7YFW1eNrDD7LopiOFN6sJmF9AnJSJ6pybuWAQ
+----- END CREV PROOF -----
+

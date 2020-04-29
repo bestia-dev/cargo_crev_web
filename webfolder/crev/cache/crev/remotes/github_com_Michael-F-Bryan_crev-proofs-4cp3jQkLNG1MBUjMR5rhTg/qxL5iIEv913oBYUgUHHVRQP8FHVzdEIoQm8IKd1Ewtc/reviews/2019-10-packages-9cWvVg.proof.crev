@@ -1,0 +1,28 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-10-12T15:23:58.989569388+08:00"
+from:
+  id-type: crev
+  id: qxL5iIEv913oBYUgUHHVRQP8FHVzdEIoQm8IKd1Ewtc
+  url: "https://github.com/Michael-F-Bryan/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: console_error_panic_hook
+  version: 0.1.6
+  revision: 52f6501678e8cc4fcf5309e7814bb90f800c3fef
+  digest: DLet7EtUZ6IpD5zg-uAv6bk7Yszo1MDc02PdFW6Qpjs
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: |
+  The implementation is rather straight-forward. It uses `std::panic::set_hook()`
+  to install a panic hook which uses `console.error()` from JavaScript to log a
+  panic and the backtrace retrieved by creating a `new Error()`.
+  
+  The code is also thoroughly documented using both rustdocs and comments and
+  explains possible edge cases due to browser differences.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+kV_CGZXcRrBPsrHZD4RiHtQDV6pA8gy8Fy8kc6Zib133xXiHuDGA2UTcA7-MGt-Si3oT71NH5Q0HNTKZVtRgCg
+-----END CREV PACKAGE REVIEW-----
+

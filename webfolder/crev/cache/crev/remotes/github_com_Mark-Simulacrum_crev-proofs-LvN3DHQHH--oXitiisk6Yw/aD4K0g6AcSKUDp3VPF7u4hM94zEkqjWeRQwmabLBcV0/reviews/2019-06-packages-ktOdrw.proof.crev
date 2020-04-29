@@ -1,0 +1,63 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-06-23T20:41:12.234751-04:00"
+from:
+  id-type: crev
+  id: aD4K0g6AcSKUDp3VPF7u4hM94zEkqjWeRQwmabLBcV0
+  url: "https://github.com/Mark-Simulacrum/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: doc-comment
+  version: 0.3.1
+  revision: 9a633728a23669dcacf879d75559ea842322a31c
+  digest: ZLj3IwjMIzgmDzakpUeLSS4GwFiOrrnX-aYhr47Tcv8
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+82MC5JoMaNZrdL8myfeuAxBB61DkN0POugx_2xfEXEGca9zkN8qo3e2dxvrT-1MVCCzRCDpZKXsPc-h8GvAPBw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-06-24T08:23:05.152456-04:00"
+from:
+  id-type: crev
+  id: aD4K0g6AcSKUDp3VPF7u4hM94zEkqjWeRQwmabLBcV0
+  url: "https://github.com/Mark-Simulacrum/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: bitflags
+  version: 1.1.0
+  revision: fffdfe8379a745c88d6cbc17b4454789b499ee56
+  digest: ANh68S-S2vsKWJFqICgFjYMGmpAyZxAiVlAuAA2w_Nc
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+13yzei8nlwdcIOONYc0SM8231VQmxG1xwPbXBNBEFbTu41j6imQCNAozDBi02BwkUGJfLCXzlYUEEckedgPyBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-06-24T08:28:12.841143-04:00"
+from:
+  id-type: crev
+  id: aD4K0g6AcSKUDp3VPF7u4hM94zEkqjWeRQwmabLBcV0
+  url: "https://github.com/Mark-Simulacrum/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: bitflags
+  version: 1.1.0
+  revision: fffdfe8379a745c88d6cbc17b4454789b499ee56
+  digest: ANh68S-S2vsKWJFqICgFjYMGmpAyZxAiVlAuAA2w_Nc
+review:
+  thoroughness: low
+  understanding: high
+  rating: strong
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ylNMXB744uhUT0UvucOoG1i2z4sgxGBhJXCOWLy53cXR3fK68pCnqvckedcHM3ObEReaYIFPjUq06Bn-WrPhAg
+-----END CREV PACKAGE REVIEW-----
+

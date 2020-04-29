@@ -1,0 +1,65 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-11T13:53:39.351233556-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ansi_term
+  version: 0.11.0
+  digest: vM-b9KX-uC0PnfYoySqfiJn9LmPGV9wR_fkvw7KO5J0
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+----- SIGN CREV PROOF -----
+rAmU6Cd4AOangaTz8JfDFp1gW4kYh1063jDiZTeISdpGiwDpIIjXUyURcKagpxwdRe_MJKxyp-wGjWtudwGVBQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-11T14:00:28.299832729-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: owning_ref
+  version: 0.4.0
+  digest: gmhxrrGD-8l5DExvMn7Ea22uKe_1sdIDs0eAsKhMaNs
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+----- SIGN CREV PROOF -----
+dGv_xdpJhhCfpqIISYOn9dzpK_D5ZReueYTzTkfSjiwhtD4IiY3XDytAMA-F8QzLKMavL5KaXxDmoAPGa5niDA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-25T15:17:26.039070910-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: crust
+  version: 0.32.1
+  revision: 746f8e6eabbda7426abf3a155ff15cae83535325
+  digest: 83Bs7_eYEQr9PLMR8nT0iz5hkRFFfHHV8akXS8nNoBw
+flags:
+  unmaintained: true
+alternatives:
+  - source: "https://crates.io"
+    name: libp2p
+----- SIGN CREV PROOF -----
+gs2oEsPk9vcKmSXxDeCYeJhs4-nNdZrZDyx_gFGXF5b6k4SLuib5omMeby3GUhy56eBrZLRa0o-YKJSRCY1XBw
+----- END CREV PROOF -----
+

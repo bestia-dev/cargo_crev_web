@@ -1,0 +1,1012 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:13:04.838413761-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: asn1_der
+  version: 0.6.2
+  revision: 07ac15e3f7f01679be177e983d4cde235a100733
+  digest: F252Nour4x3eiRcDy6bMX149ysQV2cek8PF3_CgPCms
+advisories:
+  - ids:
+      - RUSTSEC-2019-0007
+    range: major
+    severity: medium
+    comment: ""
+comment: "https://github.com/KizzyCode/asn1_der/issues/1"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+WaQfAkRFgcYq2LAC3v2OmiITeNeRQ8jF9J9-EW1YeumNu1623pNQIMH1afZvgPSLxRa-GVnU96VR1ETMi2gQDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:23:35.702044386-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ncurses
+  version: 5.71.1
+  digest: VvNi373l04bwKCUoMnEoFVsoZ4hfsDC983e2mJOp1js
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+issues:
+  - id: RUSTSEC-2019-0006
+    severity: medium
+    comment: "https://github.com/RustSec/advisory-db/issues/106"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+S7JkhX_Siy9pL24sTjvO7IofxT3ocLdpdaF48yjMjBw9yRZ8PSs3Pbbxnb8Of1gaow0rxEOi4dbAMx0km-peBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:25:54.195456464-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: pancurses
+  version: 0.15.0
+  digest: aCvwiaNFDk4749jH65TqI9qvsBQX3TWzVsbakQYN4Xc
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+issues:
+  - id: RUSTSEC-2019-0005
+    severity: medium
+    comment: "https://github.com/RustSec/advisory-db/issues/106"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+WUNwK4gpS_iLkqtruyqGHsLks5vQHHzFzzZOsUWkwnJb8rAx0ICIG3Zy8n-qEna3uA6u2jEUit2VwI3kYiWECg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:32:59.856144705-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: slice-deque
+  version: 0.2.0
+  revision: 30520ab7d1917417e13975f317497879db8f4925
+  digest: 83cWSRQv5cBHjFXGrgq9Qk7ySdNXmXqBbMVfik1rDmw
+advisories:
+  - ids:
+      - RUSTSEC-2019-0002
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+qjqWN9UmGMBXyNTMUC2TcWcFyjvil0ZaePJRgihmVwBYPF6vpIlo8_THgsU4eGHAuONOvzcRrypAvxRgzYktAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:36:28.883077948-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: libp2p-core
+  version: 0.8.1
+  revision: c8799de564d8d5598eec767c940cf1267bd49728
+  digest: U_V7dZjgqvY1WA89Z2fmn0QRHXEmHjp7UWcj1pdL6jc
+advisories:
+  - ids:
+      - RUSTSEC-2019-0004
+    range: minor
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+HCo414VLDhUhI3lGN7Wc2LQ8eMXoC0GCsqZFVdHM7MC8vU_xRfamQGmQWaXS11_yZ903h-xisSxZF0g2976mCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:36:52.643880199-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: libp2p-core
+  version: 0.7.1
+  revision: 86a2bbbe50c742fbe3f5bf3a171d60dfb8fdb432
+  digest: "-uB8HItkE5rTrDR6kaTznJ0qdwmJi40E5KMTb0NXYYY"
+advisories:
+  - ids:
+      - RUSTSEC-2019-0004
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+2xeamDuBuOio7VWPmOA31pz6U1v8txGUfZYv4sADq_bQvzg7pU-k22i-m2SpOzMKQ9gFRb8jFM74Amo9CYiMCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:38:30.969038821-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: protobuf
+  version: 1.7.5
+  revision: 941fbf4266508a4b6a2e0e2512de5f156b43fb68
+  digest: nrqFPkTV1g6CYXasLrEXKJ1FZ54JHjV5_uJ7tWStN0Y
+advisories:
+  - ids:
+      - RUSTSEC-2019-0003
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+82sT1JW_jx_dBjHvs3mrVvxduNAk9pzCaK-OlcO9BmC1SaFNkiS3-BHDKT6IC_C_Ub62UV9Yfw2BiwWfzCd1Ag
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-01T23:39:38.254910480-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: protobuf
+  version: 2.6.0
+  revision: e506e962b2524be296429aca080ccadb296c36e3
+  digest: azosegiV1f_Lf9FRRYNTDeIb9sYjwiJjmno3sNKCpXU
+advisories:
+  - ids:
+      - RUSTSEC-2019-0003
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+yT805gAaSwpXmBfPDoaMxYDt5VMCEzBbob5CVu97a32_H7fSy_DwYxFWMIXeIhZ2UfvvNOdmoLvSO6CqH5-hAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:15:54.435181505-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: base64
+  version: 0.5.2
+  digest: wMN3VR6EWaI5i7BCYScLsbC1irWcLsEc3TAouoaGoK8
+advisories:
+  - ids:
+      - RUSTSEC-2017-0004
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+sHmq-d0oIm7OP4Yg-fHM1KL7zqmN5QojufzHoM4XjOWW2oqBvm4MKOvaydkPCrioUhLQB7gpYNhcCbBQabC3BQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:17:25.936301318-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: arrayfire
+  version: 3.6.0
+  digest: LCX1F4EdH7lZ6gyBl8-WYTcEh5FztsAYkAHWkC5kDqg
+advisories:
+  - ids:
+      - RUSTSEC-2018-0011
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+MAuKCqnlHe6SxTlwH6YLjCurXAAC3XkyBtfUj2b7RC6BUsESp0qqmd9RMZ2J-Rl-2PzTLkFn3w2NYxlPsaRFDQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:19:21.237301244-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: claxon
+  version: 0.4.1
+  digest: siaJeWZTwWC2zEOYgGY3WAdBSrdFe3LSyWyr10EiYFA
+advisories:
+  - ids:
+      - RUSTSEC-2018-0004
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+f_i-VuN3leSfIz5otXrYsJgztj4H6t2BpSH49nrYNh9OAmZpcCeKhysLI_yx6miSxKZvWQJMdrtUFjGKhPVEBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:20:19.117631229-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cookie
+  version: 0.6.2
+  digest: LSzk0dKbDeMRXfjCh_EuC3UxfzroQJCwv1ZSGiZrDm8
+advisories:
+  - ids:
+      - RUSTSEC-2017-0005
+    range: minor
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+OvzVuLtlHPPpaT6ayumqa2SrxGQFVlC2EgdS3UNxzLq7AL1tOekzcIWxrAHCZ5E51dVF7FLbOPoJclBEQoOBAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:21:24.856720838-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cookie
+  version: 0.7.6
+  digest: i1koM_KVobW8tgKFn0ieK9Pg7PcPdS98MzyTRkq5WGg
+advisories:
+  - ids:
+      - RUSTSEC-2017-0005
+    range: minor
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+B3FmhNV5-XuglEQfBaFgURopKyPNUonKYtPCLbMJCAkoEwd9KFG8ioez30p3tbB3tvp6eG05Eic9CngM-TqmBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:21:55.674266319-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: crossbeam
+  version: 0.4.1
+  digest: PoIb6iLQ8hIw9aMmnLBNQjtabDf7zZwTOX6QYshI4YY
+advisories:
+  - ids:
+      - RUSTSEC-2018-0009
+    range: minor
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+6_AoLwH69BDvwzCHFqr3Nh0IgEvjetj8BtT3Az2V5eh25HwWRA_vNjf8YpJUnUv4iyRLm4gKTsq9sG44JjtpCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:23:30.006690840-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: hyper
+  version: 0.9.4
+  digest: lk0EmEsuLQ1AVvNWQkTehJskIOlAW4XULk7pHOMgzfQ
+advisories:
+  - ids:
+      - RUSTSEC-2016-0002
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+G5HUkqzwsOTCNwswkKoicKdRB5x3UEIDpDzeLIhMqpiLwuO2gU-e7aLf-qIkCDBUYqDwTP9NrljYG4IFJtbKAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:24:34.659881877-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: hyper
+  version: 0.10.2
+  digest: DmqsB2W99lGJsCQEKBP_FfA8Rx9w244yQKYqitoJjU4
+advisories:
+  - ids:
+      - RUSTSEC-2017-0002
+    range: minor
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+LG8fQT8K96HFLa8feK5tCmtP2XB2qPY2NntOOx-xMd4mHe5Gbb4g08g8oT3PI_p9CNK0QWNh3QTcQLdtcT81CA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:25:30.511554700-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: hyper
+  version: 0.9.18
+  digest: prL-5pBJeKLe8iFqNKBzr6wVdk25MQ3A54jbQs7n5tw
+advisories:
+  - ids:
+      - RUSTSEC-2017-0002
+    range: major
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+HgQbP63eAJ_DmRiezkAei3OhV4SIMV-USVN39GNrPk7qLz31CwYqh62UB3Z_Nw4jaEYI-390pKR26SZ1DXc0Ag
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:26:42.021995718-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: openssl
+  version: 0.9.0
+  digest: x7WReK6u6f4NvyGQfepfv0mzOe4F4t23VcecJcPRpXo
+advisories:
+  - ids:
+      - RUSTSEC-2016-0001
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+VPsJ1V9QHSgskW1-jFqNZ8i84MyvGPK2amV7wwnH5r_E_wWYK1AXPL6vNSxXaL8LO3wV8xq69LVh2MaUUMkYCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:27:29.787370756-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: openssl
+  version: 0.10.9
+  digest: wMJt-ftZ2YSdhePir2l6WQAFDgRU0tTXcrh2WKPjkC8
+advisories:
+  - ids:
+      - RUSTSEC-2018-0010
+    range: minor
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+xeqUdolJH7soiJrQGEMjrobEjb-HYB3eGwVU55fyN7O2p4I9HpG5yXIPeAR8mkSSQhCLlaB7JS6uqtZ8xVw7Bw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:43:01.628572170-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: safe-transmute
+  version: 0.10.1
+  revision: 26ec6b7573c4dfec37109188095674c16f709d73
+  digest: SkrmHgbEo5cSNaDOkisJqmQivRlzpjVGWE7mbnzr_9c
+advisories:
+  - ids:
+      - RUSTSEC-2018-0013
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+hPE5vN1WA1dy00wtfz_USVKSBWNZ7-xtUZCyuTbVQuZ_115TjAtDwGgbbAv4Az4Fao5_4C3uYW9VLwExoDl6Dw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:43:35.475392707-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: security-framework
+  version: 0.1.12
+  digest: xLYaP9ikSymrQvSiRNKQWzeHZbxCZk2Zkynq9v7VP2U
+advisories:
+  - ids:
+      - RUSTSEC-2017-0003
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+oz09rT7CdbSqI1fosEXPXjY4AHsZdngIdDVJyS5OqpOhO5Xbs6gLO4cBbKUYvBkTSE2FrpUZO1QAybmcwRVOBw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:44:44.696551561-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: serde_yaml
+  version: 0.8.4
+  revision: c82357a33d5221e8f4a435e81ae145bb40ef5e30
+  digest: qIN09AI0_g8qavgOGEBOmpiRg910gHNC0Z7ev7i4zMM
+advisories:
+  - ids:
+      - RUSTSEC-2018-0005
+    range: major
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+rMvIAoYOI66L0RLSCXpPPXXGgrAnbfjFzleS1LVhg1BggQOwIjA3LouVrsn86iOu-FU8wr7plO5fk2ibCAxJBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:46:10.082055767-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: slice-deque
+  version: 0.1.16
+  revision: d38fe241c8b72060ac442e5aed1aeddcd3b28144
+  digest: x9Iswtcq7gIhpOLghYv_Rv2Nw9GyeGWNjx1nyjLUrHQ
+advisories:
+  - ids:
+      - RUSTSEC-2018-0008
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+nK4ukNIXiG8zZDyjKltpHLiDXAOp_UzPIZ36IY_672tbAo-lfkFNfTvMBvyO8VEypMQlS1hi5dg6hBGJ9sj0Cw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:47:18.804331794-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.6.3
+  digest: vqaG4Gr2kItCk0xLPOrd0se8MMZ_Z2BTdyf5aDtA7_0
+advisories:
+  - ids:
+      - RUSTSEC-2018-0003
+    range: minor
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+FGH3AlbDweT9HucgkQXy38aL2d38lptif9tB9P1N5Fv4X4HN-5TQoAZFr0_-IAvV6mz_WfTivcfYAjDjjBjFCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:47:56.886931714-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.5.1
+  digest: kj_A8wJXf5oVYp0Kzk73u7psw61NQua4cXyNBZLMK1I
+advisories:
+  - ids:
+      - RUSTSEC-2018-0003
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+cb4O2VAkDgJr3SYQ12z1nI--ch3kmhKe5D9PCLVRR9jYMPvSozxOWatbmhF_xsY3o_G9A2hXXHJT22YoYEFzBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:48:23.866274307-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.4.5
+  digest: aprJ0xKmynCprs-At1_x2ZgsKOqBOCs132uqAdHHGaI
+advisories:
+  - ids:
+      - RUSTSEC-2018-0003
+    range: minor
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+q7AWF0io_ntYkHPWO9HjXteNziko2WaaqBqHtrMfquxRC5I-477MPgNQBH0yc1XRK-cLPuIjwutcTMrgeUvFBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:48:53.577545048-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.3.4
+  digest: "-W189BR-COLGDJMWehH9uYHEQXHdPVKGkDx5OX7MEEE"
+advisories:
+  - ids:
+      - RUSTSEC-2018-0003
+    range: minor
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+N4NXWB4E72N5RolVjNrPlMDtKJ5VNIuvX4KCZ83VBiZ2UBMnXZiJ5BgN7EIwyc2rGqgZM8zgJDJ-6wi9cvvyDQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:49:30.345496558-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: sodiumoxide
+  version: 0.0.14
+  digest: Cz4oUhEg3SfQU3L4g7VRv3reoFPHd4ve1_sCGsdcbMg
+advisories:
+  - ids:
+      - RUSTSEC-2017-0001
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+-wIKk-6FCW3imMplxgfY-jiCzsKf3DFBrZssO_oHcUgN1LDZt62rN0Y8VZo4oOJ8aJFaPr-nIzkzcJ4Kq5Z7BQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T21:51:31.294989237-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: tar
+  version: 0.4.16
+  digest: eS43REyBrBFXWbYjA_K42dkBp9VRGGhp1c8N1SWD8Mk
+advisories:
+  - ids:
+      - RUSTSEC-2018-0002
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Fa98C_a_Ve8-gGdhg6jF1egU_ksmzOfuJSAaHuNbvOgFHPLLrOT0aWvJwpMsiL42R2KMeUzHCBiz5-wkzf-iCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:12:18.808773673-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: trust-dns-proto
+  version: 0.4.3
+  digest: y7EdhF4HIAAp6e8wgUgGhhxNYBORorKK1seQMXSxU6c
+advisories:
+  - ids:
+      - RUSTSEC-2018-0007
+    range: major
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+qfL6ayhmUm63Lt6cq9lqEtZbPaZWg9l03nhoxjKPWtDYYrczZDm6WzL0zB5YGBaX-9d_NTmATF-zOGM8cMkpDw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:12:46.924455957-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: trust-dns-proto
+  version: 0.5.0-alpha.3
+  digest: yiL7D12b-lz0f5bxaoigea3nT7VWn6J67ItcLzeZJrE
+advisories:
+  - ids:
+      - RUSTSEC-2018-0007
+    range: minor
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+_rqtIbUhfeXhZMjQr2fsba5ua-irSoR1rYGIE-MNpvDtMnq93GM8grmJOJI-ZW85_GQ0NuvBDKyIAJlIsgXzDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:13:15.960476051-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: untrusted
+  version: 0.6.2
+  digest: k8O2fqgUYZNgk1tKHzhedPwzoSTmjfDb5AStfbcLBnQ
+advisories:
+  - ids:
+      - RUSTSEC-2018-0001
+    range: major
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+y3nupS8aHz4TdnUMkgLFMGspoU7fRzwVO_COfw4S61NgDrlYaXZEygQX47HwkUd0MHBvs_5Nm1p6nShLeJjrDQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:14:17.938508137-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: yaml-rust
+  version: 0.4.1
+  revision: bac6e1094dded4959cf9515236997893d31c8a47
+  digest: LzpP-58m7BGoiZgBIfwfHOgGaaIhHfHgoqimJO_48Ps
+advisories:
+  - ids:
+      - RUSTSEC-2018-0006
+    range: major
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Xj5sxo6XFgFIDt6Ieh7fsh2TSUepxPw4uoR1MqS3qqER7rOAqFyVMXnes7WdedcWJvVGiH1pa8GLBV7_krMKBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:16:10.576761799-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: isatty
+  version: 0.2.0
+  revision: 85d1275115617e93d2ec7e78e5cc503b82748bae
+  digest: w63zO_Eo5HRL5H1Pm7O4wF1HNIJM9AUzKhfKQSDZ-0A
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+issues:
+  - id: deprecated
+    severity: low
+    comment: ""
+comment: "Deprecated. Use `atty`"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ITD6sBuZp7Y0gsboxGG0kMYEatUgwEX_CfBfbcglHx0eE7csMYYXMvt9g2LFwdgiJBIwXr8IlKDRu-OreAXMBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:18:15.182545020-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ammonia
+  version: 2.1.0
+  revision: bb7d7be9b28f4c955555b958be12b887350347b0
+  digest: b6zco479vX03ehRjxv7yBre3fM6afypAp0iXnofqXHQ
+advisories:
+  - ids:
+      - RUSTSEC-2019-0001
+    range: all
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+JvIath-I_IhPz1p1EPc9tirOeim8gXsgRhzbijsXPjDhws8IZSds7bC5uH65KMll7PBsWd9P-HUh9XGyk8dmCA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:22:41.832200474-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.6.10
+  revision: 830d32bbdb7dc858d1f81d662fe6dd06219f0647
+  digest: KCQHZ4p8HJWGuHhYLI_u_PolWMF3gMTXC62YMuCe2Fc
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+advisories:
+  - ids:
+      - "https://github.com/RustSec/advisory-db/pull/119"
+    range: minor
+    severity: high
+    comment: No RUSTSEC id at the time of creating this advisory.
+comment: Quite a bit of unsafe. It seems to me this crate could use some fuzzing.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+pd0tFNTThdLF6UOI8XF1dpH6ZJsFecytb02gTR7eLRX4XqO6fTkfbC_OQhFTm6tVLSm5waYBpm1mxnub8ZZFDw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-02T22:31:57.073394694-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: simd-json
+  version: 0.1.15
+  revision: e70a931671771de51cfb918034d5d15a6aa64303
+  digest: WGiQk8CrC8mc1kQNTDakHaPeiM85pVWJrsW78dYidOM
+advisories:
+  - ids:
+      - RUSTSEC-2019-0008
+    range: minor
+    severity: medium
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+MHEfoiUE2I1gNSHqP1BYtUVqCaQUC8zGo8z-CTu3EeFkSE7M3JqyXUJe2yjKG3FApzkGfz-RvSguAjyOBhjxDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-03T12:56:50.887450268-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.6.10
+  revision: 830d32bbdb7dc858d1f81d662fe6dd06219f0647
+  digest: KCQHZ4p8HJWGuHhYLI_u_PolWMF3gMTXC62YMuCe2Fc
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+advisories:
+  - ids:
+      - RUSTSEC-2019-0009
+    range: minor
+    severity: high
+    comment: ""
+comment: Quite a bit of unsafe. It seems to me this crate could use some fuzzing.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+P37gKCTPMua63NvMtD8yV153xRZuoFEj5aErG_1XXmpRMUcyXdiHCEFyMTh9nGBx0E4z4yhVjdMbzuNU-WLrCA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-09T00:03:36.183491963-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: orion
+  version: 0.11.2
+  revision: cbc5ab6e3404270d1844730d2bc0c7aa53d1ff65
+  digest: StusFQFW7TaDugTMr9pTthEYatXjtvnAVjF6osyhdNA
+advisories:
+  - ids:
+      - RUSTSEC-2018-0012
+    severity: medium
+    range: major
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Z6xmhweLAc6hehspFI0adgM_dRhJKl5vN54TO_lIdkGWxWa3Jlw0bSay0-FIWAH_uN3N8Er5ipTE65SjDEisBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-09T00:08:39.972085568-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: libflate
+  version: 0.1.25
+  revision: 2efa0ab0d59698128b75ba2e6ec19195b403c83e
+  digest: T-MPvlzuo9ohTIkfLOT7lZdqoGMk2dE_UIfgHRI_kyE
+advisories:
+  - ids:
+      - RUSTSEC-2019-0010
+    severity: medium
+    range: minor
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+OepryijUK3ocaKuiglY5-7Vpd0uDqveJOkMz-kW7KH7JV_hsGz4Gzx23QKRLvabzO2mUsvo2su1wNu2xQHjDBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-11T15:20:19.956026531-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: pmac
+  version: 0.2.0
+  revision: 6e3c6fe9ec23376f4745d03d31661eafb99f877f
+  digest: nIP-xYQluvjVDdB__AnskSRgWgi0etslMo8Aa9ZYZBM
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+9cAT2oNu5ggbK7lkkWR_GCufnspdEeQWGMAoES6oFYzXHGqZPr5nwIZu-S0T-4HxG1QkmkU6MzbY3BdK6hHNDw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-19T15:17:52.369600887-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: bip39
+  version: 0.6.0-beta.1
+  revision: 08a62f0e1f913e0168ebeb805697baa2b0107367
+  digest: YouFWVrpPkt1aZpt7U-b4e2f2G19ug2yVw2kw0R0Iqs
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+QYE48GE1iVVGuopbBVEAvM71KNx9mKJGjSaOVJ87hIx5KmPvj1mwiVFx5SSQS-EgGEzDkS1q8NaQw6SUqlXRCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-21T14:41:12.825820831-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: memoffset
+  version: 0.5.0
+  revision: fe0dce0d460013356ade74fb7472b578ef0d6065
+  digest: W8BXJoMKkNqSELEzzuN_wv93EQ6bWQfgFx_O-9mokbc
+advisories:
+  - ids:
+      - RUSTSEC-2019-0011
+    severity: high
+    comment: ""
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+CuzbXANa78NrdDJmD6qqcS9Ly1rA2ANivD4DlKJTYj6GLcKYyQLMjZTxkyWRiFx8I9Hj2njyZQbZWoNaoejvBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-21T15:00:18.721540025-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.6.10
+  revision: 830d32bbdb7dc858d1f81d662fe6dd06219f0647
+  digest: KCQHZ4p8HJWGuHhYLI_u_PolWMF3gMTXC62YMuCe2Fc
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+advisories:
+  - ids:
+      - RUSTSEC-2019-0009
+    severity: high
+    range: minor
+    comment: ""
+  - ids:
+      - RUSTSEC-2019-0012
+    severity: high
+    range: minor
+    comment: ""
+comment: Quite a bit of unsafe. It seems to me this crate could use some fuzzing.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+5UWk5FoCrcCfIqZCiNlZzJ7cm7gJBPhyUhi2yQ5XkywDQ6tHuEx-G0c9UO4zu52lrGa7x64XcMGYKefIWiMbDw
+-----END CREV PACKAGE REVIEW-----
+

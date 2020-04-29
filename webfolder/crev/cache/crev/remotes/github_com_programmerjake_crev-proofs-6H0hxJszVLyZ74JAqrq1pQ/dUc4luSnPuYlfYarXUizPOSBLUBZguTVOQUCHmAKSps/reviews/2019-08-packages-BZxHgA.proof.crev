@@ -1,0 +1,65 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-26T20:47:32.575294925-07:00"
+from:
+  id-type: crev
+  id: dUc4luSnPuYlfYarXUizPOSBLUBZguTVOQUCHmAKSps
+  url: "https://github.com/programmerjake/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: softfloat-sys
+  version: 0.1.1
+  revision: 4a5d02dd4185bbb17148ce1bf5907fa3be3698ce
+  digest: rOYeUJrVWjdtpC6A5A2Pw7hu3DFE5tEiKIprKTj336k
+review:
+  thoroughness: none
+  understanding: medium
+  rating: positive
+comment: "original author; rating not strong because it only builds on Linux; none for throrughness because I didn't review all of softfloat's C code."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+aEtZ7Ghy26KR0fr3MLA3IZ6ZxssK6hvgPRhbBX5BnBti2aU36dNkJDbeh5uBjfSKjXdR-WTZKxPUwqZV51dmBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-26T21:56:42.186110264-07:00"
+from:
+  id-type: crev
+  id: dUc4luSnPuYlfYarXUizPOSBLUBZguTVOQUCHmAKSps
+  url: "https://github.com/programmerjake/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: algebraics
+  version: 0.0.2
+  revision: a6e7af68ab770c6e5a2cfe7630176a35d3f7bcfa
+  digest: hD4SY6_IrAblsnfa71ZYjwlXGIc-0mcyqqGJQykyJks
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: original author; placeholder package
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+0y_8RiUgv7nO4X3_JnA3nprw6oqZDAfuIp9enhbEchd8bLbfK4w2l6w2IbowrjlftRU-hjdF-1NxTU5wpEkGBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-26T22:02:23.140440628-07:00"
+from:
+  id-type: crev
+  id: dUc4luSnPuYlfYarXUizPOSBLUBZguTVOQUCHmAKSps
+  url: "https://github.com/programmerjake/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: c99
+  version: 0.1.1
+  digest: QZUmoqHo51vTnmzqGmx63E9gYeJGZDO1zRCGaVLKAP0
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: dependency of softfloat-sys
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+loAjahX5isiMdC5sxin9nghGOoXThzTpQ5PhXev5WcyIoqxpG3vGbI3_IQhj7j_W0oedSwhsEvW8Umyf4WvKDw
+-----END CREV PACKAGE REVIEW-----
+

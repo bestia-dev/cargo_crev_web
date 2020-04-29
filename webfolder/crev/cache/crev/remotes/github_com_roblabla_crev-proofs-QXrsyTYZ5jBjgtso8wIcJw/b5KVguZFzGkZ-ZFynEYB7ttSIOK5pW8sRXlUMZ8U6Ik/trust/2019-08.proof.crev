@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-23T15:29:44.692263485+00:00"
+from:
+  id-type: crev
+  id: b5KVguZFzGkZ-ZFynEYB7ttSIOK5pW8sRXlUMZ8U6Ik
+  url: "https://github.com/roblabla/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+comment: "DPC is the creator of cargo-crev. We're using his tool, no point in not trusting their reviews. Furthermore, they republish the RustSec advisories there!\n"
+-----BEGIN CREV TRUST SIGNATURE-----
+nPQENsT8rRuL_5bDXFUykaEgdH3lbtSbLhMcdXu_fqzGPPPaRM8iZ95ODPP-hrS56dpl0KWyhDhK4zFotg5HBw
+-----END CREV TRUST-----
+

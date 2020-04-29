@@ -1,0 +1,41 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-08T22:19:35.589896153+01:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: bytemuck
+  version: 1.2.0
+  revision: 2725633356818ea7cb1a1336fde2aa62eb061315
+  digest: qjooj34EkpoFC7eHqmdN86rjoApOE2b0_4A29_82NwE
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |-
+  The crate gained quite a bit of interface since last time. I'm not quite sure
+  how I feel about this at the moment but understanding definitely suffered
+  from it.
+  
+  Of most concern is definitely `TransparentWrapper` which relies on the
+  internal implementation detail that the layout of a pointer type itself does
+  not change for transparent wrappers. This premise seems a very unlikely to be
+  invalidated from changes but nevertheless departs with only relying on
+  stabilized and fully RFCed properties.
+  
+  Other than that, no critical changes and a continued trend of being cautious.
+  Notably the implementation of Contiguous guards against bad implementations
+  despite being unsafe to implement, the `offset_of` macro is completely
+  safe(!)—a welcome change for such macros—and there are MIRI tests in CI.
+  
+  The test suite could be a lot bigger but some tests are obviously foiled by
+  MIRI rejecting some sound and UB-free code that relies on alignment checks,
+  to avoid those incidentally succeeding in unsound code.
+----- SIGN CREV PROOF -----
+vaPbChDPr1_b5gxW58z4bLZ-43S6wyxyKIoH2l0wwa99HIyVpfnAwFyGXRflQIXrxrejjApquLYI1g_L0-tqCQ
+----- END CREV PROOF -----
+

@@ -1,0 +1,24 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-12-11T15:03:11.292338800-07:00"
+from:
+  id-type: crev
+  id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+  url: "https://github.com/Lokathor/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: bytemuck
+  version: 1.1.0
+  revision: 6d44eadbd2651a0704a8d66afee5d312b80795f2
+  digest: kpdE5Qy2Z6lRR7zkQRzJLc6kBBSLiUdZzUo6ckRMQqo
+review:
+  thoroughness: high
+  understanding: high
+  rating: strong
+comment: |-
+  This is my crate. It's been in careful development for several months now, and it keeps everything as minimal and simple as possible to avoid any possible unsoundness.
+----- SIGN CREV PROOF -----
+c8yJLP8kj4H8BvTiNIhAHV7uwO0aRGiw90rZ3j0_fqtJviO3qlasdMyl8nDjvep4xUCwDUa_pCd_o-rYNDDzDA
+----- END CREV PROOF -----
+

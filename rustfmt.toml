@@ -1,0 +1,14 @@
+# Now using version 1.2.0 on 2019-06-28
+
+# Convert /* */ comments to // comments where possible
+# this is nightly   normalize_comments = true
+
+# Forces the where clause to be laid out on a single line.
+# still unstable where_single_line = true
+
+# reorder_imports = false
+# reorder_modules = false
+#reorder_impl_items = false
+
+#force_multiline_blocks = true
+#single_line_if_else = false

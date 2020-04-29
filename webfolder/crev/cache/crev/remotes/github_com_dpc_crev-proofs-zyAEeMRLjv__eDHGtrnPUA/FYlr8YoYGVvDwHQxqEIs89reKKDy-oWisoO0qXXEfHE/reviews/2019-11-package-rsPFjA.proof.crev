@@ -1,0 +1,411 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-01T21:04:19.313353467-07:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: term
+  version: 0.6.1
+  revision: 61d944cfb767a00313497997878f9f2a35252b5c
+  digest: O1k-e-mqKDyrJIaEr3v1JO7Rb38RKCoXCsNUCplArw4
+flags:
+  unmaintained: true
+alternatives:
+  - source: "https://crates.io"
+    name: crossterm
+  - source: "https://crates.io"
+    name: termcolor
+  - source: "https://crates.io"
+    name: yansi
+----- SIGN CREV PROOF -----
+AXCE3SJp-QTBtXhacBySAYwgAUMMrVso9EQjoMcPiddFXERVTgzC9p4ZBkoAUxc0mawXr-PjJUJHXkZf4h6KAA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T21:04:59.968260863-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: phf_generator
+  version: 0.8.0
+  revision: 81c7cc5b48649108428671d3b8ad151f6fbdb359
+  digest: DKgEX_bFWXPEyns_noMSVw_FP2SgVMUF9xc9qLtc86E
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+----- SIGN CREV PROOF -----
+N13H87d0ILvpGdbVNMS_qN1-XZQ4aVyLgYH8fvhbUE2ukVWlLutILEIuTfQHbutuRhtq6Glt7dVTi7XOamMiAA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T21:07:46.072057990-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: failure_derive
+  version: 0.1.6
+  revision: 20f9a9e223b7cd71aed541d050cc73a747fc00c4
+  digest: c0kPZKVBWA4OdqGvmAmvr-WtwUOudCe3qEuqxmE0mro
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+----- SIGN CREV PROOF -----
+gflhDXkr_iiOp18cXZ1aCEB012iqnsqdKJ8YHjSWlDIOCYyFE2zHXSKwr_3F8bABtzf5EmSDdOQrMJmMc7RtCQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T21:20:45.208769350-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: utf8-ranges
+  version: 1.0.4
+  revision: 8d38a931b7e34f9da339c058cbbca6ded624ea58
+  digest: F4Ui_k_yUebK9BhCWciv8xS88BATWcsYI6k_ljLnZbE
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+----- SIGN CREV PROOF -----
+1GRtYjop8i9OCulG7l-Rjc1r9e_I8PZWcaJddxtcnp9h0S_9KuLX2gPYIAmSF_6NLUFPAJOEQAmu8hL81P3OBw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T21:31:59.678293602-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: same-file
+  version: 1.0.5
+  revision: 4205e2e1ed77cf202bfabaf85dcb021e396cec34
+  digest: zIu8RTuTZs6Xvi5piAxCJITQBiyQJAM0SMemDQ5t8NA
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+----- SIGN CREV PROOF -----
+MXGr-gmgx1Qv5qFgD4UDV4V-UmIvXepQ7nBxdvQeDqyEVw4_fGeEF3PUf40WZaI0xi_oZwKcHpZl2UR9OaWwCQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T21:33:06.505450839-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.6.10
+  revision: 830d32bbdb7dc858d1f81d662fe6dd06219f0647
+  digest: KCQHZ4p8HJWGuHhYLI_u_PolWMF3gMTXC62YMuCe2Fc
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+advisories:
+  - ids:
+      - RUSTSEC-2019-0009
+    severity: high
+    range: minor
+    comment: ""
+  - ids:
+      - RUSTSEC-2019-0012
+    severity: high
+    range: minor
+    comment: ""
+comment: "Quite a bit of unsafe, but I've implemented fuzzing for it https://github.com/servo/rust-smallvec/pull/168,\nso hopefully unsoundness issues won't be a problem anymore.\n"
+----- SIGN CREV PROOF -----
+Q2fZS93hyC5WKyPzry4EcEGLdch_BUzzzYXxnVJo0j0NwmNhmrPw7mXv3XXD5RHszY3WHS7ZwMKnKbTH2XqCDw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T21:43:13.251470934-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rust-crypto
+  version: 0.2.36
+  digest: aaBeyVCniataxjKNFy_bPHVx-aM2R9iFFchwzMJdKbE
+flags:
+  unmaintained: true
+alternatives:
+  - source: "https://crates.io"
+    name: ripemd160
+  - source: "https://crates.io"
+    name: ed25519-dalek
+  - source: "https://crates.io"
+    name: hmac
+  - source: "https://crates.io"
+    name: aes-ctr
+  - source: "https://crates.io"
+    name: sha2
+  - source: "https://crates.io"
+    name: xsalsa20poly1305
+  - source: "https://crates.io"
+    name: aes-siv
+  - source: "https://crates.io"
+    name: ring
+  - source: "https://crates.io"
+    name: chacha20poly1305
+  - source: "https://crates.io"
+    name: pbkdf2
+  - source: "https://crates.io"
+    name: salsa20
+  - source: "https://crates.io"
+    name: aes-gcm
+  - source: "https://crates.io"
+    name: secp256k1
+  - source: "https://crates.io"
+    name: sha3
+  - source: "https://crates.io"
+    name: hc-256
+  - source: "https://crates.io"
+    name: poly1305
+  - source: "https://crates.io"
+    name: aes-gcm-siv
+  - source: "https://crates.io"
+    name: x25519-dalek
+  - source: "https://crates.io"
+    name: cmac
+  - source: "https://crates.io"
+    name: hkdf
+  - source: "https://crates.io"
+    name: aes
+  - source: "https://crates.io"
+    name: des
+  - source: "https://crates.io"
+    name: orion
+  - source: "https://crates.io"
+    name: blake2
+  - source: "https://crates.io"
+    name: sodiumoxide
+  - source: "https://crates.io"
+    name: cast5
+  - source: "https://crates.io"
+    name: chacha20
+  - source: "https://crates.io"
+    name: pmac
+----- SIGN CREV PROOF -----
+-FZm-UCZQPIBjks4niDkv3U7AMaPrdEi6mDv4q0DC05Pomc-4eIHkI07-MA2ypfhzn5Kd7M47Qp6bzF8DW5SBA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T21:45:40.441948028-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: chan
+  version: 0.1.23
+  digest: Zkv8a6KYPGwRnhjV8747PdAwXnKnC4DwNXQtvWUYGW0
+flags:
+  unmaintained: true
+alternatives:
+  - source: "https://crates.io"
+    name: crossbeam-channel
+----- SIGN CREV PROOF -----
+vKYoIUDNpTexCsqdNvuK5ozxe0v1IxPT9dARdV36-KRWmgLEpSIu_BQsAV1biufEaXESoCABEYSf0oJ3R4ncCg
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-04T22:41:13.398701209-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: home
+  version: 0.5.1
+  revision: ef18523ab49d167e6a085741fb99caf5506190e9
+  digest: koGmJUnN1ZQ1eHJyxlhk3Z26Rq50OtUsEgaz7IEtpWo
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  
+----- SIGN CREV PROOF -----
+3A09HtsVTklJRNVD-WYZehSzeHjfJb7qRZDlv0STmb-kHd_s3Au7LyoSjN70Z7KY8fr5BGj3X3H2q5IWG4goBg
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-05T11:02:58.288906561-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cassandra
+  version: 0.8.1
+  digest: aRys5hO5BatLQzqK31sZZEzKxpiIMHbXOo199IP5zPU
+flags:
+  unmaintained: true
+alternatives:
+  - source: "https://crates.io"
+    name: cassandra-cpp
+comment: |
+  
+----- SIGN CREV PROOF -----
+pKOim9KTQp0At2Ox9dvH6uiuIDSdl35cZivYd0VrIJ-wlo--2eum1gI5cvjR7ybVJg4iwoeiazC8iDlJJWDqDw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-05T11:05:56.187558348-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: libsecp256k1
+  version: 0.3.1
+  revision: c05c4e0014aacf5f0599aee519f2d705caad4983
+  digest: UqG3MsVdm9t9r7wF8UnqWRAu9maVL7qOKR2KmXHGpXg
+advisories:
+  - ids:
+      - RUSTSEC-2019-0027
+    severity: high
+    range: major
+    comment: ""
+comment: |
+  
+----- SIGN CREV PROOF -----
+-9VybZwbf2rbSo_zcj3xpW0IyXqNqAwtL7_vwwdoAiuDVAY-jsYO1a9z8NbfTHzqcHvylKqu_wjLdY8DEJJJDA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-05T11:10:15.923804112-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: flatbuffers
+  version: 0.6.0
+  revision: 9936adf473978c0934e7734cb506887f6fc0b025
+  digest: 3L_EhytTZw5Jajn2IYYWNteLVtHWOrD031HPM22rbhI
+advisories:
+  - ids:
+      - RUSTSEC-2019-0028
+    severity: medium
+    range: major
+    comment: ""
+comment: |
+  
+----- SIGN CREV PROOF -----
+FsMdQdB28A_vSScEJ0HidQNEzBr38Kk2y37qy283yTAgDr3QybZkydIzJEf_HG0Y0yWIYJpXjUxKPt_AE8WeCA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-05T11:11:59.470067902-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: chacha20
+  version: 0.2.3
+  revision: fd7769f58ecb23eb9cd8bad1edd850bc1a6a228c
+  digest: dOVArNKJ2wipZCQ9F7iMLznvcB1t12e7qMkCQ7h2Su0
+advisories:
+  - ids:
+      - RUSTSEC-2019-0029
+    severity: high
+    range: major
+    comment: ""
+comment: |
+  
+----- SIGN CREV PROOF -----
+VxNq02QPUEcCbCqxljHZy95rr8WpfrED_LMG__-PAjsEJOoVYI92hF4vLmiGNtA5HGPMN6btgRn-ggCsA7jODg
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-06T22:02:06.902385164-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: attohttpc
+  version: 0.4.5
+  revision: 7384b4bafd3a0a44ff82af36fab2301c2312c932
+  digest: 4tU1jMt0n00Sy6_N3-yOULzXCpM0lifnLpZhtlsB6qE
+review:
+  thoroughness: low
+  understanding: medium
+  rating: strong
+alternatives:
+  - source: "https://crates.io"
+    name: reqwest
+  - source: "https://crates.io"
+    name: ureq
+comment: |-
+  Basic review before considering using it.
+  
+  I really like it:
+  
+  * No unsafe code
+  * You can disable almost everything via cargo features
+  * Well structured, with tests and comments
+  
+  Seems like a great crate for places where performance and features can
+  be sacrificed for simplicity and a small footprint (code and dependencies).
+----- SIGN CREV PROOF -----
+atD0MuLlKdROQiNbz3GOArkrghDCiPOiiYSM-cGKpBEKBtt6Aq5M_FGdC6crzND_pAAZ17hc34ktZY_pi4FgBw
+----- END CREV PROOF -----
+

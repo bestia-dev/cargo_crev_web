@@ -1,0 +1,24 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-06T17:03:14.264513615+01:00"
+from:
+  id-type: crev
+  id: SX3ER-Ko3vO7yXcTfElMpSX4upFGgt9YYiruVFwGIwU
+  url: "https://github.com/senden9/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: digest
+  version: 0.8.1
+  revision: 530b79544491e401e6bd0da578bfdecd17c34282
+  digest: tJeBjYPMBBYWvCEQPpebAkAnTR80zVP7BLSzFlcJPEg
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |-
+  Reviewed everything except the `dev` module. Bunch of traits with good enough documentation
+----- SIGN CREV PROOF -----
+EZrS8nSrn0l1EGiJKPijOdpHZoVasu0x73P0d4FgKFM11aktWiA0TZ11UQfdjYtoSpnEXzAcBkMaYfxGjwQ2Dw
+----- END CREV PROOF -----
+

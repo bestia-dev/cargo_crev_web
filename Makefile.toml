@@ -1,0 +1,251 @@
+# cargo_crev_web/Makefile.toml
+# https://github.com/sagiegurari/cargo-make/blob/master/src/lib/Makefile.stable.toml
+
+[config]
+skip_core_tasks = true
+
+#region: public callable tasks/flows
+
+[tasks.default]
+    description = "show list of public callable tasks"
+    clear = true
+    dependencies = [
+        "help_command_order"
+    ]
+
+	[tasks.check]
+    description = "cargo check --release"
+    clear = true
+    command = "cargo"
+    args = ["check","--release"]
+	
+    [tasks.dev]
+    description = "cargo build development"
+    clear = true
+    dependencies = ["build_dev",
+	"post_build_dev",]
+
+    [tasks.release]
+    description = "cargo build release"
+    clear = true
+    dependencies = [
+		# Binaries version is date
+         "lmake_version_from_date",
+        # Library version is semver
+        # "semver_increment_patch",
+        "build_release",
+		"post_build_release",
+    ]
+
+    [tasks.run_rel1]
+    description = "run target/release/${CARGO_MAKE_CRATE_NAME}"
+    clear = true
+    script = [
+        "echo target/release/${CARGO_MAKE_CRATE_NAME}",
+        "target/release/${CARGO_MAKE_CRATE_NAME} ",
+    ]
+	
+    [tasks.fmt]
+    description = "format code and git commit before"
+    clear = true
+    dependencies = [
+        "commit_before_fmt",
+        "cargo_fmt", 
+    ]
+ 
+    [tasks.audit]
+    description = "cargo audit - for warning dependencies"
+    clear = true
+    dependencies = [ "cargo_audit",]
+	
+    [tasks.doc]
+    description = "cargo doc - create docs from doc comments"
+    clear = true
+    dependencies = [
+		"include_readme",
+        "cargo_doc",
+		"doc_copy",
+    ]
+    
+    [tasks.sshadd]
+    description = "adds identity to ssh-agent for git and publish operations"
+    clear = true
+    script = [
+        "ssh-add /home/luciano/.ssh/luciano_googlecloud",
+        "ssh-add /home/luciano/.ssh/lucianobestia_mac",
+        "ssh-add -l",
+    ]
+
+    [tasks.gitpush]
+    description = "push the commits to github, uses ssh agent"
+    clear = true
+    script = [
+        "git push",
+    ]
+
+	[tasks.crates_io_dry_run]
+	clear = true
+	description = "prepare before publishing to crates.io with dry-run"
+	command = "cargo"
+	args = ["publish","--dry-run"]
+
+    [tasks.crates_io_publish]
+	clear = true
+	description = "gittag and publish to crates.io"
+    dependencies = [
+		"gittag",
+        "private_crates_io_publish",
+    ] 
+
+    [tasks.increment_minor]
+    description = "increments semver minor"
+    clear = true
+    script = [
+        "lmake_semver --increment=minor",
+    ]
+
+# endregion
+
+[tasks.help_command_order]
+clear = true
+private = true
+description = "help developer to understand the order of exec commands"
+script= [
+"echo ",
+"echo ORDER OF EXECUTING MAKE TASKS:",
+"echo     clear - clear the screen",
+"echo     cargo make - this list",
+"echo 01. ..... change your code in the editor",
+"echo 02. cargo make dev - build developer versions",
+"echo 03. ......run the developer build. Cargo make tasks LIST is below.",
+"echo 04. cargo make test - test the test code",
+"echo 05. cargo make increment_minor - if needed increment semver minor",
+"echo 06. cargo make release - build release version, increment semver patch incargo.toml",
+"echo 07. ......run the release build. Cargo make tasks LIST is below.",
+"echo ",
+"echo 08. cargo make doc - includea from cargo.toml to readme.md and from readme.md to main.rs or lib.rs, generates doc and copies to docs folder.",
+"echo 09. cargo make fmt commit_message - runs git commit and rustfmt",
+"echo 10. cargo make sshadd - run only once - adds identity to ssh-agent for git and publish",
+"echo 11. cargo make gitpush - git push",
+"echo 12. cargo make crates_io_dry_run - prepare publishing for crates.io",
+"echo 13. cargo make crates_io_publish - gittag and publish to crates.io",
+"echo ",
+"echo LIST RUN WITH ARGUMENTS - release build",
+"echo cargo make run_rel1 - target/release/${CARGO_MAKE_CRATE_NAME}",
+"echo ",
+"echo CREV - cryptographic review system for rust",
+"echo ",
+"echo cargo crev verify",
+"echo cargo crev crate review --skip-activity-check crate_name",
+"echo cargo crev repo query review crate_name",
+"echo cargo crev repo publish",
+
+"echo "
+]
+
+[tasks.build_dev]
+clear = true
+private = true
+description = "build in dev mode"
+command = "cargo"
+args = ["build"]
+		  
+# Libraries version are semver, but binaries are dates.
+[tasks.semver_increment_patch]
+clear = true
+private = true
+description = "increment semver patch"
+script= ["lmake_semver --increment=patch"]
+
+# Binaries version are dates, but Libraries are semver.
+# For PWA must update version also in the service_worker.js.
+[tasks.lmake_version_from_date]
+description = "in cargo.toml change version to today date"
+clear = true
+private = true
+script= ["lmake_version_from_date" ]
+
+[tasks.build_release]
+description = "build for release"
+clear = true
+private = true
+command = "cargo"
+args = ["build","--release"]
+
+[tasks.cargo_audit]
+description = "cargo audit - for security vulnerabilities"
+clear = true
+private = true
+#command = "cargo"
+#args = ["audit"]
+
+[tasks.commit_before_fmt]
+description = "git commit with message from argument"
+clear = true
+private = true
+command = "git"
+args = ["commit","-a","-m", "${@}"]
+
+[tasks.cargo_fmt]
+description = "cargo fmt"
+clear = true
+private = true
+command = "cargo"
+args = ["fmt"]
+
+[tasks.include_readme]
+clear = true
+private = true
+description = "copy the content of readme.md into *.rs comments (for the docs)"
+script= ["lmake_readme"]
+
+[tasks.cargo_doc]
+clear = true
+private = true
+description = "call cargo doc"
+command="cargo"
+args=["doc","--no-deps","--document-private-items"]
+
+[tasks.doc_copy]
+clear = true
+private = true
+description = "copy doc folder as docs (out of folder target), so it can be git comitted"
+script = [
+    "\\rsync -avz --delete-after target/doc/*  docs/"
+]
+
+[tasks.gittag]
+clear = true
+private = true
+description = "git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
+script = [
+	"echo git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+    "git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
+]		  
+
+[tasks.private_crates_io_publish]
+clear = true
+private = true
+description = "publish to crates.io."
+command = "cargo"
+args = ["publish"]
+
+[tasks.post_build_dev]
+clear=true
+private=true
+script = ["echo build dev end", 
+    "cp target/debug/cargo_crev_web ./webfolder",
+    "cd webfolder",
+    " ./cargo_crev_web"
+]
+
+[tasks.post_build_release]
+clear=true
+private=true
+script = ["echo build release end",
+    "cp target/release/cargo_crev_web ./webfolder",
+    "cd webfolder",
+    " ./cargo_crev_web"
+]
+
+

@@ -1,0 +1,582 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T15:48:01.450539708-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: void
+  version: 1.0.2
+  digest: mmRZ15GpboF6sor0NdT0l1MKzJ4m3nPj7LCaRTxUzfs
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: strong
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+QnAOMpGIgAf4aYAiSNprFwGuk6NEk0XcDwALa-gTJMZztteao27FBh0extjUysx57iQK6iXCeM2Ngj6I_YTqAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T16:38:59.914877804-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ggez
+  version: 0.5.1
+  revision: 74c06fd3fe0d4c54bc398716ed7150c0478aee78
+  digest: MtaReWPdlcqRRUCLFxGALegeXKgKIIRbQF5-ZvutXlY
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I wrote it, it's not network-facing, has no significant unsafe.  So, yeah."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Ks2HDl56yBqVjCFKeRodkeuB9yz0O7sd0ag897Ind5oIAnzYEad_KLKuTh8F9q_ySav2tqpO2ronx4Yja0a6AA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T16:46:39.563646704-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: either
+  version: 1.5.2
+  revision: 6e0c08a5d00915dd10fc69cbf9cba8571f7d1eb3
+  digest: m4PvlE5yEtC3lrkR5YYPK5W7YWrwcMELDvIi52b2m-g
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: No obvious way to abuse it.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+kHbaU9vmmKRUVIrugkihM5CUTz0Lm-0pUPe2U2Mb2mRlh0c7t5aX1nr9cOb2v6Qa6Y4fLCcnwGO6q5F_ILktAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T16:57:20.052207304-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazy_static
+  version: 1.3.0
+  revision: 03f62910a94886987cdb686c7509bbdc846481e3
+  digest: 21bjQkc4fD-Kvjb0xv1fN7M4oaembbxoEDirmvOQwbg
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Ni5NelT67XKWxpne5FRZE0okUvZW7Iee8mG0GbKYPK7h91Y_kWWDC43AkNCoIBug1LmQ5zrHjxYDnUE0G2SfAg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T17:06:39.955773173-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rand_pcg
+  version: 0.1.2
+  revision: b9211b174f854aca9c97bad5b377e718b4ebb495
+  digest: DpeN6SGhgJ9VPBhC9wYHBeU6uKIdO8Z0HJChOIO3pPw
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: neutral
+comment: "Fine but uses some unnecessary transmute's, version 0.2.0 fixes this."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+UBbBUa7s-dvu2ucH118DD7-Al9JJL3sLebENrFncAmqd8-_BYdnOhS4UdvfdCqxnoXWXdbx6CUtYtETSwMe3Dw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T17:10:30.384467814-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lzw
+  version: 0.10.0
+  digest: ZsnrkEoM26ersMKHH_2za2XnY_0P09HoQWzIQ_-pUXQ
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+JdVX9t6dVvabMP3jCtrGaqv_g7E6DyomIAo0il-2gHDv_gkjqdcgItGNtSL6tVZNT_Co4RJFuLjkG8dmehHFBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T17:12:52.694947733-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: directories
+  version: 2.0.2
+  revision: e980e970c67ee5d98f229933436cafe5c2c78ef5
+  digest: E2uQa1g0uwk-X4nxwgJ_9PDRM1ZKPwIAAQjuf-yorLA
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+C4EbBVcHr0ved7CgHbKAKLJh3K7ER2L-v5Z50ql92Ga8k8k3gx2ZKfl9pF7euF2PNPDKsQJ1ovqfohryWA6PCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T17:58:16.430193010-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rustc_version
+  version: 0.2.3
+  digest: D8N99uzfJYI9cDa50xIK1RvR8FvMSMuouezM3sUAauY
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: neutral
+comment: "It can be told to execute arbitrary programs via env var, but does nothing malicious itself."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+90aqfKw5PKDb5mUVp3iX9P6Ao5ZKXCnkRVzGqRPr4ABeEX3lvTjrGq-O-dLkDdpAxoh2TlcGQP55gqlIzpmGAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-20T18:00:05.389741796-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rand_xorshift
+  version: 0.1.1
+  revision: 3001e91bca7858facf0fb8f91275a6ff8264da9f
+  digest: xbTQKxEtbXR0ee5R3WMXinMYRjoR8IdlhHtFHkBtv7c
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: neutral
+comment: "Uses a semi-unnecessary unsafe for speed, which I dislike, but is overall harmless."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+85k4JHcW8USkDRzeIX0UKi1ymhMXY11dcWOQKV6jT0xV7S8XdBPsKYi6BpUdburSGdAM_vosY5Dl0_miAkTnAg
+-----END CREV PACKAGE REVIEW-----
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-21T17:28:01.840625133-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: scopeguard
+  version: 1.0.0
+  revision: 5792dbfbeaa125978a5c96cce52695f0cc6c34d9
+  digest: kMTa9K3p-2hbWuL8RRkEf15IGhnRPdAI1E2OxbELDbQ
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "Looks okay but I'd prefer to just avoid needing it."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+F1Ay0N_4W4URyfzUuM7zK5fjFao75in7y2eX4jdQWoZHb5ArRoSq55n1YM3Aanfy_bL_KP3fslpeA-j939FiBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-21T17:31:48.524053214-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cfg-if
+  version: 0.1.9
+  digest: gDrZ_GLiGjle6RhSqttA6kWgzJsLrkIOE_in6us34N0
+review:
+  thoroughness: low
+  understanding: medium
+  rating: strong
+comment: "Does nothing but shuffle #[cfg] statements; harmless."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ft2Dc0Fi9inAsyfpa9aVZaDG_sn8dKo-RuaQ5kmQwdTHXHNKM0QonZfMlFPwTvt1HQbWPAhOm3suFY6toAJoCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-21T17:34:09.885726373-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: winapi-x86_64-pc-windows-gnu
+  version: 0.4.0
+  digest: XkxLLm_vdfOcJLm1iw8kz0nTHmfzgS4Ix8W7ZI7JYM8
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+comment: This is purely binary libraries and a build.rs option shim; the thing is whether you trust those binaries.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+N2us0wK1aDRsfjSN9VMfLEd3WM7Ywi1eCeWYXJLJW2kIR8n9PvZLsnxcfdaXxM2KbiBmg_T9Eu7lANuy0KQCAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-22T11:32:21.824642971-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: atty
+  version: 0.2.11
+  digest: IwadPdk3T66OrNm51-txa1rfjqR6h767hfMx0MM3HJo
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "Small platform-functionality wrapper, nothing exciting."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+2u2YcHUHMG7zWPPEKdUQFm9lFbaVp9RmFFj9xWgz6Y9hpBmUNLRgcH136C60fsZHUcUlDet15rw1KhzlvfqcAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-23T08:44:49.796105242-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rawpointer
+  version: 0.1.0
+  digest: pn1-1SzvPoGwrZp0JVhjGswshamDOoEmLBQxBMdots4
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: strong
+comment: "The name is scary but it's nothing but shortcuts for unsafe code patterns you'd already use."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ug0ojp20LyhneH7Z2tqTNKB5Co1QOhlbaPE_eRyCcigVO8cycqXgNWsFJ_DVzTNWrVmVhWrE_e3qzxqbbaPECw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-23T08:48:16.822194098-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: color_quant
+  version: 1.0.1
+  digest: sbYcJ1hvMxnxYWe_4xclDjPqmKRhJVCMglG-0yq9AdQ
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: Basically pure computation with no unsafe or I/O.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+PGxK3HROsfPzoNpGNR8R-IhUbjYyUD-iCkzQgDfGhS5y7gGC-WQv_zjj3hxvuySAWxIfhW0xwPwZ2M5OXQveAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-23T09:00:49.841606264-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: mint
+  version: 0.5.1
+  digest: OzQTxhsqpPlsgCp3-kSRHtZk8UnSAUFmd5Db9YrnK0I
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "Has some unsafe code in surprising places, for zero-copy casts.  P. sure it's valid though."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+a4vGwuK64aINqslsn09H5RBVSiXMzezJeVDWaVTKo3fLp9valReJG7UDqkWuM8o9DOhg2gYfKSnZfH3ctiDGCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-23T09:08:10.941374897-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: num-traits
+  version: 0.1.43
+  digest: dgp7ZPwo0Oq44S2_MQkxpvxqg-W72phm3AVjkirSios
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: Nothing but a re-export of num-traits 0.2
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+A36EM_2bX8VDUCNA29y9cwIY9aTkxIqOsFDwK8hQtxr-GJjh8eX8JjCkgRN-h21vHeW3rNZzE00JGTipPwYXDg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-23T09:24:59.383012147-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: num-traits
+  version: 0.2.8
+  revision: 84e14d4f361dd7e374a3b5e1ffa186ed7c6d9835
+  digest: UzQZjEMehrOwuSUqjNwuKe3pNEx08EYUFKxsxfX5OQw
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "Mostly just traits; unsafe can probably be removed, see https://github.com/rust-num/num-traits/issues/123"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+1492p_FqTZlwrDv8u_UlsfVTvQwa-W1rcl-IeEyMwTpiTfDa3zR-9B01o6dWkA85jfArZ7amlp3qVkHobnVJAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T09:22:55.368785041-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: handy
+  version: 0.1.3
+  revision: a8556dd06a7c6411d25a8d9083862db66ac7bdd4
+  digest: JpehYJXDQmbkCoqj3r_04ertPUi1IYEgX03Xr8S5gm0
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: "Apparently it's okay to silently give incorrect results; see https://github.com/thomcc/handy/pull/1"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+CPhVDmB2I565hxguaWaV1knSLzIkrskSuyC7GNZMig4e83Pr4CUsMuRl5YlU3lSIlK1uB8ofjsGs0IhSRsNQBw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T09:30:09.738343344-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: current
+  version: 0.1.2
+  digest: EibphmbH-yX4N7ZJC5VCWaqXo57lkNFRTiWfRDNt674
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: Dangerous mutable state shenanigans that should never be necessary.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+FRPoy2pmcHmWafGW94N_uMDPfofLFwLXD-c07vdOyZAnnw0AgP_4x3vEytcYaTakvQUUFFeiSthFk78ZAd52AA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T09:37:56.024391571-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: piston-music
+  version: 0.25.1
+  revision: 329b58a7b720f2eb454e605ec7966f303cfc48ed
+  digest: tuMKwImO_wLOyA2Qb2ZUkV0zo_nkB3cmLpIdfKtORQY
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: "Gratiutous unsafe and global mutable state where there doesn't need to be any."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+KPBSJb3jBGWNuppUjKKXPmZbBLDWxftzcdaFK2A2kOnzX0oXrSKtr09nZYvRAwGgTdNq2rqzZp872P3K26h7Ag
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T10:40:55.382371991-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: randomize
+  version: 3.0.0
+  revision: e420c9c5770e354c9307998cb13c7be9ab23d61f
+  digest: rmJkk0V4Lffl7IlTcioaejsTIFgDzUNlD3fUwWZs5aw
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  No unsafe in the library, no I/O, well documented and commented.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+okC9bvHghvn8to_Epny2AhQPWNoz-7WeUY2iFOKg5VqqiBpXkqqAEFsZihkk4cAeNwnsEYJ4YipTaw8KxxC_Cw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T10:52:32.466969983-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rand_pcg
+  version: 0.2.0
+  revision: 5610bdae3acdb0324f5636bb3e4a21e6324ead72
+  digest: 2KIHWltwG4SWDCAc23qZoKgexqKWftQjqK0HAFZnNhE
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  There's still some transmute's that are unnecessary with Rust 1.32 but the code itself is fine.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+LzNAX7Do544WIJ2TMgktMpkcWagJ_GIwPnXe8X5KOJHAWzcpsMqxIBk0Qiy3SDS-5cy_dGhxbK0hUu7hbXcCBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T10:55:54.262423491-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: autocfg
+  version: 0.1.6
+  revision: 0f87a09a981694844b6f36f105c69d228b772f4f
+  digest: 4lc9vVY0Lry7N__5WNBeHUCCfrz3OXbeaGpfr3xXnFk
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  Reads env vars and executes the program in them, or whatever program happens to be called `rustc`... but given that this thing's purpose is to probe rustc versions, that's kinda inevitable.  Abuseable but certainly not malicious; it's made for build scripts and it's fine for this purpose.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+r9hAaQ8LmoJXvMFqAH7njxFpgTkaViawLMOSZTIYj1iohM2fHbnP5Kh7hxwJ4u3RyjlnUyqT4RP3U6uflv4GBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T11:25:44.700729747-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: oorandom
+  version: 10.0.1
+  digest: 384oEETFMaVfWzUWMzOrq0BzvQ_qvJMhRhgzcgStsKI
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: |
+  I'm the author and this crate is trivial.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+tNCe2SS6FLUtKB9QkzZ33E6p2exWA8P_FtPwxtUhq4OL8h3SoBvQxDxGfvAZVdyPeu2-hrqMbQlswPQ45DfbAg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T11:32:25.364476345-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: num
+  version: 0.1.42
+  digest: RBaJQJeUSMBYl2yZQ4H0p6PgWF7UDHAk8QYydyRf3zk
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  Just a compatibility shim re-exporting traits.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+NkY9kTMTWb-XlJ4oaq_hH3DcjgHTb4QBjtY4ilRFWZQ6IXDUtaUbugxE61mM3oXmf2ilziZLL1DnMi_Ud0ElBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T11:52:37.526845844-04:00"
+from:
+  id-type: crev
+  id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+  url: "https://git.sr.ht/~icefox/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: euclid
+  version: 0.20.1
+  revision: 0b9b51853dd174475ff700d4e8901a6812a0ff0f
+  digest: SIrmbkzZF5bPI_YYlcRbXpwevffqwSnAQgsM6qYm1LI
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Pleasantly unsurprising.  It's just math.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+VVpMXxG3t7ed4ype2SKm2Wrso7zvfD70nEdq2NImhnJ9ZpJAAQvkrSvEr2bYJztp2OUuYg3AqKyE42cuFk8uBw
+-----END CREV PACKAGE REVIEW-----
+

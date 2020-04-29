@@ -1,0 +1,98 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-19T19:54:42.122672794+01:00"
+from:
+  id-type: crev
+  id: WJlSxaMnJ7GLdgFZKR_JrivA9KmmEZO806KlZZHHkyg
+  url: "https://github.com/vorner/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: atomic_refcell
+  version: 0.1.5
+  revision: 71b316a042ab5f1a76d0d9b27e1fa9a02711ec36
+  digest: vewvSM5NUCEh2vI96uErNuqhA9U_MTCNHd-4fmAt3y8
+package-diff-base:
+  source: "https://crates.io"
+  name: atomic_refcell
+  version: 0.1.4
+  revision: 76069f44745966b6fc4434ee0803bb364fafa923
+  digest: eCyxtJzX9uSdzs-VL7-KG8LFCQJPXo54RV2LAzXrGxg
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "It mostly looks to do what it says and seems well written. The previous issue resolved.\n"
+----- SIGN CREV PROOF -----
+zekpTARbgRa8PJnXkb_8Q5P7HaN5YqVtKT1Ua2jtCBPY0i5ZL5Amgu-Gb9gJNcYOrs3IKFpkc6Rvz9FeckuADg
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-19T21:07:21.839408858+01:00"
+from:
+  id-type: crev
+  id: WJlSxaMnJ7GLdgFZKR_JrivA9KmmEZO806KlZZHHkyg
+  url: "https://github.com/vorner/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: hash_hasher
+  version: 2.0.0
+  revision: 2de7c1ac30c2700cad11d669a72c3f885484fd59
+  digest: zDj4jaOJ0taSgknxXzojLnzPZaXro-v3NQmSKR929Bw
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "The code is trivial and looks good enough for creating hashes given already\nhashed data, at least for non-security related scenarios.\n\nThere might be some cases where the given hashes don't use the full range of\nu64, though (in case a structure of several small fields is used, for\nexample). This might lead to suboptimal distribution and collisions in a\nHashMap and might come as some surprise. On the other hand, anything without\nthis problem would probably require something more complex and likely slower\nand this seems to aim for things like bittorrent hashes and git commits,\nwhere the data is an [u8].\n"
+----- SIGN CREV PROOF -----
+OQr86_lL6-b-Vp4VbvJi1sVk0M06R-0GPsxEshAYF8KBQqnni3nYjvdlcWE5sUKYykKYWkX86NeQAxDaUtnADw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-11-22T20:29:33.062023851+01:00"
+from:
+  id-type: crev
+  id: WJlSxaMnJ7GLdgFZKR_JrivA9KmmEZO806KlZZHHkyg
+  url: "https://github.com/vorner/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: take_mut
+  version: 0.2.2
+  digest: JUynnuTS3tglX7Sb0vHUqHkX1PhGTrTtiMN4txyDA_w
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: neutral
+issues:
+  - id: "https://github.com/Sgeo/take_mut/pull/10"
+    severity: medium
+    comment: ""
+comment: |-
+  The whole idea of the crate -- having a variable unitialized for a while,
+  then return something back later on seems a bit unnatural for the whole Rust
+  type system. This can be seen by the fact that certain cornercases are
+  handled by not merely panicking, but outright aborting the whole process.
+  
+  I didn't manage to find a way to break safety guarantees using the crate and
+  I tried to find a loophole quite hard. But considering how questionable
+  things it does, I'd really like to see some kind of proof or semi-formal
+  argument saying why it is safe. Such thing is not included in the source
+  code, unfortunately.
+  
+  The repository doesn't seem to have a recent activity and the last release is
+  2 years ago, but it's hard to say if it's abandoned or simply considered
+  finished.
+  
+  I've also found a resource leak (that is somewhat unlikely to get triggered
+  in real-world usage).
+  
+  Therefore, I'd be somewhat wary using this myself and would need a good
+  reason to reach for this crate -- certainly not just for convenience.
+----- SIGN CREV PROOF -----
+ANR7E-2LBhl0WYoTIrUp-oE1V3ZhCVVL0bChnQ0bMaUw0mz2k5bBQJMXBR84MDqFViq2-VuOdMPo_txrkqkdDw
+----- END CREV PROOF -----
+

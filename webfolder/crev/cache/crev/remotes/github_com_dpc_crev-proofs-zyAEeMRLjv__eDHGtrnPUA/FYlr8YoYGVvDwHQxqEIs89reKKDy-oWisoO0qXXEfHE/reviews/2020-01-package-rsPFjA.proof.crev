@@ -1,0 +1,169 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-02T20:31:42.353184214-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: pest_derive
+  version: 2.1.0
+  revision: f781c62e1aa15784c2c25a7a33dae44d7caf0f6b
+  digest: ayE_BEHrafiHbUzLmwigSjqFD0bXaNt2kdcRibVpAJE
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |-
+  There's not much to review. It's just a proxy to underlying crates.
+----- SIGN CREV PROOF -----
+uj9lE4bw-8UPW1z3gjugvRdNhm7vV7gfxRYYJhu3eeyiW_Ov-_7WzoBmpG67l786gszUKQKVRkUFQBAMke8YDg
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-02T20:36:21.228669161-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: structopt
+  version: 0.2.18
+  revision: 2ac49b8c7db66af88870c589cf2d96dfba31e542
+  digest: ZGW1vyOsd0r6uFpYHqFGDBEXyTmNsNZ2gf4q8jDYaqE
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |-
+  Tiny proxy crate.
+----- SIGN CREV PROOF -----
+_UEZeSZtPsh7HjbI53zvoLhwtYkeZs5uZ-Zo9CAyW-G0uiyfRkF48El7tkQxjwfSvyMvmzjyYps8eeHbiz1jDw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-02T20:42:12.416410314-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: scopeguard
+  version: 0.3.3
+  digest: TxbiAa3GftAxeSCjgMjEzEyMABtPM5WPHWdeyf7AWs0
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+----- SIGN CREV PROOF -----
+-ezbkr5VLoTfa5xjkTDcATFrVbD-rRlzFWZtqnIfTlgxexSYv6mrMQ-Dii0CkTRnPbbmYTFtA25Y5I8k-m8cAA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-02T21:12:00.880895793-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: crossbeam
+  version: 0.7.3
+  revision: 28ad2b7e015832b47db7e389dd9ebce3e94b3adb
+  digest: upxcDV0YTLk-BX_3fbEaYy4OFDNLwetZD0neC5qT7I8
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |-
+  Proxy crate.
+----- SIGN CREV PROOF -----
+ZJg3zUiEzviDYp-EKv07G14T9q8iSGNNhmRsDABVU-yCltwR9Adzh7FkuBRv9VXM4f5WnUiTqSvetOFp2LuNBQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-02T21:41:45.925943927-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: block-buffer
+  version: 0.7.3
+  revision: 6ab1bbf4c9f580576e44079bd95cadf49220e575
+  digest: cAx6ECd32DIt3Dv0EURoVrhjWiWxniSs-C943bY8_R4
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+----- SIGN CREV PROOF -----
+e5S-8Yl_x3QfQSVkPUrohLz10s7a2fvpHYOO6gkD9P7_Ii2U6gO4lti3nHB4QDQbjssi-hwsbM-YdSRlxlgdCA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-02T21:52:20.390986005-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: block-padding
+  version: 0.1.5
+  revision: 78eca096689597105bbca866508df6144637ca2b
+  digest: aCWHJzk9jZXJrp4OKQSsWsmWafzC6mIxRjMgXFoPjgs
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+----- SIGN CREV PROOF -----
+jMX_-bqR7o54ZdAcIrl9XHNiUtHLfL_I57cnAq3wtlJjcrPiTY4rpjvjACWTBT8ETHBg_A5heEYcfAmfrM30BA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-01-16T20:46:45.490075787-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-net
+  version: 0.2.6
+  revision: ebf8d7fa3481d02503812fb1c4061ae987060e30
+  digest: 5RqRXABIJly1ZZlqphYktM2CeAOUC8ry8eeHbjiUmqs
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: |-
+  There have been numerous reports of authors ignoring
+  soundness issues in `actix` ecosystem.
+  
+  See example:
+  https://www.reddit.com/r/rust/comments/epszt7/actixnet_unsoundness_patch_is_boring/
+  
+  So I'm giving a proactive negative rating, and feel free to contact me if
+  there are good reasons to change it - eg. if the issues have been addressed
+  and maintainers are commited to taking memory safety and security seriously.
+----- SIGN CREV PROOF -----
+XJys71yjigr1bSym_5847tCnmkggh07dXL9T2oP_Fv8HeObkTCvRZCQqGf-VoiZsik26u26seaB25ZK5w4qRDw
+----- END CREV PROOF -----
+

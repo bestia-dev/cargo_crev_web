@@ -1,0 +1,2187 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T14:13:53.165944500-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazy_static
+  version: 1.3.0
+  revision: 03f62910a94886987cdb686c7509bbdc846481e3
+  digest: 21bjQkc4fD-Kvjb0xv1fN7M4oaembbxoEDirmvOQwbg
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "Read all of src, skimmed all of tests.  core_lazy.rs looks a little odd, but is 100% safe code - any issues would be in it's core dependency, spin.  inline_lazy.rs contains unsafe blocks... look safe, but downgrades rating to merely positive.  lib.rs is just safe macros.  Tests all pass."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+moBXbVZDeJxuDy_MsaR9oMWF-PGauD4XCK20Mua7aA85eYxvc8uce51_esZ1XVVxN1EfY12yV8bBjqgZxjX7Aw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T15:32:09.517808600-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: bugsalot
+  version: 0.1.4
+  revision: 3c74d34539acad7d9657e615b64f17fb0d7673a2
+  digest: wQ-x6c_KEDrXLGvHngc7Vn4YuQhIXIMihUgIQ-KgmGY
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I wrote it, minimal 'unsafe' for FFI, well tested."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+le2F3ckXeRrwJqXW9ZDKclt028YFP1ddC3EzqgUlyyVJ4XSX4LYZZPru0mFA4vWVY-8cbI5JZBH_Ci0ICOYNDw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T15:47:17.525858900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: sourcefile
+  version: 0.1.4
+  digest: _GslysjAg1wRo6gyS1o7P4pvjYpdnSOVlv0YH1VCkEc
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "Slightly odd-seeming design, looks sane/safe though."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+kzzTJNNnItFPBxE7RXwFsulsTycmsZKRPhUAQxa5KdRG23rx7imrKItABx3uEqD831-rfuAESRSlNmIam6iIBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T18:08:56.765871600-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cargo
+  version: 0.20.0
+  digest: pQ2oCv7r8di6sGeqEsdjQRFNnIn_fIH0ZEjhygJTbxE
+review:
+  thoroughness: none
+  understanding: none
+  rating: positive
+comment: "https://github.com/rust-lang/cargo - I blindly trust rust"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+y1-q9_XE4ZStnxwtF-WC6-m5WvEhwBPilssQA95BFWQl_kX2yUpLpoaaY2X5lD_wUpk_-aLnsD8PYwFytkmsBw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T18:24:16.181228600-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: autocfg
+  version: 0.1.5
+  revision: 81ea9f3120f20d684fb97fe90f2848f137519dfc
+  digest: AD50FL3HnA4bDSzoE0-Ga3Lr5K-4Mw-LqEwQQRNMa0U
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "No unsafe code, minor safe-looking file I/O"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+JpJKtaT2dK8w0qYh6j4T6_lV_keIZmjwrYfdOpRLjPTMJOWymlQ-ScTR9fIj5yyYNEt_5F5d1vreeuOlo91gAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T18:47:09.136717200-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: fs2
+  version: 0.4.3
+  digest: "-FDNqzos58isDYx2sCu10VkdCSC1Dl78rvTdixktfRg"
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "I'm assuming GetVolumePathNameW will leave buffer null terminated if successful.  Unsafe only used for sane-looking FFI, and zeroing structs."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+IPQK4aHMUtpyn87JoUPoJCIAdjwjTmgk135pZkhRqicroFjCH1jYSTHxJPvZFaqjJ97eOpvrZEqmRFCv_b5WAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T21:51:23.404355100-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: idna
+  version: 0.1.5
+  digest: unspUc1JbWkOQabypI-vh-wBDliPWDaGCQTUJWeLp1I
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: "Read all code, including skimmed every line of autogenerated rust tables. Looked for any security issues, including any obvious DoS attacks from loops. Did not try to manually verify any of the bidi/punycode/idna logic against a spec, but test coverage looks excellent.\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Vm7R_AKtkT4Ue8mJ0hPObRP4TyhIa6sKgYVsnBTZrevjsfBaSmJn6CtK4xpcSOQflJ4a54s5xdbWjopeGLZ3Bg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T22:25:05.253258500-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cloudabi
+  version: 0.0.3
+  digest: X_yTwd_N3uFBg6Jtv7v49navfm_RmX21tgLdumhmZtA
+review:
+  thoroughness: low
+  understanding: medium
+  rating: neutral
+comment: "Interesting idea.  Lots of unsafe!  Supposedly auto-generated.\nI have at least read the code enough (including explicitly looking at each use of unsafe)\nto believe there are no obvious funny business nor proper soundness issues.  That said:\n\nConcerns (rating: neutral):\n  Lots of concerning use of unsafe { ... } + core::mem::uninitialized()... but only in #[test] code.\n  #[allow(improper_ctypes)] for extern \"C\" block.  Sounds like UB-bait.\n  Punts all safety concerns to the user.\n\nConcerns (thoroughness: low):\n  I have not properly vetted fn/struct/type signatures against a proper reference.\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+7Jrim9rmGAhXtiNgxCtqj_fw1MzgvtVMxrRRQeMJaQsr8TTOIQ0sRQ3i5yVjryZKUYHOVqwCOcnaYsvDWqPtCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T22:37:40.701289400-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: matches
+  version: 0.1.8
+  digest: wEgXzIZmN2BvT4dl90vyR0WVYgLwYc0BETwLJ_ySYOc
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: "Trivial, looks correct, looks tested.  cfg!(debug_assertions) is a sane cfg."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+jAxI5sW1QImQEAL1ljd1wDAZoQO_n7g4YuxMPNw3PtUDO4wNqcoYcmmRcSuWHLWsdqe1e4-Xw17cxfhD6M_BDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:30:34.604089700-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: smallvec
+  version: 0.6.10
+  revision: 830d32bbdb7dc858d1f81d662fe6dd06219f0647
+  digest: KCQHZ4p8HJWGuHhYLI_u_PolWMF3gMTXC62YMuCe2Fc
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "Lots of unsafe code, long standing open 'maybe UB' issues that proved to be correct, 3 previous rustsec advisories, no obvious fuzz tests.  Use only under duress."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+R4SRh6-9I9GcIlydb4nasFbqN0ltOb8F9E3Rf94INzrHmZrplQu1JeX3uZIDTm2kkcjmbIaGY30-l6Bt4lKXDg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:51:53.527009200-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-web
+  version: 1.0.5
+  revision: 6b7df6b242c1cf844ff95b26d963eb275b3d0ada
+  digest: WES9tX2Gb5Udu_lAn1ug9imMGT63s3Rci-CGF--8gd8
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ZXtMA2RaJe9eh9TfQgprf9nxnEb0utgAuqmh0REi1KjeeswHkugDU8gi2OpCMRqeFEsfGOLHvtZZvdaMpYvfBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:56:46.264374800-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-codec
+  version: 0.1.2
+  revision: 16856c7d3fa725c65ccec5940ab8331ad3c270fc
+  digest: 8PFMDiHDzb8WvsRiZLdlDSa7tgD3TzUcjUalTbId34I
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+LCQP6kE2suo2bih4IuxCR8Dy3KxgwnjPxsfAN2Ks5XfEOrtvs6BTDVqerQI_mw3u3rKrfWXVVCMxskr66vfXAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:57:54.748844900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-connect
+  version: 0.2.1
+  revision: 411e31786f72d69a349204f04578929d9a5214c3
+  digest: RQsaFHsELtqrGMTx0U5xy_ErJUzEghIT9AM2FKRvzjc
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+1IvoKmWZlXH3HugbrLV-56Kty60yXpnw1aEHmGjNwt37XE9CSgTItJ41NVAHTMCtGP6g1mli-j2kX5ZmZDD_BQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:58:10.623679800-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-http
+  version: 0.2.7
+  revision: b6ff786ed361cb2d1c4111629dd9c96e697a0cfe
+  digest: Smmd8mltqYROjPXQ-ylKmqA1fflJZ8-XC3MDhP55hzc
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Y2j83j4O-OTBI9tBuqvcmdVAaHVx94zsrUZk4xWitgUE8On1OUW6V0pNjf_Tj031VHh03GxTM7-N0D-HTDE-Bg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:58:25.202368200-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-router
+  version: 0.1.5
+  revision: a14f6123827a48eab85930622a34cc8f81e60f31
+  digest: cT8MnkpwbZzPbtsfwFumRlwTLUqrhmU9xsmh7OlItsA
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+B8DU1l4O09llOF3--LSrGxISPgcvx1bcheVcuImtbq5-CfXM3pUEoOC4u2RZHwWRyeK2v8dln35CjWbYzVsHBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:58:37.452783200-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-rt
+  version: 0.2.4
+  revision: 411e31786f72d69a349204f04578929d9a5214c3
+  digest: I_HeXlJbtjyEHuGNome68sBEMrpt-mV3AQjpbkLJNrE
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+IRP-PrRmElrDQW12bTH0eYhcdHy9o5e3GsAuPl6y4a88ynYMw5gGH-yRTOOprhBgzlKel7S1qzOsqCgpojNKDw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:58:48.088177400-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-server
+  version: 0.6.0
+  revision: 311bb14d97e7530031149c561a907404b3753182
+  digest: yVYvDFDMnbow44Jwa7xxnt5ktmTIcGPb_01__i8egmk
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+zlLhbuNaq7_3p5QC5KK-hsF6ovPletmrtcAnreFm9vrwKKll0GmQnHAdBAHP8NhsHG-ntxRKMtTEyq-9qCoICw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:59:01.437154400-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-server-config
+  version: 0.1.2
+  revision: 2955e49d78c5299fa8923c3b76d5e383baf829fc
+  digest: kmJQS0KH3yqPu3afVHqP9v0fkvZ9phxC0aAi4FXli5w
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+4wC7U9KC8jID6iA2sR6cKJ7OsABYNBUrpUWyfjrP65XiHk8qoRcdY9O3PWc2Od0VtsF2RuIpGBZcWMp9t4ZYAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:59:18.849988300-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-service
+  version: 0.4.1
+  revision: 158482cd2ff68f9a9c4f47b104e33db99a3968d6
+  digest: NX77TUEEf4MwklSLPSMDTCygPzZUOzYJaiTehB2vR_M
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Xj63d-MKBsCwGAywxKLKifmpTYA1BGzMiB-e801GObHLLnCt_9mO2N8SuZqpqD8H_7i6r_8fdyAnA24MHPRWCg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:59:32.648256-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-threadpool
+  version: 0.1.1
+  revision: 7051888289c39f003a65b11b43488471db3fddf6
+  digest: tobI2Y3vEo98f8tSZS_Fa5C6E4pGa8rTcRlXsIPSDuA
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+mBkeoHXGjMc49RDwiZ22uVv8I4LGbioRJth8_gC7c-7dXkhBNan4JcRa6R6-zxvDW0tIRYjOyLA8qdoIwUfjAg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:59:44.931142900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-utils
+  version: 0.4.5
+  revision: 41145040e142726707ba50eff3cac5646f13a771
+  digest: WVScVOtQKPMW7mzL8SiK8bq4wJ5MfOvQJpOzTH3GaJ8
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+4G_YifclVe_lCe7AGCnrPxULrz05yhv6cM79nDHCNDggGme3JUKCRgSVwu7aIB6gF3n__gU6365Js0V7G3FYCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-23T23:59:56.079934200-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-web
+  version: 1.0.5
+  revision: 6b7df6b242c1cf844ff95b26d963eb275b3d0ada
+  digest: WES9tX2Gb5Udu_lAn1ug9imMGT63s3Rci-CGF--8gd8
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+KevuWJfFvs89cGRPJEFy4uOjklE2ph3geeBaMggv8z7uph43BCngXYO6N8dBvMC-Cg_JBHl5y2krEM33Hi7oAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T00:00:16.197213900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: actix-web-codegen
+  version: 0.1.2
+  revision: a771540b16d9441a3a69f7e39fb61d26fc1698ae
+  digest: OAK8FIhza3a7d4021Wp8n6n007eASXjVxRUfrkXVbx8
+review:
+  thoroughness: none
+  understanding: none
+  rating: negative
+comment: "https://64.github.io/actix/  https://github.com/actix/actix-web/pull/968#issuecomment-509894555"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+uXBEaF7-kk4bU8K1fSi1fmDzkB4d-N-_uBi3Mn92e9jnYODMsQY1rBrtXxM4vTprVehjQOk8i77mpcBhCOx2AA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T14:53:11.836480900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: redox_syscall
+  version: 0.1.56
+  revision: e3fd644ba9830d104c309f77c36dc6b94f92f2b1
+  digest: FTw1q2J_JAvJHFyP4Xn0URVlkBDh1xI3mxs5sFn_A-U
+review:
+  thoroughness: low
+  understanding: low
+  rating: negative
+comment: "Exposes unsound APIs, lots of unverified syscalls.\n\nReviewed:\n\n  src\\arch\\*.rs:  Skimmed... looks reasonable, but didn't verify correct instructions / register invalidation.\n\n  src\\io\\dma.rs:  Some unsafe... looks correct, but not thoroughly tested.\n  src\\io\\io.rs:   +1\n  src\\io\\mmio.rs: UNSOUND (can construct uninitialized() T via \"safe\" `Mmio::new()`!)\n  src\\io\\mod.rs:  +1\n  src\\io\\pio.rs:  Some unsafe... looks reasonable, but didn't verify correct instructions.\n\n  src\\scheme\\generate.sh: +1\n  src\\scheme\\mod.rs:      +1\n  src\\scheme\\scheme*.rs:  UNSOUND (can construct arbitrary slices from arbitrary Packet s via `Scheme*::handle`)\n\n  .cargo_vcs_info.json: +1\n  .cargo-ok:            +1\n  .gitlab-ci.yml:       +1\n  Cargo.toml:           +1\n  Cargo.toml.orig:      +1\n  LICENSE:              +1\n  README.md:            +1\n\nSkimmed:\n\n  src\\call.rs:    Lots of unsafe syscalls... unverified.\n  src\\data.rs:    UNSOUND (Map deref etc.)\n  src\\error.rs:   No tests for STR_ERROR, but at least it's sound.\n  src\\flag.rs:    Sound, magic constant city, meh.\n  src\\lib.rs:     LEAKS UNSOUND TRAITS into public interface!\n  src\\number.rs:  Safe, magic constant city.\n  src\\tests.rs:   Unsafe, but only #[test]s\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+YjrI_H2WebGSeomza55kfnxLuXo4b8cfYzaP6vAz1bP0wiPOvwr2WB3Q95LV8KsNVGiaykXjkeRFc7O4eFQbBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T15:29:45.583890400-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rdrand
+  version: 0.4.0
+  revision: 800e213cc91a83d3bf772398962e7c1f0fcc7825
+  digest: KUsK5gm7n3ClUjAsIfxmZAsuOyArXkWoOabbxe1GUZM
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: "$gen::try_fill_bytes invokes undefined behavior (overlapping &mut u32 and &mut [u8]).\n\nReviewed:\n  benches\\rdrand.rs:  +1\n  benches\\rdseed.rs:  +1\n  benches\\std.rs:     +1\n  src\\changelog.rs:   +1\n  src\\lib.rs:  Concerns:\n    mem::uninitialized() u32s\n    is_x86_feature_detected: I have not verified this is correct.\n    loop_rand! uses mem::uninitialized() for $el:ty, easy to misuse!  Requires unsafe{} so technically sound.  Not exported.\n    $gen::try_fill_bytes:  UNSOUND!  word and buffer reference the same data.  As both are &mut Ts, this is 100% undefined behavior.\n    unsafe blocks appear much larger than they need to be.\n    ptr::copy_nonoverlapping: This should really use a slice copy which should be just as safe...?  But maybe missing from core?\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Ob3caDs_p5PR4cK0qvMPJhlUgvtvBCRjSXDJWXbKOMdSLb1sbCM1vaeZCdHFATZr01GgVS0mJxu1mqnkPczsCA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T15:58:33.613673700-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rdrand
+  version: 0.4.0
+  revision: 800e213cc91a83d3bf772398962e7c1f0fcc7825
+  digest: KUsK5gm7n3ClUjAsIfxmZAsuOyArXkWoOabbxe1GUZM
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: "$gen::try_fill_bytes invokes undefined behavior (overlapping &mut u32 and &mut [u8]): https://github.com/nagisa/rust_rdrand/issues/13.  0.5.x removed some use of uninitialized.\n\nReviewed:\n  benches\\rdrand.rs:  +1\n  benches\\rdseed.rs:  +1\n  benches\\std.rs:     +1\n  src\\changelog.rs:   +1\n  src\\lib.rs:  Concerns:\n    mem::uninitialized() u32s\n    is_x86_feature_detected: I have not verified this is correct.\n    loop_rand! uses mem::uninitialized() for $el:ty, easy to misuse!  Requires unsafe{} so technically sound.  Not exported.\n    $gen::try_fill_bytes:  UNSOUND!  word and buffer reference the same data.  As both are &mut Ts, this is 100% undefined behavior.\n    unsafe blocks appear much larger than they need to be.\n    ptr::copy_nonoverlapping: This should really use a slice copy which should be just as safe...?  But maybe missing from core?\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+9nhQG8qHOOJLjs-DFR5nQs2hH7tpFsNL9BUoBskdLj5ZvCOKccmKMnK56PsR99yDaOZI02x4C5XI1wVEyWLdBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T17:27:03.714134500-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cargo-apk
+  version: 0.4.0
+  digest: ZnDKOOIx95DawxrU0yJOOx0WQQyyToihWVoM8FDA2vI
+review:
+  thoroughness: low
+  understanding: medium
+  rating: negative
+comment: "A mixed bag.\nOn the one hand, the core tool found in `src` seems fine, solid fundamentals.\nOn the other hand, the glue code is full chock full of unsafe, some of it unsound.\nWorse, the FFI includes things that varies from android SDK to SDK from the loops of things.\n\n\n\ninjected-glue\\ffi.rs:   -1\n  Should be replaced with bindgen generated header?  Also, changes between SDKs, so really really really should not be simply hardcoded...!\n  Ref: https://android.googlesource.com/platform/development/+/4948c163663ecc343c97e4c2a2139234f1d3273f/ndk/sources/android/native_app_glue/android_native_app_glue.h\n  Ref: https://chromium.googlesource.com/android_tools/+/7fc902d157a9aed7a2b68adc9c69181b3a43cd58/ndk/sources/android/native_app_glue/android_native_app_glue.h\n  45  LOOPER_ID_INPUT:    Wrong? (should be 2?: https://chromium.googlesource.com/android_tools/+/7fc902d157a9aed7a2b68adc9c69181b3a43cd58/ndk/sources/android/native_app_glue/android_native_app_glue.h#204)\n      LOOPER_ID_EVENT?    Different name? https://android.googlesource.com/platform/development/+/4948c163663ecc343c97e4c2a2139234f1d3273f/ndk/sources/android/native_app_glue/android_native_app_glue.h\n  46  LOOPER_ID_USER:     Wrong? (should be 3?: https://chromium.googlesource.com/android_tools/+/7fc902d157a9aed7a2b68adc9c69181b3a43cd58/ndk/sources/android/native_app_glue/android_native_app_glue.h#209)\n  65+ Skimmed only\n\ninjected-glue\\lib.rs:   -1\n  92  static mut ANDROID_APP  should be UnsafeCell\n  164 static mut G_MAINTHREAD_BOXED should be UnsafeCell, probable undefined behavior / race conditions\n  172 scary transmutes\n  182 Unsound when combined with\n  191 'safe' access\n  196 android_main2 is UNSOUND - dereferencing pointers, setting globals, etc. without being marked unsafe.\n  197+ Skimmed only\n  340: giant unsafe block\n  347: uninitialized\n\n\n\nsrc\\ops\\build.rs:       +1\n   75 Medium:  I suspect this won't work on windows as it doesn't use .cmd scripts for the compiler/linker?\n  131 Medium:  injected_glue_lib cmd.exec()?; followed by cmd.exec_with_output()?; (134)- does the glue get double compiled for no good reason?\n  218 Medium:  unreachable! abused where panic! probably should be?\n  423 Minor:   Hardcodes a lot of assumptions.  Good foundation though.\n\nsrc\\ops\\install.rs:     +1\n  Medium:  No way to specify device\nsrc\\ops\\mod.rs:         +1\nsrc\\ops\\run.rs:         +1\n  Medium:  No way to specify device\n\nsrc\\config.rs:          +1\n  Minor:  Could use more OsString\n  Minor:  Non-optional opengles_version_*\nsrc\\main.rs:            +1\n\nCargo.toml:             +1\nCargo.toml.orig:        +1\nglue_obj.rs:            Sketchy looking casts and `main` handling... but might be right\nlinker.rs:              Strange parse_arguments loop style... but safe, looks sane.\n"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+MjczoFPvzzdwkx6v7PdY91OMQAT5RoLta-DwpTOk7avx5_c9bF40PyFf1a_JfpavkhdqLlteczLWzFM4Ae1gAg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T18:42:54.784518800-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: vcpkg
+  version: 0.2.7
+  revision: c8a6af504f48f84e3df6eba4051c7835b92a7976
+  digest: hzRxhjn_udO-mlSMt5hqdnwP0z9FMxIlVqUV_Pf73IU
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+comment: |
+  I'm unfamiliar with vcpkg s, but looks reasonable + all safe code.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+1heEfvDtW2yEWRxZjugDT468u9ftZnQdj6MNYIxuhkbi8nc4TbA6feh-SJCUy2gEEnuNB6unwBzUoe_pCJx1Dw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T19:19:07.063499200-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazy_static
+  version: 0.2.11
+  digest: wPLFFiGi_hhlu1wRLR_YLNM7FCGO5aywD87u5wBDD7c
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: |
+  lazy_static 0.2.11 relied on unsafe muts which would have race conditions during initialization.
+  I recommend upgrading to a modern lazy_static 1.3.0+!
+  
+  src\core_lazy.rs:       +1
+  src\lazy.rs:            -1 UNSOUND (race conditions in multithreaded init due to static mut / mut refs taken outside of call_once)
+  src\lib.rs:             -1 UNSOUND (uses the static muts without syncronization)
+  src\nightly_lazy.rs:    -1 UNSOUND (race conditions in multithreaded init due to static mut / mut refs taken outside of call_once)
+  
+  tests\*:                +1 (skimmed, seem fine)
+  
+  .travis.yml:            +1
+  .appveyor.yml:          +1
+  Cargo.toml:             +1
+  Cargo.toml.orig:        +1
+  README.md:              +1
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+kBXTP1PoorHEJ8jMKUDw_ORySb59pR0Z1j45rX27fhHiiH02GIuL_JbN1mPi-x8rIHxD7vOCqksFRCeOOLfYCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-24T20:48:21.267085-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cargo-ndk
+  version: 0.3.0
+  revision: 9ef47285a2c62cec446107db12bdfc88dd295918
+  digest: bJ8jga8yc2JZRCb-pGKDk4xOqH5pwLYKN40azYeFH7s
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Pretty trivial, not even sure if it'll work right on windows to be worth using.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+uwAiXp5024RCu19KeAWmTOD89sNO0YX5MSd1FCHyO50xH8-ES5lNxbejZY1g9rrV4ucxqej284ksozguJumfDQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-25T15:08:09.720700400-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rdrand
+  version: 0.5.2
+  revision: da801f2161043d5253c55c6c11ef4723c3a7c340
+  digest: 1YBfBI1yxn1Of0GimqGhl_Hj2ID1lcOkHhC6R1kgP5c
+package-diff-base:
+  source: "https://crates.io"
+  name: rdrand
+  version: 0.4.0
+  revision: 800e213cc91a83d3bf772398962e7c1f0fcc7825
+  digest: KUsK5gm7n3ClUjAsIfxmZAsuOyArXkWoOabbxe1GUZM
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: neutral
+comment: |
+  Sound, although buggy AMD hardware makes implementing CryptoRng for RdRand/RdSeed a little unnerving to me ( https://github.com/nagisa/rust_rdrand/issues/12 )
+  
+  Reviewed:
+      benches\rdrand.rs:  +1
+      benches\rdseed.rs:  +1
+      benches\std.rs:     +1
+      src\changelog.rs:   +1
+      src\lib.rs:         0
+          All of $gen::try_fill_bytes::imp being unsafe is still concerning... but I believe it's sound now.
+          RdRand/RdSeed implement CrytoRng, which makes buggy AMD hardware concerning: https://github.com/nagisa/rust_rdrand/issues/12
+  
+  Concerns reduced since 0.4.0:
+      https://github.com/nagisa/rust_rdrand/commit/7af432c6e315fde053d0056d1b7df893a865711a
+          unsafe blocks appear much larger than they need to be.
+  
+  Concerns fixed since 0.4.0:
+      https://github.com/nagisa/rust_rdrand/commit/26a0a2f9d885fbbb8e14fa47c8a48e366cf15455
+          mem::uninitialized() u32s
+          loop_rand! uses mem::uninitialized() for $el:ty, easy to misuse!  Requires unsafe{} so technically sound.  Not exported.
+      https://github.com/nagisa/rust_rdrand/commit/7af432c6e315fde053d0056d1b7df893a865711a
+          $gen::try_fill_bytes:  UNSOUND!  word and buffer reference the same data.  As both are &mut Ts, this is 100% undefined behavior.
+          ptr::copy_nonoverlapping: This should really use a slice copy which should be just as safe...?  But maybe missing from core?
+      Verified vs https://www.amd.com/system/files/TechDocs/24594.pdf
+          is_x86_feature_detected: I have not verified this is correct.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+NXS5FUbEBgLYi8D9sBbuO6MMghbJ5v6ZPA9Lyedvr0FRG3Zb38ik5IZONyuI_AcJZrlIgfKQ0vfRBK5vEWpvAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-25T15:15:00.727294200-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rdrand
+  version: 0.6.0
+  revision: 832a0d85da58ec72bc046b77977d220a08a1830e
+  digest: oTW4yIyD2jX33Sded9xiAm5sMakfrgYOiWqp6rS3x2w
+package-diff-base:
+  source: "https://crates.io"
+  name: rdrand
+  version: 0.5.2
+  revision: da801f2161043d5253c55c6c11ef4723c3a7c340
+  digest: 1YBfBI1yxn1Of0GimqGhl_Hj2ID1lcOkHhC6R1kgP5c
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: neutral
+comment: |
+  Sound, although buggy AMD hardware makes implementing CryptoRng for RdRand/RdSeed a little unnerving to me ( https://github.com/nagisa/rust_rdrand/issues/12 )
+  
+  Reviewed:
+      benches\rdrand.rs:  +1
+      benches\rdseed.rs:  +1
+      benches\std.rs:     +1
+      src\changelog.rs:   +1
+      src\lib.rs:         0
+          All of $gen::try_fill_bytes::imp being unsafe is still concerning... but I believe it's sound now.
+          RdRand/RdSeed implement CrytoRng, which makes buggy AMD hardware concerning: https://github.com/nagisa/rust_rdrand/issues/12
+  
+  Concerns reduced since 0.4.0:
+      https://github.com/nagisa/rust_rdrand/commit/7af432c6e315fde053d0056d1b7df893a865711a
+          unsafe blocks appear much larger than they need to be.
+  
+  Concerns fixed since 0.4.0:
+      https://github.com/nagisa/rust_rdrand/commit/26a0a2f9d885fbbb8e14fa47c8a48e366cf15455
+          mem::uninitialized() u32s
+          loop_rand! uses mem::uninitialized() for $el:ty, easy to misuse!  Requires unsafe{} so technically sound.  Not exported.
+      https://github.com/nagisa/rust_rdrand/commit/7af432c6e315fde053d0056d1b7df893a865711a
+          $gen::try_fill_bytes:  UNSOUND!  word and buffer reference the same data.  As both are &mut Ts, this is 100% undefined behavior.
+          ptr::copy_nonoverlapping: This should really use a slice copy which should be just as safe...?  But maybe missing from core?
+      Verified vs https://www.amd.com/system/files/TechDocs/24594.pdf
+          is_x86_feature_detected: I have not verified this is correct.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+heQsqrV7yez9QZzNPyKhqDGJ5XdXNQH2ZVYIP2yL7VecrKBoS9FgN9jZZiPYvSUasCd6QSUe1bZ--HXnULKfDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-26T11:55:25.968110400-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cargo-dinghy
+  version: 0.4.11
+  revision: 4b1fed4d7a2a996c3be5e741e8768e9bb67051bd
+  digest: Rd_BtsF4rMcS-YS9C_uuIUJ_6g5ihmmIw9zqOZ2atnQ
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Nice and solid looking code.  100% safe code.
+  
+  Reviewed:
+      src\cli.rs:         +1
+      src\main.rs:        +1
+          151 run_lldb
+              Nonterminating loops are problematic, but I think the side effects here should make this work OK?
+              (see https://github.com/rust-lang/rust/issues/28728 )
+      Cargo.toml:         +1
+      Cargo.toml.orig:    +1
+          13  readme path references unpackaged readme
+  
+  TIL:
+      Using traits to extend clap::App so flags can be reused per-subcommand is interesting.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Ut_rlnZzUpI87JuJ2KGcGAJ6mKJYrdddKa06wmQ2l_aeTOKZ7ZuNvmylA2EjHfOG2SYgxpZz_H2mDaxsjWvmBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-26T12:46:44.499950900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: itoa
+  version: 0.4.4
+  revision: 7ef10b214de344f162ac7a64579d646767dd2dea
+  digest: Ec8IpqwTvpw71qRtDymVNvSFEFUkxVS0DRatgQzN9uk
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |
+  I believe this is sound, but has way too much unsafe and too few tests for my tastes.
+  udivmod_1e19 reduces my thoroughness and understanding to low, otherwise both would be medium or higher.
+  
+  Reviewed:
+      benches/bench.rs    +1
+  
+      src/lib.rs          0
+          119 mem::uninitialized (POD)
+          164 impl_IntegerCommon is potentially unsound, but not public, and guarded by debug_assert!s at least.
+              Would vastly prefer static_assertions though.
+          196 one giant unsafe block for pointer math?  No bounds checks?  Super gross!
+              Relies on $max_len being enough for $t with no bounds checking.
+              Relies on d1/d2/n being unable to overflow DEC_DIGITS_LUT.
+              A careful reading makes this appear technically sound, but super super sketchy.
+          246 Carefully audited for impl_Integer.
+          255 Carefully audited for impl_Integer.
+          267 Carefully audited for impl_Integer.
+          270 Carefully audited for impl_Integer.
+          273 Carefully audited for impl_Integer.
+          294 Again?  A careful reading makes this appear technically sound, but super super sketchy.
+          338 Carefully audited for impl_Integer128.
+          339 Shouldn't this technically have the cfg if U128_MAX_LEN is going to have it?
+          341 Carefully audited for impl_Integer128.
+  
+      tests/test.rs       +1
+          Not nearly enough tests for my liking given how much unsafe code there is.
+          I'd like to see every edge case of iota::write tested, they aren't.
+          I'd like to see every edge case of udivmod_1e19 tested, it's not directly tested at all.
+  
+      .gitignore          +1
+      .travis.yml         +1
+      Cargo.toml          +1
+      Cargo.toml.orig     +1
+      README.md           +1
+  
+  Not yet fully reviewed:
+  
+      src/udiv128.rs      0
+          34  Correct - since high is nonzero (line 29 bails if it wasn't), leading_zeros < 64.
+          35+ My eyes glazed over at this point.  I haven't verified udivmod_1e19(...).1 meets it's invariants!
+  
+  TIL:
+      You can use `\`\`\`edition2018` on doc comment code blocks.
+      You can have a public trait require a private one to "seal" it.
+      You can specify `sudo: false` in .travis.yml
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+8ARWSbp_P9uvRolfD7JSJ2o1vV9HMdgXszhUFmrRT6ousSNXggZTIzCfemlk4nNG43oKge-QCMMGVaSl_G5_Cg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-26T14:39:32.496306600-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: dinghy-build
+  version: 0.4.11
+  revision: 1fa5b89b2bb50264a5fd93d9791b843763cf7682
+  digest: 70P30qFd_VRtAAJO0wqEDS2TWJFXeQT3T-eQKFXZP7A
+review:
+  thoroughness: medium
+  understanding: low
+  rating: positive
+comment: |
+  Some of the build/path stuff seems a little off... but might be correct?
+  All safe code, no security problems.
+  
+  Reviewed:
+  
+      src\build_env.rs    +1
+      src\build.rs        +1
+      src\lib.rs          0
+          102 Is this really correct for specifying the *host* environment?
+          105 ..
+      src\utils.rs        0
+          14  Isn't this generating /../../../ ?  Doesn't seem right...
+  
+      Cargo.toml          +1
+      Cargo.toml.orig     +1
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+GBWbnyOmk7KkD5REz1U5pqV_ZbFXysS7526FMb7RiLN38fcPykDZYhL8rEHmep2hz8---TVD-InzcFPePl4bCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-27T01:00:19.967663500-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: dinghy-lib
+  version: 0.4.11
+  revision: ac155d160b1d6ed4031d3944dc076f6e5cec508f
+  digest: qdzqoM1oVvQiujz5Ym13399xTf_9neZhAUD4tt_UIfY
+review:
+  thoroughness: low
+  understanding: low
+  rating: neutral
+comment: |
+  thoroughness: low - mostly due to iOS FFI, shell stuff not being super thorough, and review fatigue causing my eyes to glaze over in places.
+  understanding: low - lots of shell/path stuff that I don't know well enough to verify
+  rating: neutral - see concerns bellow.
+  
+  
+  
+  Concerns
+  ========
+  - Looks like lots of stuff might not work on windows... although there *is* windows-specific code, so maybe?
+  - Lots of unimplemented!()
+  - iOS support is chock full of unsafe { ... } for FFI.  I haven't verified the FFI signatures.
+  - iOS support also uses unsafe { ... } for several objective C casts.  Needs some sanity checked utility functions.
+  - iOS support has some potential UB during panics due to unwinding over FFI boundaries.
+  - Implements some code signing stuff for iOS.  Necessary, and just your local certs, but I haven't fully reasoned through what security impacts if any that has.
+  - Few unit tests visible in the crate itself (maybe they're separate and unpackaged?)
+  - Sandboxing concerns
+      - Remotes into other devices, including over ssh.
+      - Frequent use of shell commands could lead to build server RCEs given malicious project metadata
+      - Malicious projects will just use a build.rs file though, front door is open so to speak.
+  
+  
+  
+  Details
+  =======
+  src\android\device.rs           +1
+      14  Odd place to install...
+  src\android\mod.rs              +1
+      155 Could also check android studio SDK install path
+  
+  src\host\device.rs              +1
+  src\host\mod.rs                 +1
+  src\host\platform.rs            +1
+  
+  src\ios\device.rs               0
+      50  Not sure if the underlying iOS APIs are thread safe, but this seems acceptable.
+      277 unsafe { ... } for FFI.  Looks generally safe except for scary mem::transmute(kCFBooleanTrue), but even that may be right.
+      303 unsafe { ... } for FFI.  Looks safe to me.
+      367 unsafe { ... } for FFI.  Looks safe to me, but needlessly large.
+      419 unsafe { ... } for FFI.  Looks safe to me.  
+      440 unsafe { ... } for FFI.  Looks safe to me.
+      454 unsafe { ... } for FFI.  Looks safe to me.
+      487 unsafe { ... } for FFI.  Looks safe to me, but needlessly large.
+      519 This thread just eats errors.
+      683 unsafe { ... } for FFI.  Transmute... probably safe.
+      690 unsafe { ... } for FFI.  Looks safe to me.
+      691 unsafe { ... } for FFI.  Scary Core Foundation related transmutes... probably OK, but some utilities to sanity check these conversions in debug would be nice.
+      696 unsafe { ... } for FFI.  Another scary-but-probably-safe transmute.
+  src\ios\helpers.py              +1
+  src\ios\mobiledevice_sys.rs     0
+      FFI, not perfectly verified since I don't have an OS X machine to check the headers out on.
+      Ref: https://github.com/PanayotCankov/device.io/blob/master/idb/MobileDevice.h
+      Various minor const differences, a few functions missing in ref, a few likely improved definitions in places.
+      33  am_device_notification_callback_info has    "extra" field vs reference, "subscription".  iOS internal struct?
+  src\ios\mod.rs                  0
+      43  unsafe { ... } for FFI.  Looks safe to me.
+      55  technically unsound inner fn (uses ptrs)
+      61  Scary looking as hell, but I think this is just going Box (40) -> void* (48) -> Box (here).
+      62  UNDEFINED BEHAVIOR:  Possible panic unwind through FFI, technically an hazard.
+          I would've missed this edge case but for the comment, so I'm not docking points.
+          Unlikely to cause severe problems, but would be worth fixing.
+  src\ios\platform.rs             +1
+  src\ios\xcode.rs                +1
+      25  Dead code not reviewed
+      91  I have not thoroughly audited this code signing stuff, but looks OK.
+      199 com.zoy.kali.Dinghy?  A bit hardcoded...
+  
+  src\platform\mod.rs                 +1
+  src\platform\regular_platform.rs    +1
+      44  Since when does "regular" mean "*nix" - might not work on windows.
+  
+  src\script\device.rs            +1
+  src\script\mod.rs               +1
+  
+  src\ssh\device.rs               0
+  src\ssh\mod.rs                  +1
+  
+  src\compiler.rs                 +1
+      475 Isn't this *unbanned*?
+  src\config.rs                   +1
+  src\device.rs                   +1
+  src\errors.rs                   +1
+  src\lib.rs                      +1
+      87  random sleep? why?
+  src\overlay.rs                  +1
+  src\project.rs                  +1
+  src\toolchain.rs                +1
+  src\utils.rs                    +1
+  
+  build.rs                        +1
+  Cargo.toml                      +1
+  Cargo.toml.orig                 +1
+  
+  
+  
+  TIL
+  ===
+  Neat loop pattern:
+  
+  ```
+  for (a,     b,      c) in &[
+      ("a",   "b",    "c"),
+      ("aa",  "bb",   "cc"),
+  ] {
+      ...
+  }
+  ```
+  
+  Sysroot paths:  ndk/toolchains/llvm/prebuilt/sysroot/usr/lib/{binutils_cpu}-linux-{abi_kind}"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+GnbejaK7eCNn2tH8cBkoHXQyYVKl56QcsJKV_Dn7IyBYRAAP5Gv2ogiW4cRca_Io6aaWMrivrut4kI9dKMgXDg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-27T01:30:23.599356800-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: foreign-types
+  version: 0.3.2
+  digest: LPmi2q28PQUwI7c77l1YqJAhp-K7lTtEJoTiYmwbwkg
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: |
+  foreign_type! can generate unsound code without using the `unsafe` keyword in client code at all.
+  
+  - Invokes C FFI which may be unsafe from safe fns.
+  - More recent versions (0.4.0) can implement unsafe traits (Send, Sync) without the unsafe keyword at all.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+r-cZhmY66OG9DuWrdw0jZo9qbwH5HtcA0do3wAd_auWH0v5Wrh6egbvJYb62iRb112efvsVFYdfFbE604l0YDw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-27T01:51:56.036206800-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: foreign-types-shared
+  version: 0.1.1
+  digest: 8F3CHDJEfafSHmohelw3lbPmUtMThY4Oe7pQk9gRqE8
+review:
+  thoroughness: medium
+  understanding: low
+  rating: negative
+comment: |
+  Technically sound, but makes me nervous.
+  
+  Opaque: Looks way too dereferencable, and would have the wrong size - that of `()`.
+  ForeignTypeRef: Unchecked pointer casts galore.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+jCBu5dxDwCA2xyVzhWXftH68Yz7Modb4ykRLu19kQcgVNERyATGBPhMHZRLNt6oEU3ntmxQl9ewl43uw7pV3CQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-27T13:45:54.796051500-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: vlq
+  version: 0.5.1
+  digest: VPKPuokfKpG1ruHZwpW7ZYt3F-MnRSWT8TvWxgP5J8k
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Haven't thoroughly verified base64 logic but looks good skimming everything.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+grvk1SBNNsDZZWmj97IF_dGwVgll7_mg-Zh9GcSz_47gXUizg3g_gU7l1NA9s6oFEVcGWVFzf1ezvgGS54WJCA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-27T14:50:44.746689300-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: wasmparser
+  version: 0.15.3
+  digest: OIgd9QKMtIYOGsa-3M3ST7iE7Fudj0YqmIA4tYiuB6E
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Looks great overall.
+  I haven't double-checked any logic against WASM specs.
+  I haven't verified that WASM validation is suitable to rely upon for JIT compilers or the like.
+  
+  Detail
+  ======
+  
+  | File                  | Rating | Notes |
+  | --------------------- | ------ | ----- |
+  | examples/dump.rs      | +1    | io (safe) |
+  | examples/simple.rs    | +1    | io (safe) |
+  | fuzz/*                |       | UNREVIEWED (excluded from crate) |
+  | src/lib.rs            | +1    | |
+  | src/limits.rs         | +1    | |
+  | src/parser.rs         | +1    | |
+  | src/tests.rs          | +1    | io (safe) |
+  | src/validator.rs      | +1    | check_utf8 could be mostly replaced with stdlib? |
+  | tests/*.wasm          |       | Unreviewed... nothing but WASM though, should be OK |
+  | .gitignore            | +1    | |
+  | .travis.yml           | +1    | |
+  | Cargo.toml            | +1    | |
+  | Cargo.toml.orig       | +1    | |
+  | check-rustfmt.sh      | +1    | Globally overwrites rustfmt with specific version |
+  | format-all.sh         | +1    | |
+  | LICENSE               | +1    | Apache 2.0 |
+  | Readme.md             | +1    | |
+  | test-all.sh           | +1    | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | +1    | No unsafe code.
+  | fs        | +1    | Examples and tests only, reasonably used.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+jUL7PHGj5e-feKMXPMpiBzOA7zjLSOiwf5jLbvzsWQV59MfjfyxcbqDOq8-1NhqTDsP4rc7laT4eRFVt48KGBw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-28T10:54:53.981401-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: wasmparser
+  version: 0.15.2
+  digest: uJC2wg6E6qm5BjS0fA-WbmHUDg_yYHtP0uHcEij5fU8
+package-diff-base:
+  source: "https://crates.io"
+  name: wasmparser
+  version: 0.15.3
+  digest: OIgd9QKMtIYOGsa-3M3ST7iE7Fudj0YqmIA4tYiuB6E
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Looks great overall.
+  I haven't double-checked any logic against WASM specs.
+  I haven't verified that WASM validation is suitable to rely upon for JIT compilers or the like.
+  
+  Detail
+  ======
+  
+  | File                  | Rating | Notes |
+  | --------------------- | ------ | ----- |
+  | examples/dump.rs      | +1    | io (safe) |
+  | examples/simple.rs    | +1    | io (safe) |
+  | fuzz/*                |       | UNREVIEWED (excluded from crate) |
+  | src/lib.rs            | +1    | |
+  | src/limits.rs         | +1    | |
+  | src/parser.rs         | +1    | |
+  | src/tests.rs          | +1    | io (safe) |
+  | src/validator.rs      | +1    | check_utf8 could be mostly replaced with stdlib? |
+  | tests/*.wasm          |       | Unreviewed... nothing but WASM though, should be OK |
+  | .gitignore            | +1    | |
+  | .travis.yml           | +1    | |
+  | Cargo.toml            | +1    | |
+  | Cargo.toml.orig       | +1    | |
+  | check-rustfmt.sh      | +1    | Globally overwrites rustfmt with specific version |
+  | format-all.sh         | +1    | |
+  | LICENSE               | +1    | Apache 2.0 |
+  | Readme.md             | +1    | |
+  | test-all.sh           | +1    | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | +1    | No unsafe code.
+  | fs        | +1    | Examples and tests only, reasonably used.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+5haIzhBDi6j1hCloozivpsjyvtm7_vnomHFp_yTS7RUoOM77cS6C40eEVynTE6xmQcIds8uNx8bp_aojKF0qBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-28T13:03:05.604212800-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.7
+  digest: Qm8pnnLf79BuCjurE9DgtpJXFziWm70bA9u6D2s96Wk
+review:
+  thoroughness: high
+  understanding: medium
+  rating: negative
+comment: |
+  Prefer 0.4.11 which at least starts using MaybeUninit instead of uninitialized!(), which is fundamentally unsound.
+  Uses a disturbing amount of unsafe, but aside from uninitialized, it all at least appears to be correct after a careful reading.
+  Unlike smallvec, this doesn't fall back on the heap.
+  Better than whatever you'll write rolling your own, at least.
+  
+  Detail
+  ======
+  
+  | File                      | Rating | Notes |
+  | ------------------------- | ------ | ----- |
+  | benches/arraystring.rs    | +1    | |
+  | benches/extend.rs         | +1    | |
+  | src/array_string.rs       | 0     | lots of unsafe, but I think sound
+  | src/array.rs              | 0     | fix_array_impl! hides unsafe, but not misused nor public
+  | src/char.rs               | +1    | Relied upon for soundness... thoroughly checked against https://en.wikipedia.org/wiki/UTF-8
+  | src/errors.rs             | +1    | |
+  | src/lib.rs                | 0     | lots of unsafe, but I think sound
+  | src/range.rs              | +1    | |
+  | tests/serde.rs            | +1    | |
+  | tests/tests.rs            | +1    | |
+  | .gitignore                | +1    | |
+  | .travis.yml               | +1    | |
+  | Cargo.toml                | +1    | |
+  | Cargo.toml.orig           | +1    | |
+  | custom.css                | +1    | |
+  | LICENSE-APACHE            | +1    | |
+  | LICENSE-MIT               | +1    | |
+  | README.rst                | +1    | |
+  
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | -1    | Overused
+  | fs        | +1    | Unused
+  | docs      | +1    | |
+  | tests     | 0     | Good coverage... not seeing any fuzz testing for all this unsafe though.
+  
+  
+  
+  src/array_string.rs 
+  -------------------
+  
+  ### OK
+  
+  | Line  | Notes |
+  | -----:| ----- |
+  | 56    | unsafe - new_array ~ uninitialized, Array is an unsafe trait though so only implement it if this is sound...?
+  | 95    | No CapacityError?  Inconsistent vs from...
+  | 160   | unsafe { ... } - looks correct
+  | 213   | unsafe { ... } - looks correct
+  | 216   | could be a slice copy instead
+  | 245   | unsafe { ... } - looks correct
+  | 271   | unsafe { ... } - looks correct
+  | 307   | unsafe { ... } - looks correct
+  | 318   | unsafe { ... } - looks correct
+  | 331   | unsafe fn - decent docs, looks correct, should be more explicit about uninitialized though
+  | 342   | unsafe fn - needs better docs, but looks correct
+  | 351   | unsafe { ... } - looks correct
+  | 361   | unsafe { ... } - scary transmute, but just from &mut [u8] to &mut str.  stdlib from_utf8_unchecked does equivalent pointer casts
+  
+  src/array.rs 
+  -------------------
+  
+  | Line  | Notes     |
+  | -----:| --------- |
+  | 80    | Aieee!    |
+  | 132   | unsafe { ... } - not sure this is sound for bools etc.
+  | 214   | unsafe { ... } - looks correct
+  | 246   | unsafe fn - exactly as spceified
+  | 306   | unsafe { ... } - looks correct
+  | 340   | unsafe { ... } - looks correct
+  | 511   | unsafe fn - exactly as specified
+  | 552   | unsafe { ... } - scary as heck... but Drain should keep self borrowed long enough, at least.
+  | 575   | unsafe { ... } - looks correct
+  | 604   | unsafe { ... } - looks correct
+  | 614   | unsafe { ... } - looks correct
+  | 707   | unsafe { ... } - looks correct.  Size could be reduced, relies on IntoIter's custom drop not dropping copied elements due to the index increment to avoid double drops.
+  | 724   | unsafe { ... } - looks correct.  Size could be reduced, relies on IntoIter's custom drop not dropping copied elements due to the length decrement to avoid double drops.
+  | 740   | unsafe { ... } - looks correct.  Implements the aforementioned IntoIter custom drop.
+  | 764   | unsafe Sync - I believe this is OK.
+  | 765   | unsafe Send - I believe this is OK.
+  | 775   | unsafe { ... } - looks correct.  Relies on set_len already being truncated to avoid double drops.
+  | 793   | unsafe { ... } - looks correct.  Relies on set_len already being truncated to avoid double drops.
+  | 809   | necessary to aovid memory leaks
+  | 812   | unsafe { ... } - looks correct.
+  | 851   | unsafe { ... } - looks correct.
+  | 1008  | unsafe { ... } - looks correct.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+JQ73XJUfRATtGvZHLCmRJjj6jzKk7MnlkymHTu6NzvPHGlAY5xI3FD-yMsBfM71dKCcNxaTDCsKUldXnyNt5Ag
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-28T16:10:17.023402700-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.8
+  revision: c8d12cecb372a7bcf9cd213b6db72e359fbc6fb3
+  digest: Tpor7Z0QAKKsMTN9CUkZXrJKFXjrpgfKcxt_HJc0DbM
+package-diff-base:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.7
+  digest: Qm8pnnLf79BuCjurE9DgtpJXFziWm70bA9u6D2s96Wk
+review:
+  thoroughness: high
+  understanding: medium
+  rating: negative
+comment: |
+  Prefer 0.4.11 which at least starts using MaybeUninit instead of uninitialized!(), which is fundamentally unsound.
+  Uses a disturbing amount of unsafe, but aside from uninitialized, it all at least appears to be correct after a careful reading.
+  Unlike smallvec, this doesn't fall back on the heap.
+  Better than whatever you'll write rolling your own, at least.
+  
+  See 0.4.7 for base review.  Diffed 0.4.7 -> 0.4.8, no concerning changes.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+wuko7X2PJHIs_wAnSJvLd_GygogHDKJLOcLh7LnMiqU6naZXxzYeZdr9Q9io_KB0Ci55NKGKZRJfFOMIbuKsBg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-28T16:24:01.443956-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.9
+  revision: 2316b85fbce3dc5380ec07f9ae8feb31a2baf82a
+  digest: bwksY0BucIcQnaZCk4PjArtBsBAkm-UZc-jJIqOSq_c
+package-diff-base:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.8
+  revision: c8d12cecb372a7bcf9cd213b6db72e359fbc6fb3
+  digest: Tpor7Z0QAKKsMTN9CUkZXrJKFXjrpgfKcxt_HJc0DbM
+review:
+  thoroughness: high
+  understanding: medium
+  rating: negative
+comment: |
+  Prefer 0.4.11 which at least starts using MaybeUninit instead of uninitialized!(), which is fundamentally unsound.
+  Uses a disturbing amount of unsafe, but aside from uninitialized, it all at least appears to be correct after a careful reading.
+  Unlike smallvec, this doesn't fall back on the heap.
+  Better than whatever you'll write rolling your own, at least.
+  
+  0.4.7 -> 0.4.8: IntoIter implemented Clone, unconcerning
+  0.4.8 -> 0.4.9: ArrayString initialized to 0, ArrayVec uses nightly MaybeUninit.  Unfortunately stable still uses uninitialized!() so this is still negative.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ccPzlB0A_X1gayeqVMkXBoqFi6r0fShfwFZS8rO80RVx3ILx8iRuyZRBKbdHg4evvB0sqmrMtKWXK0PledifCQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-28T16:26:51.098004300-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.10
+  revision: 21661facf8f5d65b4bd6701e48d218eb957314fa
+  digest: rMt-pBvs6mpXpRITdaptkVBFQh8jDGspRlSVlJuwWTc
+package-diff-base:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.9
+  revision: 2316b85fbce3dc5380ec07f9ae8feb31a2baf82a
+  digest: bwksY0BucIcQnaZCk4PjArtBsBAkm-UZc-jJIqOSq_c
+review:
+  thoroughness: high
+  understanding: medium
+  rating: negative
+comment: |
+  Prefer 0.4.11 which at least starts using MaybeUninit instead of uninitialized!(), which is fundamentally unsound.
+  Uses a disturbing amount of unsafe, but aside from uninitialized, it all at least appears to be correct after a careful reading.
+  Unlike smallvec, this doesn't fall back on the heap.
+  Better than whatever you'll write rolling your own, at least.
+  
+  0.4.7 -> 0.4.8:  IntoIter implemented Clone, unconcerning
+  0.4.8 -> 0.4.9:  ArrayString initialized to 0, ArrayVec uses nightly MaybeUninit.  Unfortunately stable still uses uninitialized!() so this is still negative.
+  0.4.9 -> 0.4.10: #[repr(C)], -Clone for MaybeUninit.  Apparently I missed more possible unsoundness.  Unsafe is hard.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+23Ye2nk9r7P0q2gh5uCxclpwhuQeAourBz58Dd8DNkamO7UIZal6Ix7LCNI8ZBd5b92xOWjPOIf7r6dXVm5yDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-28T16:39:15.770274-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.11
+  revision: 97925027920f7a284774f76a48c3126297d2fd13
+  digest: KpEAh6TMg7CZJEN4AtElrISdVHCISCfvU4-w4eEeoFg
+package-diff-base:
+  source: "https://crates.io"
+  name: arrayvec
+  version: 0.4.10
+  revision: 21661facf8f5d65b4bd6701e48d218eb957314fa
+  digest: rMt-pBvs6mpXpRITdaptkVBFQh8jDGspRlSVlJuwWTc
+review:
+  thoroughness: high
+  understanding: medium
+  rating: neutral
+comment: |
+  Probably sound as of 0.4.11 on Rust 1.36.0+?
+  Uses a disturbing amount of unsafe, but aside from uninitialized! use in ArrayVec 1.35 and earlier, it all at least appears to be correct after a careful reading.
+  Unlike smallvec, this doesn't fall back on the heap.
+  Better than whatever you'll write rolling your own, at least.
+  
+  0.4.7  -> 0.4.8:  IntoIter implemented Clone, unconcerning
+  0.4.8  -> 0.4.9:  ArrayString initialized to 0, ArrayVec uses nightly MaybeUninit.  Unfortunately stable still uses uninitialized!() so this is still negative.
+  0.4.9  -> 0.4.10: #[repr(C)], -Clone for MaybeUninit.  Apparently I missed more possible unsoundness.  Unsafe is hard.
+  0.4.10 -> 0.4.11: ArrayVec should now also be sound in Rust 1.36.0+, probably, maybe.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+zBAXx5QW_NNmLBRS_sr4rnp0k0ncU9zCOxc1GZTDGyEYzUUBNhGcgT-4aDake8QWe_vK2utGSIMDkraHCpY-AA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-28T18:52:03.963719700-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: gimli
+  version: 0.15.0
+  digest: gw7OXjt0MmQVhmS8O_JLkieH_tUjvRxJ4ayh99ypGCg
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Looks nice and solid.  Well documented, well tested, code coverage, safe + sound.
+  Large crate - so I haven't taken the time to thoroughly audit everything - but I have at least skimmed over all code.
+  I've written some of my own partial DWARF parser in C++ in the past... parts look appropriately familiar.
+  
+  Detail
+  ======
+  
+  | File                                      | Rating | Notes |
+  | ----------------------------------------- | ------:| ----- |
+  | benches/bench.rs                          | +1    | fs
+  | examples/dwarfdump.rs                     | +1    | fs
+  | fixtures/self/*                           |       | unreviewed binary data (used in test fixtures, probably OK)
+  | fixtures/self/README.md                   | +1    | |
+  | releases/friends.sh                       | +1    | |
+  | releases/release-announcement-template.md | +1    | |
+  | src/abbrev.rs                             | +1    | |
+  | src/aranges.rs                            | +1    | |
+  | src/cfi.rs                                | +1    | |
+  | src/constants.rs                          | +1    | |
+  | src/endianity.rs                          | +1    | |
+  | src/leb128.rs                             | +1    | |
+  | src/lib.rs                                | +1    | |
+  | src/line.rs                               | +1    | |
+  | src/loc.rs                                | +1    | |
+  | src/lookup.rs                             | +1    | |
+  | src/op.rs                                 | +1    | |
+  | src/parser.rs                             | +1    | |
+  | src/pubnames.rs                           | +1    | |
+  | src/pubtypes.rs                           | +1    | |
+  | src/ranges.rs                             | +1    | |
+  | src/reader.rs                             | +1    | |
+  | src/str.rs                                | +1    | |
+  | src/test_util.rs                          | +1    | |
+  | src/unit.rs                               | +1    | |
+  | tests/parse_self.rs                       | +1    | |
+  | .cargo-ok                                 | +1    | |
+  | .gitignore                                | +1    | |
+  | .travis.yml                               | 0     | I haven't reviewed travis-cargo |
+  | Cargo.toml                                | +1    | |
+  | Cargo.toml.orig                           | +1    | |
+  | CONTRIBUTING.md                           | +1    | |
+  | coverage                                  | +1    | |
+  | format                                    | +1    | |
+  | LICENSE-APACHE                            | +1    | |
+  | LICENSE-MIT                               | +1    | |
+  | README.md                                 | +1    | |
+  | rustfmt.toml                              | +1    | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | +1    | Single `match unsafe { memmap::Mmap::map(&file) }` |
+  | fs        | +1    | Safe, only used in benches/examples/tests
+  | io        | +1    | Some io::{stderr, Error, Write} - all sane
+  | docs      | +1    | Lots of 'em!
+  | tests     | +1    | Lots of 'em!
+  
+  TIL
+  ===
+  travis-cargo
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+fDTUlHvCnevshrOf3-2SGAPO-6Bc8QN63nZu7TumufH2q-kTsTad-zOvOd25MKNMcF6DFvcs8eFwOao3oBKPBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-29T18:27:17.330334900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ascii
+  version: 0.9.2
+  revision: 0e4c03dc048a041eebb51f5cd6d8c9eb5709e18e
+  digest: XdBunbCRNuT6ctz0OasW2fJNfE0tneGGctRPgfcv4a4
+review:
+  thoroughness: none
+  understanding: high
+  rating: negative
+comment: |
+  UNSOUND: https://github.com/tomprogrammer/rust-ascii/issues/64 (I didn't cath this one)
+  unsound? https://github.com/tomprogrammer/rust-ascii/issues/65
+  
+  Lots of repeated unsafe.
+  No debug_assert! s for uncheck codepaths.
+  Unsound test code assumes gen_range meets it's safe API contract.
+  Not fully reviewed.
+  
+  Detail
+  ======
+  
+  | File                              | Rating | Notes |
+  | --------------------------------- | ------ | ----- |
+  | src/serialization/ascii_char.rs   | +1    | thoroughness: low, understanding: high throughout |
+  | src/serialization/ascii_str.rs    | +1    | |
+  | src/serialization/ascii_string.rs | +1    | |
+  | src/serialization/mod.rs          | +1    | |
+  | src/ascii_char.rs                 | 0     | unsound test code?
+  | src/ascii_str.rs                  | -1    | UNSOUND - missing #[repr(transparent)]` !
+  | src/ascii_string.rs               | N/A   | Unreviewed |
+  | src/free_functions.rs             | N/A   | |
+  | src/lib.rs                        | N/A   | |
+  | .gitignore                        | N/A   | |
+  | .travis.yml                       | N/A   | |
+  | Cargo.toml                        | +1    | |
+  | Cargo.toml.orig                   | +1    | |
+  | LICENSE-APACHE                    | N/A   | |
+  | LICENSE_MIT                       | N/A   | |
+  | README.md                         | N/A   | |
+  | RELEASES.md                       | N/A   | |
+  | tests.rs                          | N/A   | |
+  
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | -1    | UNSOUND, disappointing lack of debug_assert!s.
+  | fs        | +1?   | Not present?
+  | io        | +1?   | Not present?
+  | docs      | +1?   |
+  | tests     | +1?   |
+  
+  ### src/ascii_char.rs
+  
+  | Line  | Notes |
+  | -----:| ----- |
+  | 22    | This must contain every value between 0..=127 for soundness guarantees bellow.
+  | 476   | unsafe { ... } - looks sound.  case 1 handles 32..=126, case 2 handles 127, case 3 handles 0..=31.  Not wild about this impl but looks valid.  See https://en.wikipedia.org/wiki/Control_Pictures
+  | 498   | unsafe { ... } - looks sound.  'a' > 'A'
+  | 509   | unsafe { ... } - looks sound.
+  | 548   | unsafe { ... } - looks sound.  Duplicate logic, annoyingly.
+  | 557   | unsafe { ... } - looks sound.  Duplicate logic, annoyingly.
+  | 659   | unsafe fn - looks good.
+  | 670   | unsafe fn - disappointing lack of debug_assert!
+  | 678   | unsafe { ... } - looks sound.
+  | 686   | unsafe fn - disappointing lack of debug_assert!.  transmute from u8 to #[repr(u8)] enum... I believe that's sound.
+  | 694   | unsafe { ... } - looks sound.
+  | 702   | unsafe fn - looks sound.
+  | 714   | UNSOUND TEST CODE?  no guarantee generic Gen actually generates within range.  Gated behind "quickcheck" feature.
+  | 735   | UNSOUND TEST CODE?  no guarantee generic Gen actually generates within range.  Gated behind "quickcheck" feature.
+  
+  ### src/ascii_str.rs
+  
+  | Line  | Notes |
+  | -----:| ----- |
+  | 116   | unsafe fn - looks good.
+  | 352   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 359   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 367   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 384   | scary transmuting impl_into! macro, audit all uses carefully
+  | 390   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 397   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 405   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 410   | I believed these invokes would be sound if AsciiStr was `#[repr(transparent)]`, but https://github.com/tomprogrammer/rust-ascii/issues/64 proved me wrong.
+  | 668   | unsafe fn - looks good.
+  | 676   | unsafe fn - looks good.
+  | 689   | unsafe fn - looks good.
+  | 701   | unsafe fn - looks good.
+  | 713   | unsafe fn - looks good.
+  | 724   | unsafe fn - looks good.
+  | 734   | unsafe fn - looks good.
+  | 746   | unsafe fn - looks good.
+  | 756   | unsafe fn - looks good.
+  | 764   | unsafe { ... } - looks sound.
+  | 768   | unsafe fn - disappointing lack of debug_assert!.
+  | 777   | unsafe { ... } - looks sound.
+  | 781   | unsafe fn - disappointing lack of debug_assert!.
+  | 793   | unsafe fn - looks good.
+  | 800   | unsafe { ... } - looks sound.
+  | 804   | unsafe fn - disappointing lack of debug_assert!.
+  | 818   | unsafe fn - looks good.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+zMCbdJERbfVYyFR4uhovEoTfRDjWi11eJ5ok5J1AiDerKFDZUCNhA7-YrmkGgatUMuog8ULqa2MdMUwNrsccCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-29T19:03:36.150303100-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: ascii
+  version: 0.9.2
+  revision: 0e4c03dc048a041eebb51f5cd6d8c9eb5709e18e
+  digest: XdBunbCRNuT6ctz0OasW2fJNfE0tneGGctRPgfcv4a4
+review:
+  thoroughness: none
+  understanding: high
+  rating: negative
+issues:
+  - id: "https://github.com/tomprogrammer/rust-ascii/issues/64"
+    severity: high
+    comment: Definite soundness issue
+  - id: "https://github.com/tomprogrammer/rust-ascii/issues/65"
+    severity: high
+    comment: Probable soundness issue
+comment: |
+  UNSOUND: https://github.com/tomprogrammer/rust-ascii/issues/64 (I didn't catch this one)
+  unsound? https://github.com/tomprogrammer/rust-ascii/issues/65
+  
+  Lots of repeated unsafe.
+  No debug_assert! s for uncheck codepaths.
+  Unsound test code assumes gen_range meets it's safe API contract.
+  Not fully reviewed.
+  
+  Detail
+  ======
+  
+  | File                              | Rating | Notes |
+  | --------------------------------- | ------ | ----- |
+  | src/serialization/ascii_char.rs   | +1    | thoroughness: low, understanding: high throughout |
+  | src/serialization/ascii_str.rs    | +1    | |
+  | src/serialization/ascii_string.rs | +1    | |
+  | src/serialization/mod.rs          | +1    | |
+  | src/ascii_char.rs                 | 0     | unsound test code?
+  | src/ascii_str.rs                  | -1    | UNSOUND - missing #[repr(transparent)]` !
+  | src/ascii_string.rs               | N/A   | Unreviewed |
+  | src/free_functions.rs             | N/A   | |
+  | src/lib.rs                        | N/A   | |
+  | .gitignore                        | N/A   | |
+  | .travis.yml                       | N/A   | |
+  | Cargo.toml                        | +1    | |
+  | Cargo.toml.orig                   | +1    | |
+  | LICENSE-APACHE                    | N/A   | |
+  | LICENSE_MIT                       | N/A   | |
+  | README.md                         | N/A   | |
+  | RELEASES.md                       | N/A   | |
+  | tests.rs                          | N/A   | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | -1    | UNSOUND, disappointing lack of debug_assert!s.
+  | fs        | +1?   | Not present?
+  | io        | +1?   | Not present?
+  | docs      | +1?   |
+  | tests     | +1?   |
+  
+  ### src/ascii_char.rs
+  
+  | Line  | Notes |
+  | -----:| ----- |
+  | 22    | This must contain every value between 0..=127 for soundness guarantees bellow.
+  | 476   | unsafe { ... } - looks sound.  case 1 handles 32..=126, case 2 handles 127, case 3 handles 0..=31.  Not wild about this impl but looks valid.  See https://en.wikipedia.org/wiki/Control_Pictures
+  | 498   | unsafe { ... } - looks sound.  'a' > 'A'
+  | 509   | unsafe { ... } - looks sound.
+  | 548   | unsafe { ... } - looks sound.  Duplicate logic, annoyingly.
+  | 557   | unsafe { ... } - looks sound.  Duplicate logic, annoyingly.
+  | 659   | unsafe fn - looks good.
+  | 670   | unsafe fn - disappointing lack of debug_assert!
+  | 678   | unsafe { ... } - looks sound.
+  | 686   | unsafe fn - disappointing lack of debug_assert!.  transmute from u8 to #[repr(u8)] enum... I believe that's sound.
+  | 694   | unsafe { ... } - looks sound.
+  | 702   | unsafe fn - looks sound.
+  | 714   | UNSOUND TEST CODE?  no guarantee generic Gen actually generates within range.  Gated behind "quickcheck" feature.
+  | 735   | UNSOUND TEST CODE?  no guarantee generic Gen actually generates within range.  Gated behind "quickcheck" feature.
+  
+  ### src/ascii_str.rs
+  
+  | Line  | Notes |
+  | -----:| ----- |
+  | 116   | unsafe fn - looks good.
+  | 352   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 359   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 367   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 384   | scary transmuting impl_into! macro, audit all uses carefully
+  | 390   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 397   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 405   | UNSOUND unsafe { ... } - AsciiStr is not `#[repr(transparent)]` !
+  | 410   | I believed these invokes would be sound if AsciiStr was `#[repr(transparent)]`, but https://github.com/tomprogrammer/rust-ascii/issues/64 proved me wrong.
+  | 668   | unsafe fn - looks good.
+  | 676   | unsafe fn - looks good.
+  | 689   | unsafe fn - looks good.
+  | 701   | unsafe fn - looks good.
+  | 713   | unsafe fn - looks good.
+  | 724   | unsafe fn - looks good.
+  | 734   | unsafe fn - looks good.
+  | 746   | unsafe fn - looks good.
+  | 756   | unsafe fn - looks good.
+  | 764   | unsafe { ... } - looks sound.
+  | 768   | unsafe fn - disappointing lack of debug_assert!.
+  | 777   | unsafe { ... } - looks sound.
+  | 781   | unsafe fn - disappointing lack of debug_assert!.
+  | 793   | unsafe fn - looks good.
+  | 800   | unsafe { ... } - looks sound.
+  | 804   | unsafe fn - disappointing lack of debug_assert!.
+  | 818   | unsafe fn - looks good.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+7ORyVUBrJZ5J6W79-tn2mM-IK3kgcUE6G05eWRkL37bTAlfNWTFfW8SC3iqP-UDWI1u0Sagfd3yJiPPddOkxAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-30T20:17:55.203899500-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: jni-sys
+  version: 0.3.0
+  digest: f-SyiW5cP6r3w5T7EHQomFF1ZOp3Sbaj0M6PYxhlbi8
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: |
+  Good solid FFI crate.  Manual generation (I see comments!) concerns me, but upon review it looks to have been done correctly.
+  
+  Verified all structs and FFI signatures against android JNI.h, with the exception of double checking that *everything* is marked JNICALL on windows JNI instead of just most of it.
+  Android JNI lacks parameter names, so I didn't sanity check those either.
+  Verified against %LOCALAPPDATA%\Android\Sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\sysroot\usr\include\jni.h
+  
+  Detail
+  ======
+  
+  | File                              | Rating | Notes |
+  | --------------------------------- | ------ | ----- |
+  | src/lib.rs                        | +1  | Lots of unsafe... but necessary. |
+  | .gitignore                        | +1  | |
+  | .travis.yml                       | +1  | |
+  | appveyor.yml                      | +1  | |
+  | Cargo.toml                        | +1  | |
+  | Cargo.toml.orig                   | +1  | |
+  | README.md                         | +1  | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | +1    | Lots of it... but all necessary, and after careful review, all appears correct.
+  | fs        | +1    | None
+  | io        | +1    | None
+  | docs      | -1    | Nonexistant, but of low importance (other primary references are available)
+  | tests     |  0    | Not in crate
+  
+  ### src/lib.rs
+  
+  | Line  | Rating | Notes |
+  | -----:| ------ | ----- |
+  | 7     | +1    | Looks sufficiently correct to me - VS defines this as *mut c_char, but *mut c_void is close enough IMO.
+  | 10    | +1    | all verified
+  | 20    | 0     | native version uses more newtypes, but without inheritence maybe this is sane in Rust.
+  | 39    | +1    | verified
+  | 51    | +1    | sure
+  | 57    | +1    | |
+  | 64    | -1    | DANGER - rust enum for C enum is begging for unsound if returned from FFI
+  | 71    | +1    | JNI constants here all look good
+  | 93    | 0     | JNINativeMethod - C version uses const char*, but the muts here aren't a *big* deal... I
+  | 99    | +1    | |
+  | 105   | +1    | JNINativeInterface is bloody huge, but all methods appear to match in name, position, and signature... |
+  | 115   |       | ...with the caveat that there's a lot of "system" convention when JNICALL isn't used throughout the android jni.h.  However, it *is* used in openjdk so that's probably fine?
+  | 116   |       | I'm also assuming `Option<unsafe extern "system" fn(...) -> ...>` is FFI compatible with C function pointers, which might be a bad assumption. |
+  | 157   |       | Native version isn't marked no return but I bet it is.
+  | 175   |       | Also, varargs functions degrade to "C" mode per https://stackoverflow.com/a/3615407
+  | 1411  |       | Reviewed all the way to here!
+  | 1413  | +1    | Sure
+  | 1421  | +1    | JNIEnv_ - Lack of impl with forwarding fns like jni.h has is vageuly annoying.
+  | 1425  | +1    | Sure
+  | 1433  | +1    | JavaVMOption - Again, mut differences, but otherwise OK.  Sure.
+  | 1438  | +1    | Sure
+  | 1446  | +1    | JavaVMInitArgs - LGTM
+  | 1453  | +1    | Sure
+  | 1461  | +1    | JavaVMAttachArgs - Again, mut differences, but otherwise OK.  Sure.
+  | 1467  | +1    | Sure
+  | 1475  | +1    | JNIInvokeInterface - LGTM
+  | 1501  | +1    | Sure
+  | 1507  | +1    | LHTM
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+69ScAod4hNsNW7ShR2swIY50fW-sd_1JslxPkN-2xp8ilUk9FrZqPt5Y8tNHmWRCh1TUgZQHv0FJx60y9wPTCw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-31T12:40:26.107695500-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: jni
+  version: 0.13.0
+  revision: ceeec77366816eec42536fc2ed27c8571a62535e
+  digest: zPAj5ePssSPD2gU1VsDSUo44GOvGIQvsb7zs6J3Ra0s
+review:
+  thoroughness: low
+  understanding: medium
+  rating: negative
+issues:
+  - id: "https://github.com/jni-rs/jni-rs/issues/197"
+    severity: high
+    comment: Definite soundness issue
+comment: |
+  Rated files were at least reviewed to thoroughness + understanding medium, but the rest was only reviewed to througuhness low.
+  
+  Detail
+  ======
+  
+  | File                                          | Rating | Notes |
+  | --------------------------------------------- | ------ | ----- |
+  | .github/PULL_REQUEST_TEMPLATE.md              | +1    | |
+  | .travis/run_travis_job.sh                     | +1    | |
+  | .vscode/tasks.json                            | +1    | |
+  | benches/api_calls.rs                          | +1    | Various API concerns but this file is fine.
+  | examples/HelloWorld.h                         | +1    | Matches HelloWorld.java... generated by `javah`?
+  | examples/HelloWorld.java                      | +1    | |
+  | examples/Makefile                             | +1    | |
+  | src/wrapper/descriptors/class_desc.rs         | +1    | |
+  | src/wrapper/descriptors/desc.rs               | +1    | |
+  | src/wrapper/descriptors/exception_desc.rs     | +1    | |
+  | src/wrapper/descriptors/field_desc.rs         | +1    | |
+  | src/wrapper/descriptors/method_desc.rs        | +1    | |
+  | src/wrapper/descriptors/mod.rs                | +1    | |
+  | src/wrapper/java_vm/init_args.rs              | +1    | |
+  | src/wrapper/java_vm/mod.rs                    | +1    | |
+  | src/wrapper/java_vm/vm.rs                     | -1    | Not 100% sure if it's sound to detatch threads out from under other Java code.  Some unsafe attach fns also confuse me as to why they're unsafe.
+  | src/wrapper/objects/auto_local.rs             | -1    | Not 100% sure if AutoLocal::new is sound based on scary JVM crash warnings
+  | src/wrapper/objects/global_ref.rs             | +1    | |
+  | src/wrapper/objects/jbytebuffer.rs            | -1    | Allowing construction from arbitrary jobject s will likely be unsound later
+  | src/wrapper/objects/jclass.rs                 | -1    | Ditto
+  | src/wrapper/objects/jfieldid.rs               | -1    | Ditto
+  | src/wrapper/objects/jlist.rs                  | -1    | Called it - internal is used in safe fns, unsound looking as fuck.
+  | src/wrapper/objects/jmap.rs                   |
+  | src/wrapper/objects/jmethodid.rs              |
+  | src/wrapper/objects/jobject.rs                |
+  | src/wrapper/objects/jstaticfieldid.rs         |
+  | src/wrapper/objects/jstaticmethodid.rs        |
+  | src/wrapper/objects/jstring.rs                |
+  | src/wrapper/objects/jthrowable.rs             |
+  | src/wrapper/objects/jvalue.rs                 |
+  | src/wrapper/objects/mod.rs                    |
+  | src/wrapper/strings/ffi_str.rs                |
+  | src/wrapper/strings/java_str.rs               |
+  | src/wrapper/strings/mod.rs                    |
+  | src/wrapper/errors.rs                         |
+  | src/wrapper/executor.rs                       |
+  | src/wrapper/jnienv.rs                         |
+  | src/wrapper/macros.rs                         |
+  | src/wrapper/signature.rs                      |
+  | src/wrapper/version.rs                        |
+  | src/lib.rs                                    |
+  | src/sys.rs                                    | +1    | pub use jni_sys::*
+  | tests/util/example_proxy.rs                   |
+  | tests/util/mod.rs                             |
+  | tests/executor_nested_attach.rs               |
+  | tests/executor.rs                             |
+  | tests/java_integers.rs                        |
+  | tests/jmap.rs                                 |
+  | tests/jni_api.rs                              |
+  | tests/jni_global_ref_is_deleted.rs            |
+  | tests/jni_global_refs.rs                      |
+  | tests/threads_attach_guard.rs                 |
+  | tests/threads_detach_daemon.rs                |
+  | tests/threads_detach.rs                       |
+  | tests/threads_explicit_detach_daemon.rs       |
+  | tests/threads_explicit_detach_permanent.rs    |
+  | tests/threads_explicit_detach.rs              |
+  | tests/threads_nested_attach_daemon.rs         |
+  | tests/threads_nested_attach_guard.rs          |
+  | tests/threads_nested_attach_permanently.rs    |
+  | .appveyor.yml                                 |
+  | .gitignore                                    |
+  | .travis.yml                                   |
+  | Cargo.toml                                    | +1    | |
+  | Cargo.toml.orig                               | +1    | |
+  | CHANGELOG.md                                  | +1    | |
+  | clippy.toml                                   | +1    | |
+  | CODE_OF_CONDUCT.md                            | +1    | |
+  | CONTRIBUTING.md                               | +1    | |
+  | LICENSE-APACHE                                | +1    | |
+  | LICENSE-MIT                                   | +1    | |
+  | README.md                                     | +1    | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | -1    | Unsound
+  | fs        | +1    | Not used
+  | io        | +1    | Not used
+  | docs      | +1    | Well documented
+  | tests     | +1    | Decent testing
+  
+  ### benches/api_calls.rs
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 52    | `..._unchecked` is safe?  Look at `call_static_method_unchecked` carefully.
+  | 69    | Not all `..._unchecked` are safe?
+  | 154   | Must manually drop local refs?  Lame.
+  | 226   | No use of black box?
+  |       | +1
+  
+  ### src/wrapper/descriptors/method_desc.rs
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 24    | I feel like having an implicit "\<init\>" instead of a struct of some sort is potentially confusing?
+  |       | +1
+  
+  ### src/wrapper/java_vm/init_args.rs
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 46    | Could use more doc-tests
+  | 50    | Silently ignoring unsupported options is a little lame
+  | 70    | `JavaVM::build` in doc comments, not `new` ?
+  | 101   | Pretty gosh darn heckin' sketchy if you ask me... relies on opts never being modified after this point.  Fortunately this type's contents are nice and private/local, so that's enforced.
+  |       | +1
+  
+  ### src/wrapper/java_vm/vm.rs 
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 134   | unsafe impl Send + Sync - I believe this is safe for JavaVM (as used here), but not for JNIEnv (keep a look out for that later)
+  | 150   | unsafe { ... } - ptr casts are a bit sketchy, otherwise LGTM.
+  | 158   | +1
+  | 165   | unsafe fn - +1
+  | 185   | attach_current_thread_permanently - possible noop if already attached, meaning it might be temporary!
+  | 232   | detach_current_thread - doc comments make this sound possibly unsound?
+  | 270   | unsafe { ... } - +1
+  | 280   | unsafe { ... } - +1
+  | 364   | unsafe fn - This... actually looks sound? What am I missing?
+  | 386   | unsafe fn - This... actually looks sound? What am I missing?
+  | 409   | unsafe { ... } - +1
+  |       | -1 - Can detatched threads cause unsoundness?  What am I missing for unsafe fn?
+  
+  ### src/wrapper/objects/global_ref.rs
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 36    | unsafe impl Send + Sync - should be safe?
+  | 48    | unsafe fn - presumably because this takes a jobject.  LGTM.
+  | 66    | unsafe fn - presumably because this takes a jobject.  LGTM.
+  |       | +1
+  
+  ### src/wrapper/objects/jbytebuffer.rs 
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 11    | jobject is just a pointer, so this general purpouse crate-exported method means using JByteBuffer s is unsafe!
+  | 32    | there's no guarantee a given JObject is a JByteBuffer, but this succeeds unconditionally.
+  |       | -1 - I suspect invalid jobject s will cause soundness issues later
+  
+  ### src/wrapper/objects/jlist.rs
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 20    | Eww, methods cached per-object?
+  | 46    | jobject -> JObject -> JList can be constructed with an invalid pointer...
+  | 69    | ...making all safe fns on this type unsound.  Use of 'safe' _unchecked methods also concerns me.
+  |       | -1
+  
+  ### src/wrapper/macros.rs
+  
+  | Line | Rating | Notes |
+  | ----:| ------ | ----- |
+  | ...   |
+  | 26    | +1    | non_null
+  | ...   |
+  | 105   | +1    | java_vm_unchecked - 'unchecked' refers to error codes.  unsafe macro, $java_vm must be valid.
+  | 132   | -1    | java_vm_method    -  I wish this forced the caller to use `unsafe { ... }`.  unsafe macro, $jnienv must be valid.
+  | ...   |
+  
+  # TIL
+  
+  * Use `javah` to generate rust, perhaps?
+  * `[build-dependencies]`
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+SPYAiGfSsVI0H8ficgKstbfAdZfY1rlMPUU1RlLo7Uok_0CxwXPCFD-GsJfkfvz-JYBz-bMrue7soZcHTLLTBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-31T15:57:20.331088900-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: zip
+  version: 0.5.2
+  revision: cdbdc008fc3a1a9fb1ba7ebb323a7b8fa4ead931
+  digest: D0V4h7lsyRa_pSpI2YkLmzjQikyk5zQHU7KEW9zt-W0
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Looks like a solid crate.  A few minor concerns:
+  
+  * 755 permissions.  Necessary, but bandied about.
+  * Unsanitized path names are accessible, easy to misuse.
+  * Doesn't ban access to `CON` or similar.
+  * Lacks fuzz tests
+  
+  Detail
+  ======
+  
+  | File                                          | Rating | Notes |
+  | --------------------------------------------- | ------ | ----- |
+  | benches/read_entry.rs                         | +1    | |
+  | examples/extract_lorem.rs                     | +1    | |
+  | examples/extract.rs                           | +1    | |
+  | examples/file_info.rs                         | +1    | |
+  | examples/stdin_info.rs                        | +1    | |
+  | examples/write_dir.rs                         | 0     | 755 permissions make me slightly nervous, but I think it's safe
+  | examples/write_sample.rs                      | 0     | 755 permissions make me slightly nervous, but I think it's safe
+  | script/doc-upload.cfg                         | +1    | |
+  | src/compression.rs                            | +1    | |
+  | src/cp437.rs                                  | +1    | |
+  | src/crc32.rs                                  | +1    | |
+  | src/lib.rs                                    | +1    | |
+  | src/read.rs                                   | +1    | |
+  | src/result.rs                                 | +1    | |
+  | src/spec.rs                                   | +1    | |
+  | src/types.rs                                  | 0     | Could be a little more defensive towards misue, but pretty solid.
+  | src/write.rs                                  | +1    | |
+  | tests/data/*.zip                              |       | Unreviewed... probably OK though
+  | tests/end_to_end.rs                           | +1    | |
+  | tests/invalid_date.rs                         | +1    | |
+  | tests/zip64_large.rs                          | +1    | |
+  | .gitignore                                    | +1    | |
+  | .travis.yml                                   | -1    | | curl random urls
+  | appveyor.yml                                  | -1    | | sourceforge mingw urls
+  | Cargo.toml                                    | +1    | |
+  | Cargo.toml.orig                               | +1    | |
+  | LICENSE                                       | +1    | MIT
+  | README.md                                     | +1    | |
+  
+  | Other     | Rating | Notes |
+  | --------- | ------ | ----- |
+  | unsafe    | +1    | No unsafe code
+  | fs        | +1    | Examples/tests appear safe.
+  | io        | +1    | |
+  | docs      | +1    | |
+  | tests     | +1    | Could use more fuzzing tests
+  
+  ### src/types.rs
+  
+  | Line | Notes |
+  | ----:| ----- |
+  | 215   | I'd like this to have a scarier name... but eh, at least it's sound.
+  | 250   | This drops invalid components... I think it should return an error on invalid components.  But at least it's sound and shouldn't be vulnerable to path navigation attacks?
+  | 250   | This doesn't forbid `CON` or similar.
+  | 298   | *Excellent* test, this is exactly what I want to see!
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+izJs8M8HsyykDaveW6rKikjU9k0KAJVNCRn_arLnbZsh8d1sBRCLdCi06XQyCG-xNrnSdtLRexxDDCa3D1T0Bg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-31T16:03:28.971401700-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: podio
+  version: 0.1.6
+  digest: LnsfgA9FWKhFK8GirfINrXGvXhPzXRU51mQqHq-lPvo
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  Solid looking, 100% safe.  Only concern is CI scripts downloading random URLs.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ysXGOt0innXTYUxkhyvZfBEoXk4JsRDIsSPfYIqkbn2NXV68KkgnmkZQoR8Q2dKPo08vQ2j6KqkQUiaHRKb_Dg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-31T16:06:13.731098100-07:00"
+from:
+  id-type: crev
+  id: 6OZqHXqyUAF57grEY7IVMjRljdd9dgDxiNtr1NF1BdY
+  url: "https://github.com/MaulingMonkey/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: cfg-if
+  version: 0.1.9
+  digest: gDrZ_GLiGjle6RhSqttA6kWgzJsLrkIOE_in6us34N0
+review:
+  thoroughness: low
+  understanding: low
+  rating: positive
+comment: |
+  Macro black magic... I trust the author and what I do understand looks good.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+nmWXfyO8U8V27Y7nYcTxknjT8mq9pX9FCyytUwC4K5wqpAlnpHznC9S7rfH0tyx6gYg7xKrG_gMvafLME97wDg
+-----END CREV PACKAGE REVIEW-----
+

@@ -1,0 +1,173 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T09:55:27.366413+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: wonderbox
+  version: 0.5.0
+  revision: e87b049f521972a5b83ae0df15e1fd6870540dc3
+  digest: hvIXbAoY-8flanklLOP4ee3_WQSmNXuHe1Jaq8dyZcI
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+wc-p57m-6AbzFHtq4oRYiB2HjgS_iKgQ9mjAPs4SXIkv35QaariCMkqrBqjri_yQQO_HEgY3Q98QCDV7GdcEAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T10:01:22.282114+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: nameof
+  version: 1.1.0
+  revision: 49dde05153e91a37cd6db88284b9b3fcdfed5cc2
+  digest: L8ZjYZfcIPCpFXVEQ5wCo7gZUQtZ-IeTHSbkFuQhQB0
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Hrf97cfx-ly7Oj6QqzwaLHBe2-AnV1jgopEZ1-obCuH1YAkyyskYOOcLrQvrEuFW4JPOd3-BfeOMpOQ2zC1UDw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T10:07:34.908780+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: myelin-geometry
+  version: 2.4.0
+  revision: 60572b6dd23dcbffe1b4579f1a2140ad90ebe838
+  digest: mxzu6Rp7CjY0XB2ZorwPtS6wwW3GeDln2SwizspQIy0
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I'm one of the authors"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+D6GotseX7M8oIfRi_mja5mmEuo32YFbx7f_KOZFFBvr04pn5PlF42pv_pVNsBki7q39QJoBJmgli7LB5i3jkAQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T10:08:30.843923+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: myelin-engine
+  version: 0.14.0
+  revision: fa9acdf715e45d375f272d2bfe326f2426421233
+  digest: XufHMCXYuLwgQpkVAczlOiJk2fc5lEG1Ln5X3sv8YMc
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I'm one of the authors"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ftKrFUSwKADoXTyuG_Hvk98Nr7ESVHQ_lk8WgBYuipGo9zjmk9aBy1R5nfK7T3GHyuCv4H_37fjYOEUf01bAAA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T10:09:38.569823+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: mockiato
+  version: 0.8.0
+  revision: ad8210ee478c8d7860d9e1f1631f75973e2d922e
+  digest: A4HToIn7JfXcSy2s3ySx0JodChVHrjePRLMv6_fwLSw
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I'm the author"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+QEWscfeVfg6aqZVAfaENxht6V7kTa9BjDUtfN1sq8gEn0xVC_jPJwWAx7FRSskaCF8ly_enVNAkxBOaswHaFBA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T10:10:06.480497+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: mockiato
+  version: 0.9.0
+  revision: a1a06c8fea51f10bc22182b06a691b4ea2c91dfb
+  digest: _TaHcTTIS5V2V4WOL_KKHiFZh3uYKI1Rddzd6Ha3ZPo
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I'm the author"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+ZPH6c-TmXpmezlf1Q9BBKiwAvVhdkkFJOixb9Ek4LDFMEOGbAWlyBmKiwpFuwrkCYXyPCfaXMNkJCtRyPRrtBw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T10:10:36.282167+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: mockiato-codegen
+  version: 0.9.0
+  digest: ztE7992zkN6Qv5anFjO6Rfe-1rycnDbcg47e-prewL8
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I'm the author"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+TVB-zm17RfPAtryiL0lhfN6cGCylbtnY_8yml-vjfNl441AqJ6MJeUONcaWobTSw0aaXERm1Vb1lna4Xta3tBQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-07-15T10:28:58.828854+02:00"
+from:
+  id-type: crev
+  id: Mw3ReGwT2pB41AUQ12T7TcgvH5pq7I1gd8Iw_LLH4XQ
+  url: "https://github.com/bash/crev-proofs.git"
+package:
+  source: "https://crates.io"
+  name: mockiato-codegen
+  version: 0.8.0
+  revision: ad8210ee478c8d7860d9e1f1631f75973e2d922e
+  digest: ugVWASGVGfaWWpQNOBdaFfuknbe2Qfa_l1elpsvpuCQ
+review:
+  thoroughness: high
+  understanding: high
+  rating: positive
+comment: "I'm the author"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+sljqlcOVz6NjjsPhDhI9t_RGlqI-MlLS3gR1p6YqbgQ2jqosb8YOKXa5cJ3HLpO748S9XGmIyPE79GUDlaJKCA
+-----END CREV PACKAGE REVIEW-----
+

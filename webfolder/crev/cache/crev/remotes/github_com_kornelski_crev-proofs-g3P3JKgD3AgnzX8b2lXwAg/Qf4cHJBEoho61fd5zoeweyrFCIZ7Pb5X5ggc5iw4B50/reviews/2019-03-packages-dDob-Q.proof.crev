@@ -1,0 +1,84 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-03-10T20:26:05.327219+00:00"
+from:
+  id-type: crev
+  id: Qf4cHJBEoho61fd5zoeweyrFCIZ7Pb5X5ggc5iw4B50
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rake
+  version: 0.1.3
+  revision: 48d3ed9884cadfc5c354335ed7efce4483975a82
+  digest: "-b8Y3YDHtChrw0qWmCH01D4JcS2vqIouIY-2QIZRIZU"
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+VUfFdZcDGgS6-g9HD4uWj39MXu-sZle4r6Th7GuHv8EAPLa2-_vBNUzl3G2odhbRWEoD2LlZ0s17Agv6-AAUDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-03-20T18:17:23.688540+00:00"
+from:
+  id-type: crev
+  id: Qf4cHJBEoho61fd5zoeweyrFCIZ7Pb5X5ggc5iw4B50
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: github-rs
+  version: 0.6.1
+  digest: PzDAEU5vBzKP4IXDUxMGziWmk5pwc2iXFwbr677VRf8
+review:
+  thoroughness: low
+  understanding: medium
+  rating: negative
+comment: "The project is unmaintained. The implementation is incomplete, and doesn't support paging."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+kMDXM1Lt0VWpijm7L6DAZzgPxseJ122bXy6zvQQ8n4NG4SIljIOurHbpujcO_qbBMtHEmz4jbXOBU1snu90sDQ
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-03-10T20:26:05.327219+00:00"
+from:
+  id-type: crev
+  id: Qf4cHJBEoho61fd5zoeweyrFCIZ7Pb5X5ggc5iw4B50
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: rake
+  version: 0.1.3
+  revision: 48d3ed9884cadfc5c354335ed7efce4483975a82
+  digest: "-b8Y3YDHtChrw0qWmCH01D4JcS2vqIouIY-2QIZRIZU"
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+VUfFdZcDGgS6-g9HD4uWj39MXu-sZle4r6Th7GuHv8EAPLa2-_vBNUzl3G2odhbRWEoD2LlZ0s17Agv6-AAUDA
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-03-20T18:17:23.688540+00:00"
+from:
+  id-type: crev
+  id: Qf4cHJBEoho61fd5zoeweyrFCIZ7Pb5X5ggc5iw4B50
+  url: "https://github.com/kornelski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: github-rs
+  version: 0.6.1
+  digest: PzDAEU5vBzKP4IXDUxMGziWmk5pwc2iXFwbr677VRf8
+review:
+  thoroughness: low
+  understanding: medium
+  rating: negative
+comment: "The project is unmaintained. The implementation is incomplete, and doesn't support paging."
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+kMDXM1Lt0VWpijm7L6DAZzgPxseJ122bXy6zvQQ8n4NG4SIljIOurHbpujcO_qbBMtHEmz4jbXOBU1snu90sDQ
+-----END CREV PACKAGE REVIEW-----
+

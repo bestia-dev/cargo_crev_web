@@ -1,0 +1,174 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-10-04T12:32:40.987608253+02:00"
+from:
+  id-type: crev
+  id: pt_he2sLPg2w2u4YN7lj-6Gvu25R8aN6ZCcuQFzxC1g
+  url: "https://gitlab.com/phgsng/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: unix_socket
+  version: 0.5.0
+  digest: LAYHv0-kub9mYypWL7GX8vkGNPRG2ndjAsaSMLAH5sA
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |
+  Disclaimer: as far as syscall usage is concerned, this review
+  considers only the behavior on Linux.
+  
+  Cons
+  ====
+  
+  - “unsafe”, “unsafe” everywhere; 32× as of version 0.5.0. Not
+    really avoidable when working closely with C APIs though.
+  - C APIs can still be handled incorrectly in the public API, e.
+    g. calling ``shutdown()`` twice on one socket. The result is
+    handled safely though even under programmer errors.
+  - As of 2019 the code is a bit stale, e. g. it uses the soon to
+    be deprecated``try!()`` and thus may not build with a future
+    version of Rust.
+  
+  Pros
+  ====
+  
+  - Excellent API documentation.
+  - Minimal dependencies (libc, cfg-if).
+  - Use of ``unsafe`` is never gratuitous.
+  - Public API exposes safe interfaces that ensure correctness on
+    the type level.
+  - Thoroughly unit-tested (all tests ok).
+  
+  ``lib.rs``
+  ==========
+  
+  general considerations
+  ----------------------
+  
+  - + Unix syscalls are handled using two wrappers that convert
+    return values to ``io::Result``.
+  
+  - + Most uses of ``unsafe`` use safe lower level constructs.
+  
+  unsafe code
+  -----------
+  
+  There is only one source file, ``lib.rs``, so all uses of
+  “unsafe” are found there.
+  
+  - + ``fn sun_path_offset()``: calculates the offset of a struct
+    member using pointer arithmetic. Circumnavigates possible UB
+    (cf. https://internals.rust-lang.org/t/9273/127).
+    ``offsetof()`` is still an unsolved problem in Rust.
+  - + ``impl Drop for Inner``: obligatory dtor.
+  - + ``fn Inner::new()``: wraps ``socket(2)``; return value
+    handled ok.
+  - + ``fn Inner::new_pair()``: wraps ``socketpair(2)``; return
+    value handled ok; out parameter handled correctly.
+  - + ``fn Inter::try_clone()``: wraps ``dup(2)``; return value
+    handled ok.
+  - + ``fn Inner::shutdown()``: wraps ``shutdown(2)``; return value
+    handled ok; API safe by accepting an enum wrapper over the
+    ``int how`` argument.
+  - + ``fn Inner::timeout()``: wraps ``getsockopt(2)``; return
+    value handled ok; out parameter (``struct timeval``) handled
+    ok.
+  - + ``fn Inner::set_timeout()``: wraps ``setsockopt(2)``; return
+    value handled ok; correct input validation, catching out of
+    range values for ``time_t`` argument using saturating
+    arithmetic.
+  - ± `` fn Inner::set_nonblocking()``: wraps ``ioctl(2)`` with
+    ``FIONBIO``; return value handled ok. Why not use ``fcntl(2)``
+    with ``O_NONBLOCK`` instead? Probably to save one syscall? This
+    warrants an explantory comment.
+  - + ``fn Inner::take_error()``: wraps ``getsockopt(2)``; return
+    value handled ok; out parameter ok.
+  
+  - + ``unsafe fn sockaddr_un()``: initializes a ``struct
+    sockaddr_un``; inputs validated appropriately; raw pointer
+    access provably within bounds.
+  - + ``fn SocketAddr::new()``: obtains a socket address; for use
+    with ``getpeername()`` / ``getsockname()`` etc.; return value
+    handled ok (assuming the passed function returns the syscall
+    return value).
+  - + ``fn SocketAddr::address()``: casts memory of a wrapped type
+    from ``[char]`` to ``[u8]``; array bounds are preserved thus
+    subsequent accesses return slices with valid bounds.
+  
+  - + ``fn UnixStream::connect()`: public API wrapping socket
+    creation and ``connect(2)``; arguments obtained from internal
+    APIs deemed safe; return value handled ok.
+  - + ``fn UnixStream::local_addr()`: wraps ``getsockname(2)``;
+    return value and arguments handled by ``SocketAddr::new()``.
+  - + ``fn UnixStream::peer_addr()`: wraps ``getpeername(2)``;
+    return value and arguments handled by ``SocketAddr::new()``.
+  
+  - + ``impl Read for UnixStream, fn read()``: wraps ``recv(2)``;
+    return value handled ok; argument values obtained from safe
+    rust type.
+  - + ``impl Write for UnixStream, fn write()``: wraps ``send(2)``;
+    return value handled ok; argument values obtained from safe
+    rust type.
+  - + ``impl FromRawFd for UnixStream, fn from_raw_fd()``: unsafe
+    trait; constructs a ``UnixStream`` without validating the
+    arugment.
+  
+  - ± ``fn UnixListener::bind()``: wraps socket creation,
+    ``bind(2)`` and ``listen(2``; return values handled ok; backlog
+    of socket queue hard-coded to the default Linux maximum of 128
+    which is reasonable but deserves mention in the docs.
+  - + ``fn UnixListener::accept()``: wrapper for ``accept(2)``;
+    return value and argument checks deferred to
+    ``SocketAddr::new()``.
+  - + ``fn UnixListener::local_addr()``: wrapper for
+    ``getsockname(2)``; return value and arguments handled by
+    ``SocketAddr::new()``.
+  - + ``impl FromRawFd for UnixListener, fn from_raw_fd()``: unsafe
+    trait, constructs ``UnixListener`` without validating anything.
+  
+  - + ``fn UnixDatagram::bind()``: wraps ``bind(2)`` for
+    ``SOCK_DGRAM`` type sockets; return value handled ok; args
+    obtained from safe wrappers.
+  - + ``fn UnixDatagram::connect()``: wraps ``connect(2)``; return
+    value handled ok; args obtained from safe wrappers.
+  - + ``fn UnixDatagram::local_addr()`: wraps ``getsockname(2)``;
+    return value and arguments handled by ``SocketAddr::new()``.
+  - + ``fn UnixDatagram::peer_addr()`: wraps ``getpeername(2)``;
+    return value and arguments handled by ``SocketAddr::new()``.
+  - + ``fn UnixDatagram::recv_from()`: wraps ``recvfrom(2)``;
+    return value handled ok; args obtained from safe wrappers.
+  - + ``fn UnixDatagram::recv()`: wraps ``recv(2)``; args obtained
+    from safe types; return value handled ok.
+  - + ``fn UnixDatagram::send_to()`: wraps ``send_to(2)``; args
+    obtained from safe types; return value handled ok.
+  - + ``fn UnixDatagram::send()`: wraps ``send_to(2)``; args
+    obtained from safe types; return value handled ok.
+  - + ``impl FromRawFd for UnixDatagram, fn from_raw_fd()``: unsafe
+    trait, constructs ``UnixDatagram`` without validating anything.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+SNnr2rlFO7AeJvafjLIuou-y3DM3R-2_slIpzlHsGWpyod1hZ970pJ7qGYTy_j3FGR0ZLMtaukLusF6-_W6nAg
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-10-10T10:15:18.491252904+02:00"
+from:
+  id-type: crev
+  id: pt_he2sLPg2w2u4YN7lj-6Gvu25R8aN6ZCcuQFzxC1g
+  url: "https://gitlab.com/phgsng/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: leftpad
+  version: 0.2.0
+  digest: EmXayW_hJqv_zDMWDSIHbfKT9PwgT0mh_0w8yqjrxd8
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+comment: |
+  No “unsafe” code. Trivial functionality. Basic functionality tests.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+u61vcBuDIo8LdsQZgI3RszB0NfLPK7Tm5OWvBQyIEZuyEGa7xZurlmu9ZONQ486dHTnR0FLNH_FhdIxy1qpaCA
+-----END CREV PACKAGE REVIEW-----
+

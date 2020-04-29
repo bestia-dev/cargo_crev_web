@@ -1,0 +1,78 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-12-16T20:16:19.986503600-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+comment: |-
+  DPC is the author of crev,
+  and is therefore implicitly trusted by all crev users anyway.
+----- SIGN CREV PROOF -----
+VOmPjeCv2BZSrstwmkK5F-KbbwSHK0jEJO8gf2menlTJunNgrzUmhPJ6yeNHMXIf5i-DForeNNOUkI50WkNzBw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-12-16T20:18:24.215565-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+comment: |-
+  As the author of crev, DPC is implicitly trusted by all crev users.
+----- SIGN CREV PROOF -----
+m76ifF-z8x4RR1C56VdQNoh5TGeDGha_UaqPemTJ1IiHPWM4-s2umvaX0DLdEFAVy0vtZXtlXpBegVF-WNNZAA
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-12-16T20:21:22.542261100-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+ids:
+  - id-type: crev
+    id: VylyTuk8CMGqIxgHixWaqfiUn3xZyzOA1wFrQ0sR1As
+    url: "https://github.com/BurntSushi/crev-proofs"
+trust: medium
+comment: |-
+  BurntSushi is the author of the crates-io crate `regex`
+  and a known, reputable member of the Rust community.
+----- SIGN CREV PROOF -----
+SekWdaOMyDEGdL1m9fmKN_oC8_jtXDf9G8-kizooxQmp7KtmgxENqEtvJ7RQzablUp18imdJlf8Ig2axFMPsDQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2019-12-16T20:23:31.172606100-05:00"
+from:
+  id-type: crev
+  id: e13vqC78LDCc-IiVPs-XkOHWd1j6PJUcYrugasS77hQ
+  url: "https://github.com/cad97/crev-proofs"
+ids:
+  - id-type: crev
+    id: aD4K0g6AcSKUDp3VPF7u4hM94zEkqjWeRQwmabLBcV0
+    url: "https://github.com/Mark-Simulacrum/crev-proofs"
+trust: medium
+comment: |-
+  Mark Simulacrum is a Rust core team member and release team lead.
+----- SIGN CREV PROOF -----
+C58SYmAmF7npzvHcshWSpEFhN6oGLhf6mB8G2Stawx0InjIzM2UKMSLUQFCA5xEQbbhzUNXNjLQoypYoBZmEAQ
+----- END CREV PROOF -----
+

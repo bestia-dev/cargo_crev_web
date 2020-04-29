@@ -1,0 +1,25 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-05-19T19:03:59.317977+03:00"
+from:
+  id-type: crev
+  id: YWfa4SGgcW87fIT88uCkkrsRgIbWiGOOYmBbA1AtnKA
+  url: "https://github.com/oherrala/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: protobuf
+  version: 2.5.0
+  revision: 8b3ec6f6b3e2185b33f05c5b8b9f85295bd7896e
+  digest: 0PPNiKdLFrfl6b3-ts67MfTbtsCP_Uur9y3KxsUghn8
+review:
+  thoroughness: none
+  understanding: none
+  rating: neutral
+advisory:
+  affected: all
+  critical: true
+comment: "https://rustsec.org/advisories/RUSTSEC-2019-0003.html"
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+tZLxP059Xwew6NSxXKKWZBwbP2jmTcjkxkpLfwdeHJ32PGlfRwzEwNry_ivYoYkO2octHyOiJ4Lmh0cy5z7HDQ
+-----END CREV PACKAGE REVIEW-----
+

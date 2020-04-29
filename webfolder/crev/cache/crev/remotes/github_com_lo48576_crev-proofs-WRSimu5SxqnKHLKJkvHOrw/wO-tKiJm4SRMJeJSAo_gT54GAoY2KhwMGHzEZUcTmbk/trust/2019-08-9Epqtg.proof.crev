@@ -1,0 +1,17 @@
+-----BEGIN CREV TRUST -----
+version: -1
+date: "2019-08-31T14:20:09.674078748+09:00"
+from:
+  id-type: crev
+  id: wO-tKiJm4SRMJeJSAo_gT54GAoY2KhwMGHzEZUcTmbk
+  url: "https://github.com/lo48576/crev-proofs"
+ids:
+  - id-type: crev
+    id: lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A
+    url: "https://git.sr.ht/~icefox/crev-proofs"
+trust: low
+comment: "Who wrote <https://wiki.alopex.li/ActuallyUsingCrev>."
+-----BEGIN CREV TRUST SIGNATURE-----
+gckePQD2J7ACyR9ySOGQVWPYbuTFh2heYmFuuCRMrPLYzMNrkmLlxpsDaPmAsO1Av4NO51jHdd4-zeXhgQc5AQ
+-----END CREV TRUST-----
+

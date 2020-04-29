@@ -1,0 +1,17 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2020-01-23T21:51:13.896540400+07:00"
+from:
+  id-type: crev
+  id: 24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw
+  url: "https://github.com/LucianoBestia/crev-proofs"
+ids:
+  - id-type: crev
+    id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+    url: "https://github.com/dpc/crev-proofs"
+trust: medium
+----- SIGN CREV PROOF -----
+4L0HMC44xuVDxand7uTJRi33zh_rPnp9UhCtpzDvv6Pil1LZDHpq6Xyh3Z4EhKO7lAG-1pY9I0VZIKQK3Pv4DA
+----- END CREV PROOF -----
+

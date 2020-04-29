@@ -1,0 +1,19 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2019-12-30T15:20:46.340584863-08:00"
+from:
+  id-type: crev
+  id: FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE
+  url: "https://github.com/dpc/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: quickersort
+  version: 3.0.1
+  digest: ekDLhvOQkB42ut6_tiHLoNF8ISYIjryIQpnW0dGzHzM
+flags:
+  unmaintained: true
+----- SIGN CREV PROOF -----
+LEewpd_l2Z520AgvlUiBwoILY6dGGtU0YH8gtxJ7hS5xw6eOjCl4pWRdZvHc0Q-KixWLKxV52N-23iSPhbA5Aw
+----- END CREV PROOF -----
+

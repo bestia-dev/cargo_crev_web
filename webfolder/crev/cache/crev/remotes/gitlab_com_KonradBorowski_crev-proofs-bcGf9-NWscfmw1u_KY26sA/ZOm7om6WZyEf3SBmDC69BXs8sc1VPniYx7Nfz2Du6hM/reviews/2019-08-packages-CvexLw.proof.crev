@@ -1,0 +1,27 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-01T10:58:09.894975048+02:00"
+from:
+  id-type: crev
+  id: ZOm7om6WZyEf3SBmDC69BXs8sc1VPniYx7Nfz2Du6hM
+  url: "https://gitlab.com/KonradBorowski/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: log
+  version: 0.4.8
+  revision: 70b78abf071a2849e20861df99bbd6b1e889ef71
+  digest: "-my_J3xnEFaUscuzr9204Um_e9UNhJkk1rcHZgh2zQw"
+package-diff-base:
+  source: "https://crates.io"
+  name: log
+  version: 0.4.6
+  revision: 1a9a8275f5d84d50b756437524da5ff8273ef99b
+  digest: BhDmOOjfESqs8i3z9qsQANH8A39eKklgQKuVtrwN-Tw
+review:
+  thoroughness: low
+  understanding: medium
+  rating: positive
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Fxlb0RRVeRyYda8DaPY3yg1cUm9CiZbrJeCv8lP_7N2bg2CwzCjzf2eCrhli7gDhWbo9QquNsZsQAiFBcvkDAw
+-----END CREV PACKAGE REVIEW-----
+

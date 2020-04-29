@@ -1,0 +1,46 @@
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-29T21:07:16.215544600-06:00"
+from:
+  id-type: crev
+  id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+  url: "https://github.com/Lokathor/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: winapi
+  version: 0.3.7
+  revision: 8a45d4833896127539ee30077c36c07d40c03905
+  digest: 9YjPxlCr0s3uqgDXguRVfb_PDPqwPL2pIHx8wfnqHHQ
+review:
+  thoroughness: none
+  understanding: medium
+  rating: positive
+comment: |
+  This is the core of all Win32 bindings and we're sure in trouble if anything here goes wrong. Luckily, retep998 has nearly encyclopedic of all the Win32 weirdness and is very careful about PRs because they have corporate users and stuff like that.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+9-H0eFyKfjDHqqHNebeDrVtHpD1OZpvauW6raYE_TB5YvAWS12Rcm1tpgLmIWNG9u_40sbO6DnqzKNTrlXAtAw
+-----END CREV PACKAGE REVIEW-----
+
+-----BEGIN CREV PACKAGE REVIEW-----
+version: -1
+date: "2019-08-30T15:55:34.963481900-06:00"
+from:
+  id-type: crev
+  id: ZCBwWlOeJyU79adJqX9-irGH5wrmuYxUPXeSrFKuayg
+  url: "https://github.com/Lokathor/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: winapi
+  version: 0.3.8
+  revision: 05afe1294f559fb20073d38ae91eda89a8ca8662
+  digest: d8Epz1ZHoTTaCtYmPf3Pt827IVYNufWiNiB9oafDH-s
+review:
+  thoroughness: none
+  understanding: medium
+  rating: positive
+comment: |
+  Just a patch to winapi compared to the last review.
+-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----
+Q4pYXsyw1D6OLZU1A-NTGl1rrZrAKsh8Z3NPzPLxHbnTlfKPIBBK_c9qFlw3mNRjcRzSQOv3Jfkz1EiOdlcLBQ
+-----END CREV PACKAGE REVIEW-----
+
