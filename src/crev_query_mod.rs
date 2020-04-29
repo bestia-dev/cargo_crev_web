@@ -152,6 +152,10 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
             html.push_str(r#"<div class="review_alternative">"#);
             html.push_str(&format!(
                 r#"<div class="review_header_cell">{}</div>"#,
+                "alternatives:"
+            ));
+            html.push_str(&format!(
+                r#"<div class="review_header_cell">{}</div>"#,
                 &alternative.source
             ));
             html.push_str(&format!(
@@ -165,6 +169,10 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
     if let Some(issues) = &proof.issues {
         for issue in issues {
             html.push_str(r#"<div class="review_issue">"#);
+            html.push_str(&format!(
+                r#"<div class="review_header_cell">{}</div>"#,
+                "issues:"
+            ));
             html.push_str(&format!(
                 r#"<div class="review_header_cell">{}</div>"#,
                 &issue.id
@@ -182,6 +190,10 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
     }
     if let Some(advisory) = &proof.advisory {
         html.push_str(r#"<div class="review_advisory">"#);
+        html.push_str(&format!(
+            r#"<div class="review_header_cell">{}</div>"#,
+            "advisory:"
+        ));
         html.push_str(&format!(
             r#"<div class="review_header_cell">{}</div>"#,
             &advisory.affected

@@ -28,3 +28,10 @@ It will listen on port 8051 listens to http.
 One working server is installed on my google vm.  
 There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8051.
 Nginx also redirects all http 80 to https 443.  
+
+## testing my .cache/crev
+
+http://127.0.0.1:8051/query/btoi    alternatives  
+http://127.0.0.1:8051/query/num-traits   issues  
+http://127.0.0.1:8051/query/protobuf   advisory  
+

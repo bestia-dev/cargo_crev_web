@@ -29,7 +29,7 @@ body {
 .review_alternative {
   display: flex;
   justify-content: space-around;
-  background-color: #181A1F;
+  background-color: #1B1D23;
   padding: 10px;
   color:yellow;
 }
@@ -37,7 +37,7 @@ body {
 .review_issue {
   display: flex;
   justify-content: space-around;
-  background-color: #181A1F;
+  background-color: #1B1D23;
   padding: 10px;
   color:orange;
 }
@@ -45,7 +45,7 @@ body {
 .review_advisory {
   display: flex;
   justify-content: space-around;
-  background-color: #181A1F;
+  background-color: #1B1D23;
   padding: 10px;
   color:red;
 }
