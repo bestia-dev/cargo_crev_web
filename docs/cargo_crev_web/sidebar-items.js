@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["main","main function of the binary"]],"mod":[["crev_query_mod",""]]});
