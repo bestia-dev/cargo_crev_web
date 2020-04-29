@@ -27,6 +27,9 @@ It will listen on port 8051 listens to http.
 One working server is installed on my google vm.  
 There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8051.
 Nginx also redirects all http 80 to https 443.  
+-- to start the application in background with the command "screen" with a session_name  
+`screen -S cargo_crev_web_8051`,  
+`screen -r cargo_crev_web_8051`,  
 
 ## testing my .cache/crev
 
@@ -39,7 +42,3 @@ on the web:
 <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
 <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
 <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory  
-
--- to start the application in background with the command "screen" with a session_name  
-`screen -S cargo_crev_web_8051`,  
-`screen -r cargo_crev_web_8051`,  
