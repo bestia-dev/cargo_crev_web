@@ -112,6 +112,7 @@ pub fn crev_query(crate_name: String) -> String {
     for proof in &reviews {
         push_review_to_html(&mut html, proof);
     }
+
     let html_file = unwrap!(fs::read_to_string("crev/template.html"));
     let html_file = html_file.replace("<!-- content -->", &html);
     //return

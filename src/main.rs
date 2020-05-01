@@ -57,7 +57,7 @@
 //! connect to an existing session  
 //! `screen -r cargo_crev_web_8051`,  
 //! start the web server  
-//! `cd /var/www/webapps/cargo_crev_web;sudo ./cargo_crev_web`
+//! `cd /var/www/webapps/cargo_crev_web; ./cargo_crev_web`
 //! detach the session
 //! `ctrl+a d`
 //!

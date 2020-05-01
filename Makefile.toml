@@ -108,8 +108,9 @@ skip_core_tasks = true
         "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/webapps/cargo_crev_web/",
         "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'chmod\\ \\+x\\ cargo_crev_web\\\\n'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'chmod\\ \\+x\\ cargo_crev_web\\\\n'",
-        "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'sudo\\ \\.\\/cargo_crev_web\\\\n'",
-        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'sudo\\ \\.\\/cargo_crev_web\\\\n'",
+        # don't use sudo here, because .cache is under luciano_bestia user, this user must run the binary
+        "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff '\\.\\/cargo_crev_web\\\\n'",
+        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff '\\.\\/cargo_crev_web\\\\n'",
     ]
 
     [tasks.increment_minor]
@@ -255,19 +256,27 @@ script = [
 [tasks.post_build_dev]
 clear=true
 private=true
-script = ["echo build dev end", 
+script = [
+    "echo post_build_dev", 
+    "echo $ cp target/debug/cargo_crev_web ./webfolder",
     "cp target/debug/cargo_crev_web ./webfolder",
+    "echo $ cd webfolder",
     "cd webfolder",
-    " ./cargo_crev_web"
+    "echo $  ./cargo_crev_web",
+    " ./cargo_crev_web",
 ]
 
 [tasks.post_build_release]
 clear=true
 private=true
-script = ["echo build release end",
+script = [
+    "echo post_build_release",
+    "echo $ cp target/release/cargo_crev_web ./webfolder",
     "cp target/release/cargo_crev_web ./webfolder",
+    "echo $ cd webfolder",
     "cd webfolder",
-    " ./cargo_crev_web"
+    "echo $  ./cargo_crev_web",
+    " ./cargo_crev_web",
 ]
 
 
