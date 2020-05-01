@@ -92,8 +92,8 @@ skip_core_tasks = true
     # backslash is the escape character for all other special characters.
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
-        # "echo git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-        # "git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+        "echo git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+        "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
         "rsync -avz --delete-after /home/luciano/rustprojects/cargo_crev_web/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
          "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
          "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/cargo_crev_web\\\\n'",
@@ -221,10 +221,10 @@ script = [
 [tasks.gittag]
 clear = true
 private = true
-description = "git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
+description = "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
 script = [
-	"echo git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-    "git tag -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
+	"echo git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+    "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
 ]		  
 
 

@@ -1,7 +1,7 @@
 [package]
 name = "cargo_crev_web"
 #no need for semver if it is not a library
-version = "2020.429.2144" 
+version = "2020.501.1211" 
 description = "web server to query reviews from cargo-crev"
 authors = ["Luciano Bestia"]
 edition = "2018"
@@ -30,3 +30,4 @@ unwrap = "1.2.1"
 # regex = "1.3.6"
 # lazy_static="1.4.0"
 glob="0.3.0"
+dirs="2.0.2"

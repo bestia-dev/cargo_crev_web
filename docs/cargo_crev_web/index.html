@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `cargo_crev_web` crate."><meta name="keywords" content="rust, rustlang, rust-lang, cargo_crev_web"><title>cargo_crev_web - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../cargo_crev_web/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate cargo_crev_web</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all cargo_crev_web's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'cargo_crev_web', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/cargo_crev_web/main.rs.html#2-134' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>cargo_crev_web</a></span></h1><div class='docblock'><h1 id="cargo_crev_web" class="section-header"><a href="#cargo_crev_web">cargo_crev_web</a></h1>
-<p>version: 2020.429.2144  date: 2020-04-29 authors: Luciano Bestia<br />
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `cargo_crev_web` crate."><meta name="keywords" content="rust, rustlang, rust-lang, cargo_crev_web"><title>cargo_crev_web - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../cargo_crev_web/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate cargo_crev_web</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all cargo_crev_web's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'cargo_crev_web', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/cargo_crev_web/main.rs.html#2-213' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>cargo_crev_web</a></span></h1><div class='docblock'><h1 id="cargo_crev_web" class="section-header"><a href="#cargo_crev_web">cargo_crev_web</a></h1>
+<p>version: 2020.501.1211  date: 2020-05-01 authors: Luciano Bestia<br />
 <strong>web server to query reviews from cargo-crev</strong></p>
 <h2 id="cargo-crev" class="section-header"><a href="#cargo-crev">cargo-crev</a></h2>
 <p>Cargo-crev is a system of review for rust crates in crates.io.<br />
@@ -16,12 +16,82 @@ The same machine will have the web server and the git repository for cargo-crev.
 <a href="https://github.com/seanmonstar/warp">https://github.com/seanmonstar/warp</a><br />
 It will listen on port 8051 listens to http.</p>
 <h2 id="google-vm" class="section-header"><a href="#google-vm">Google vm</a></h2>
-<p>One working server is installed on my google vm.<br />
+<p>One beta working server is installed on my google vm.<br />
 There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8051.
 Nginx also redirects all http 80 to https 443.<br />
--- to start the application in background with the command &quot;screen&quot; with a session_name<br />
+In sites-available/default I added this lines:</p>
+<pre><code class="language-nginx">#region cargo_crev_web
+    #without the trailing / it is not a directory (for the server and for the browser)
+    #do the browser redirect 301
+    location = /cargo_crev_web {
+      return 301 /cargo_crev_web/;
+    }
+    #folder name only, pass to index.html on port 8051
+    location = /cargo_crev_web/ {
+      proxy_pass http://127.0.0.1:8051/index.html;
+      proxy_buffering off;
+    }
+    # the trailing / after both of these lines means this route is not appended to the forwarding
+    location /cargo_crev_web/ {
+      proxy_pass http://127.0.0.1:8051/;
+      proxy_buffering off;
+    }
+  #endregion
+</code></pre>
+<p>The application will be in background with the command &quot;screen&quot; with a session_name.<br />
+So I can see all the stdout of the application easily.<br />
+create a new session<br />
 <code>screen -S cargo_crev_web_8051</code>,<br />
-<code>screen -r cargo_crev_web_8051</code>,</p>
+connect to an existing session<br />
+<code>screen -r cargo_crev_web_8051</code>,<br />
+start the web server<br />
+<code>cd /var/www/webapps/cargo_crev_web;sudo ./cargo_crev_web</code>
+detach the session
+<code>ctrl+a d</code></p>
+<h2 id="install-cargo-crev-to-fetch-reviews" class="section-header"><a href="#install-cargo-crev-to-fetch-reviews">install cargo-crev to fetch reviews</a></h2>
+<p>On my web server I want to fetch the cargo-crev reviews from GitHub in regular intervals.<br />
+I need to install cargo-crev.<br />
+My first attempt was to install rust and cargo with rustup with minimal profile.
+<code>curl https://sh.rustup.rs -sSf | sh -s -- --profile minimal</code><br />
+Then I tried to install cargo-crev with cargo:<br />
+<code>cargo install cargo-crev</code><br />
+It was a disaster. I have the smallest, tiniest possible VM and it looks that compiling the source code of cargo-crev is too much for it. I tried 3 times, waited for a few hours and it didn't succeed.<br />
+Fortunately there is a binary release already compiled here:<br />
+<code>https://github.com/crev-dev/cargo-crev/releases/download/v0.16.1/cargo-crev-v0.16.1-x86_64-unknown-linux-musl.tar.gz</code><br />
+I unzip it twice and saved the binary file <code>cargo-crev</code> in:<br />
+<code>~/.cargo/bin</code><br />
+I could use it already and fetch all the repos, but that is not super safe. Better is to fetch only the trusted repos.<br />
+For this I need to create a crev Id and for that I need to have a GitHub repo.</p>
+<h2 id="github-crev-proofs" class="section-header"><a href="#github-crev-proofs">GitHub crev-proofs</a></h2>
+<p>I followed the instructions <a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md</a><br />
+I created a new GitHub user: <code>cargo-crev-web</code>. I wanted cargo_crev_web, but I couldn't. So I have inconsistent name here.<br />
+I used my second email, because my first email is used for my personal GitHub LucianoBestia.<br />
+On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.<br />
+I forked the template <a href="https://github.com/crev-dev/crev-proofs">https://github.com/crev-dev/crev-proofs</a>.<br />
+For fetch I will open a new screen session:<br />
+<code>screen -S cargo_crev_web_git</code><br />
+to reconnect later: <code>screen -r cargo_crev_web_git</code><br />
+I will need the credentials for ssh for GitHub:<br />
+<code>eval $(ssh-agent -s)</code><br />
+<code>ssh-add ~/.ssh/bestia2_for_github</code><br />
+create new crev id with my new github repo:<br />
+<code>cargo crev id new --url https://github.com/cargo-crev-web/crev-proofs</code><br />
+add a trusted user:<br />
+<code>crev id trust &lt;hash&gt;</code><br />
+example for dpc - Dawid Ciężarkiewicz, the author of cargo-crev. I trust him:<br />
+<code>cargo crev id trust FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE</code><br />
+it is possible also to trust a repo:<br />
+<code>cargo crev trust &lt;url of someone's crev-proofs repo&gt;</code><br />
+At the end of editing the local data push:<br />
+<code>cargo crev repo publish</code></p>
+<h2 id="linux-scheduler-cron-tab" class="section-header"><a href="#linux-scheduler-cron-tab">Linux scheduler cron tab</a></h2>
+<p>I will repeatedly call<br />
+<code>cargo crev repo fetch trusted</code>
+to have fresh reviews available locally in <code>~/.cache/crev/</code>.<br />
+Open the Linux scheduler config file:<br />
+<code>crontab -e</code><br />
+add this line to start every hour at x:04 minutes<br />
+<code>4 * * * * cargo crev repo fetch trusted</code></p>
 <h2 id="testing-my-cachecrev" class="section-header"><a href="#testing-my-cachecrev">testing my .cache/crev</a></h2>
 <p>in development:<br />
 <a href="http://127.0.0.1:8051/query/btoi">http://127.0.0.1:8051/query/btoi</a>    alternatives<br />

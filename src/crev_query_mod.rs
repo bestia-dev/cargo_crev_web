@@ -1,4 +1,5 @@
 //use glob::glob;
+use dirs;
 use serde_derive::{Deserialize, Serialize};
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
@@ -62,10 +63,13 @@ pub fn crev_query(crate_name: String) -> String {
     //first fill a vector with reviews, because I need to filter and sort them
     let mut reviews = vec![];
     // original cache crev folder: /home/luciano/.cache/crev/remotes
-    // local webfolder example "cache/crev/remotes/**/reviews/*.crev"
+    // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
+    // local webfolder example "crev/cache/crev/remotes"
+    let path = unwrap!(dirs::home_dir());
+    let path = path.join(".cache/crev/remotes");
     let mut count_files = 0;
     for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
-        Path::new("crev/cache/crev/remotes"),
+        &path,
         "/*.crev",
         // avoid big folders and other folders with *.crev
         &vec!["/.git".to_string(), "/trust".to_string()]
@@ -107,7 +111,7 @@ pub fn crev_query(crate_name: String) -> String {
     for proof in &reviews {
         push_review_to_html(&mut html, proof);
     }
-    let html_file = unwrap!(fs::read_to_string("crev/index.html"));
+    let html_file = unwrap!(fs::read_to_string("crev/template.html"));
     let html_file = html_file.replace("<!-- content -->", &html);
     //return
     html_file
