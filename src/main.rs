@@ -1,12 +1,12 @@
 // region: lmake_readme include "readme.md" //! A
 //! # cargo_crev_web
-//! 
+//!
 //! version: 2020.501.1211  date: 2020-05-01 authors: Luciano Bestia  
 //! **web server to query reviews from cargo-crev**
-//! 
-//! 
+//!
+//!
 //! ## cargo-crev
-//! 
+//!
 //! Cargo-crev is a system of review for rust crates in crates.io.  
 //! <https://github.com/crev-dev/cargo-crev>  
 //! Originally it is a CLI that programmers use on their local machines while developing.  
@@ -16,20 +16,20 @@
 //! The basis of cargo-crev is a list of trusted individuals.  
 //! For the web it would be a broader number of people to achieve more understanding in the community.  
 //! The same machine will have the web server and the git repository for cargo-crev.  
-//! 
+//!
 //! ## warp
-//! 
+//!
 //! Warp is a web server written in rust.  
 //! <https://github.com/seanmonstar/warp>  
 //! It will listen on port 8051 listens to http.  
-//! 
+//!
 //! ## Google vm
-//! 
+//!
 //! One beta working server is installed on my google vm.  
 //! There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8051.
 //! Nginx also redirects all http 80 to https 443.  
 //! In sites-available/default I added this lines:
-//! 
+//!
 //! ```nginx
 //! #region cargo_crev_web
 //!     #without the trailing / it is not a directory (for the server and for the browser)
@@ -49,7 +49,7 @@
 //!     }
 //!   #endregion
 //! ```
-//! 
+//!
 //! The application will be in background with the command "screen" with a session_name.  
 //! So I can see all the stdout of the application easily.  
 //! create a new session  
@@ -60,9 +60,9 @@
 //! `cd /var/www/webapps/cargo_crev_web;sudo ./cargo_crev_web`
 //! detach the session
 //! `ctrl+a d`
-//! 
+//!
 //! ## install cargo-crev to fetch reviews
-//! 
+//!
 //! On my web server I want to fetch the cargo-crev reviews from GitHub in regular intervals.  
 //! I need to install cargo-crev.  
 //! My first attempt was to install rust and cargo with rustup with minimal profile.
@@ -76,9 +76,9 @@
 //! `~/.cargo/bin`  
 //! I could use it already and fetch all the repos, but that is not super safe. Better is to fetch only the trusted repos.  
 //! For this I need to create a crev Id and for that I need to have a GitHub repo.  
-//! 
+//!
 //! ## GitHub crev-proofs
-//! 
+//!
 //! I followed the instructions <https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md>  
 //! I created a new GitHub user: `cargo-crev-web`. I wanted cargo_crev_web, but I couldn't. So I have inconsistent name here.  
 //! I used my second email, because my first email is used for my personal GitHub LucianoBestia.  
@@ -100,9 +100,9 @@
 //! `cargo crev trust <url of someone's crev-proofs repo>`  
 //! At the end of editing the local data push:  
 //! `cargo crev repo publish`  
-//! 
+//!
 //! ## Linux scheduler cron tab
-//! 
+//!
 //! I will repeatedly call  
 //! `cargo crev repo fetch trusted`
 //! to have fresh reviews available locally in `~/.cache/crev/`.  
@@ -110,14 +110,14 @@
 //! `crontab -e`  
 //! add this line to start every hour at x:04 minutes  
 //! `4 * * * * cargo crev repo fetch trusted`  
-//! 
+//!
 //! ## testing my .cache/crev
-//! 
+//!
 //! in development:  
 //! <http://127.0.0.1:8051/query/btoi>    alternatives  
 //! <http://127.0.0.1:8051/query/num-traits>   issues  
 //! <http://127.0.0.1:8051/query/protobuf>   advisory  
-//! 
+//!
 //! on the web:  
 //! <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
 //! <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  

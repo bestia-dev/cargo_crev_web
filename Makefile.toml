@@ -22,8 +22,10 @@ skip_core_tasks = true
     [tasks.dev]
     description = "cargo build development"
     clear = true
-    dependencies = ["build_dev",
-	"post_build_dev",]
+     dependencies = [
+	"build_dev",
+	"post_build_dev",
+	]
 
     [tasks.release]
     description = "cargo build release"
@@ -41,7 +43,7 @@ skip_core_tasks = true
     description = "run target/release/${CARGO_MAKE_CRATE_NAME}"
     clear = true
     script = [
-        "echo target/release/${CARGO_MAKE_CRATE_NAME}",
+        "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
         "target/release/${CARGO_MAKE_CRATE_NAME} ",
     ]
 	
@@ -80,7 +82,9 @@ skip_core_tasks = true
     description = "push the commits to github, uses ssh agent"
     clear = true
     script = [
+        "echo $ git push",
         "git push",
+        "echo after successful git push, use $ cargo make crates_io_dry_run",
     ]
 
 
@@ -173,8 +177,11 @@ script= ["lmake_version_from_date" ]
 description = "build for release"
 clear = true
 private = true
-command = "cargo"
-args = ["build","--release"]
+script = [
+    "echo $ cargo build --release",
+    "cargo build --release",
+    "echo after successful testing, run $ cargo make doc",
+]
 
 [tasks.cargo_audit]
 description = "cargo audit - for security vulnerabilities"
@@ -194,8 +201,12 @@ args = ["commit","-a","-m", "${@}"]
 description = "cargo fmt"
 clear = true
 private = true
-command = "cargo"
-args = ["fmt"]
+script = [
+    "echo $ cargo fmt",
+    "cargo fmt",
+    "echo after successful fmt and git commit, run $ cargo make gitpush",
+    "echo if the fmt makes changes, just run the same command again."		 
+]
 
 [tasks.include_readme]
 clear = true
@@ -207,15 +218,21 @@ script= ["lmake_readme"]
 clear = true
 private = true
 description = "call cargo doc"
-command="cargo"
-args=["doc","--no-deps","--document-private-items"]
+script=[
+    "echo $ cargo doc --no-deps --document-private-items",
+    "cargo doc --no-deps --document-private-items",
+    "echo $ codetour_export_to_md",
+    "codetour_export_to_md",
+] 
 
 [tasks.doc_copy]
 clear = true
 private = true
 description = "copy doc folder as docs (out of folder target), so it can be git comitted"
 script = [
-    "\\rsync -avz --delete-after target/doc/*  docs/"
+    "echo $ \\rsync -avz --delete-after target/doc/*  docs/",
+    "\\rsync -avz --delete-after target/doc/*  docs/",
+    "echo after successful doc, run cargo make fmt msg_for_commit",
 ]
 
 [tasks.gittag]
@@ -223,7 +240,7 @@ clear = true
 private = true
 description = "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
 script = [
-	"echo git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+	"echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
     "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
 ]		  
 
