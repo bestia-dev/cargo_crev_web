@@ -84,7 +84,7 @@ skip_core_tasks = true
     script = [
         "echo $ git push",
         "git push",
-        "echo after successful git push, use $ cargo make crates_io_dry_run",
+        "echo after successful git push, use $ cargo make publish_to_web",
     ]
 
 
@@ -96,14 +96,20 @@ skip_core_tasks = true
     # backslash is the escape character for all other special characters.
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
-        "echo git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+        "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
         "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+        "echo $ rsync -avz --delete-after /home/luciano/rustprojects/cargo_crev_web/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
         "rsync -avz --delete-after /home/luciano/rustprojects/cargo_crev_web/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
-         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
-         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/cargo_crev_web\\\\n'",
+        "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
+        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
+        "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/cargo_crev_web\\\\n'",
+        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/cargo_crev_web\\\\n'",
+        "echo $ rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/webapps/cargo_crev_web/",
         "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/webapps/cargo_crev_web/",
-         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'chmod\\ \\+x\\ cargo_crev_web\\\\n'",
-         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'sudo\\ \\.\\/cargo_crev_web\\\\n'",
+        "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'chmod\\ \\+x\\ cargo_crev_web\\\\n'",
+        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'chmod\\ \\+x\\ cargo_crev_web\\\\n'",
+        "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'sudo\\ \\.\\/cargo_crev_web\\\\n'",
+        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'sudo\\ \\.\\/cargo_crev_web\\\\n'",
     ]
 
     [tasks.increment_minor]
@@ -136,7 +142,7 @@ script= [
 "echo 09. cargo make fmt commit_message - runs git commit and rustfmt",
 "echo 10. cargo make sshadd - run only once - adds identity to ssh-agent for git and publish",
 "echo 11. cargo make gitpush - git push",
-"echo 12. cargo make publish_on_web - publish on web",
+"echo 12. cargo make publish_to_web - publish to web",
 "echo ",
 "echo LIST RUN WITH ARGUMENTS - release build",
 "echo cargo make run_rel1 - target/release/${CARGO_MAKE_CRATE_NAME}",

@@ -67,6 +67,7 @@ pub fn crev_query(crate_name: String) -> String {
     // local webfolder example "crev/cache/crev/remotes"
     let path = unwrap!(dirs::home_dir());
     let path = path.join(".cache/crev/remotes");
+    println!("path: {}", path.display());
     let mut count_files = 0;
     for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
         &path,
