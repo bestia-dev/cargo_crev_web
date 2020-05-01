@@ -38,6 +38,13 @@ pub struct Alternative {
 }
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Advisory {
+    ids: Vec<String>,
+    severity: String,
+    range: Option<String>,
+    comment: String,
+}
+#[derive(Serialize, Deserialize, Clone)]
+pub struct AdvisoryOld {
     affected: String,
     critical: String,
 }
@@ -52,7 +59,8 @@ pub struct Proof {
     review: Option<ProofReview>,
     alternatives: Option<Vec<Alternative>>,
     issues: Option<Vec<Issue>>,
-    advisory: Option<Advisory>,
+    advisory: Option<AdvisoryOld>,
+    advisories: Option<Vec<Advisory>>,
     comment: Option<String>,
 }
 
@@ -208,6 +216,34 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
             html.push_str(r#"</div>"#);
         }
     }
+    if let Some(advisories) = &proof.advisories {
+        for advisory in advisories {
+            html.push_str(r#"<div class="review_advisory">"#);
+            html.push_str(&format!(
+                r#"<div class="review_header_cell">{}</div>"#,
+                "advisory:"
+            ));
+            let mut ids_string = String::with_capacity(300);
+            for id in &advisory.ids {
+                ids_string.push_str(id);
+                ids_string.push_str(", ");
+            }
+            html.push_str(&format!(
+                r#"<div class="review_header_cell">{}</div>"#,
+                &ids_string
+            ));
+            html.push_str(&format!(
+                r#"<div class="review_header_cell">{}</div>"#,
+                &advisory.severity
+            ));
+            html.push_str(&format!(
+                r#"<div class="review_header_cell">{}</div>"#,
+                advisory.range.as_ref().unwrap_or(&String::new())
+            ));
+            html.push_str(r#"</div>"#);
+        }
+    }
+
     if let Some(advisory) = &proof.advisory {
         html.push_str(r#"<div class="review_advisory">"#);
         html.push_str(&format!(
