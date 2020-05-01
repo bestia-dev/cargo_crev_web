@@ -134,10 +134,16 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
         r#"<div class="review_header_cell">{} {}</div>"#,
         proof.package.name, proof.package.version
     ));
+
     html.push_str(&format!(
         r#"<div class="review_header_cell green bold">{}</div>"#,
-        unwrap!(proof.review.as_ref()).rating
+        if proof.review.is_some() {
+            unwrap!(proof.review.as_ref()).rating.as_str()
+        } else {
+            ""
+        }
     ));
+
     html.push_str(&format!(
         r#"<div class="review_header_cell">{}</div>"#,
         &proof.date[..10]
@@ -148,8 +154,16 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
     ));
     html.push_str(&format!(
         r#"<div class="review_header_cell">{} {}</div>"#,
-        unwrap!(proof.review.as_ref()).thoroughness,
-        unwrap!(proof.review.as_ref()).understanding
+        if proof.review.is_some() {
+            unwrap!(proof.review.as_ref()).thoroughness.as_str()
+        } else {
+            ""
+        },
+        if proof.review.is_some() {
+            unwrap!(proof.review.as_ref()).understanding.as_str()
+        } else {
+            ""
+        }
     ));
     html.push_str(r#"</div>"#);
 
@@ -288,19 +302,19 @@ fn traverse_dir_with_exclude_dir(
     Ok(v)
 }
 
-fn push_proof(proof_string: &str, reviews: &mut Vec<Proof>, crate_name: &str, filename_crev: &str) {
+fn push_proof(
+    proof_string: &str,
+    reviews: &mut Vec<Proof>,
+    crate_name: &str,
+    _filename_crev: &str,
+) {
     let mut proof: Proof = unwrap!(serde_yaml::from_str(proof_string));
     //filter: only one crate_name
     if &proof.package.name == crate_name {
         // reviews without review are not important
-        if proof.review.is_some() {
-            //version for sorting
-            let (major, minor, patch) = parse_semver(&proof.package.version);
-            proof.package.version_for_sorting =
-                Some(format!("{:09}.{:09}.{:09}", major, minor, patch));
-            reviews.push(proof);
-        } else {
-            println!("review is None : {}", filename_crev);
-        }
+        //version for sorting
+        let (major, minor, patch) = parse_semver(&proof.package.version);
+        proof.package.version_for_sorting = Some(format!("{:09}.{:09}.{:09}", major, minor, patch));
+        reviews.push(proof);
     }
 }
