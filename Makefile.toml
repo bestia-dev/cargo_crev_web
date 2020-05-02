@@ -201,8 +201,10 @@ private = true
 description = "git commit with message from argument"
 clear = true
 private = true
-command = "git"
-args = ["commit","-a","-m", "${@}"]
+script = [
+    "git add -A",
+    "git commit -a -m \"${@}\""
+]
 
 [tasks.cargo_fmt]
 description = "cargo fmt"
