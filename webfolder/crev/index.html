@@ -13,14 +13,85 @@
 </head>
 
 <body>
-      <h1>cargo_crev_web reviews</h1>
-      <h2>beta testing</h2>
-      <p>example how to query reviews for a crate "num-traits":</p>
-      <p>
-            <a href="query/num-traits">
-                  https://bestia.dev/query/num-traits
-            </a>
-      </p>
+      <div class="review_container" style="padding:40px">
+            <h1>cargo_crev_web</h1>
+            <h3>query reviews from cargo-crev</h3>
+            <h2>in beta testing here</h2>
+            <p>Try to query reviews for crate "num-traits":</p>
+            <p>
+                  <a href="https://bestia.dev/cargo_crev_web/query/num-traits"
+                     target="_new">
+                        https://bestia.dev/cargo_crev_web/query/num-traits
+                  </a>
+            </p>
+            <hr />
+            <h2>cargo-crev</h2>
+            <p><b>cargo-crev</b> is
+                  a cryptographically verifiable code review system for the
+                  cargo (Rust) package manager:<br>
+                  <a
+                     href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a>
+            </p>
+            <p><b>cargo-crev</b> runs locally on the developer computer.<br>
+                  It needs to be installed and initialized in a few steps.<br>
+                  It takes some time to initialize it and learn how to use it.
+                  <b>cargo-crev</b> is a relatively new project and the majority
+                  of
+                  rust developers don't have it installed yet.<br>
+            </p>
+            <hr />
+            <h2>cargo_crev_web</h2>
+            <p>
+                  I created <b>cargo_crev_web</b> to enable all developers to
+                  query crev reviews.<br>
+                  There is no installation, initialization or learning needed.
+                  It is just a simple web page.<br>
+                  I wish that crates.io will have some day a link to
+                  <b>cargo_crev_web</b> just like today it has links to
+                  documentation and repository.<br>
+                  It simply shows a list of reviews for a crate.<br>
+            </p>
+            <hr />
+            <h2>web of trust</h2>
+            <p>
+                  New crev reviews are written by developers and committed to
+                  crev
+                  proof
+                  repos and pushed to GitHub. From there they are available to
+                  all.<br>
+                  We need a system to trust this persons
+                  to
+                  trust
+                  their reviews.
+                  <b>cargo-crev</b> has a list of trusted persons.
+                  But we personally only know a limited number of trusted
+                  persons.
+                  To make this circle bigger we need more people to trust.
+                  When we trust somebody for reviews, we usually also trust
+                  their choices to trust other people.
+                  So we can trust also them. A little less, but still trust
+                  them.<br>
+                  This is an important part of the <b>web of trust</b>.<br>
+                  It is common in every day life that the friends of our friends
+                  are probably also our friends.
+
+            </p>
+            <hr />
+            <h2>TODO</h2>
+            <p>
+                  This is a work in progress.<br />
+                  - add badge/shield https://shields.io/endpoint<br />
+                  - add more trusted rust developers<br />
+                  - colors, tips, labels
+            </p>
+
+            <hr />
+            <p><b>cargo_crev_web</b> github repository:
+                  <a href="https://github.com/LucianoBestia/cargo_crev_web">
+                        https://github.com/LucianoBestia/cargo_crev_web
+                  </a>
+            </p>
+      </div>
 </body>
 
 </html>

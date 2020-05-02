@@ -1,5 +1,26 @@
-html {
+html { 
   font-family: sans-serif;
+  max-width: 800px;
+  min-width:300px;
+  width:100%;
+  /*margin auto means centered horizontally*/
+  margin: auto;
+  padding-right: 0px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  background-color: #101010;
+  line-height: 1.5;
+  color: #FBF462;
+  user-select: none;
+  /*This is the base font-size. All other font-size 
+  use rem units that are
+  relative to this font-size.*/
+  /*width greater than 600 px*/
+  font-size: 34px;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
 }
 
 body {
@@ -8,7 +29,38 @@ body {
   font-size: 20px;
   line-height: 1.5;
   color: #9DA5B4;
-  background-color: #24292E;
+  background-color: #000000;
+}
+
+/*CSS Reset*/
+div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+ margin: 0;
+ padding: 0;
+ border: 0;
+ border-style: none;
+ outline: 0;
+ font-family: 'Roboto', sans-serif;
+ vertical-align: baseline;
+ background: transparent;
+}
+
+
+a:link, a:visited {
+  color: blue;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  color: lightblue;
+  text-decoration: none;
 }
 
 .review_container {

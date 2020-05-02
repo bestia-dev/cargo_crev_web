@@ -123,3 +123,9 @@ on the web:
 <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
 <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
 <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory  
+
+## TODO
+
+- a short story on the index.html
+  - include how this can be used locally
+- templating machine
