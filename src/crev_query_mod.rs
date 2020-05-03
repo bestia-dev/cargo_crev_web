@@ -1,68 +1,9 @@
 //use glob::glob;
+use crate::proof_mod::*;
 use dirs;
 use serde_derive::{Deserialize, Serialize};
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct ProofFrom {
-    #[serde(rename = "id-type")]
-    id_type: String,
-    id: String,
-    url: String,
-}
-#[derive(Serialize, Deserialize, Clone)]
-pub struct ProofPackage {
-    source: String,
-    name: String,
-    version: String,
-    digest: String,
-    version_for_sorting: Option<String>,
-}
-#[derive(Serialize, Deserialize, Clone)]
-pub struct ProofReview {
-    thoroughness: String,
-    understanding: String,
-    rating: String,
-}
-#[derive(Serialize, Deserialize, Clone)]
-pub struct Issue {
-    id: String,
-    severity: String,
-    comment: String,
-}
-#[derive(Serialize, Deserialize, Clone)]
-pub struct Alternative {
-    source: String,
-    name: String,
-}
-#[derive(Serialize, Deserialize, Clone)]
-pub struct Advisory {
-    ids: Vec<String>,
-    severity: String,
-    range: Option<String>,
-    comment: String,
-}
-#[derive(Serialize, Deserialize, Clone)]
-pub struct AdvisoryOld {
-    affected: String,
-    critical: String,
-}
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct Proof {
-    kind: Option<String>,
-    version: String,
-    date: String,
-    from: ProofFrom,
-    package: ProofPackage,
-    review: Option<ProofReview>,
-    alternatives: Option<Vec<Alternative>>,
-    issues: Option<Vec<Issue>>,
-    advisory: Option<AdvisoryOld>,
-    advisories: Option<Vec<Advisory>>,
-    comment: Option<String>,
-}
 
 /// crev query returns html
 pub fn crev_query(crate_name: String) -> String {
@@ -138,8 +79,8 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
 
     //read template and then render
     let template = unwrap!(fs::read_to_string("template.html"));
-    use crate::html_template_impl_mod::between_body_tag;
     use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
+    use crate::proof_html_template_impl_mod::between_body_tag;
     let template = between_body_tag(&template);
     let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
     //from Nodes to String

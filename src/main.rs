@@ -155,8 +155,9 @@
 
 // region: use statements
 mod crev_query_mod;
-mod html_template_impl_mod;
 mod html_template_mod;
+mod proof_html_template_impl_mod;
+mod proof_mod;
 
 use clap::App;
 use env_logger::Env;

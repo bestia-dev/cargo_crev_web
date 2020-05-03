@@ -25,7 +25,6 @@ pub struct TextNode {
 #[derive(Clone, Debug)]
 pub struct ElementNode {
     pub tag_name: String,
-    // pub listeners: &'a [Listener<'a>],
     pub attributes: Vec<Attribute>,
     pub children: Vec<Node>,
     pub namespace: Option<String>,
@@ -50,12 +49,12 @@ pub enum HtmlOrSvg {
 pub trait HtmlTemplating {
     // region: methods to be implemented for a specific project
     // while rendering, cannot mut rrc
-    /*
+
     fn call_fn_string(&self, fn_name: &str) -> String;
-    fn call_fn_boolean<'a>(&self, fn_name: &str) -> bool;
-    fn call_fn_node<'a>(&self, fn_name: &str) -> Node<'a>;
-    fn call_fn_vec_nodes<'a>(&self, fn_name: &str) -> Vec<Node<'a>>;
-    */
+    fn call_fn_boolean(&self, fn_name: &str) -> bool;
+    fn call_fn_node(&self, fn_name: &str) -> Node;
+    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<Node>;
+
     /*
     fn call_fn_listener(
         &self,
@@ -84,7 +83,6 @@ pub trait HtmlTemplating {
                 dom_path.push(tag_name.to_string());
                 root_element = ElementNode {
                     tag_name: tag_name.to_string(),
-                    // pub listeners: &'a [Listener<'a>],
                     attributes: vec![],
                     children: vec![],
                     namespace: None,
@@ -195,34 +193,34 @@ pub trait HtmlTemplating {
                     }
                 }
                 Event::Attribute(name, value) => {
-                    /*
                     if name.starts_with("data-t-") {
                         // the rest of the name does not matter.
                         // The replace_string will always be applied to the next attribute.
                         let fn_name = value;
                         let repl_txt = self.call_fn_string(fn_name);
                         replace_string = Some(repl_txt);
+                    /*
                     } else if name.starts_with("data-on-") {
                         // Only one listener for now because the api does not give me other method.
                         let fn_name = value.to_string();
                         let event_to_listen = unwrap!(name.get(8..)).to_string();
-                    //websysmod::debug_write("&event_to_listen");
-                    //websysmod::debug_write(&event_to_listen);
+                    //println!("{}","&event_to_listen");
+                    //println!("{}",&event_to_listen);
                     //element = element.add_listener(event_to_listen, self.call_fn_listener(fn_name));
+                    */
                     } else {
-                        */
-                    let value = if let Some(repl) = replace_string {
-                        // empty the replace_string for the next node
-                        replace_string = None;
-                        decode_5_xml_control_characters(&repl)
-                    } else {
-                        decode_5_xml_control_characters(value)
-                    };
-                    element.attributes.push(Attribute {
-                        name: name.to_string(),
-                        value: value,
-                    });
-                    /*}*/
+                        let value = if let Some(repl) = replace_string {
+                            // empty the replace_string for the next node
+                            replace_string = None;
+                            decode_5_xml_control_characters(&repl)
+                        } else {
+                            decode_5_xml_control_characters(value)
+                        };
+                        element.attributes.push(Attribute {
+                            name: name.to_string(),
+                            value: value,
+                        });
+                    }
                 }
                 Event::TextNode(txt) => {
                     let txt = if let Some(repl) = replace_string {
@@ -242,19 +240,19 @@ pub trait HtmlTemplating {
                     // the main goal of comments is to change the value of the next text node
                     // with the result of a function
                     // it must look like <!--t=get_text-->
-                    /*
+
                     if txt.starts_with("t=") {
                         let fn_name = unwrap!(txt.get(2..));
                         let repl_txt = self.call_fn_string(fn_name);
                         replace_string = Some(repl_txt);
                     } else if txt.starts_with("n=") {
                         let fn_name = unwrap!(txt.get(2..));
-                        let repl_node = self.call_fn_node(cx, fn_name);
+                        let repl_node = self.call_fn_node(fn_name);
                         replace_node = Some(repl_node);
                     } else if txt.starts_with("v=") {
                         let fn_name = unwrap!(txt.get(2..));
                         // vector of nodes
-                        let repl_vec_nodes = self.call_fn_vec_nodes(cx, fn_name);
+                        let repl_vec_nodes = self.call_fn_vec_nodes(fn_name);
                         replace_vec_nodes = Some(repl_vec_nodes);
                     } else if txt.starts_with("b=") {
                         // boolean if this is true than render the next node, else don't render
@@ -263,7 +261,6 @@ pub trait HtmlTemplating {
                     } else {
                         // nothing. it is really a comment
                     }
-                    */
                 }
                 Event::EndElement(name) => {
                     let last_name = unwrap!(dom_path.pop());
