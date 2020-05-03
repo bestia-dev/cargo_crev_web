@@ -61,9 +61,9 @@ pub fn crev_query(crate_name: String) -> String {
     for proof in &reviews {
         push_review_to_html(&mut html, proof);
     }
-    println!("html: {}", &html);
+    //println!("html: {}", &html);
     let html_file = unwrap!(fs::read_to_string("template_without_body.html"));
-    println!("html_file: {}", html_file);
+    //println!("html_file: {}", html_file);
     let html_file = html_file.replace("<!-- content -->", &html);
     //return
     html_file
@@ -78,7 +78,7 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
         .replace("/crev-proofs", "");
 
     //read template and then render
-    let template = unwrap!(fs::read_to_string("template.html"));
+    let template = unwrap!(fs::read_to_string("proof_template.html"));
     use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
     use crate::proof_html_template_impl_mod::between_body_tag;
     let template = between_body_tag(&template);
@@ -87,140 +87,6 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
     *html = from_node_to_string(root_node);
     //println!("after: {}", "proof.render_template()");
     //println!("{:?}", html);
-    /*
-    //look test.html to see the static html template
-    html.push_str(r#"<div class="review_container">"#);
-    html.push_str(r#"<div class="review_header">"#);
-    html.push_str(&format!(
-        r#"<div class="review_header_cell">{} {}</div>"#,
-        proof.package.name, proof.package.version
-    ));
-
-    html.push_str(&format!(
-        r#"<div class="review_header_cell green bold">{}</div>"#,
-        if proof.review.is_some() {
-            unwrap!(proof.review.as_ref()).rating.as_str()
-        } else {
-            ""
-        }
-    ));
-
-    html.push_str(&format!(
-        r#"<div class="review_header_cell">{}</div>"#,
-        &proof.date[..10]
-    ));
-    html.push_str(&format!(
-        r#"<div class="review_header_cell white">{}</div>"#,
-        author
-    ));
-    html.push_str(&format!(
-        r#"<div class="review_header_cell">{} {}</div>"#,
-        if proof.review.is_some() {
-            unwrap!(proof.review.as_ref()).thoroughness.as_str()
-        } else {
-            ""
-        },
-        if proof.review.is_some() {
-            unwrap!(proof.review.as_ref()).understanding.as_str()
-        } else {
-            ""
-        }
-    ));
-    html.push_str(r#"</div>"#);
-
-    if let Some(alternatives) = &proof.alternatives {
-        for alternative in alternatives {
-            html.push_str(r#"<div class="review_alternative">"#);
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                "alternatives:"
-            ));
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                &alternative.source
-            ));
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                alternative.name
-            ));
-            html.push_str(r#"</div>"#);
-        }
-    }
-
-    if let Some(issues) = &proof.issues {
-        for issue in issues {
-            html.push_str(r#"<div class="review_issue">"#);
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                "issues:"
-            ));
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                &issue.id
-            ));
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                &issue.severity
-            ));
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                &issue.comment
-            ));
-            html.push_str(r#"</div>"#);
-        }
-    }
-    if let Some(advisories) = &proof.advisories {
-        for advisory in advisories {
-            html.push_str(r#"<div class="review_advisory">"#);
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                "advisory:"
-            ));
-            let mut ids_string = String::with_capacity(300);
-            for id in &advisory.ids {
-                ids_string.push_str(id);
-                ids_string.push_str(", ");
-            }
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                &ids_string
-            ));
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                &advisory.severity
-            ));
-            html.push_str(&format!(
-                r#"<div class="review_header_cell">{}</div>"#,
-                advisory.range.as_ref().unwrap_or(&String::new())
-            ));
-            html.push_str(r#"</div>"#);
-        }
-    }
-
-    if let Some(advisory) = &proof.advisory {
-        html.push_str(r#"<div class="review_advisory">"#);
-        html.push_str(&format!(
-            r#"<div class="review_header_cell">{}</div>"#,
-            "advisory:"
-        ));
-        html.push_str(&format!(
-            r#"<div class="review_header_cell">{}</div>"#,
-            &advisory.affected
-        ));
-        html.push_str(&format!(
-            r#"<div class="review_header_cell">{}</div>"#,
-            &advisory.critical
-        ));
-        html.push_str(r#"</div>"#);
-    }
-
-    html.push_str(r#"<div class="review_comment">"#);
-    if let Some(comment) = &proof.comment {
-        html.push_str(comment);
-    }
-    html.push_str(r#"</div>"#);
-    html.push_str(r#"</div>"#);
-    */
 }
 
 /// parse semver ex. 12.99.88alpha

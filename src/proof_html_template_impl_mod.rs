@@ -14,10 +14,10 @@ impl HtmlTemplating for Proof {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
             "not_visible" => false,
-            "has_alternatives" => true,
-            "has_issue" => true,
-            "has_advisory" => true,
-            "has_old_advisory" => true,
+            "has_alternatives" => self.alternatives.is_some(),
+            "has_issues" => self.issues.is_some(),
+            "has_advisories" => self.advisories.is_some(),
+            "has_old_advisory" => self.advisory.is_some(),
             _ => {
                 let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
                 println!("{}", &x);
@@ -35,7 +35,7 @@ impl HtmlTemplating for Proof {
     fn call_fn_string(&self, fn_name: &str) -> String {
         // println!("{}",&format!("call_fn_string: {}", &fn_name));
         match fn_name {
-            "crate_name" => self.package.name.to_owned(),
+            "crate_name_version" => format!("{} {}", self.package.name, self.package.version),
             _ => {
                 let x = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
                 println!("{}", &x);
