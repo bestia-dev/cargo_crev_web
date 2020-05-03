@@ -70,13 +70,6 @@ pub fn crev_query(crate_name: String) -> String {
 }
 
 pub fn push_review_to_html(html: &mut String, proof: &Proof) {
-    // naive method to extract author
-    let author = proof
-        .from
-        .url
-        .replace("https://github.com/", "")
-        .replace("/crev-proofs", "");
-
     //read template and then render
     let template = unwrap!(fs::read_to_string("proof_template.html"));
     use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};

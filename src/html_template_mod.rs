@@ -242,22 +242,18 @@ pub trait HtmlTemplating {
                     // it must look like <!--t=get_text-->
 
                     if txt.starts_with("t=") {
-                        let fn_name = unwrap!(txt.get(2..));
-                        let repl_txt = self.call_fn_string(fn_name);
+                        let repl_txt = self.call_fn_string(txt);
                         replace_string = Some(repl_txt);
                     } else if txt.starts_with("n=") {
-                        let fn_name = unwrap!(txt.get(2..));
-                        let repl_node = self.call_fn_node(fn_name);
+                        let repl_node = self.call_fn_node(txt);
                         replace_node = Some(repl_node);
                     } else if txt.starts_with("v=") {
-                        let fn_name = unwrap!(txt.get(2..));
                         // vector of nodes
-                        let repl_vec_nodes = self.call_fn_vec_nodes(fn_name);
+                        let repl_vec_nodes = self.call_fn_vec_nodes(txt);
                         replace_vec_nodes = Some(repl_vec_nodes);
                     } else if txt.starts_with("b=") {
                         // boolean if this is true than render the next node, else don't render
-                        let fn_name = unwrap!(txt.get(2..));
-                        replace_boolean = Some(self.call_fn_boolean(fn_name));
+                        replace_boolean = Some(self.call_fn_boolean(txt));
                     } else {
                         // nothing. it is really a comment
                     }

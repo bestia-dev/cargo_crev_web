@@ -13,11 +13,11 @@ impl HtmlTemplating for Proof {
     fn call_fn_boolean(&self, fn_name: &str) -> bool {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
-            "not_visible" => false,
-            "has_alternatives" => self.alternatives.is_some(),
-            "has_issues" => self.issues.is_some(),
-            "has_advisories" => self.advisories.is_some(),
-            "has_old_advisory" => self.advisory.is_some(),
+            "b=not_visible" => false,
+            "b=has_alternatives" => self.alternatives.is_some(),
+            "b=has_issues" => self.issues.is_some(),
+            "b=has_advisories" => self.advisories.is_some(),
+            "b=has_old_advisory" => self.advisory.is_some(),
             _ => {
                 let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
                 println!("{}", &x);
@@ -35,7 +35,39 @@ impl HtmlTemplating for Proof {
     fn call_fn_string(&self, fn_name: &str) -> String {
         // println!("{}",&format!("call_fn_string: {}", &fn_name));
         match fn_name {
-            "crate_name_version" => format!("{} {}", self.package.name, self.package.version),
+            "t=crate_name_version" => format!("{} {}", self.package.name, self.package.version),
+            "t=review_rating" => {
+                if let Some(review) = &self.review {
+                    review.rating.to_string()
+                } else {
+                    "".to_string()
+                }
+            }
+            "t=review_date" => self.date[..10].to_string(),
+            "t=review_author" => {
+                // naive method to extract author
+                let author = self
+                    .from
+                    .url
+                    .replace("https://github.com/", "")
+                    .replace("/crev-proofs", "");
+                //return
+                author
+            }
+            "t=crate_thoroughness_understanding" => {
+                if let Some(review) = &self.review {
+                    format!("{} {}", review.thoroughness, review.understanding)
+                } else {
+                    "".to_string()
+                }
+            }
+            "t=review_comment" => {
+                if let Some(comment) = &self.comment {
+                    comment.clone()
+                } else {
+                    "".to_string()
+                }
+            }
             _ => {
                 let x = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
                 println!("{}", &x);
