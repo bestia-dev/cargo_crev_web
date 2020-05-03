@@ -1,4 +1,5 @@
 //use glob::glob;
+use crate::proof_html_template_impl_mod;
 use crate::proof_mod::*;
 use dirs;
 use serde_derive::{Deserialize, Serialize};
@@ -58,28 +59,19 @@ pub fn crev_query(crate_name: String) -> String {
             .version_for_sorting
             .cmp(&a.package.version_for_sorting)
     });
+    //how to repeat same template ? Now is too late.
+    // i should extract the sub-template before.
+    // the subtemplates can be visible for graphic designer or invisible (not too usefull)
+
     for proof in &reviews {
-        push_review_to_html(&mut html, proof);
+        proof_html_template_impl_mod::push_review_to_html(&mut html, proof);
     }
     //println!("html: {}", &html);
-    let html_file = unwrap!(fs::read_to_string("template_without_body.html"));
+    let html_file = unwrap!(fs::read_to_string("crev/template_without_body.html"));
     //println!("html_file: {}", html_file);
     let html_file = html_file.replace("<!-- content -->", &html);
     //return
     html_file
-}
-
-pub fn push_review_to_html(html: &mut String, proof: &Proof) {
-    //read template and then render
-    let template = unwrap!(fs::read_to_string("proof_template.html"));
-    use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
-    use crate::proof_html_template_impl_mod::between_body_tag;
-    let template = between_body_tag(&template);
-    let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
-    //from Nodes to String
-    *html = from_node_to_string(root_node);
-    //println!("after: {}", "proof.render_template()");
-    //println!("{:?}", html);
 }
 
 /// parse semver ex. 12.99.88alpha

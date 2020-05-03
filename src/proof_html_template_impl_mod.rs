@@ -4,9 +4,8 @@ use crate::html_template_mod::*;
 use crate::proof_mod::Proof;
 use crate::*;
 
+use std::{fs, io, path::Path};
 use unwrap::unwrap;
-
-/// I need a struct to implement the Trait
 
 impl HtmlTemplating for Proof {
     /// html_templating boolean id the next node is rendered or not
@@ -317,4 +316,17 @@ pub fn between_body_tag(resp_body_text: &str) -> String {
             unwrap!(resp_body_text.get(pos1 + 6..pos2)).to_string()
         }
     }
+}
+
+pub fn push_review_to_html(html: &mut String, proof: &Proof) {
+    //read template and then render
+    let template = unwrap!(fs::read_to_string("crev/proof_template.html"));
+    use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
+    use crate::proof_html_template_impl_mod::between_body_tag;
+    let template = between_body_tag(&template);
+    let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
+    //from Nodes to String
+    *html = from_node_to_string(root_node);
+    //println!("after: {}", "proof.render_template()");
+    //println!("{:?}", html);
 }
