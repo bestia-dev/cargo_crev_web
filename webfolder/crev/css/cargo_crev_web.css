@@ -10,7 +10,7 @@ html {
   overflow-x: hidden;
   word-wrap: break-word;
   box-sizing: border-box;
-  background-color: #101010;
+  background-color: #24292E;
   line-height: 1.5;
   color: #FBF462;
   user-select: none;
@@ -29,7 +29,7 @@ body {
   font-size: 20px;
   line-height: 1.5;
   color: #9DA5B4;
-  background-color: #000000;
+  background-color: #24292E;
 }
 
 /*CSS Reset*/
@@ -54,12 +54,12 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 
 a:link, a:visited {
-  color: blue;
+  color: white;
   text-decoration: none;
 }
 
 a:hover, a:active {
-  color: lightblue;
+  color: white;
   text-decoration: none;
 }
 
@@ -108,7 +108,7 @@ a:hover, a:active {
 .review_comment {
   padding: 20px;
   padding-top: 20px;
-  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+  font-family: sans-serif;
   font-size: 20px;
   word-wrap: normal;
   overflow-wrap:break-word;

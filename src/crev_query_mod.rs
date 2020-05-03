@@ -120,8 +120,9 @@ pub fn crev_query(crate_name: String) -> String {
     for proof in &reviews {
         push_review_to_html(&mut html, proof);
     }
-
-    let html_file = unwrap!(fs::read_to_string("template.html"));
+    println!("html: {}", &html);
+    let html_file = unwrap!(fs::read_to_string("template_without_body.html"));
+    println!("html_file: {}", html_file);
     let html_file = html_file.replace("<!-- content -->", &html);
     //return
     html_file
@@ -135,6 +136,17 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
         .replace("https://github.com/", "")
         .replace("/crev-proofs", "");
 
+    //read template and then render
+    let template = unwrap!(fs::read_to_string("template.html"));
+    use crate::html_template_impl_mod::between_body_tag;
+    use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
+    let template = between_body_tag(&template);
+    let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
+    //from Nodes to String
+    *html = from_node_to_string(root_node);
+    //println!("after: {}", "proof.render_template()");
+    //println!("{:?}", html);
+    /*
     //look test.html to see the static html template
     html.push_str(r#"<div class="review_container">"#);
     html.push_str(r#"<div class="review_header">"#);
@@ -267,6 +279,7 @@ pub fn push_review_to_html(html: &mut String, proof: &Proof) {
     }
     html.push_str(r#"</div>"#);
     html.push_str(r#"</div>"#);
+    */
 }
 
 /// parse semver ex. 12.99.88alpha

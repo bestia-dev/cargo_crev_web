@@ -155,6 +155,8 @@
 
 // region: use statements
 mod crev_query_mod;
+mod html_template_impl_mod;
+mod html_template_mod;
 
 use clap::App;
 use env_logger::Env;
@@ -163,7 +165,7 @@ use log::info;
 //use serde_derive::{Deserialize, Serialize};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 //use unwrap::unwrap;
-use warp::Filter;
+use warp::{http::Uri, Filter};
 // endregion
 
 // region: enum, structs, const,...
@@ -200,14 +202,19 @@ async fn main() {
     // endregion
 
     // dynamic content
-    let query = warp::path!("query" / String).map(|crate_name| {
+    let query_crate_name = warp::path!("query" / String).map(|crate_name| {
         let html_file = crev_query_mod::crev_query(crate_name);
         warp::reply::html(html_file)
     });
+
+    // just to not have an orphan route
+    let query_redirect =
+        warp::path!("query").map(|| warp::redirect(Uri::from_static("/cargo_crev_web")));
+
     // static file server
     // GET files of route / -> are from folder ./crev/
     let fileserver = warp::fs::dir("./crev/");
-    let routes = query.or(fileserver);
+    let routes = query_crate_name.or(query_redirect).or(fileserver);
 
     warp::serve(routes).run(local_addr).await;
 }
