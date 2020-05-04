@@ -193,16 +193,17 @@ pub trait HtmlTemplating {
                     }
                 }
                 Event::Attribute(name, value) => {
-                    if name.starts_with("data-t-") {
-                        // the rest of the name does not matter.
+                    if name.starts_with("data-t_") {
+                        // fn_name is in the attribute name.
+                        // the value is only informative for what attribute it should replace.
                         // The replace_string will always be applied to the next attribute.
-                        let fn_name = value;
+                        let fn_name = &name[5..];
                         let repl_txt = self.call_fn_string(fn_name);
                         replace_string = Some(repl_txt);
                     /*
-                    } else if name.starts_with("data-on-") {
+                    } else if name.starts_with("data-on_") {
                         // Only one listener for now because the api does not give me other method.
-                        let fn_name = value.to_string();
+                        let fn_name = &name[5..];
                         let event_to_listen = unwrap!(name.get(8..)).to_string();
                     //println!("{}","&event_to_listen");
                     //println!("{}",&event_to_listen);
@@ -303,7 +304,7 @@ pub fn from_node_to_string(root_node: Node) -> String {
 
     match root_node.node_enum {
         NodeEnum::Element(element_node) => element_node_to_html(&mut html, element_node),
-        NodeEnum::Text(text_node) => println!("root_node must not be a text node."),
+        NodeEnum::Text(text_node) => println!("root_node must not be a text node: {:?}", text_node),
     }
     //return
     html

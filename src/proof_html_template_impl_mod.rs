@@ -66,7 +66,11 @@ impl HtmlTemplating for Proof {
             }
             "t_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
-                    format!("{} {}", review.thoroughness, review.understanding)
+                    format!(
+                        "{} {}",
+                        review.thoroughness.to_string(),
+                        review.understanding.to_string()
+                    )
                 } else {
                     "".to_string()
                 }
@@ -108,82 +112,6 @@ impl HtmlTemplating for Proof {
                                 "https://www.youtube.com/watch?v={}",
                                 rrc.game_data.videos[num]
                             ));
-                        }
-                        "open_menu" => {
-                            websysmod::open_new_local_page_push_to_history("#p21");
-                        }
-                        "sounds_and_labels" => {
-                            // toggle sound and label on/off
-                            println!("{}",&format!("on click sounds and labels: {}", ""));
-                            if rrc.game_data.sounds_and_labels == true {
-                                rrc.game_data.sounds_and_labels = false;
-                            } else {
-                                rrc.game_data.sounds_and_labels = true;
-                            }
-
-                            vdom.schedule_render();
-                        }
-                        "back_to_game" => {
-                            let h = unwrap!(websysmod::window().history());
-                            let _x = h.back();
-                        }
-                        "open_instructions" => {
-                            websysmod::open_new_tab("#p08");
-                        }
-                        "debug_log" => {
-                            websysmod::open_new_tab("#p31");
-                        }
-                        "webrtc" => {
-                            open_new_local_page("#p41");
-                        }
-
-                        "web_rtc_start" => {
-                            rrc.web_data
-                                .web_rtc_data
-                                .web_rtc_start(vdom, unwrap!(rrc.web_data.websocket_data.ws.clone()));
-                        }
-
-                        "web_rtc_send_chat" => {
-                            rrc.web_data.web_rtc_data.web_rtc_send_chat(vdom);
-                        }
-                        "start_a_group_onclick" => {
-                            // entry point for the game
-                            rrc.start_websocket(vdom);
-                            open_new_local_page("#p02");
-                        }
-
-                        "join_a_group_onclick" => {
-                            websysmod::open_new_local_page_push_to_history("#p03");
-                        }
-                        "choose_a_game_onclick" => {
-                            open_new_local_page("#p05");
-                        }
-
-                        "game_type_right_onclick" => {
-                            game_type_right_onclick(rrc, vdom);
-                        }
-                        "game_type_left_onclick" => {
-                            game_type_left_onclick(rrc, vdom);
-                        }
-                        "join_group_on_click" => {
-                            open_new_local_page("#p04");
-                        }
-                        "drink_end" => {
-                            // send a msg to end drinking to all players
-
-                            println!("{}",&format!("MsgDrinkEnd send{}", ""));
-
-                            // if all the cards are permanently up, this is the end of the game
-                            // println!("{}","if is_all_permanently(rrc)");
-
-                            // end the drink page
-                            open_new_local_page("#p11");
-                        }
-
-
-
-                        "hide_big_img" => {
-                            hide_big_img();
                         }
                         _ => {
                             let x = format!("Error: Unrecognized call_fn_listener: \"{}\"", fn_name);
