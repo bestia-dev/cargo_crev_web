@@ -2,7 +2,7 @@
 use crate::proof_html_template_impl_mod;
 use crate::proof_mod::*;
 use dirs;
-use serde_derive::{Deserialize, Serialize};
+//use serde_derive::{Deserialize, Serialize};
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
 

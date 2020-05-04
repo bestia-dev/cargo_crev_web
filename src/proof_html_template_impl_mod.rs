@@ -2,16 +2,14 @@
 
 use crate::html_template_mod::*;
 use crate::proof_mod::Proof;
-use crate::*;
+//use crate::*;
 
-use std::{fs, io, path::Path};
+use std::fs;
 use unwrap::unwrap;
 
 pub fn push_review_to_html(html: &mut String, proof: &Proof) {
     //read template and then render
     let template = unwrap!(fs::read_to_string("crev/proof_template.html"));
-    use crate::html_template_mod::between_body_tag;
-    use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
     let template = between_body_tag(&template);
     let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
     //from Nodes to String
