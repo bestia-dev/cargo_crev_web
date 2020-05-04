@@ -7,16 +7,29 @@ use crate::*;
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
 
+pub fn push_review_to_html(html: &mut String, proof: &Proof) {
+    //read template and then render
+    let template = unwrap!(fs::read_to_string("crev/proof_template.html"));
+    use crate::html_template_mod::between_body_tag;
+    use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
+    let template = between_body_tag(&template);
+    let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
+    //from Nodes to String
+    *html = from_node_to_string(root_node);
+    //println!("after: {}", "proof.render_template()");
+    //println!("{:?}", html);
+}
+
 impl HtmlTemplating for Proof {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, fn_name: &str) -> bool {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
-            "b=not_visible" => false,
-            "b=has_alternatives" => self.alternatives.is_some(),
-            "b=has_issues" => self.issues.is_some(),
-            "b=has_advisories" => self.advisories.is_some(),
-            "b=has_old_advisory" => self.advisory.is_some(),
+            "b_not_visible" => false,
+            "b_has_alternatives" => self.alternatives.is_some(),
+            "b_has_issues" => self.issues.is_some(),
+            "b_has_advisories" => self.advisories.is_some(),
+            "b_has_old_advisory" => self.advisory.is_some(),
             _ => {
                 let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
                 println!("{}", &x);
@@ -34,16 +47,16 @@ impl HtmlTemplating for Proof {
     fn call_fn_string(&self, fn_name: &str) -> String {
         // println!("{}",&format!("call_fn_string: {}", &fn_name));
         match fn_name {
-            "t=crate_name_version" => format!("{} {}", self.package.name, self.package.version),
-            "t=review_rating" => {
+            "t_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
+            "t_review_rating" => {
                 if let Some(review) = &self.review {
                     review.rating.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t=review_date" => self.date[..10].to_string(),
-            "t=review_author" => {
+            "t_review_date" => self.date[..10].to_string(),
+            "t_review_author" => {
                 // naive method to extract author
                 let author = self
                     .from
@@ -53,14 +66,14 @@ impl HtmlTemplating for Proof {
                 //return
                 author
             }
-            "t=crate_thoroughness_understanding" => {
+            "t_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
                     format!("{} {}", review.thoroughness, review.understanding)
                 } else {
                     "".to_string()
                 }
             }
-            "t=review_comment" => {
+            "t_review_comment" => {
                 if let Some(comment) = &self.comment {
                     comment.clone()
                 } else {
@@ -302,31 +315,3 @@ pub fn update_html_template_and_sub_templates(
     rrc.web_data.html_template = tm;
 }
 */
-/// only the html between the <body> </body>
-/// it must be a SINGLE root node
-pub fn between_body_tag(resp_body_text: &str) -> String {
-    let pos1 = resp_body_text.find("<body>").unwrap_or(0);
-    let pos2 = resp_body_text.find("</body>").unwrap_or(0);
-    // return
-    if pos1 == 0 {
-        resp_body_text.to_string()
-    } else {
-        #[allow(clippy::integer_arithmetic)]
-        {
-            unwrap!(resp_body_text.get(pos1 + 6..pos2)).to_string()
-        }
-    }
-}
-
-pub fn push_review_to_html(html: &mut String, proof: &Proof) {
-    //read template and then render
-    let template = unwrap!(fs::read_to_string("crev/proof_template.html"));
-    use crate::html_template_mod::{from_node_to_string, HtmlOrSvg, HtmlTemplating};
-    use crate::proof_html_template_impl_mod::between_body_tag;
-    let template = between_body_tag(&template);
-    let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
-    //from Nodes to String
-    *html = from_node_to_string(root_node);
-    //println!("after: {}", "proof.render_template()");
-    //println!("{:?}", html);
-}

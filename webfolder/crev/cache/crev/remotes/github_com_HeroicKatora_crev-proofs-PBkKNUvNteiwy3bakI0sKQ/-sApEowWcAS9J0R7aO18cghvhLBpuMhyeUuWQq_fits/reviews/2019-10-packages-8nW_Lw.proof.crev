@@ -109,7 +109,7 @@ comment: |
   argument. Consequently, the `incompatible` parameter is filled with the
   in-place branch in the `fallback` branch where the parameter is `$ok:expr`
   
-  Note that the check for `map` is `|a,b| a%b==0` and it invokes `$fallback`
+  Note that the check for `map` is `|a,b| a%b_=0` and it invokes `$fallback`
   with the `$ok:expr` argument set to `map_vec(self, f)` (note: the `f` here is
   from the parameters of `map`). The `map_vec` function is an `unsafe` function
   eventually doing the equivalent of

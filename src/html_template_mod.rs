@@ -239,19 +239,19 @@ pub trait HtmlTemplating {
                 Event::Comment(txt) => {
                     // the main goal of comments is to change the value of the next text node
                     // with the result of a function
-                    // it must look like <!--t=get_text-->
+                    // it must look like <!--t_get_text-->
 
-                    if txt.starts_with("t=") {
+                    if txt.starts_with("t_") {
                         let repl_txt = self.call_fn_string(txt);
                         replace_string = Some(repl_txt);
-                    } else if txt.starts_with("n=") {
+                    } else if txt.starts_with("n_") {
                         let repl_node = self.call_fn_node(txt);
                         replace_node = Some(repl_node);
-                    } else if txt.starts_with("v=") {
+                    } else if txt.starts_with("v_") {
                         // vector of nodes
                         let repl_vec_nodes = self.call_fn_vec_nodes(txt);
                         replace_vec_nodes = Some(repl_vec_nodes);
-                    } else if txt.starts_with("b=") {
+                    } else if txt.starts_with("b_") {
                         // boolean if this is true than render the next node, else don't render
                         replace_boolean = Some(self.call_fn_boolean(txt));
                     } else {
@@ -334,4 +334,19 @@ pub fn element_node_to_html(html: &mut String, element_node: ElementNode) {
     html.push_str("</");
     html.push_str(&element_node.tag_name);
     html.push_str(">");
+}
+/// only the html between the <body> </body>
+/// it must be a SINGLE root node
+pub fn between_body_tag(resp_body_text: &str) -> String {
+    let pos1 = resp_body_text.find("<body>").unwrap_or(0);
+    let pos2 = resp_body_text.find("</body>").unwrap_or(0);
+    // return
+    if pos1 == 0 {
+        resp_body_text.to_string()
+    } else {
+        #[allow(clippy::integer_arithmetic)]
+        {
+            unwrap!(resp_body_text.get(pos1 + 6..pos2)).to_string()
+        }
+    }
 }
