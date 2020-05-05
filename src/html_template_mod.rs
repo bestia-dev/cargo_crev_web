@@ -84,22 +84,28 @@ fn drain_sub_templates(
                         if let Some(pos_start_after_tag) =
                             find_pos_after_delimiter(tm, pos_name_end, end_delim)
                         {
-                            let sub_template_placeholder =
-                                tm[pos_start..pos_start_after_tag].to_string();
-                            pos_for_loop = pos_start_after_tag;
-                            // drain - extract a substring and remove it from the original
-                            // leave the header with the name. It will be used
-                            // as placeholder for replace later.
-                            let sub_template: String =
-                                tm.drain(pos_start_after_tag..pos_end_after_tag).collect();
-                            // remove the end tag
-                            let sub_template = sub_template.trim_end_matches(end_tag_delim);
-                            template_and_sub_templates.sub_templates.push(SubTemplate {
-                                name: sub_template_name.to_string(),
-                                placeholder: sub_template_placeholder.to_string(),
-                                template: sub_template.to_string(),
-                            });
-                            //println!("{}",sub_template);
+                            // special name for template that will not be used at all.
+                            // this happens when the graphic designer need more repetition of the 
+                            // same sub-template only for visual effect while editing.
+                            if sub_template_name != "s_not_for_render" {
+                                let sub_template_placeholder =
+                                    tm[pos_start..pos_start_after_tag].to_string();
+                                pos_for_loop = pos_start_after_tag;
+
+                                // drain - extract a substring and remove it from the original
+                                // leave the header with the name. It will be used
+                                // as placeholder for replace later.
+                                let sub_template: String =
+                                    tm.drain(pos_start_after_tag..pos_end_after_tag).collect();
+                                // remove the end tag
+                                let sub_template = sub_template.trim_end_matches(end_tag_delim);
+                                template_and_sub_templates.sub_templates.push(SubTemplate {
+                                    name: sub_template_name.to_string(),
+                                    placeholder: sub_template_placeholder.to_string(),
+                                    template: sub_template.to_string(),
+                                });
+                                //println!("{}",sub_template);
+                            }
                         }
                     }
                 }

@@ -1,7 +1,7 @@
-//use glob::glob;
-//use crate::html_template_mod;
-//use crate::proof_html_template_impl_mod;
+//! crev_query_mod
+
 use crate::proof_mod::*;
+use crate::*;
 use dirs;
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
@@ -62,25 +62,26 @@ pub fn crev_query(crate_name: String) -> String {
 
     use crate::summary_mod::*;
     let all_summaries = proof_summary(&crate_name, &mut proofs);
-    println!("{:?}", all_summaries);
     //now I have the data and I render the html
-    /*
+
     let template_and_sub_templates =
         html_template_mod::prepare_template_and_sub_templates("crev/proof_template.html");
+    println!("{:?}", template_and_sub_templates);
 
+    /*
         render_template
 
-        render_subtemplate
-        remove_subtamplate_placeholder
+        render_sub_template
+        remove_sub_tamplate_placeholder
 
         push_summary_to_html(&mut html, all_summaries);
 
         for proof in &proofs {
-            render_subtemplate
+            render_sub_template
             proof_html_template_impl_mod::push_review_to_html(&mut html, proof);
             // don't remove placeholder, so the next template can be placed repeatedly.
         }
-        remove_subtamplate_placeholder
+        remove_sub_template_placeholder
     */
     //println!("html: {}", &html);
     let html_file = unwrap!(fs::read_to_string("crev/template_without_body.html"));
@@ -166,7 +167,13 @@ fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str, _fi
         // proofs without review are not important
         //version for sorting
         let (major, minor, patch) = parse_semver(&proof.package.version);
-        proof.package.version_for_sorting = Some(format!("{:09}.{:09}.{:09}", major, minor, patch));
+        proof.package.version_for_sorting = Some(format!(
+            "{:09}.{:09}.{:09}-{}",
+            major,
+            minor,
+            patch,
+            get_author(&proof)
+        ));
         proofs.push(proof);
     }
 }

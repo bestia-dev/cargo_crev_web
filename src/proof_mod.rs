@@ -1,4 +1,4 @@
-//use glob::glob;
+//! proof_mod
 
 use serde_derive::{Deserialize, Serialize};
 //use unwrap::unwrap;
@@ -106,4 +106,15 @@ pub enum Level {
     Low,
     Medium,
     High,
+}
+
+/// naive method to extract author
+pub fn get_author(proof: &Proof) -> String {
+    let author = proof
+        .from
+        .url
+        .replace("https://github.com/", "")
+        .replace("/crev-proofs", "");
+    //return
+    author
 }

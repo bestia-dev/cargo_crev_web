@@ -1,4 +1,4 @@
-//! utilsmod.rs
+//! utils_mod.rs
 
 /// return the position of start of the delimited data after the delimiter
 pub fn find_pos_after_delimiter(

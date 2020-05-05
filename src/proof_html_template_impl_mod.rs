@@ -1,24 +1,22 @@
 //! proof_html_template_impl_mod  
 
-use crate::html_template_mod::*;
-use crate::proof_mod::Proof;
-//use crate::*;
+use crate::*;
 
 use std::fs;
 use unwrap::unwrap;
 
-pub fn push_review_to_html(html: &mut String, proof: &Proof) {
+pub fn push_review_to_html(html: &mut String, proof: &proof_mod::Proof) {
     //read template and then render
     let template = unwrap!(fs::read_to_string("crev/proof_template.html"));
-    let template = between_body_tag(&template);
-    let root_node = unwrap!(proof.render_template(&template, HtmlOrSvg::Html));
+    let template = html_template_mod::between_body_tag(&template);
+    //let root_node = unwrap!(proof.render_template(&template, html_template_mod::HtmlOrSvg::Html));
     //from Nodes to String
-    *html = from_node_to_string(root_node);
+    // *html = html_template_mod::from_node_to_string(root_node);
     //println!("after: {}", "proof.render_template()");
     //println!("{:?}", html);
 }
 
-impl HtmlTemplating for Proof {
+impl html_template_mod::HtmlTemplating for proof_mod::Proof {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, fn_name: &str) -> bool {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
@@ -56,13 +54,7 @@ impl HtmlTemplating for Proof {
             "t_review_date" => self.date[..10].to_string(),
             "t_review_author" => {
                 // naive method to extract author
-                let author = self
-                    .from
-                    .url
-                    .replace("https://github.com/", "")
-                    .replace("/crev-proofs", "");
-                //return
-                author
+                proof_mod::get_author(self)
             }
             "t_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
@@ -123,21 +115,28 @@ impl HtmlTemplating for Proof {
     */
     /// html_templating functions that return a Node
     #[allow(clippy::needless_return)]
-    fn call_fn_node(&self, fn_name: &str) -> Node {
+    fn call_fn_node(&self, fn_name: &str) -> html_template_mod::Node {
         // println!("{}",&format!("call_fn_node: {}", &fn_name));
         match fn_name {
             _ => {
-                let node = Node {
-                    node_enum: NodeEnum::Element(ElementNode {
-                        tag_name: "h2".to_string(),
-                        attributes: vec![],
-                        children: vec![Node {
-                            node_enum: NodeEnum::Text(TextNode {
-                                text: format!("Error: Unrecognized call_fn_node: \"{}\"", fn_name),
-                            }),
-                        }],
-                        namespace: None,
-                    }),
+                let node = html_template_mod::Node {
+                    node_enum: html_template_mod::NodeEnum::Element(
+                        html_template_mod::ElementNode {
+                            tag_name: "h2".to_string(),
+                            attributes: vec![],
+                            children: vec![html_template_mod::Node {
+                                node_enum: html_template_mod::NodeEnum::Text(
+                                    html_template_mod::TextNode {
+                                        text: format!(
+                                            "Error: Unrecognized call_fn_node: \"{}\"",
+                                            fn_name
+                                        ),
+                                    },
+                                ),
+                            }],
+                            namespace: None,
+                        },
+                    ),
                 };
                 return node;
             }
@@ -146,24 +145,28 @@ impl HtmlTemplating for Proof {
 
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<Node> {
+    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<html_template_mod::Node> {
         // println!("{}",&format!("call_fn_node: {}", &fn_name));
         match fn_name {
             _ => {
-                let node = Node {
-                    node_enum: NodeEnum::Element(ElementNode {
-                        tag_name: "h2".to_string(),
-                        attributes: vec![],
-                        children: vec![Node {
-                            node_enum: NodeEnum::Text(TextNode {
-                                text: format!(
-                                    "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
-                                    fn_name
+                let node = html_template_mod::Node {
+                    node_enum: html_template_mod::NodeEnum::Element(
+                        html_template_mod::ElementNode {
+                            tag_name: "h2".to_string(),
+                            attributes: vec![],
+                            children: vec![html_template_mod::Node {
+                                node_enum: html_template_mod::NodeEnum::Text(
+                                    html_template_mod::TextNode {
+                                        text: format!(
+                                            "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
+                                            fn_name
+                                        ),
+                                    },
                                 ),
-                            }),
-                        }],
-                        namespace: None,
-                    }),
+                            }],
+                            namespace: None,
+                        },
+                    ),
                 };
                 return vec![node];
             }

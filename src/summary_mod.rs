@@ -1,6 +1,7 @@
-//use glob::glob;
-// use crate::html_template_mod::*;
+//! summary_mod
+
 use crate::proof_mod::*;
+use crate::*;
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
 use unwrap::unwrap;
@@ -95,6 +96,50 @@ pub fn proof_summary(crate_name: &str, proofs: &mut Vec<Proof>) -> AllSummaries 
                 all_summaries.crate_summary.rating_strong += 1;
                 version_summary.rating_strong += 1;
             }
+            if review.rating == Rating::Positive {
+                all_summaries.crate_summary.rating_positive += 1;
+                version_summary.rating_positive += 1;
+            }
+            if review.rating == Rating::Neutral {
+                all_summaries.crate_summary.rating_neutral += 1;
+                version_summary.rating_neutral += 1;
+            }
+            if review.rating == Rating::Negative {
+                all_summaries.crate_summary.rating_negative += 1;
+                version_summary.rating_negative += 1;
+            }
+            if review.thoroughness == Level::High {
+                all_summaries.crate_summary.thoroughness += 2;
+                version_summary.thoroughness += 2;
+            }
+            if review.thoroughness == Level::Medium {
+                all_summaries.crate_summary.thoroughness += 1;
+                version_summary.thoroughness += 1;
+            }
+            if review.understanding == Level::High {
+                all_summaries.crate_summary.understanding += 2;
+                version_summary.understanding += 2;
+            }
+            if review.understanding == Level::Medium {
+                all_summaries.crate_summary.understanding += 1;
+                version_summary.understanding += 1;
+            }
+        }
+        if let Some(_alternative) = &proof.alternatives {
+            all_summaries.crate_summary.alternatives += 1;
+            version_summary.alternatives += 1;
+        }
+        if let Some(_issue) = &proof.issues {
+            all_summaries.crate_summary.issues += 1;
+            version_summary.issues += 1;
+        }
+        if let Some(_advisory) = &proof.advisories {
+            all_summaries.crate_summary.advisories += 1;
+            version_summary.advisories += 1;
+        }
+        if let Some(_advisory) = &proof.advisory {
+            all_summaries.crate_summary.advisories += 1;
+            version_summary.advisories += 1;
         }
     }
     //return
