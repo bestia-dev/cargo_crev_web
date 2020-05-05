@@ -72,7 +72,7 @@ pub fn crev_query(crate_name: String) -> String {
     for sub_template in &template_and_sub_templates.sub_templates {
         //TODO: the name of the template should say what is the name of the data_model
         if sub_template.name.ends_with("all_summaries") {
-            println!("sub_template.name: {:?}", sub_template.name);
+            //println!("sub_template.name: {:?}", sub_template.name);
             let sub_html = unwrap!(all_summaries.render_template_to_string(
                 &sub_template.template,
                 html_template_mod::HtmlOrSvg::Html
@@ -80,7 +80,7 @@ pub fn crev_query(crate_name: String) -> String {
             //println!("sub_html: {:?}", sub_html);
             html = html.replace(&sub_template.placeholder, &sub_html);
         } else if sub_template.name.ends_with("_review_proof") {
-            println!("sub_template.name: {:?}", sub_template.name);
+            //println!("sub_template.name: {:?}", sub_template.name);
             for proof in &proofs {
                 let sub_html = unwrap!(proof.render_template_to_string(
                     &sub_template.template,

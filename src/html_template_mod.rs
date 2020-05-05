@@ -13,7 +13,7 @@ use unwrap::unwrap;
 // TODO: first I allocate to all this structs. Better would be to borrow,
 // but lifetimes are a headache.
 
-// region: template and sub-templates
+// #region: template and sub-templates
 #[derive(Clone, Debug)]
 pub struct SubTemplate {
     pub name: String,
@@ -36,6 +36,21 @@ pub fn prepare_template_and_sub_templates(file_name: &str) -> TemplateAndSubTemp
     let template = unwrap!(fs::read_to_string(file_name));
     // only the html inside the <body> </body>
     let tm = between_body_tag(&template);
+    /// private fn - only the html between the <body> </body>
+    /// it must be a SINGLE root node
+    fn between_body_tag(resp_body_text: &str) -> String {
+        let pos1 = resp_body_text.find("<body>").unwrap_or(0);
+        let pos2 = resp_body_text.find("</body>").unwrap_or(0);
+        // return
+        if pos1 == 0 {
+            resp_body_text.to_string()
+        } else {
+            #[allow(clippy::integer_arithmetic)]
+            {
+                unwrap!(resp_body_text.get(pos1 + 6..pos2)).to_string()
+            }
+        }
+    }
 
     let mut template_and_sub_templates = TemplateAndSubTemplates {
         template: tm,
@@ -81,7 +96,7 @@ fn drain_sub_templates(
                     if let Some(pos_name_end) = find_pos_before_delimiter(tm, pos_name_start, "\"")
                     {
                         sub_template_name = tm[pos_name_start..pos_name_end].to_string();
-                        println!("sub_template_name: {}", sub_template_name);
+                        //println!("sub_template_name: {}", sub_template_name);
                         if let Some(pos_start_after_tag) =
                             find_pos_after_delimiter(tm, pos_name_end, end_delim)
                         {
@@ -187,6 +202,32 @@ pub trait HtmlTemplating {
         html_template: &str,
         html_or_svg_parent: HtmlOrSvg,
     ) -> Result<String, String> {
+        // private fn - sub element to html
+        fn element_node_to_html(html: &mut String, element_node: ElementNode) {
+            html.push_str("<");
+            html.push_str(&element_node.tag_name);
+            html.push_str(" ");
+            for attr in element_node.attributes {
+                html.push_str(&attr.name);
+                html.push_str(" = \"");
+                html.push_str(&attr.value);
+                html.push_str("\" ");
+            }
+            html.push_str(">");
+            for sub_elem in element_node.children {
+                match sub_elem.node_enum {
+                    NodeEnum::Element(sub_element) => {
+                        //recursion
+                        element_node_to_html(html, sub_element);
+                    }
+                    NodeEnum::Text(text_node) => html.push_str(&text_node.text),
+                }
+            }
+            //end tag
+            html.push_str("</");
+            html.push_str(&element_node.tag_name);
+            html.push_str(">");
+        }
         let mut html = String::with_capacity(5000);
 
         let root_node = self.render_template_to_node(html_template, html_or_svg_parent)?;
@@ -415,66 +456,21 @@ pub trait HtmlTemplating {
                 }
             }
         }
+        /// private fn - decode 5 xml control characters : " ' & < >  
+        /// https://www.liquid-technologies.com/XML/EscapingData.aspx
+        /// I will ignore all html entities, to keep things simple,
+        /// because all others characters can be written as utf-8 characters.
+        /// https://www.tutorialspoint.com/html5/html5_entities.htm  
+        fn decode_5_xml_control_characters(input: &str) -> String {
+            // The standard library replace() function makes allocation,
+            //but is probably fast enough for my use case.
+            input
+                .replace("&quot;", "\"")
+                .replace("&apos;", "'")
+                .replace("&amp;", "&")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+        }
     }
     // endregion: default implementation
 }
-// endregion: render_template
-
-/// decode 5 xml control characters : " ' & < >  
-/// https://www.liquid-technologies.com/XML/EscapingData.aspx
-/// I will ignore all html entities, to keep things simple,
-/// because all others characters can be written as utf-8 characters.
-/// https://www.tutorialspoint.com/html5/html5_entities.htm  
-fn decode_5_xml_control_characters(input: &str) -> String {
-    // The standard library replace() function makes allocation,
-    //but is probably fast enough for my use case.
-    input
-        .replace("&quot;", "\"")
-        .replace("&apos;", "'")
-        .replace("&amp;", "&")
-        .replace("&lt;", "<")
-        .replace("&gt;", ">")
-}
-
-// sub element to html
-fn element_node_to_html(html: &mut String, element_node: ElementNode) {
-    html.push_str("<");
-    html.push_str(&element_node.tag_name);
-    html.push_str(" ");
-    for attr in element_node.attributes {
-        html.push_str(&attr.name);
-        html.push_str(" = \"");
-        html.push_str(&attr.value);
-        html.push_str("\" ");
-    }
-    html.push_str(">");
-    for sub_elem in element_node.children {
-        match sub_elem.node_enum {
-            NodeEnum::Element(sub_element) => {
-                //recursion
-                element_node_to_html(html, sub_element);
-            }
-            NodeEnum::Text(text_node) => html.push_str(&text_node.text),
-        }
-    }
-    //end tag
-    html.push_str("</");
-    html.push_str(&element_node.tag_name);
-    html.push_str(">");
-}
-/// only the html between the <body> </body>
-/// it must be a SINGLE root node
-fn between_body_tag(resp_body_text: &str) -> String {
-    let pos1 = resp_body_text.find("<body>").unwrap_or(0);
-    let pos2 = resp_body_text.find("</body>").unwrap_or(0);
-    // return
-    if pos1 == 0 {
-        resp_body_text.to_string()
-    } else {
-        #[allow(clippy::integer_arithmetic)]
-        {
-            unwrap!(resp_body_text.get(pos1 + 6..pos2)).to_string()
-        }
-    }
-}
-// endregion: from node to string
