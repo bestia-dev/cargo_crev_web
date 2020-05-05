@@ -85,9 +85,12 @@ fn drain_sub_templates(
                             find_pos_after_delimiter(tm, pos_name_end, end_delim)
                         {
                             // special name for template that will not be used at all.
-                            // this happens when the graphic designer need more repetition of the 
+                            // this happens when the graphic designer need more repetition of the
                             // same sub-template only for visual effect while editing.
-                            if sub_template_name != "s_not_for_render" {
+                            if sub_template_name == "s_not_for_render" {
+                                //remove all the template
+                                tm.drain(pos_start..pos_end_after_tag);
+                            } else {
                                 let sub_template_placeholder =
                                     tm[pos_start..pos_start_after_tag].to_string();
                                 pos_for_loop = pos_start_after_tag;
