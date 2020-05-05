@@ -1,12 +1,115 @@
 //! html_template_mod
 
 // region: use
+use crate::utils_mod::*;
+
 use reader_for_microxml::*;
+//use serde_derive::{Deserialize, Serialize};
+use std::fs;
 use unwrap::unwrap;
+
 // endregion: use
 
 // TODO: first I allocate to all this structs. Better would be to borrow,
 // but lifetimes are a headache.
+
+#[derive(Clone, Debug)]
+pub struct SubTemplate {
+    name: String,
+    placeholder: String,
+    template: String,
+}
+#[derive(Clone, Debug)]
+pub struct TemplateAndSubTemplates {
+    template: String,
+    sub_templates: Vec<SubTemplate>,
+}
+#[derive(PartialEq)]
+pub enum SubTemplateVisibility {
+    Visible,
+    Invisible,
+}
+/// extract and saves sub_templates
+pub fn prepare_template_and_sub_templates(file_name: &str) -> TemplateAndSubTemplates {
+    //read the local file template
+    let template = unwrap!(fs::read_to_string(file_name));
+    // only the html inside the <body> </body>
+    let tm = between_body_tag(&template);
+
+    let mut template_and_sub_templates = TemplateAndSubTemplates {
+        template: tm,
+        sub_templates: vec![],
+    };
+    // drain and save sub_templates
+    drain_sub_templates(
+        &mut template_and_sub_templates,
+        SubTemplateVisibility::Invisible,
+    );
+    drain_sub_templates(
+        &mut template_and_sub_templates,
+        SubTemplateVisibility::Visible,
+    );
+
+    //return
+    template_and_sub_templates
+}
+/// invisible sub_templates are in node <template name="xxx"></template>
+/// visible sub_template have the same node, but is commented out <!--<template name="xxx">-->
+fn drain_sub_templates(
+    template_and_sub_templates: &mut TemplateAndSubTemplates,
+    visible_or_invisible: SubTemplateVisibility,
+) {
+    let (start_delim, end_tag_delim, end_delim) =
+        if visible_or_invisible == SubTemplateVisibility::Invisible {
+            ("<!--<template ", "<!--</template>-->", ">-->")
+        } else {
+            ("<template ", "</template>", ">")
+        };
+    let mut pos_for_loop = 0;
+    loop {
+        let mut exist_template = false;
+        // just for a shorter name
+        let tm = &mut template_and_sub_templates.template;
+        if let Some(pos_start) = find_pos_before_delimiter(tm, pos_for_loop, start_delim) {
+            if let Some(pos_end_after_tag) = find_pos_after_delimiter(tm, pos_start, end_tag_delim)
+            {
+                exist_template = true;
+                let sub_template_name;
+                //extract name of sub_template
+                if let Some(pos_name_start) = find_pos_after_delimiter(tm, pos_start, "name=\"") {
+                    if let Some(pos_name_end) = find_pos_before_delimiter(tm, pos_name_start, "\"")
+                    {
+                        sub_template_name = tm[pos_name_start..pos_name_end].to_string();
+                        println!("sub_template_name: {}", sub_template_name);
+                        if let Some(pos_start_after_tag) =
+                            find_pos_after_delimiter(tm, pos_name_end, end_delim)
+                        {
+                            let sub_template_placeholder =
+                                tm[pos_start..pos_start_after_tag].to_string();
+                            pos_for_loop = pos_start_after_tag;
+                            // drain - extract a substring and remove it from the original
+                            // leave the header with the name. It will be used
+                            // as placeholder for replace later.
+                            let sub_template: String =
+                                tm.drain(pos_start_after_tag..pos_end_after_tag).collect();
+                            // remove the end tag
+                            let sub_template = sub_template.trim_end_matches(end_tag_delim);
+                            template_and_sub_templates.sub_templates.push(SubTemplate {
+                                name: sub_template_name.to_string(),
+                                placeholder: sub_template_placeholder.to_string(),
+                                template: sub_template.to_string(),
+                            });
+                            //println!("{}",sub_template);
+                        }
+                    }
+                }
+            }
+        }
+        if !exist_template {
+            break;
+        }
+    }
+}
 #[derive(Clone, Debug)]
 pub struct Node {
     pub node_enum: NodeEnum,

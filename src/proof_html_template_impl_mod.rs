@@ -23,7 +23,7 @@ impl HtmlTemplating for Proof {
     fn call_fn_boolean(&self, fn_name: &str) -> bool {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
-            "b_not_visible" => false,
+            "b_not_for_render" => false,
             "b_has_alternatives" => self.alternatives.is_some(),
             "b_has_issues" => self.issues.is_some(),
             "b_has_advisories" => self.advisories.is_some(),
@@ -171,73 +171,22 @@ impl HtmlTemplating for Proof {
     }
 }
 
-/// fn open new local page with #
-/// does not push to history
-pub fn open_new_local_page(hash: &str) {
-    // I want to put the first url in history.
-    // These are opened from outside my app and I cannot manage that differently.
-    // There are 2 of them:
-    // 1. if the players starts without hash
-    // 2. if the player scanned the qrcode and opened the p3 with group_id
-    // For links opened inside the app, I can call the open with or without history.
-    // For example for menu p21 I want to have a back button.
-    /*
-    let (_old_location_href, old_href_hash) = websysmod::get_url_and_hash();
-    if old_href_hash.is_empty() || old_href_hash.starts_with("#p03.") {
-        websysmod::open_new_local_page_push_to_history(hash)
-    } else {
-        let _x = websysmod::window().location().replace(hash);
-    }
-    */
-}
+// fn open new local page with #
+// does not push to history
+//pub fn open_new_local_page(hash: &str) {
+// I want to put the first url in history.
+// These are opened from outside my app and I cannot manage that differently.
+// There are 2 of them:
+// 1. if the players starts without hash
+// 2. if the player scanned the qrcode and opened the p3 with group_id
+// For links opened inside the app, I can call the open with or without history.
+// For example for menu p21 I want to have a back button.
 /*
-/// update html_template and extract and saves html_sub_templates
-#[allow(clippy::integer_arithmetic)]
-#[allow(clippy::indexing_slicing)]
-pub fn update_html_template_and_sub_templates(
-    rrc: &mut RootRenderingComponent,
-    resp_body_text: &str,
-) {
-    // only the html inside the <body> </body>
-    let mut tm = between_body_tag(&resp_body_text);
-    // parse and save sub_templates <template name="xxx"></template>
-    rrc.web_data.html_sub_templates.clear();
-    loop {
-        let mut exist_template = false;
-
-        let pos1 = tm.find("<template ");
-        let del2 = "</template>";
-        let pos2 = tm.find(del2);
-        if let Some(pos_start) = pos1 {
-            if let Some(pos_end) = pos2 {
-                exist_template = true;
-                // drain - extract a substring and remove it from the original
-                let sub1: String = tm.drain(pos_start..pos_end + del2.len()).collect();
-
-                let del3 = "name=\"";
-                let pos_name_start = unwrap!(sub1.find(del3));
-                let sub2 = &sub1[pos_name_start + del3.len()..];
-                //println!("{}",sub2);
-
-                let pos_name_end = unwrap!(sub2.find('"'));
-                let name = &sub2[0..pos_name_end];
-                //println!("{}",name);
-
-                let del5 = '>';
-                let pos_name_end_tag = unwrap!(sub1.find(del5));
-                let pos6 = unwrap!(sub1.find(del2));
-                let sub_template = &sub1[pos_name_end_tag + 1..pos6];
-                //println!("{}",sub_template);
-
-                rrc.web_data
-                    .html_sub_templates
-                    .push((name.to_string(), sub_template.to_string()));
-            }
-        }
-        if !exist_template {
-            break;
-        }
-    }
-    rrc.web_data.html_template = tm;
+let (_old_location_href, old_href_hash) = websysmod::get_url_and_hash();
+if old_href_hash.is_empty() || old_href_hash.starts_with("#p03.") {
+    websysmod::open_new_local_page_push_to_history(hash)
+} else {
+    let _x = websysmod::window().location().replace(hash);
 }
 */
+//}

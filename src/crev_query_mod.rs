@@ -1,15 +1,15 @@
 //use glob::glob;
-use crate::proof_html_template_impl_mod;
+//use crate::html_template_mod;
+//use crate::proof_html_template_impl_mod;
 use crate::proof_mod::*;
 use dirs;
-//use serde_derive::{Deserialize, Serialize};
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
 
 /// crev query returns html
 pub fn crev_query(crate_name: String) -> String {
     println!("crate_name: {}", crate_name);
-    let mut html = String::with_capacity(4000);
+    let html = String::with_capacity(4000);
     //first fill a vector with proofs, because I need to filter and sort them
     let mut proofs = vec![];
     // original cache crev folder: /home/luciano/.cache/crev/remotes
@@ -59,13 +59,29 @@ pub fn crev_query(crate_name: String) -> String {
             .version_for_sorting
             .cmp(&a.package.version_for_sorting)
     });
-    //how to repeat same template ? Now is too late.
-    // i should extract the sub-template before.
-    // the subtemplates can be visible for graphic designer or invisible (not too usefull)
 
-    for proof in &proofs {
-        proof_html_template_impl_mod::push_review_to_html(&mut html, proof);
-    }
+    use crate::summary_mod::*;
+    let all_summaries = proof_summary(&crate_name, &mut proofs);
+    println!("{:?}", all_summaries);
+    //now I have the data and I render the html
+    /*
+    let template_and_sub_templates =
+        html_template_mod::prepare_template_and_sub_templates("crev/proof_template.html");
+
+        render_template
+
+        render_subtemplate
+        remove_subtamplate_placeholder
+
+        push_summary_to_html(&mut html, all_summaries);
+
+        for proof in &proofs {
+            render_subtemplate
+            proof_html_template_impl_mod::push_review_to_html(&mut html, proof);
+            // don't remove placeholder, so the next template can be placed repeatedly.
+        }
+        remove_subtamplate_placeholder
+    */
     //println!("html: {}", &html);
     let html_file = unwrap!(fs::read_to_string("crev/template_without_body.html"));
     //println!("html_file: {}", html_file);
@@ -152,89 +168,5 @@ fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str, _fi
         let (major, minor, patch) = parse_semver(&proof.package.version);
         proof.package.version_for_sorting = Some(format!("{:09}.{:09}.{:09}", major, minor, patch));
         proofs.push(proof);
-    }
-}
-
-struct VersionSummary {
-    version: String,
-    version_for_sorting: String,
-    review_number: usize,
-    rating_strong: usize,
-    rating_positive: usize,
-    rating_neutral: usize,
-    rating_negative: usize,
-    alternatives: usize,
-    issues: usize,
-    advisories: usize,
-    thoroughness: usize,
-    understanding: usize,
-}
-
-impl VersionSummary {
-    pub fn new() -> Self {
-        VersionSummary {
-            version: "".to_string(),
-            version_for_sorting: "".to_string(),
-            review_number: 0,
-            rating_strong: 0,
-            rating_positive: 0,
-            rating_neutral: 0,
-            rating_negative: 0,
-            alternatives: 0,
-            issues: 0,
-            advisories: 0,
-            thoroughness: 0,
-            understanding: 0,
-        }
-    }
-}
-
-pub fn proof_summary(proofs: &mut Vec<Proof>) {
-    // summary for all the version. Does it have any meaning?
-    // The same author can repeat it
-    // for every version. So if I group by author could be any good.
-    // Then we have reviews for every version separate
-    let mut review_number = 0;
-    let mut rating_strong = 0;
-    let mut rating_positive = 0;
-    let mut rating_neutral = 0;
-    let mut rating_negative = 0;
-    let mut alternatives = 0;
-    let mut issues = 0;
-    let mut advisories = 0;
-    let mut thoroughness = 0;
-    let mut understanding = 0;
-
-    let mut versions_summaries: Vec<VersionSummary> = Vec::new();
-
-    for proof in proofs {
-        //find version in vector or create new
-        let mut version: Option<&mut VersionSummary> = None;
-        for version_summary in &mut versions_summaries {
-            if version_summary.version == proof.package.version {
-                version = Some(version_summary);
-                break;
-            }
-        }
-        if version.is_none() {
-            //new element
-            let mut version_to_push = VersionSummary::new();
-            version_to_push.version = proof.package.version.to_string();
-            version_to_push.version_for_sorting =
-                unwrap!(proof.package.version_for_sorting.clone()).to_string();
-            versions_summaries.push(version_to_push);
-            version = Some(unwrap!(versions_summaries.last_mut()));
-        }
-        // Here Option is not needed any more.
-        let mut ver = unwrap!(version);
-        review_number += 1;
-        ver.review_number += 1;
-
-        if let Some(review) = &proof.review {
-            if review.rating == Rating::Strong {
-                rating_strong += 1;
-                ver.rating_strong += 1;
-            }
-        }
     }
 }
