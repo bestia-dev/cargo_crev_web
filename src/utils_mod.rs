@@ -1,6 +1,6 @@
 //! utils_mod.rs
 
-/// return the position of start of the delimited data after the delimiter
+/// return the position after the delimiter
 pub fn find_pos_after_delimiter(
     md_text_content: &str,
     pos: usize,
@@ -14,7 +14,7 @@ pub fn find_pos_after_delimiter(
     None
 }
 
-/// return the position of end of the delimited data before the delimiter
+/// return the position before the delimiter
 pub fn find_pos_before_delimiter(
     md_text_content: &str,
     pos: usize,
@@ -36,7 +36,7 @@ pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
         // return Option with usize
         Some(from_pos + location)
     } else {
-        // return Option with none
-        option_location
+        // return
+        None
     }
 }

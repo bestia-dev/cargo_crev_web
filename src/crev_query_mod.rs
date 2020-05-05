@@ -1,5 +1,6 @@
 //! crev_query_mod
 
+use crate::html_template_mod::HtmlTemplating;
 use crate::proof_mod::*;
 use crate::*;
 use dirs;
@@ -9,7 +10,6 @@ use unwrap::unwrap;
 /// crev query returns html
 pub fn crev_query(crate_name: String) -> String {
     println!("crate_name: {}", crate_name);
-    let html = String::with_capacity(4000);
     //first fill a vector with proofs, because I need to filter and sort them
     let mut proofs = vec![];
     // original cache crev folder: /home/luciano/.cache/crev/remotes
@@ -61,28 +61,43 @@ pub fn crev_query(crate_name: String) -> String {
     });
 
     use crate::summary_mod::*;
-    let all_summaries = proof_summary(&crate_name, &mut proofs);
+    let all_summaries = calculate_all_summary_for_proofs(&crate_name, &mut proofs);
     //now I have the data and I render the html
-
     let template_and_sub_templates =
         html_template_mod::prepare_template_and_sub_templates("crev/proof_template.html");
-    println!("{:?}", template_and_sub_templates);
 
-    /*
-        render_template
-
-        render_sub_template
-        remove_sub_tamplate_placeholder
-
-        push_summary_to_html(&mut html, all_summaries);
-
-        for proof in &proofs {
-            render_sub_template
-            proof_html_template_impl_mod::push_review_to_html(&mut html, proof);
-            // don't remove placeholder, so the next template can be placed repeatedly.
+    let mut html = template_and_sub_templates.template.clone();
+    //TODO: If there is content not in sub-templates. I know there is nothing to
+    //render here, because I have only sub-templates
+    for sub_template in &template_and_sub_templates.sub_templates {
+        //TODO: the name of the template should say what is the name of the data_model
+        if sub_template.name.ends_with("all_summaries") {
+            println!("sub_template.name: {:?}", sub_template.name);
+            let sub_html = unwrap!(all_summaries.render_template_to_string(
+                &sub_template.template,
+                html_template_mod::HtmlOrSvg::Html
+            ));
+            //println!("sub_html: {:?}", sub_html);
+            html = html.replace(&sub_template.placeholder, &sub_html);
+        } else if sub_template.name.ends_with("_review_proof") {
+            println!("sub_template.name: {:?}", sub_template.name);
+            for proof in &proofs {
+                let sub_html = unwrap!(proof.render_template_to_string(
+                    &sub_template.template,
+                    html_template_mod::HtmlOrSvg::Html
+                ));
+                //println!("sub_html: {:?}", sub_html);
+                if let Some(pos) =
+                    utils_mod::find_pos_before_delimiter(&html, 0, &sub_template.placeholder)
+                {
+                    html.insert_str(pos, &sub_html);
+                }
+            }
+            html = html.replace(&sub_template.placeholder, "");
+        } else {
+            println!("Sub_template is not known: {}", sub_template.name)
         }
-        remove_sub_template_placeholder
-    */
+    }
     //println!("html: {}", &html);
     let html_file = unwrap!(fs::read_to_string("crev/template_without_body.html"));
     //println!("html_file: {}", html_file);

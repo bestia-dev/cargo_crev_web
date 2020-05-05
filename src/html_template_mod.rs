@@ -13,23 +13,24 @@ use unwrap::unwrap;
 // TODO: first I allocate to all this structs. Better would be to borrow,
 // but lifetimes are a headache.
 
+// region: template and sub-templates
 #[derive(Clone, Debug)]
 pub struct SubTemplate {
-    name: String,
-    placeholder: String,
-    template: String,
+    pub name: String,
+    pub placeholder: String,
+    pub template: String,
 }
 #[derive(Clone, Debug)]
 pub struct TemplateAndSubTemplates {
-    template: String,
-    sub_templates: Vec<SubTemplate>,
+    pub template: String,
+    pub sub_templates: Vec<SubTemplate>,
 }
 #[derive(PartialEq)]
 pub enum SubTemplateVisibility {
     Visible,
     Invisible,
 }
-/// extract and saves sub_templates
+/// extract and saves sub_templates from local file_name
 pub fn prepare_template_and_sub_templates(file_name: &str) -> TemplateAndSubTemplates {
     //read the local file template
     let template = unwrap!(fs::read_to_string(file_name));
@@ -119,6 +120,9 @@ fn drain_sub_templates(
         }
     }
 }
+// endregion: template and sub-templates
+
+// region: render_template
 #[derive(Clone, Debug)]
 pub struct Node {
     pub node_enum: NodeEnum,
@@ -175,10 +179,30 @@ pub trait HtmlTemplating {
     */
     // endregion: methods to be implemented
 
-    // region: generic code (in trait definition)
+    // region: default implementation code
+
+    /// render template to string
+    fn render_template_to_string(
+        &self,
+        html_template: &str,
+        html_or_svg_parent: HtmlOrSvg,
+    ) -> Result<String, String> {
+        let mut html = String::with_capacity(5000);
+
+        let root_node = self.render_template_to_node(html_template, html_or_svg_parent)?;
+
+        match root_node.node_enum {
+            NodeEnum::Element(element_node) => element_node_to_html(&mut html, element_node),
+            NodeEnum::Text(text_node) => {
+                println!("root_node must not be a text node: {:?}", text_node)
+            }
+        }
+        //return
+        Ok(html)
+    }
 
     /// get root element Node.   
-    fn render_template(
+    fn render_template_to_node(
         &self,
         html_template: &str,
         html_or_svg_parent: HtmlOrSvg,
@@ -392,15 +416,16 @@ pub trait HtmlTemplating {
             }
         }
     }
-    // endregion: generic code
+    // endregion: default implementation
 }
+// endregion: render_template
 
 /// decode 5 xml control characters : " ' & < >  
 /// https://www.liquid-technologies.com/XML/EscapingData.aspx
 /// I will ignore all html entities, to keep things simple,
 /// because all others characters can be written as utf-8 characters.
 /// https://www.tutorialspoint.com/html5/html5_entities.htm  
-pub fn decode_5_xml_control_characters(input: &str) -> String {
+fn decode_5_xml_control_characters(input: &str) -> String {
     // The standard library replace() function makes allocation,
     //but is probably fast enough for my use case.
     input
@@ -411,19 +436,8 @@ pub fn decode_5_xml_control_characters(input: &str) -> String {
         .replace("&gt;", ">")
 }
 
-pub fn from_node_to_string(root_node: Node) -> String {
-    let mut html = String::with_capacity(5000);
-
-    match root_node.node_enum {
-        NodeEnum::Element(element_node) => element_node_to_html(&mut html, element_node),
-        NodeEnum::Text(text_node) => println!("root_node must not be a text node: {:?}", text_node),
-    }
-    //return
-    html
-}
-
 // sub element to html
-pub fn element_node_to_html(html: &mut String, element_node: ElementNode) {
+fn element_node_to_html(html: &mut String, element_node: ElementNode) {
     html.push_str("<");
     html.push_str(&element_node.tag_name);
     html.push_str(" ");
@@ -450,7 +464,7 @@ pub fn element_node_to_html(html: &mut String, element_node: ElementNode) {
 }
 /// only the html between the <body> </body>
 /// it must be a SINGLE root node
-pub fn between_body_tag(resp_body_text: &str) -> String {
+fn between_body_tag(resp_body_text: &str) -> String {
     let pos1 = resp_body_text.find("<body>").unwrap_or(0);
     let pos2 = resp_body_text.find("</body>").unwrap_or(0);
     // return
@@ -463,3 +477,4 @@ pub fn between_body_tag(resp_body_text: &str) -> String {
         }
     }
 }
+// endregion: from node to string
