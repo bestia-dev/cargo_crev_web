@@ -121,7 +121,10 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
             _ => {
-                let x = format!("Unrecognized all_summary_mod call_fn_boolean: \"{}\"", fn_name);
+                let x = format!(
+                    "Unrecognized all_summary_mod call_fn_boolean: \"{}\"",
+                    fn_name
+                );
                 println!("Error: {}", &x);
                 true
             }
@@ -155,13 +158,16 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
             "t_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
             "t_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
             _ => {
-                let x = format!("Unrecognized all_summary_mod call_fn_string: \"{}\"", fn_name);
+                let x = format!(
+                    "Unrecognized all_summary_mod call_fn_string: \"{}\"",
+                    fn_name
+                );
                 println!("Error: {}", &x);
                 x
             }
         }
     }
-       /// html_templating functions that return a Node
+    /// html_templating functions that return a Node
     #[allow(clippy::needless_return)]
     fn call_fn_node(&self, fn_name: &str) -> html_template_mod::Node {
         // println!("{}",&format!("call_fn_node: {}", &fn_name));

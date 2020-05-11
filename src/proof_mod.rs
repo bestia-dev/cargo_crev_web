@@ -192,7 +192,7 @@ impl html_template_mod::HtmlTemplating for Proof {
                     "".to_string()
                 }
             }
-            "t_issue_id" =>{
+            "t_issue_id" => {
                 if let Some(issues) = &self.issues {
                     issues[0].id.to_string()
                 } else {

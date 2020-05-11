@@ -168,7 +168,7 @@ use log::info;
 //use serde_derive::{Deserialize, Serialize};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 //use unwrap::unwrap;
-use warp::{ Filter};
+use warp::Filter;
 // endregion
 
 // region: enum, structs, const,...
@@ -210,16 +210,17 @@ async fn main() {
     //   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits
 
     // dynamic content
-    let query_crate_name = warp::path!("cargo_crev_web" / "query" / String).map(|crate_name: String| {
-        let html_file = crev_query_mod::html_for_crev_query(&crate_name);
-        warp::reply::html(html_file)
-    });
+    let query_crate_name =
+        warp::path!("cargo_crev_web" / "query" / String).map(|crate_name: String| {
+            let html_file = crev_query_mod::html_for_crev_query("templates/", &crate_name);
+            warp::reply::html(html_file)
+        });
 
     // static file server (starts at cargo_crev_web)
     // GET files of route /cargo_crev_web/ -> are from folder ./cargo_crev_web_root_folder/
-    let fileserver = warp::path("cargo_crev_web").and(warp::fs::dir("./cargo_crev_web_root_folder/"));
-    let routes = query_crate_name
-    .or(fileserver);
+    let fileserver =
+        warp::path("cargo_crev_web").and(warp::fs::dir("./cargo_crev_web_root_folder/"));
+    let routes = query_crate_name.or(fileserver);
 
     warp::serve(routes).run(local_addr).await;
 }

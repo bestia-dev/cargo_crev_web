@@ -9,7 +9,7 @@ use std::{fs, io, path::Path};
 use unwrap::unwrap;
 
 /// crev query returns html
-pub fn html_for_crev_query(crate_name: &str) -> String {
+pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> String {
     println!(
         "{}: crate_name: {}",
         &Local::now().format("%Y-%m-%d %H:%M:%S"),
@@ -22,11 +22,8 @@ pub fn html_for_crev_query(crate_name: &str) -> String {
     // now I have the data and I render the html from the template
     // the folders hierarchy for templates is similar like the routes
     // so to retain the same relative folders like css
-    let html = render_html(
-        "./templates/query/crev_query_template.html",
-        proofs,
-        all_summaries,
-    );
+    let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
+    let html = render_html(&template_file_name, proofs, all_summaries);
     //return
     html
 }

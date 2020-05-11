@@ -156,7 +156,7 @@ pub trait HtmlTemplating {
     fn call_fn_boolean(&self, fn_name: &str) -> bool;
     fn call_fn_node(&self, fn_name: &str) -> Node;
     fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<Node>;
-   // endregion: methods to be implemented for a specific project
+    // endregion: methods to be implemented for a specific project
 
     // region: the only true public method - default implementation code
     /// default implementation - render template to string
