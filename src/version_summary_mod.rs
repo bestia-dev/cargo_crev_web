@@ -83,39 +83,7 @@ impl html_template_mod::HtmlTemplating for VersionSummary {
             }
         }
     }
-    /*
-            /// return a closure for the listener.
-            #[allow(clippy::too_many_lines, clippy::type_complexity)]
-            fn call_fn_listener(
-                &self,
-                fn_name: String,
-            ) -> Box<dyn Fn(&mut dyn RootRender, VdomWeak, Event) + 'static> {
-                Box::new(move |root, vdom, event| {
-                    let fn_name = fn_name.clone();
-                    let fn_name = fn_name.as_str();
-                    let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                    //println!("{}",&format!("call_fn_listener: {}", &fn_name));
-                    match fn_name {
-
-                        "open_youtube" => {
-                            // randomly choose a link from rrc.videos
-                            let num = websysmod::get_random(0, rrc.game_data.videos.len());
-                            #[allow(clippy::indexing_slicing)]
-                            // cannot panic:the num is 0..video.len
-                            websysmod::open_new_tab(&format!(
-                                "https://www.youtube.com/watch?v={}",
-                                rrc.game_data.videos[num]
-                            ));
-                        }
-                        _ => {
-                            let x = format!("Unrecognized version_summary_mod call_fn_listener: \"{}\"", fn_name);
-                            println!("Error: {}",&x);
-                        }
-                    }
-                })
-            }
-    */
-    /// html_templating functions that return a Node
+     /// html_templating functions that return a Node
     #[allow(clippy::needless_return)]
     fn call_fn_node(&self, fn_name: &str) -> html_template_mod::Node {
         // println!("{}",&format!("call_fn_node: {}", &fn_name));

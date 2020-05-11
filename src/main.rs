@@ -168,7 +168,7 @@ use log::info;
 //use serde_derive::{Deserialize, Serialize};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 //use unwrap::unwrap;
-use warp::{http::Uri, Filter};
+use warp::{ Filter};
 // endregion
 
 // region: enum, structs, const,...
@@ -199,25 +199,27 @@ async fn main() {
     let local_addr = SocketAddr::new(local_ip, local_port);
 
     info!(
-        "cargo-crev http server listening on {} ",
+        "cargo_crev_web http server listening on {} ",
         ansi_term::Colour::Red.paint(local_addr.to_string())
     );
     // endregion
 
+    // this webapp will start with the route cargo_crev_web
+    // the website does not matter.
+    // example: bestia.dev/cargo_crev_web/query/num-traits
+    //   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits
+
     // dynamic content
-    let query_crate_name = warp::path!("query" / String).map(|crate_name: String| {
+    let query_crate_name = warp::path!("cargo_crev_web" / "query" / String).map(|crate_name: String| {
         let html_file = crev_query_mod::html_for_crev_query(&crate_name);
         warp::reply::html(html_file)
     });
 
-    // just to not have an orphan route
-    let query_redirect =
-        warp::path!("query").map(|| warp::redirect(Uri::from_static("/cargo_crev_web")));
-
-    // static file server
-    // GET files of route / -> are from folder ./crev/
-    let fileserver = warp::fs::dir("./crev/");
-    let routes = query_crate_name.or(query_redirect).or(fileserver);
+    // static file server (starts at cargo_crev_web)
+    // GET files of route /cargo_crev_web/ -> are from folder ./cargo_crev_web_root_folder/
+    let fileserver = warp::path("cargo_crev_web").and(warp::fs::dir("./cargo_crev_web_root_folder/"));
+    let routes = query_crate_name
+    .or(fileserver);
 
     warp::serve(routes).run(local_addr).await;
 }

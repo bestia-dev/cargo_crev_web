@@ -5,7 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>crev_query</title>
     <meta name="Description" content="web app for querying reviews from cargo-crev" />
-    <link rel="stylesheet" href="../css/cargo_crev_web.css" />
+    <link rel="stylesheet" href="/cargo_crev_web/css/cargo_crev_web.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
 </head>
 
@@ -114,20 +114,20 @@
         <div class="review_issue">
             <div class="review_header_cell">issues:</div>
             <div class="review_header_cell">
-                <a target="_blank" data-t-href="t_issue_link"
+                <a target="_blank" data-t-href="t_issue_id"
                    href="https://github.com/rust-num/num-traits/advisory/125">
                     https://github.com/rust-num/num-traits/issues/125</a></div>
             <div class="review_header_cell" title="severity">
                 <!--t_issue_severity-->medium</div>
-            <div class="review_header_cell"></div>
+            <div class="review_header_cell" title="comment"><!--t_issue_comment-->comment</div>
         </div>
         <!--b_has_advisories-->
         <div class="review_advisory">
-            <div class="review_header_cell">advisory:</div>
+            <div class="review_header_cell">advisories:</div>
             <div class="review_header_cell">
-                <a target="_blank" data-t-href="t_advisory_link"
+                <a target="_blank" data-t-href="t_advisories_ids"
                    href="https://github.com/rust-num/num-traits/advisory/125">
-                    https://github.com/rust-num/num-traits/advisory/125 </a>
+                    <!--t_advisories_ids-->https://github.com/rust-num/num-traits/advisory/125 </a>
             </div>
             <div class="review_header_cell" title="severity">
                 <!--t_advisories_severity-->medium</div>
@@ -137,11 +137,6 @@
         <!--b_has_old_advisory-->
         <div class="review_advisory">
             <div class="review_header_cell">advisory:</div>
-            <div class="review_header_cell">
-                <a target="_blank" data-t-href="t_advisory_link"
-                   href="https://github.com/rust-num/num-traits/advisory/125">
-                    https://github.com/rust-num/num-traits/advisory/125</a>
-            </div>
             <div class="review_header_cell" title="affected">
                 <!--t_advisory_affected-->medium</div>
             <div class="review_header_cell" title="critical">

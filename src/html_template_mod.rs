@@ -156,13 +156,7 @@ pub trait HtmlTemplating {
     fn call_fn_boolean(&self, fn_name: &str) -> bool;
     fn call_fn_node(&self, fn_name: &str) -> Node;
     fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<Node>;
-    /*
-    fn call_fn_listener(
-        &self,
-        fn_name: String,
-    ) -> Box<dyn Fn(&mut dyn RootRender, VdomWeak, web_sys::Event) + 'static>;
-    */
-    // endregion: methods to be implemented for a specific project
+   // endregion: methods to be implemented for a specific project
 
     // region: the only true public method - default implementation code
     /// default implementation - render template to string
@@ -347,15 +341,6 @@ pub trait HtmlTemplating {
                         let fn_name = &value;
                         let repl_txt = self.call_fn_string(fn_name);
                         replace_string = Some(repl_txt);
-                    /*
-                    } else if name.starts_with("data-on_") {
-                        // Only one listener for now because the api does not give me other method.
-                        let fn_name = &name[5..];
-                        let event_to_listen = unwrap!(name.get(8..)).to_string();
-                    //println!("{}","&event_to_listen");
-                    //println!("{}",&event_to_listen);
-                    //element = element.add_listener(event_to_listen, self.call_fn_listener(fn_name));
-                    */
                     } else {
                         let value = if let Some(repl) = replace_string {
                             // empty the replace_string for the next node

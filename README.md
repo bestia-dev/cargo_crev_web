@@ -117,12 +117,14 @@ add this line to start every hour at x:04 minutes
 in development:  
 <http://127.0.0.1:8051/query/btoi>    alternatives  
 <http://127.0.0.1:8051/query/num-traits>   issues  
-<http://127.0.0.1:8051/query/protobuf>   advisory  
+<http://127.0.0.1:8051/query/protobuf>   advisory old  
+<http://127.0.0.1:8051/query/inventory>   advisories
 
 on the web:  
 <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
 <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
-<https://bestia.dev/cargo_crev_web/query/protobuf>  advisory  
+<https://bestia.dev/cargo_crev_web/query/protobuf>  advisory old  
+<https://bestia.dev/cargo_crev_web/query/inventory>   advisories
 
 ## cargo crev reviews and advisory
 
@@ -140,3 +142,5 @@ On the web use this url to read crate reviews. Example:
 - cached results  
 - filtered by version, rating,... from cached  
 - cached templates?  
+- examples: advisory old: protobuf
+- reviews per author, because there will be a lot of duplicates

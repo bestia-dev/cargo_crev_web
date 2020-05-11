@@ -107,7 +107,7 @@ a:hover, a:active {
 
 .review_header_cell {
   padding: 0px;
-  border: 1px solid #000;
+  #border: 1px solid #000;
   text-align: center;
 }
 

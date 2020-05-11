@@ -23,7 +23,7 @@ pub fn html_for_crev_query(crate_name: &str) -> String {
     // the folders hierarchy for templates is similar like the routes
     // so to retain the same relative folders like css
     let html = render_html(
-        "crev/query_template/crev_query_template.html",
+        "./templates/query/crev_query_template.html",
         proofs,
         all_summaries,
     );
