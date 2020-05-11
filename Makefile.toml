@@ -98,14 +98,14 @@ skip_core_tasks = true
     script = [
         "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
         "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-        "echo $ rsync -avz --delete-after /home/luciano/rustprojects/cargo_crev_web/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
-        "rsync -avz --delete-after /home/luciano/rustprojects/cargo_crev_web/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+        "echo $ rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/webfolder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+        "rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/webfolder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
         "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
         "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/cargo_crev_web\\\\n'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/cargo_crev_web\\\\n'",
-        "echo $ rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/webapps/cargo_crev_web/",
-        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/webapps/cargo_crev_web/",
+        "echo $ rsync -e ssh -avz --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/webapps/cargo_crev_web/",
+        "rsync -e ssh -avz --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/webapps/cargo_crev_web/",
         "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'chmod\\ \\+x\\ cargo_crev_web\\\\n'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'chmod\\ \\+x\\ cargo_crev_web\\\\n'",
         # don't use sudo here, because .cache is under luciano_bestia user, this user must run the binary

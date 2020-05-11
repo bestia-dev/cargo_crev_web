@@ -154,11 +154,12 @@
 // endregion
 
 // region: use statements
+mod all_summary_mod;
 mod crev_query_mod;
 mod html_template_mod;
 mod proof_mod;
-mod summary_mod;
 mod utils_mod;
+mod version_summary_mod;
 
 use clap::App;
 use env_logger::Env;
@@ -204,8 +205,8 @@ async fn main() {
     // endregion
 
     // dynamic content
-    let query_crate_name = warp::path!("query" / String).map(|crate_name| {
-        let html_file = crev_query_mod::crev_query(crate_name);
+    let query_crate_name = warp::path!("query" / String).map(|crate_name: String| {
+        let html_file = crev_query_mod::html_for_crev_query(&crate_name);
         warp::reply::html(html_file)
     });
 

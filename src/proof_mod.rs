@@ -130,8 +130,8 @@ impl html_template_mod::HtmlTemplating for Proof {
             "b_has_advisories" => self.advisories.is_some(),
             "b_has_old_advisory" => self.advisory.is_some(),
             _ => {
-                let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
-                println!("{}", &x);
+                let x = format!("Unrecognized call_fn_boolean: \"{}\"", fn_name);
+                println!("Error: {}", &x);
                 true
             }
         }
@@ -177,9 +177,48 @@ impl html_template_mod::HtmlTemplating for Proof {
                     "".to_string()
                 }
             }
+            "t_issue_severity" => {
+                if let Some(issues) = &self.issues {
+                    issues[0].severity.to_string()
+                } else {
+                    "".to_string()
+                }
+            }
+            "t_advisories_severity" => {
+                if let Some(advisories) = &self.advisories {
+                    advisories[0].severity.to_string()
+                } else {
+                    "".to_string()
+                }
+            }
+            "t_advisories_range" => {
+                if let Some(advisories) = &self.advisories {
+                    advisories[0]
+                        .range
+                        .as_ref()
+                        .unwrap_or(&String::new())
+                        .to_string()
+                } else {
+                    "".to_string()
+                }
+            }
+            "t_advisory_affected" => {
+                if let Some(advisory) = &self.advisory {
+                    advisory.affected.to_string()
+                } else {
+                    "".to_string()
+                }
+            }
+            "t_advisory_critical" => {
+                if let Some(advisory) = &self.advisory {
+                    advisory.critical.to_string()
+                } else {
+                    "".to_string()
+                }
+            }
             _ => {
-                let x = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
-                println!("{}", &x);
+                let x = format!("Unrecognized call_fn_string: \"{}\"", fn_name);
+                println!("Error: {}", &x);
                 x
             }
         }
@@ -209,8 +248,8 @@ impl html_template_mod::HtmlTemplating for Proof {
                             ));
                         }
                         _ => {
-                            let x = format!("Error: Unrecognized call_fn_listener: \"{}\"", fn_name);
-                            println!("{}",&x);
+                            let x = format!("Unrecognized call_fn_listener: \"{}\"", fn_name);
+                            println!("Error: {}",&x);
                         }
                     }
                 })
@@ -228,14 +267,10 @@ impl html_template_mod::HtmlTemplating for Proof {
                             tag_name: "h2".to_string(),
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(
-                                    html_template_mod::TextNode {
-                                        text: format!(
-                                            "Error: Unrecognized call_fn_node: \"{}\"",
-                                            fn_name
-                                        ),
-                                    },
-                                ),
+                                node_enum: html_template_mod::NodeEnum::Text(format!(
+                                    "Error: Unrecognized call_fn_node: \"{}\"",
+                                    fn_name
+                                )),
                             }],
                             namespace: None,
                         },
@@ -258,14 +293,10 @@ impl html_template_mod::HtmlTemplating for Proof {
                             tag_name: "h2".to_string(),
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(
-                                    html_template_mod::TextNode {
-                                        text: format!(
-                                            "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
-                                            fn_name
-                                        ),
-                                    },
-                                ),
+                                node_enum: html_template_mod::NodeEnum::Text(format!(
+                                    "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
+                                    fn_name
+                                )),
                             }],
                             namespace: None,
                         },

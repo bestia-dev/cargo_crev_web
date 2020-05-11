@@ -1,7 +1,8 @@
-//! summary_mod
+//! all_summary_mod
 
 // region: use
 use crate::proof_mod::*;
+use crate::version_summary_mod::VersionSummary;
 use crate::*;
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
@@ -10,46 +11,12 @@ use unwrap::unwrap;
 
 #[derive(Clone, Debug)]
 pub struct AllSummaries {
-    crate_name: String,
-    crate_summary: VersionSummary,
-    version_summaries: Vec<VersionSummary>,
-}
-#[derive(Clone, Debug)]
-struct VersionSummary {
-    version: String,
-    version_for_sorting: String,
-    review_number: usize,
-    rating_strong: usize,
-    rating_positive: usize,
-    rating_neutral: usize,
-    rating_negative: usize,
-    alternatives: usize,
-    issues: usize,
-    advisories: usize,
-    thoroughness: usize,
-    understanding: usize,
+    pub crate_name: String,
+    pub crate_summary: VersionSummary,
+    pub version_summaries: Vec<VersionSummary>,
 }
 
-impl VersionSummary {
-    pub fn new() -> Self {
-        VersionSummary {
-            version: "".to_string(),
-            version_for_sorting: "".to_string(),
-            review_number: 0,
-            rating_strong: 0,
-            rating_positive: 0,
-            rating_neutral: 0,
-            rating_negative: 0,
-            alternatives: 0,
-            issues: 0,
-            advisories: 0,
-            thoroughness: 0,
-            understanding: 0,
-        }
-    }
-}
-
-pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &mut Vec<Proof>) -> AllSummaries {
+pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -> AllSummaries {
     // the first version empty_string is for "all_versions" or crate_summary
     let mut all_summaries = AllSummaries {
         crate_name: crate_name.to_string(),
@@ -154,8 +121,8 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
             _ => {
-                let x = format!("Error: Unrecognized call_fn_boolean: \"{}\"", fn_name);
-                println!("{}", &x);
+                let x = format!("Unrecognized call_fn_boolean: \"{}\"", fn_name);
+                println!("Error: {}", &x);
                 true
             }
         }
@@ -170,44 +137,55 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
     fn call_fn_string(&self, fn_name: &str) -> String {
         // println!("{}",&format!("call_fn_string: {}", &fn_name));
         match fn_name {
+            "t_crate_name" => self.crate_name.to_string(),
+            "t_crate_review_number" => self.crate_summary.review_number.to_string(),
+            "t_crate_rating_strong" => self.crate_summary.rating_strong.to_string(),
+            "t_crate_rating_positive" => self.crate_summary.rating_positive.to_string(),
+            "t_crate_rating_neutral" => self.crate_summary.rating_neutral.to_string(),
+            "t_crate_rating_negative" => self.crate_summary.rating_negative.to_string(),
+            "t_crate_alternatives" => self.crate_summary.alternatives.to_string(),
+            "t_crate_issues" => self.crate_summary.issues.to_string(),
+            "t_crate_advisories" => self.crate_summary.advisories.to_string(),
+            "t_crate_thoroughness" => self.crate_summary.thoroughness.to_string(),
+            "t_crate_understanding" => self.crate_summary.understanding.to_string(),
             _ => {
-                let x = format!("Error: Unrecognized call_fn_string: \"{}\"", fn_name);
-                println!("{}", &x);
+                let x = format!("Unrecognized call_fn_string: \"{}\"", fn_name);
+                println!("Error: {}", &x);
                 x
             }
         }
     }
     /*
-            /// return a closure for the listener.
-            #[allow(clippy::too_many_lines, clippy::type_complexity)]
-            fn call_fn_listener(
-                &self,
-                fn_name: String,
-            ) -> Box<dyn Fn(&mut dyn RootRender, VdomWeak, Event) + 'static> {
-                Box::new(move |root, vdom, event| {
-                    let fn_name = fn_name.clone();
-                    let fn_name = fn_name.as_str();
-                    let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                    //println!("{}",&format!("call_fn_listener: {}", &fn_name));
-                    match fn_name {
+    /// return a closure for the listener.
+    #[allow(clippy::too_many_lines, clippy::type_complexity)]
+    fn call_fn_listener(
+        &self,
+        fn_name: String,
+    ) -> Box<dyn Fn(&mut dyn RootRender, VdomWeak, Event) + 'static> {
+        Box::new(move |root, vdom, event| {
+            let fn_name = fn_name.clone();
+            let fn_name = fn_name.as_str();
+            let rrc = root.unwrap_mut::<RootRenderingComponent>();
+            //println!("{}",&format!("call_fn_listener: {}", &fn_name));
+            match fn_name {
 
-                        "open_youtube" => {
-                            // randomly choose a link from rrc.videos
-                            let num = websysmod::get_random(0, rrc.game_data.videos.len());
-                            #[allow(clippy::indexing_slicing)]
-                            // cannot panic:the num is 0..video.len
-                            websysmod::open_new_tab(&format!(
-                                "https://www.youtube.com/watch?v={}",
-                                rrc.game_data.videos[num]
-                            ));
-                        }
-                        _ => {
-                            let x = format!("Error: Unrecognized call_fn_listener: \"{}\"", fn_name);
-                            println!("{}",&x);
-                        }
-                    }
-                })
+                "open_youtube" => {
+                    // randomly choose a link from rrc.videos
+                    let num = websysmod::get_random(0, rrc.game_data.videos.len());
+                    #[allow(clippy::indexing_slicing)]
+                    // cannot panic:the num is 0..video.len
+                    websysmod::open_new_tab(&format!(
+                        "https://www.youtube.com/watch?v={}",
+                        rrc.game_data.videos[num]
+                    ));
+                }
+                _ => {
+                    let x = format!("Unrecognized call_fn_listener: \"{}\"", fn_name);
+                    println!("Error: {}",&x);
+                }
             }
+        })
+    }
     */
     /// html_templating functions that return a Node
     #[allow(clippy::needless_return)]
@@ -215,20 +193,17 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
         // println!("{}",&format!("call_fn_node: {}", &fn_name));
         match fn_name {
             _ => {
+                // so much boilerplate
                 let node = html_template_mod::Node {
                     node_enum: html_template_mod::NodeEnum::Element(
                         html_template_mod::ElementNode {
                             tag_name: "h2".to_string(),
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(
-                                    html_template_mod::TextNode {
-                                        text: format!(
-                                            "Error: Unrecognized call_fn_node: \"{}\"",
-                                            fn_name
-                                        ),
-                                    },
-                                ),
+                                node_enum: html_template_mod::NodeEnum::Text(format!(
+                                    "Error: Unrecognized call_fn_node: \"{}\"",
+                                    fn_name
+                                )),
                             }],
                             namespace: None,
                         },
@@ -245,20 +220,17 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
         // println!("{}",&format!("call_fn_node: {}", &fn_name));
         match fn_name {
             _ => {
+                // so much boilerplate
                 let node = html_template_mod::Node {
                     node_enum: html_template_mod::NodeEnum::Element(
                         html_template_mod::ElementNode {
                             tag_name: "h2".to_string(),
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(
-                                    html_template_mod::TextNode {
-                                        text: format!(
-                                            "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
-                                            fn_name
-                                        ),
-                                    },
-                                ),
+                                node_enum: html_template_mod::NodeEnum::Text(format!(
+                                    "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
+                                    fn_name
+                                )),
                             }],
                             namespace: None,
                         },

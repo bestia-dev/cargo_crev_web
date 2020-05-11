@@ -136,4 +136,7 @@ On the web use this url to read crate reviews. Example:
 
 - a short story on the index.html
   - include how this can be used locally
-- templating machine
+- cached results
+- filtered by version, rating,... from cached
+- cached templates?
+
