@@ -48,7 +48,7 @@ impl html_template_mod::HtmlTemplating for VersionSummary {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
             _ => {
-                let x = format!("Unrecognized call_fn_boolean: \"{}\"", fn_name);
+                let x = format!("Unrecognized version_summary_mod call_fn_boolean: \"{}\"", fn_name);
                 println!("Error: {}", &x);
                 true
             }
@@ -63,20 +63,21 @@ impl html_template_mod::HtmlTemplating for VersionSummary {
     )]
     fn call_fn_string(&self, fn_name: &str) -> String {
         // println!("{}",&format!("call_fn_string: {}", &fn_name));
+        use html_template_mod::to_string_zero_to_empty;
         match fn_name {
             "t_version" => self.version.to_string(),
-            "t_review_number" => self.review_number.to_string(),
-            "t_rating_strong" => self.rating_strong.to_string(),
-            "t_rating_positive" => self.rating_positive.to_string(),
-            "t_rating_neutral" => self.rating_neutral.to_string(),
-            "t_rating_negative" => self.rating_negative.to_string(),
-            "t_alternatives" => self.alternatives.to_string(),
-            "t_issues" => self.issues.to_string(),
-            "t_advisories" => self.advisories.to_string(),
-            "t_thoroughness" => self.thoroughness.to_string(),
-            "t_understanding" => self.understanding.to_string(),
+            "t_review_number" => to_string_zero_to_empty(self.review_number),
+            "t_rating_strong" => to_string_zero_to_empty(self.rating_strong),
+            "t_rating_positive" => to_string_zero_to_empty(self.rating_positive),
+            "t_rating_neutral" => to_string_zero_to_empty(self.rating_neutral),
+            "t_rating_negative" => to_string_zero_to_empty(self.rating_negative),
+            "t_alternatives" => to_string_zero_to_empty(self.alternatives),
+            "t_issues" => to_string_zero_to_empty(self.issues),
+            "t_advisories" => to_string_zero_to_empty(self.advisories),
+            "t_thoroughness" => to_string_zero_to_empty(self.thoroughness),
+            "t_understanding" => to_string_zero_to_empty(self.understanding),
             _ => {
-                let x = format!("Unrecognized call_fn_string: \"{}\"", fn_name);
+                let x = format!("Unrecognized version_summary_mod call_fn_string: \"{}\"", fn_name);
                 println!("Error: {}", &x);
                 x
             }
@@ -107,7 +108,7 @@ impl html_template_mod::HtmlTemplating for VersionSummary {
                             ));
                         }
                         _ => {
-                            let x = format!("Unrecognized call_fn_listener: \"{}\"", fn_name);
+                            let x = format!("Unrecognized version_summary_mod call_fn_listener: \"{}\"", fn_name);
                             println!("Error: {}",&x);
                         }
                     }
@@ -127,7 +128,7 @@ impl html_template_mod::HtmlTemplating for VersionSummary {
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
                                 node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized call_fn_node: \"{}\"",
+                                    "Error: Unrecognized version_summary_mod call_fn_node: \"{}\"",
                                     fn_name
                                 )),
                             }],
@@ -153,7 +154,7 @@ impl html_template_mod::HtmlTemplating for VersionSummary {
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
                                 node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
+                                    "Error: Unrecognized version_summary_mod call_fn_vec_nodes: \"{}\"",
                                     fn_name
                                 )),
                             }],

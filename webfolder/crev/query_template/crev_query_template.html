@@ -10,14 +10,14 @@
 </head>
 
 <body>
+    <!--template_all_summaries start-->
     <div class="summary_container">
         <div style="padding: 20px;">
             <h2><a href="https://bestia.dev/cargo_crev_web" target="_blank">
                     cargo_crev_web</a></h2>
             <h3>query reviews from <a href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
-            <h3>crate: <a href="https://crates.io/crates/num-traits" target="_blank">num-traits</a></h3>
+            <h3>crate: <a data-t-href="t_crate_link" href="https://crates.io/crates/num-traits" target="_blank"><!--t_crate_name-->num-traits</a></h3>
         </div>
-        <!--template_all_summaries start-->
         <div class="crate_summary">
             <div class="crate_summary_cell bold"></div>
             <div class="crate_summary_cell bold" title="reviews count">c</div>
@@ -84,8 +84,8 @@
                 <!--t_understanding-->1</div>
             <!--template_summary_version end-->
         </div>
-        <!--template_all_summaries end-->
     </div>
+    <!--template_all_summaries end-->
     <!--template_review_proof start-->
     <div class="review_container">
         <div class="review_header">
@@ -96,8 +96,8 @@
             <div class="review_header_cell">
                 <!--t_review_date-->2020-01-18</div>
             <div class="review_header_cell white">
-                <a target="_blank" data-t-href="review_author_link" href="https://github.com/niklasf/crev-proofs">
-                    <!--t_review_author-->niklasf</a></div>
+                <a target="_blank" data-t-href="t_review_author_link" href="https://github.com/niklasf/crev-proofs">
+                    <!--t_review_author-->author_name</a></div>
             <div class="review_header_cell" title="thoroughness understanding">
                 <!--t_crate_thoroughness_understanding-->none high</div>
         </div>
@@ -105,10 +105,10 @@
         <div class="review_alternative">
             <div class="review_header_cell">alternative:</div>
             <div class="review_header_cell">
-                <a target="_blank" data-t-href="t_alternative_link"
+                <a target="_blank" data-t-href="t_alternative_source"
                    href="https://github.com/rust-num/num-traits/advisory/125">
-                    alternative.source </a></div>
-            <div class="review_header_cell">alternative.name</div>
+                    <!--t_alternative_source-->alternative.source </a></div>
+            <div class="review_header_cell"><!--t_alternative_name-->alternative.name</div>
         </div>
         <!--b_has_issues-->
         <div class="review_issue">
@@ -167,7 +167,7 @@
             <div class="review_header_cell">num-traits 0.2.6</div>
             <div class="review_header_cell green bold">positive</div>
             <div class="review_header_cell">2019-08-30</div>
-            <div class="review_header_cell white">HeroicKatora</div>
+            <div class="review_header_cell white">Heroic_User</div>
             <div class="review_header_cell">medium high</div>
         </div>
 
@@ -176,7 +176,7 @@
             panics and not fuzzed. Minor
             soundness concerns for floating point operations, rooted in Rust
             language
-            `as` operator not having fully specified behaviour (yet). All is
+            `as` operator not having fully specified behavior (yet). All is
             well for the
             integer part of the library.
         </div>

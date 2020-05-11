@@ -134,9 +134,9 @@ On the web use this url to read crate reviews. Example:
 
 ## TODO
 
-- a short story on the index.html
-  - include how this can be used locally
-- cached results
-- filtered by version, rating,... from cached
-- cached templates?
-
+- a similar module is also created by Kornelski: <https://lib.rs/crates/num-traits/crev>  
+- a short story on the index.html  
+  - include how this can be used locally  
+- cached results  
+- filtered by version, rating,... from cached  
+- cached templates?  

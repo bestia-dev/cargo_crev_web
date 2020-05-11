@@ -339,11 +339,12 @@ pub trait HtmlTemplating {
                     }
                 }
                 Event::Attribute(name, value) => {
-                    if name.starts_with("data-t_") {
-                        // fn_name is in the attribute name.
-                        // the value is only informative for what attribute it should replace.
-                        // The replace_string will always be applied to the next attribute.
-                        let fn_name = &name[5..];
+                    if name.starts_with("data-t-") {
+                        // fn_name is in the attribute value.
+                        // the attribute name is informative and should be similar to the next attribute
+                        // example: data-t-href="t_fn_name" href="x"
+                        // The replace_string will always be applied to the next attribute. No matter the name.
+                        let fn_name = &value;
                         let repl_txt = self.call_fn_string(fn_name);
                         replace_string = Some(repl_txt);
                     /*
@@ -446,4 +447,11 @@ pub trait HtmlTemplating {
     }
 
     // region: this methods should be private somehow, but I don't know in Rust how to do it
+}
+pub fn to_string_zero_to_empty(number: usize) -> String {
+    if number == 0 {
+        "".to_string()
+    } else {
+        number.to_string()
+    }
 }

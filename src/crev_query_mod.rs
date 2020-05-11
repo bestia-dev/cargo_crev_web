@@ -119,7 +119,7 @@ fn render_html(
                     &sub_template.template,
                     html_template_mod::HtmlOrSvg::Html
                 ));
-                println!("html: {}", html);
+                //println!("html: {}", html);
                 // didn't find placeholder <!--template_summary_version start-->?
                 if let Some(pos) =
                     utils_mod::find_pos_before_delimiter(&html, 0, &sub_template.placeholder)

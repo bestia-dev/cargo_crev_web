@@ -121,7 +121,7 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
             _ => {
-                let x = format!("Unrecognized call_fn_boolean: \"{}\"", fn_name);
+                let x = format!("Unrecognized all_summary_mod call_fn_boolean: \"{}\"", fn_name);
                 println!("Error: {}", &x);
                 true
             }
@@ -136,20 +136,26 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
     )]
     fn call_fn_string(&self, fn_name: &str) -> String {
         // println!("{}",&format!("call_fn_string: {}", &fn_name));
+        use html_template_mod::to_string_zero_to_empty;
         match fn_name {
             "t_crate_name" => self.crate_name.to_string(),
-            "t_crate_review_number" => self.crate_summary.review_number.to_string(),
-            "t_crate_rating_strong" => self.crate_summary.rating_strong.to_string(),
-            "t_crate_rating_positive" => self.crate_summary.rating_positive.to_string(),
-            "t_crate_rating_neutral" => self.crate_summary.rating_neutral.to_string(),
-            "t_crate_rating_negative" => self.crate_summary.rating_negative.to_string(),
-            "t_crate_alternatives" => self.crate_summary.alternatives.to_string(),
-            "t_crate_issues" => self.crate_summary.issues.to_string(),
-            "t_crate_advisories" => self.crate_summary.advisories.to_string(),
-            "t_crate_thoroughness" => self.crate_summary.thoroughness.to_string(),
-            "t_crate_understanding" => self.crate_summary.understanding.to_string(),
+            "t_crate_link" => format!("https://crates.io/crates/{}", self.crate_name),
+            "t_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
+            "t_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
+            "t_crate_rating_positive" => {
+                to_string_zero_to_empty(self.crate_summary.rating_positive)
+            }
+            "t_crate_rating_neutral" => to_string_zero_to_empty(self.crate_summary.rating_neutral),
+            "t_crate_rating_negative" => {
+                to_string_zero_to_empty(self.crate_summary.rating_negative)
+            }
+            "t_crate_alternatives" => to_string_zero_to_empty(self.crate_summary.alternatives),
+            "t_crate_issues" => to_string_zero_to_empty(self.crate_summary.issues),
+            "t_crate_advisories" => to_string_zero_to_empty(self.crate_summary.advisories),
+            "t_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
+            "t_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
             _ => {
-                let x = format!("Unrecognized call_fn_string: \"{}\"", fn_name);
+                let x = format!("Unrecognized all_summary_mod call_fn_string: \"{}\"", fn_name);
                 println!("Error: {}", &x);
                 x
             }
@@ -180,7 +186,7 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
                     ));
                 }
                 _ => {
-                    let x = format!("Unrecognized call_fn_listener: \"{}\"", fn_name);
+                    let x = format!("Unrecognized all_summary_mod call_fn_listener: \"{}\"", fn_name);
                     println!("Error: {}",&x);
                 }
             }
@@ -201,7 +207,7 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
                                 node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized call_fn_node: \"{}\"",
+                                    "Error: Unrecognized all_summary_mod call_fn_node: \"{}\"",
                                     fn_name
                                 )),
                             }],
@@ -228,7 +234,7 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
                                 node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
+                                    "Error: Unrecognized all_summary_mod call_fn_vec_nodes: \"{}\"",
                                     fn_name
                                 )),
                             }],

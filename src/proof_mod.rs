@@ -130,7 +130,7 @@ impl html_template_mod::HtmlTemplating for Proof {
             "b_has_advisories" => self.advisories.is_some(),
             "b_has_old_advisory" => self.advisory.is_some(),
             _ => {
-                let x = format!("Unrecognized call_fn_boolean: \"{}\"", fn_name);
+                let x = format!("Unrecognized proof_mod call_fn_boolean: \"{}\"", fn_name);
                 println!("Error: {}", &x);
                 true
             }
@@ -159,6 +159,7 @@ impl html_template_mod::HtmlTemplating for Proof {
                 // naive method to extract author
                 get_author(self)
             }
+            "t_review_author_link" => self.from.url.to_string(),
             "t_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
                     format!(
@@ -173,6 +174,20 @@ impl html_template_mod::HtmlTemplating for Proof {
             "t_review_comment" => {
                 if let Some(comment) = &self.comment {
                     comment.clone()
+                } else {
+                    "".to_string()
+                }
+            }
+            "t_alternative_source" => {
+                if let Some(alternatives) = &self.alternatives {
+                    alternatives[0].source.to_string()
+                } else {
+                    "".to_string()
+                }
+            }
+            "t_alternative_name" => {
+                if let Some(alternatives) = &self.alternatives {
+                    alternatives[0].name.to_string()
                 } else {
                     "".to_string()
                 }
@@ -217,7 +232,7 @@ impl html_template_mod::HtmlTemplating for Proof {
                 }
             }
             _ => {
-                let x = format!("Unrecognized call_fn_string: \"{}\"", fn_name);
+                let x = format!("Unrecognized proof_mod call_fn_string: \"{}\"", fn_name);
                 println!("Error: {}", &x);
                 x
             }
@@ -248,7 +263,7 @@ impl html_template_mod::HtmlTemplating for Proof {
                             ));
                         }
                         _ => {
-                            let x = format!("Unrecognized call_fn_listener: \"{}\"", fn_name);
+                            let x = format!("Unrecognized proof_mod call_fn_listener: \"{}\"", fn_name);
                             println!("Error: {}",&x);
                         }
                     }
@@ -268,7 +283,7 @@ impl html_template_mod::HtmlTemplating for Proof {
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
                                 node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized call_fn_node: \"{}\"",
+                                    "Error: Unrecognized proof_mod call_fn_node: \"{}\"",
                                     fn_name
                                 )),
                             }],
@@ -294,7 +309,7 @@ impl html_template_mod::HtmlTemplating for Proof {
                             attributes: vec![],
                             children: vec![html_template_mod::Node {
                                 node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized call_fn_vec_nodes: \"{}\"",
+                                    "Error: Unrecognized proof_mod call_fn_vec_nodes: \"{}\"",
                                     fn_name
                                 )),
                             }],
