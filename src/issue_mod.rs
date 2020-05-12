@@ -15,10 +15,10 @@ pub struct Issue {
 impl HtmlTemplating for Issue {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // println!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
             _ => {
-                println!(
+                eprintln!(
                     "Error: Unrecognized issue_mod call_fn_boolean: \"{}\"",
                     placeholder
                 );
@@ -34,7 +34,7 @@ impl HtmlTemplating for Issue {
         clippy::indexing_slicing
     )]
     fn call_fn_string(&self, placeholder: &str) -> String {
-        // println!("{}",&format!("call_fn_string: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_issue_id" => self.id.to_string(),
             "t_issue_severity" => self.severity.to_string(),
@@ -44,7 +44,7 @@ impl HtmlTemplating for Issue {
                     "Error: Unrecognized issue_mod call_fn_string: \"{}\"",
                     placeholder
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 err_msg
             }
         }
@@ -52,7 +52,7 @@ impl HtmlTemplating for Issue {
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
             _ => {
                 // so much boilerplate
@@ -82,7 +82,7 @@ impl HtmlTemplating for Issue {
         template_name: &str,
         _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // println!("{}",&format!("render_sub_template: {}", &placeholder));
+        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             _ => {
                 // so much boilerplate

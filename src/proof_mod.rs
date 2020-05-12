@@ -117,7 +117,7 @@ pub fn get_author(proof: &Proof) -> String {
 impl HtmlTemplating for Proof {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // println!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
             "b_not_for_render" => false,
             "b_has_alternatives" => self.alternatives.is_some(),
@@ -125,7 +125,7 @@ impl HtmlTemplating for Proof {
             "b_has_advisories" => self.advisories.is_some(),
             "b_has_old_advisory" => self.advisory.is_some(),
             _ => {
-                println!(
+                eprintln!(
                     "Error: Unrecognized proof_mod call_fn_boolean: \"{}\"",
                     placeholder
                 );
@@ -141,7 +141,7 @@ impl HtmlTemplating for Proof {
         clippy::indexing_slicing
     )]
     fn call_fn_string(&self, placeholder: &str) -> String {
-        // println!("{}",&format!("call_fn_string: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
             "t_review_rating" => {
@@ -254,7 +254,7 @@ impl HtmlTemplating for Proof {
                     "Error: Unrecognized proof_mod call_fn_string: \"{}\"",
                     placeholder
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 err_msg
             }
         }
@@ -262,7 +262,7 @@ impl HtmlTemplating for Proof {
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
             _ => {
                 // so much boilerplate
@@ -270,7 +270,7 @@ impl HtmlTemplating for Proof {
                     "Error: Unrecognized proof_mod call_fn_vec_nodes: \"{}\"",
                     placeholder
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 let node = Node {
                     node_enum: NodeEnum::Element(ElementNode {
                         tag_name: "h2".to_string(),
@@ -292,7 +292,7 @@ impl HtmlTemplating for Proof {
         template_name: &str,
         _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // println!("{}",&format!("render_sub_template: {}", &placeholder));
+        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             _ => {
                 // so much boilerplate
@@ -300,7 +300,7 @@ impl HtmlTemplating for Proof {
                     "Error: Unrecognized proof_mod render_sub_template: \"{}\"",
                     template_name
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 let node = Node {
                     node_enum: NodeEnum::Element(ElementNode {
                         tag_name: "h2".to_string(),

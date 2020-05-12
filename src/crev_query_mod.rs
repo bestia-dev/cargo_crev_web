@@ -15,7 +15,7 @@ pub struct CrevQueryData {
 }
 /// crev query returns html
 pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> String {
-    println!(
+    eprintln!(
         "{}: crate_name: {}",
         &Local::now().format("%Y-%m-%d %H:%M:%S"),
         crate_name
@@ -58,7 +58,7 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
     // local webfolder example "crev/cache/crev/remotes"
     let path = unwrap!(dirs::home_dir());
     let path = path.join(".cache/crev/remotes");
-    println!("path: {}", path.display());
+    eprintln!("path: {}", path.display());
     let mut count_files = 0;
     for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
         &path,
@@ -67,7 +67,7 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
         &vec!["/.git".to_string(), "/trust".to_string()]
     )) {
         count_files += 1;
-        //println!("filename_crev: {}", filename_crev);
+        // eprintln!("filename_crev: {}", filename_crev);
         // for filename_result in unwrap!(glob("/proofs/*.crev")) {
         // read crev file
         let crev_text = unwrap!(fs::read_to_string(filename_crev));
@@ -93,7 +93,7 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
             }
         }
     }
-    println!("files queried: {}", count_files);
+    eprintln!("files queried: {}", count_files);
     //sort first by version desc, but semver version and then by date
     proofs.sort_by(|a, b| {
         b.package

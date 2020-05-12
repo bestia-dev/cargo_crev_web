@@ -326,7 +326,7 @@ pub trait HtmlTemplating {
                 {
                     let sub_template_name =
                         sub_templates[0].template[pos_start + 4..pos_end_name].to_string();
-                    println!("sub_template_name: {}", sub_template_name);
+                    // eprintln!("sub_template_name: {}", sub_template_name);
                     let pos_start_after_tag = pos_end_name + 9;
                     let end_tag = format!("<!--{} end-->", sub_template_name);
                     if let Some(pos_end_after_tag) =
@@ -337,7 +337,7 @@ pub trait HtmlTemplating {
                         // this happens when the graphic designer need more repetition of the
                         // same sub-template only for visual effect while editing.
                         if sub_template_name == "template_not_for_render" {
-                            //println!("template_not_for_render {} {}",pos_start, pos_end_after_tag);
+                            // eprintln!("template_not_for_render {} {}",pos_start, pos_end_after_tag);
                             //remove all the template
                             sub_templates[0]
                                 .template
@@ -362,7 +362,7 @@ pub trait HtmlTemplating {
                                 placeholder: sub_template_placeholder.to_string(),
                                 template: sub_template.to_string(),
                             });
-                            //println!("{}",sub_template);
+                            // eprintln!("{}",sub_template);
                         }
                     }
                 }
@@ -371,7 +371,7 @@ pub trait HtmlTemplating {
                 break;
             }
         }
-        println!("sub_templates.len(): {}", sub_templates.len());
+        // eprintln!("sub_templates.len(): {}", sub_templates.len());
         //return
         sub_templates
     }

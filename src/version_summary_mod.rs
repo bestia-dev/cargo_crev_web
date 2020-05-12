@@ -46,10 +46,10 @@ impl VersionSummary {
 impl HtmlTemplating for VersionSummary {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // println!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
             _ => {
-                println!(
+                eprintln!(
                     "Error: Unrecognized version_summary_mod call_fn_boolean: \"{}\"",
                     placeholder
                 );
@@ -65,7 +65,7 @@ impl HtmlTemplating for VersionSummary {
         clippy::indexing_slicing
     )]
     fn call_fn_string(&self, placeholder: &str) -> String {
-        // println!("{}",&format!("call_fn_string: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_version" => self.version.to_string(),
             "t_review_number" => to_string_zero_to_empty(self.review_number),
@@ -83,7 +83,7 @@ impl HtmlTemplating for VersionSummary {
                     "Unrecognized version_summary_mod call_fn_string: \"{}\"",
                     placeholder
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 err_msg
             }
         }
@@ -91,7 +91,7 @@ impl HtmlTemplating for VersionSummary {
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
             _ => {
                 // so much boilerplate
@@ -99,7 +99,7 @@ impl HtmlTemplating for VersionSummary {
                     "Error: Unrecognized version_summary_mod call_fn_vec_nodes: \"{}\"",
                     placeholder
                 );
-                println!("{}", err_msg);
+                eprintln!("{}", err_msg);
                 let node = Node {
                     node_enum: NodeEnum::Element(ElementNode {
                         tag_name: "h2".to_string(),
@@ -121,7 +121,7 @@ impl HtmlTemplating for VersionSummary {
         template_name: &str,
         _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // println!("{}",&format!("render_sub_template: {}", &placeholder));
+        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             _ => {
                 // so much boilerplate
@@ -129,7 +129,7 @@ impl HtmlTemplating for VersionSummary {
                     "Error: Unrecognized version_summary_mod render_sub_template: \"{}\"",
                     template_name
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 let node = Node {
                     node_enum: NodeEnum::Element(ElementNode {
                         tag_name: "h2".to_string(),

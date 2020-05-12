@@ -7,10 +7,10 @@ use unwrap::unwrap;
 impl HtmlTemplating for CrevQueryData {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // println!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
             _ => {
-                println!(
+                eprintln!(
                     "Error: Unrecognized crev_query_templating_mod call_fn_boolean: \"{}\"",
                     placeholder
                 );
@@ -26,14 +26,14 @@ impl HtmlTemplating for CrevQueryData {
         clippy::indexing_slicing
     )]
     fn call_fn_string(&self, placeholder: &str) -> String {
-        // println!("{}",&format!("call_fn_string: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             _ => {
                 let err_msg = format!(
                     "Error: Unrecognized crev_query_templating_mod call_fn_string: \"{}\"",
                     placeholder
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 err_msg
             }
         }
@@ -41,7 +41,7 @@ impl HtmlTemplating for CrevQueryData {
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
             _ => {
                 // so much boilerplate
@@ -49,7 +49,7 @@ impl HtmlTemplating for CrevQueryData {
                     "Error: Unrecognized crev_query_templating_mod call_fn_vec_nodes: \"{}\"",
                     placeholder
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 let node = Node {
                     node_enum: NodeEnum::Element(ElementNode {
                         tag_name: "h2".to_string(),
@@ -71,10 +71,10 @@ impl HtmlTemplating for CrevQueryData {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // println!("{}",&format!("render_sub_template: {}", &placeholder));
+        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             "template_all_summaries" => {
-                println!("template_all_summaries: {}", "");
+                eprintln!("template_all_summaries: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));
@@ -92,7 +92,7 @@ impl HtmlTemplating for CrevQueryData {
                     "Error: Unrecognized crev_query_templating_mod render_sub_template: \"{}\"",
                     template_name
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 let node = Node {
                     node_enum: NodeEnum::Element(ElementNode {
                         tag_name: "h2".to_string(),

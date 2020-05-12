@@ -119,10 +119,10 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
 impl HtmlTemplating for AllSummaries {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // println!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
             _ => {
-                println!(
+                eprintln!(
                     "Error: Unrecognized all_summary_mod call_fn_boolean: \"{}\"",
                     placeholder
                 );
@@ -138,7 +138,7 @@ impl HtmlTemplating for AllSummaries {
         clippy::indexing_slicing
     )]
     fn call_fn_string(&self, placeholder: &str) -> String {
-        // println!("{}",&format!("call_fn_string: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_crate_name" => self.crate_name.to_string(),
             "t_crate_link" => format!("https://crates.io/crates/{}", self.crate_name),
@@ -161,7 +161,7 @@ impl HtmlTemplating for AllSummaries {
                     "Error: Unrecognized all_summary_mod call_fn_string: \"{}\"",
                     placeholder
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 err_msg
             }
         }
@@ -169,7 +169,7 @@ impl HtmlTemplating for AllSummaries {
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
             _ => {
                 // so much boilerplate
@@ -199,7 +199,7 @@ impl HtmlTemplating for AllSummaries {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        println!(
+        eprintln!(
             "{}",
             &format!("&sub_templates.len(): {}", &sub_templates.len())
         );
@@ -227,7 +227,7 @@ impl HtmlTemplating for AllSummaries {
                     "Error: Unrecognized all_summary_mod render_sub_template: \"{}\"",
                     template_name
                 );
-                println!("{}", &err_msg);
+                eprintln!("{}", &err_msg);
                 let node = Node {
                     node_enum: NodeEnum::Element(ElementNode {
                         tag_name: "h2".to_string(),
