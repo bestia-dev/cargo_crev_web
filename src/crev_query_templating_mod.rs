@@ -79,10 +79,27 @@ impl HtmlTemplating for CrevQueryData {
                     .iter()
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
+                // sub-template NOT repeatable
                 let vec_node = unwrap!(self
                     .all_summaries
                     .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html));
                 nodes.extend_from_slice(&vec_node);
+                //return
+                nodes
+            }
+            "template_review_proof" => {
+                eprintln!("template_review_proof: {}", "");
+                let sub_template = unwrap!(sub_templates
+                    .iter()
+                    .find(|&template| template.name == template_name));
+                let mut nodes = vec![];
+                // sub-template repeatable
+                for proof in &self.proofs {
+                    let vec_node =
+                        unwrap!(proof
+                            .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html));
+                    nodes.extend_from_slice(&vec_node);
+                }
                 //return
                 nodes
             }

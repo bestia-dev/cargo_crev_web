@@ -3,8 +3,8 @@
 use crate::html_template_mod::*;
 use crate::issue_mod::Issue;
 use serde_derive::{Deserialize, Serialize};
-//use unwrap::unwrap;
 use strum_macros;
+use unwrap::unwrap;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct ProofFrom {
@@ -290,10 +290,27 @@ impl HtmlTemplating for Proof {
     fn render_sub_template(
         &self,
         template_name: &str,
-        _sub_templates: &Vec<SubTemplate>,
+        sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
+            "template_issues" => {
+                eprintln!("template_issues: {}", "");
+                let sub_template = unwrap!(sub_templates
+                    .iter()
+                    .find(|&template| template.name == template_name));
+                let mut nodes = vec![];
+                // sub-template repeatable
+                if let Some(issues) = &self.issues {
+                    for issue in issues {
+                        let vec_node = unwrap!(issue
+                            .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html));
+                        nodes.extend_from_slice(&vec_node);
+                    }
+                }
+                //return
+                nodes
+            }
             _ => {
                 // so much boilerplate
                 let err_msg = format!(
