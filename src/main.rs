@@ -1,7 +1,7 @@
 // region: lmake_readme include "readme.md" //! A
 //! # cargo_crev_web
 //!
-//! version: 2020.501.1211  date: 2020-05-01 authors: Luciano Bestia  
+//! version: 2020.512.1444  date: 2020-05-12 authors: Luciano Bestia  
 //! **web server to query reviews from cargo-crev**
 //!
 //!
@@ -116,12 +116,35 @@
 //! in development:  
 //! <http://127.0.0.1:8051/query/btoi>    alternatives  
 //! <http://127.0.0.1:8051/query/num-traits>   issues  
-//! <http://127.0.0.1:8051/query/protobuf>   advisory  
+//! <http://127.0.0.1:8051/query/protobuf>   advisory old  
+//! <http://127.0.0.1:8051/query/inventory>   advisories
 //!
 //! on the web:  
 //! <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
 //! <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
-//! <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory  
+//! <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory old  
+//! <https://bestia.dev/cargo_crev_web/query/inventory>   advisories
+//!
+//! ## cargo crev reviews and advisory
+//!
+//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
+//! to verify the trustworthiness of each of your dependencies.  
+//! Please, spread this info.  
+//! On the web use this url to read crate reviews. Example:  
+//! <https://bestia.dev/cargo_crev_web/query/num-traits>  
+//!
+//! ## TODO
+//!
+//! - templating. the parent template must call children templates
+//! and pass the data.
+//! - a similar module is also created by Kornelski: <https://lib.rs/crates/num-traits/crev>  
+//! - a short story on the index.html  
+//!   - include how this can be used locally  
+//! - cached results  
+//! - filtered by version, rating,... from cached  
+//! - cached templates?  
+//! - examples: advisory old: protobuf
+//! - reviews per author, because there will be a lot of duplicates
 // endregion: lmake_readme include "readme.md" //! A
 
 // region: Clippy

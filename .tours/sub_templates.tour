@@ -1,0 +1,50 @@
+{
+  "title": "sub_templates",
+  "steps": [
+    {
+      "file": "webfolder/templates/query/crev_query_template.html",
+      "line": 14,
+      "description": "## sub-template\nA sub-template is needed when the data is from a different data model or when is needed to repeat a sub-template for a vector of data. The syntax is like <!--template_all_summaries start-->. It ends with <!--template_all_summaries end-->",
+      "selection": {
+        "start": {
+          "line": 13,
+          "character": 5
+        },
+        "end": {
+          "line": 13,
+          "character": 40
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 141,
+      "description": "## extract sub-template\nOnly one level deep, only the children. Then recursively the chldren will extract their children. Save them in a vector. The [0] member is the parent template. It is drained from the sub-templates. Only a placeholder remains.",
+      "selection": {
+        "start": {
+          "line": 141,
+          "character": 9
+        },
+        "end": {
+          "line": 141,
+          "character": 85
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 316,
+      "description": "## template placeholder\nWhen the template placeholder is found, the method render_sub_template is called.\nThe result is added to the parent node.",
+      "selection": {
+        "start": {
+          "line": 311,
+          "character": 51
+        },
+        "end": {
+          "line": 311,
+          "character": 70
+        }
+      }
+    }
+  ]
+}

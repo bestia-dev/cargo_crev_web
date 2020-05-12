@@ -90,7 +90,7 @@ impl HtmlTemplating for VersionSummary {
     }
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<ElementNode> {
+    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
             _ => {
@@ -100,13 +100,15 @@ impl HtmlTemplating for VersionSummary {
                     placeholder
                 );
                 println!("{}", err_msg);
-                let node = ElementNode {
-                    tag_name: "h2".to_string(),
-                    attributes: vec![],
-                    children: vec![Node {
-                        node_enum: NodeEnum::Text(err_msg),
-                    }],
-                    namespace: None,
+                let node = Node {
+                    node_enum: NodeEnum::Element(ElementNode {
+                        tag_name: "h2".to_string(),
+                        attributes: vec![],
+                        children: vec![Node {
+                            node_enum: NodeEnum::Text(err_msg),
+                        }],
+                        namespace: None,
+                    }),
                 };
                 return vec![node];
             }
@@ -118,7 +120,7 @@ impl HtmlTemplating for VersionSummary {
         &self,
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<ElementNode> {
+    ) -> Vec<Node> {
         // println!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             _ => {
@@ -128,13 +130,15 @@ impl HtmlTemplating for VersionSummary {
                     template_name
                 );
                 println!("{}", &err_msg);
-                let node = ElementNode {
-                    tag_name: "h2".to_string(),
-                    attributes: vec![],
-                    children: vec![Node {
-                        node_enum: NodeEnum::Text(err_msg),
-                    }],
-                    namespace: None,
+                let node = Node {
+                    node_enum: NodeEnum::Element(ElementNode {
+                        tag_name: "h2".to_string(),
+                        attributes: vec![],
+                        children: vec![Node {
+                            node_enum: NodeEnum::Text(err_msg),
+                        }],
+                        namespace: None,
+                    }),
                 };
                 return vec![node];
             }

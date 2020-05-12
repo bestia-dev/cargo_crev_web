@@ -1,7 +1,7 @@
 # cargo_crev_web
 
 [comment]: # (lmake_readme cargo.toml data start)
-version: 2020.501.1211  date: 2020-05-01 authors: Luciano Bestia  
+version: 2020.512.1444  date: 2020-05-12 authors: Luciano Bestia  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  

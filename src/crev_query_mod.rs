@@ -10,8 +10,8 @@ use std::{fs, io, path::Path};
 use unwrap::unwrap;
 
 pub struct CrevQueryData {
-    all_summaries: AllSummaries,
-    proofs: Vec<Proof>,
+    pub all_summaries: AllSummaries,
+    pub proofs: Vec<Proof>,
 }
 /// crev query returns html
 pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> String {
@@ -35,8 +35,26 @@ pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> Str
     // so to retain the same relative folders like css
     let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
     let html_template_raw = template_raw_from_file(&template_file_name);
-    let html =
-        unwrap!(crev_query_data.render_template_to_string(&html_template_raw, HtmlOrSvg::Html,));
+    let nodes =
+        unwrap!(crev_query_data.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html,));
+    //because this is the root template it must return one ElementNode
+    let element_node = ElementNode {
+        tag_name: "h2".to_string(),
+        attributes: vec![],
+        children: vec![Node {
+            node_enum: NodeEnum::Text(
+                "Error: crev_query_mod nodes[0] has no root ElementNode.".to_string(),
+            ),
+        }],
+        namespace: None,
+    };
+    let mut html = "".to_string();
+    match &nodes[0].node_enum{
+        NodeEnum::Element(temp_element_node)=>{
+            html = unwrap!(element_node_to_string(temp_element_node));
+        }
+        _=>eprintln!("Error: crev_query_data.render_template_raw_to_nodes does not return one ElementNode.{}","")
+    }
     //return
     html
 }

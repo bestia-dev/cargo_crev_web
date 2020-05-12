@@ -168,7 +168,7 @@ impl HtmlTemplating for AllSummaries {
     }
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<ElementNode> {
+    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
             _ => {
@@ -178,13 +178,15 @@ impl HtmlTemplating for AllSummaries {
                     placeholder
                 );
                 eprintln!("{}", &err_msg);
-                let node = ElementNode {
-                    tag_name: "h2".to_string(),
-                    attributes: vec![],
-                    children: vec![Node {
-                        node_enum: NodeEnum::Text(err_msg),
-                    }],
-                    namespace: None,
+                let node = Node {
+                    node_enum: NodeEnum::Element(ElementNode {
+                        tag_name: "h2".to_string(),
+                        attributes: vec![],
+                        children: vec![Node {
+                            node_enum: NodeEnum::Text(err_msg),
+                        }],
+                        namespace: None,
+                    }),
                 };
                 return vec![node];
             }
@@ -196,7 +198,7 @@ impl HtmlTemplating for AllSummaries {
         &self,
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<ElementNode> {
+    ) -> Vec<Node> {
         // println!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             "template_summary_version" => {
@@ -208,12 +210,9 @@ impl HtmlTemplating for AllSummaries {
                     //find the sub template name in templates
                     // here is always the root node <template>
                     // it needs to be removed
-                    let template_node = unwrap!(version_summary
-                        .extract_children_sub_templates_and_render_template_to_element_node(
-                            &sub_template.template,
-                            HtmlOrSvg::Html,
-                        ));
-                    nodes.push(template_node);
+                    let vec_node = unwrap!(version_summary
+                        .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html,));
+                    nodes.extend_from_slice(&vec_node);
                 }
                 //return
                 nodes
@@ -225,13 +224,15 @@ impl HtmlTemplating for AllSummaries {
                     template_name
                 );
                 println!("{}", &err_msg);
-                let node = ElementNode {
-                    tag_name: "h2".to_string(),
-                    attributes: vec![],
-                    children: vec![Node {
-                        node_enum: NodeEnum::Text(err_msg),
-                    }],
-                    namespace: None,
+                let node = Node {
+                    node_enum: NodeEnum::Element(ElementNode {
+                        tag_name: "h2".to_string(),
+                        attributes: vec![],
+                        children: vec![Node {
+                            node_enum: NodeEnum::Text(err_msg),
+                        }],
+                        namespace: None,
+                    }),
                 };
                 return vec![node];
             }

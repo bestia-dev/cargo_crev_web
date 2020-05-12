@@ -49,7 +49,7 @@
     {
       "file": "src/html_template_mod.rs",
       "line": 185,
-      "description": "## render_template_to_string  \nThis default trait method for rendering has no special knowledge about the data. Only about html templates. The final result is a string - html.",
+      "description": "## render_template_raw_to_string  \nThis default trait method for rendering has no special knowledge about the data. Only about html templates. The final result is a string - html.",
       "selection": {
         "start": {
           "line": 181,
@@ -219,7 +219,7 @@
     {
       "file": "src/html_template_mod.rs",
       "line": 408,
-      "description": "## text placeholder\nThe rendering finds the special comment. It calls `call_fn_string` and temporarily saves the result. It does not push the placeholder comment to the html nodes.",
+      "description": "## text placeholder\nThe rendering finds the special comment. It calls `call_fn_string` and temporarily saves the result. \nIt does not push the placeholder comment to the html nodes, because is not needed in the result html.",
       "selection": {
         "start": {
           "line": 405,
@@ -228,6 +228,101 @@
         "end": {
           "line": 407,
           "character": 57
+        }
+      }
+    },
+    {
+      "file": "src/all_summary_mod.rs",
+      "line": 146,
+      "description": "## dynamic data\nEvery placeholder has code that returns dynamic data as a string. This method is implemented on the data model, so it has access to all the data it needs."
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 391,
+      "description": "## next TextNode\nWhen the rendering goes to the next TextNode it does not use the static content. \nIt uses the dynamic content temporarily saved.",
+      "selection": {
+        "start": {
+          "line": 387,
+          "character": 1
+        },
+        "end": {
+          "line": 390,
+          "character": 63
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 398,
+      "description": "## push to parent node\nThen this dynamic TextNode is pushed to the parent node.",
+      "selection": {
+        "start": {
+          "line": 396,
+          "character": 1
+        },
+        "end": {
+          "line": 398,
+          "character": 24
+        }
+      }
+    },
+    {
+      "file": "webfolder/templates/query/crev_query_template.html",
+      "line": 105,
+      "description": "## boolean placeholder\nThe special comment <!--b_...--> can result in true or false. \nIt leaves or removes the next node completely.",
+      "selection": {
+        "start": {
+          "line": 104,
+          "character": 9
+        },
+        "end": {
+          "line": 104,
+          "character": 34
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 422,
+      "description": "## boolean\nThe rendering finds the placeholder and calls the implementation method.\nIt saves temporarily the result.",
+      "selection": {
+        "start": {
+          "line": 419,
+          "character": 13
+        },
+        "end": {
+          "line": 421,
+          "character": 75
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 346,
+      "description": "## next node\nBefore rendering the next node we look at the temporary value replace_boolean.\nIf it is false, then we don't render the next node. Just jump over it.",
+      "selection": {
+        "start": {
+          "line": 344,
+          "character": 21
+        },
+        "end": {
+          "line": 344,
+          "character": 57
+        }
+      }
+    },
+    {
+      "file": "src/proof_mod.rs",
+      "line": 125,
+      "description": "## boolean method\nThe implemented method returns true or false for the placeholder according to the data.",
+      "selection": {
+        "start": {
+          "line": 121,
+          "character": 8
+        },
+        "end": {
+          "line": 124,
+          "character": 53
         }
       }
     }
