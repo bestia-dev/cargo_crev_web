@@ -4,6 +4,7 @@
 use crate::proof_mod::*;
 use crate::version_summary_mod::VersionSummary;
 use crate::*;
+use html_template_mod::*;
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
 use unwrap::unwrap;
@@ -115,17 +116,16 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
     all_summaries
 }
 
-impl html_template_mod::HtmlTemplating for AllSummaries {
+impl HtmlTemplating for AllSummaries {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, fn_name: &str) -> bool {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
         match fn_name {
             _ => {
-                let x = format!(
-                    "Unrecognized all_summary_mod call_fn_boolean: \"{}\"",
+                println!(
+                    "Error: Unrecognized all_summary_mod call_fn_boolean: \"{}\"",
                     fn_name
                 );
-                println!("Error: {}", &x);
                 true
             }
         }
@@ -139,7 +139,6 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
     )]
     fn call_fn_string(&self, fn_name: &str) -> String {
         // println!("{}",&format!("call_fn_string: {}", &fn_name));
-        use html_template_mod::to_string_zero_to_empty;
         match fn_name {
             "t_crate_name" => self.crate_name.to_string(),
             "t_crate_link" => format!("https://crates.io/crates/{}", self.crate_name),
@@ -158,63 +157,81 @@ impl html_template_mod::HtmlTemplating for AllSummaries {
             "t_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
             "t_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
             _ => {
-                let x = format!(
-                    "Unrecognized all_summary_mod call_fn_string: \"{}\"",
+                let err_msg = format!(
+                    "Error: Unrecognized all_summary_mod call_fn_string: \"{}\"",
                     fn_name
                 );
-                println!("Error: {}", &x);
-                x
+                println!("{}", &err_msg);
+                err_msg
             }
         }
     }
-    /// html_templating functions that return a Node
-    #[allow(clippy::needless_return)]
-    fn call_fn_node(&self, fn_name: &str) -> html_template_mod::Node {
-        // println!("{}",&format!("call_fn_node: {}", &fn_name));
-        match fn_name {
-            _ => {
-                // so much boilerplate
-                let node = html_template_mod::Node {
-                    node_enum: html_template_mod::NodeEnum::Element(
-                        html_template_mod::ElementNode {
-                            tag_name: "h2".to_string(),
-                            attributes: vec![],
-                            children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized all_summary_mod call_fn_node: \"{}\"",
-                                    fn_name
-                                )),
-                            }],
-                            namespace: None,
-                        },
-                    ),
-                };
-                return node;
-            }
-        }
-    }
-
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<html_template_mod::Node> {
-        // println!("{}",&format!("call_fn_node: {}", &fn_name));
+    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<ElementNode> {
+        // println!("{}",&format!("call_fn_vec_nodes: {}", &fn_name));
         match fn_name {
             _ => {
                 // so much boilerplate
-                let node = html_template_mod::Node {
-                    node_enum: html_template_mod::NodeEnum::Element(
-                        html_template_mod::ElementNode {
-                            tag_name: "h2".to_string(),
-                            attributes: vec![],
-                            children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized all_summary_mod call_fn_vec_nodes: \"{}\"",
-                                    fn_name
-                                )),
-                            }],
-                            namespace: None,
-                        },
-                    ),
+                let err_msg = format!(
+                    "Error: Unrecognized all_summary_mod call_fn_vec_nodes: \"{}\"",
+                    fn_name
+                );
+                eprintln!("{}", &err_msg);
+                let node = ElementNode {
+                    tag_name: "h2".to_string(),
+                    attributes: vec![],
+                    children: vec![Node {
+                        node_enum: NodeEnum::Text(err_msg),
+                    }],
+                    namespace: None,
+                };
+                return vec![node];
+            }
+        }
+    }
+    /// html_templating for sub-template
+    #[allow(clippy::needless_return)]
+    fn render_sub_template(
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<ElementNode> {
+        // println!("{}",&format!("render_sub_template: {}", &fn_name));
+        match template_name {
+            "template_summary_version" => {
+                let sub_template = unwrap!(sub_templates
+                    .iter()
+                    .find(|&template| template.name == template_name));
+                let mut nodes = vec![];
+                for version_summary in &self.version_summaries {
+                    //find the sub template name in templates
+                    // here is always the root node <template>
+                    // it needs to be removed
+                    let template_node = unwrap!(version_summary
+                        .extract_sub_templates_and_render_template_to_element_node(
+                            &sub_template.template,
+                            HtmlOrSvg::Html,
+                        ));
+                    nodes.push(template_node);
+                }
+                //return
+                nodes
+            }
+            _ => {
+                // so much boilerplate
+                let err_msg = format!(
+                    "Error: Unrecognized all_summary_mod render_sub_template: \"{}\"",
+                    template_name
+                );
+                println!("{}", &err_msg);
+                let node = ElementNode {
+                    tag_name: "h2".to_string(),
+                    attributes: vec![],
+                    children: vec![Node {
+                        node_enum: NodeEnum::Text(err_msg),
+                    }],
+                    namespace: None,
                 };
                 return vec![node];
             }

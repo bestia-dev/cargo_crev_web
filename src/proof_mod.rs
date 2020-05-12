@@ -1,6 +1,7 @@
 //! proof_mod
 
-use crate::html_template_mod;
+use crate::html_template_mod::*;
+use crate::issue_mod::Issue;
 use serde_derive::{Deserialize, Serialize};
 //use unwrap::unwrap;
 use strum_macros;
@@ -25,12 +26,6 @@ pub struct ProofReview {
     pub thoroughness: Level,
     pub understanding: Level,
     pub rating: Rating,
-}
-#[derive(Serialize, Deserialize, Clone)]
-pub struct Issue {
-    pub id: String,
-    pub severity: Level,
-    pub comment: String,
 }
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Alternative {
@@ -119,7 +114,7 @@ pub fn get_author(proof: &Proof) -> String {
     //return
     author
 }
-impl html_template_mod::HtmlTemplating for Proof {
+impl HtmlTemplating for Proof {
     /// html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, fn_name: &str) -> bool {
         // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
@@ -130,8 +125,10 @@ impl html_template_mod::HtmlTemplating for Proof {
             "b_has_advisories" => self.advisories.is_some(),
             "b_has_old_advisory" => self.advisory.is_some(),
             _ => {
-                let x = format!("Unrecognized proof_mod call_fn_boolean: \"{}\"", fn_name);
-                println!("Error: {}", &x);
+                println!(
+                    "Error: Unrecognized proof_mod call_fn_boolean: \"{}\"",
+                    fn_name
+                );
                 true
             }
         }
@@ -253,58 +250,62 @@ impl html_template_mod::HtmlTemplating for Proof {
                 }
             }
             _ => {
-                let x = format!("Unrecognized proof_mod call_fn_string: \"{}\"", fn_name);
-                println!("Error: {}", &x);
-                x
+                let err_msg = format!(
+                    "Error: Unrecognized proof_mod call_fn_string: \"{}\"",
+                    fn_name
+                );
+                println!("{}", &err_msg);
+                err_msg
             }
         }
     }
-    /// html_templating functions that return a Node
-    #[allow(clippy::needless_return)]
-    fn call_fn_node(&self, fn_name: &str) -> html_template_mod::Node {
-        // println!("{}",&format!("call_fn_node: {}", &fn_name));
-        match fn_name {
-            _ => {
-                let node = html_template_mod::Node {
-                    node_enum: html_template_mod::NodeEnum::Element(
-                        html_template_mod::ElementNode {
-                            tag_name: "h2".to_string(),
-                            attributes: vec![],
-                            children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized proof_mod call_fn_node: \"{}\"",
-                                    fn_name
-                                )),
-                            }],
-                            namespace: None,
-                        },
-                    ),
-                };
-                return node;
-            }
-        }
-    }
-
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<html_template_mod::Node> {
-        // println!("{}",&format!("call_fn_node: {}", &fn_name));
+    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<ElementNode> {
+        // println!("{}",&format!("call_fn_vec_nodes: {}", &fn_name));
         match fn_name {
             _ => {
-                let node = html_template_mod::Node {
-                    node_enum: html_template_mod::NodeEnum::Element(
-                        html_template_mod::ElementNode {
-                            tag_name: "h2".to_string(),
-                            attributes: vec![],
-                            children: vec![html_template_mod::Node {
-                                node_enum: html_template_mod::NodeEnum::Text(format!(
-                                    "Error: Unrecognized proof_mod call_fn_vec_nodes: \"{}\"",
-                                    fn_name
-                                )),
-                            }],
-                            namespace: None,
-                        },
-                    ),
+                // so much boilerplate
+                let err_msg = format!(
+                    "Error: Unrecognized proof_mod call_fn_vec_nodes: \"{}\"",
+                    fn_name
+                );
+                println!("{}", &err_msg);
+                let node = ElementNode {
+                    tag_name: "h2".to_string(),
+                    attributes: vec![],
+                    children: vec![Node {
+                        node_enum: NodeEnum::Text(err_msg),
+                    }],
+                    namespace: None,
+                };
+                return vec![node];
+            }
+        }
+    }
+    /// html_templating for sub-template
+    #[allow(clippy::needless_return)]
+    fn render_sub_template(
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<ElementNode> {
+        // println!("{}",&format!("render_sub_template: {}", &fn_name));
+        match template_name {
+            _ => {
+                // so much boilerplate
+                let err_msg = format!(
+                    "Error: Unrecognized proof_mod render_sub_template: \"{}\"",
+                    template_name
+                );
+                println!("{}", &err_msg);
+                let node = ElementNode {
+                    tag_name: "h2".to_string(),
+                    attributes: vec![],
+                    children: vec![Node {
+                        node_enum: NodeEnum::Text(err_msg),
+                    }],
+                    namespace: None,
                 };
                 return vec![node];
             }

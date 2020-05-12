@@ -1,6 +1,7 @@
 //! crev_query_mod
 
-use crate::html_template_mod::HtmlTemplating;
+use crate::all_summary_mod::AllSummaries;
+use crate::html_template_mod::*;
 use crate::proof_mod::*;
 use crate::*;
 use chrono::Local;
@@ -8,6 +9,10 @@ use dirs;
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
 
+pub struct CrevQueryData {
+    all_summaries: AllSummaries,
+    proofs: Vec<Proof>,
+}
 /// crev query returns html
 pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> String {
     println!(
@@ -19,11 +24,19 @@ pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> Str
     //first fill a vector with proofs, because I need to filter and sort them
     let proofs = proofs_crev_query(crate_name);
     let all_summaries = all_summary_mod::calculate_all_summary_for_proofs(crate_name, &proofs);
+    // put all data needed for this template in one place
+    let crev_query_data = CrevQueryData {
+        proofs,
+        all_summaries,
+    };
+
     // now I have the data and I render the html from the template
     // the folders hierarchy for templates is similar like the routes
     // so to retain the same relative folders like css
     let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
-    let html = render_html(&template_file_name, proofs, all_summaries);
+    let html_template_raw = template_raw_from_file(&template_file_name);
+    let html =
+        unwrap!(crev_query_data.render_template_to_string(&html_template_raw, HtmlOrSvg::Html,));
     //return
     html
 }
@@ -81,75 +94,6 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
     });
     //return
     proofs
-}
-
-/// render html from file
-/// it can use more different data models passed as parameters
-/// the data model to use is defined in the name of the sub-template
-fn render_html(
-    template_file_name: &str,
-    proofs: Vec<Proof>,
-    all_summaries: all_summary_mod::AllSummaries,
-) -> String {
-    let sub_templates = html_template_mod::extract_sub_templates(template_file_name);
-    //println!("sub: {:?}", sub_templates);
-    let mut html = "".to_string();
-    //the order is from bigger to smaller templates,
-    //so the smaller can replace the placeholder in the bigger
-    for sub_template in &sub_templates {
-        if sub_template.name == "main_template" {
-            // this is the start, the main template
-            html = sub_template.template.to_string();
-        } else if sub_template.name.ends_with("all_summaries") {
-            //The ending of the sub_template name tells what data model to use
-            //println!("sub_template.name: {:?}", sub_template.name);
-            let sub_html = unwrap!(all_summaries.render_template_to_string(
-                &sub_template.template,
-                html_template_mod::HtmlOrSvg::Html
-            ));
-            //println!("sub_html: {:?}", sub_html);
-            html = html.replace(&sub_template.placeholder, &sub_html);
-        } else if sub_template.name.ends_with("_summary_version") {
-            //println!("all_summaries.version_summaries: {:?}", all_summaries.version_summaries);
-            for version_summary in &all_summaries.version_summaries {
-                let sub_html = unwrap!(version_summary.render_template_to_string(
-                    &sub_template.template,
-                    html_template_mod::HtmlOrSvg::Html
-                ));
-                //println!("html: {}", html);
-                // didn't find placeholder <!--template_summary_version start-->?
-                if let Some(pos) =
-                    utils_mod::find_pos_before_delimiter(&html, 0, &sub_template.placeholder)
-                {
-                    //println!("pos: {}", pos);
-                    html.insert_str(pos, &sub_html);
-                }
-            }
-            html = html.replace(&sub_template.placeholder, "");
-        } else if sub_template.name.ends_with("_review_proof") {
-            //println!("sub_template.name: {:?}", sub_template.name);
-            for proof in &proofs {
-                let sub_html = unwrap!(proof.render_template_to_string(
-                    &sub_template.template,
-                    html_template_mod::HtmlOrSvg::Html
-                ));
-                //println!("sub_html: {:?}", sub_html);
-                if let Some(pos) =
-                    utils_mod::find_pos_before_delimiter(&html, 0, &sub_template.placeholder)
-                {
-                    html.insert_str(pos, &sub_html);
-                }
-            }
-            html = html.replace(&sub_template.placeholder, "");
-        } else {
-            println!("Error: Sub_template is not known: {}", sub_template.name)
-        }
-    }
-    //println!("html: {}", &html);
-    //add <!DOCTYPE html>
-    html.insert_str(0, "<!DOCTYPE html>");
-    //return
-    html
 }
 
 /// parse semver ex. 12.99.88alpha

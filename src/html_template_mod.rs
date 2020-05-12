@@ -15,10 +15,27 @@ pub struct SubTemplate {
     pub template: String,
 }
 
+pub fn template_raw_from_file(file_name: &str) -> String {
+    let mut template_raw = unwrap!(fs::read_to_string(file_name));
+    // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
+    // I will add <!DOCTYPE html> when the rendering ends.
+    let pos_html = unwrap!(template_raw.find("<html"));
+    template_raw.drain(..pos_html);
+    //return
+    template_raw
+}
+
+pub fn extract_sub_templates_from_file(file_name: &str) -> Vec<SubTemplate> {
+    let template_raw = template_raw_from_file(file_name);
+    // Returns the main template and children sub-templates. Only depth 1.
+    //return
+    extract_sub_templates(&template_raw)
+}
 /// extract and saves sub_templates from local file_name
-pub fn extract_sub_templates(file_name: &str) -> Vec<SubTemplate> {
+pub fn extract_sub_templates(template_str: &str) -> Vec<SubTemplate> {
     // region: private fn
     /// drain sub-template from super-template and save into vector
+    /// only one level deep
     fn drain_and_save_sub_templates(sub_templates: &mut Vec<SubTemplate>, index: usize) {
         // the syntax is <!--template_all_summaries start-->, <!--template_all_summaries end-->
         // unique delimiters for start and end are great if there is nesting.
@@ -87,15 +104,11 @@ pub fn extract_sub_templates(file_name: &str) -> Vec<SubTemplate> {
     }
     // endregion: private fn
     //read the local file template
-    let mut tm = unwrap!(fs::read_to_string(file_name));
-    // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
-    // I will add it at the end of the render
-    let pos_html = unwrap!(tm.find("<html"));
-    tm.drain(..pos_html);
+
     // the sub_templates[0] is the main_template
     let mut sub_templates = vec![SubTemplate {
         name: "main_template".to_string(),
-        template: tm,
+        template: template_str.to_string(),
         placeholder: String::new(),
     }];
     // loop to drain and save sub_templates and their sub-templates in depth levels
@@ -154,15 +167,20 @@ pub trait HtmlTemplating {
     // while rendering, cannot mut rrc
     fn call_fn_string(&self, fn_name: &str) -> String;
     fn call_fn_boolean(&self, fn_name: &str) -> bool;
-    fn call_fn_node(&self, fn_name: &str) -> Node;
-    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<Node>;
+    // this is also for sub-templates
+    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<ElementNode>;
+    fn render_sub_template(
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<ElementNode>;
     // endregion: methods to be implemented for a specific project
 
     // region: the only true public method - default implementation code
     /// default implementation - render template to string
     fn render_template_to_string(
         &self,
-        html_template: &str,
+        html_template_raw: &str,
         html_or_svg_parent: HtmlOrSvg,
     ) -> Result<String, String> {
         // region: private fn
@@ -197,11 +215,13 @@ pub trait HtmlTemplating {
 
         // Every template will be wrapped in a <template></template> node to assure
         // a unique root node. At the end this temporary node will be discarded.
-        let html_template = &format!("<template>{}</template>", html_template);
-        let element_node =
-            self.render_template_to_element_node(html_template, html_or_svg_parent)?;
+        let html_template_raw = &format!("<template>{}</template>", html_template_raw);
+        let element_node = self.extract_sub_templates_and_render_template_to_element_node(
+            html_template_raw,
+            html_or_svg_parent,
+        )?;
 
-        let mut html = String::with_capacity(html_template.len() * 2);
+        let mut html = String::with_capacity(html_template_raw.len() * 2);
         element_node_to_html(&mut html, element_node);
         html.drain(.."<template>".len() + 1);
         html.drain(html.len() - "</template>".len()..);
@@ -210,13 +230,17 @@ pub trait HtmlTemplating {
     }
     // endregion: default implementation
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    /// get root element Node.   
-    fn render_template_to_element_node(
+    /// extract subtemlates and get root element Node.   
+    fn extract_sub_templates_and_render_template_to_element_node(
         &self,
-        html_template: &str,
+        html_template_raw: &str,
         html_or_svg_parent: HtmlOrSvg,
     ) -> Result<ElementNode, String> {
-        let mut reader_for_microxml = ReaderForMicroXml::new(html_template);
+        // extract sub_templates. Only one level deep.
+        let sub_templates = extract_sub_templates(html_template_raw);
+        // the index zero is the drained main template
+
+        let mut reader_for_microxml = ReaderForMicroXml::new(&sub_templates[0].template);
         let mut dom_path: Vec<String> = Vec::new();
         let mut root_element;
         let mut html_or_svg_local = html_or_svg_parent;
@@ -246,6 +270,7 @@ pub trait HtmlTemplating {
                     root_element,
                     html_or_svg_local,
                     &mut dom_path,
+                    &sub_templates,
                 ) {
                     // the methods are move, so I have to return the moved value
                     Ok(new_root_element) => root_element = new_root_element,
@@ -272,6 +297,7 @@ pub trait HtmlTemplating {
         mut element: ElementNode,
         html_or_svg_parent: HtmlOrSvg,
         dom_path: &mut Vec<String>,
+        sub_templates: &Vec<SubTemplate>,
     ) -> Result<ElementNode, String> {
         let mut replace_string: Option<String> = None;
         let mut replace_node: Option<Node> = None;
@@ -311,6 +337,7 @@ pub trait HtmlTemplating {
                         child_element,
                         html_or_svg_local,
                         dom_path,
+                        sub_templates,
                     )?;
                     // if the boolean is empty or true then render the next node
                     if replace_boolean.unwrap_or(true) {
@@ -378,15 +405,27 @@ pub trait HtmlTemplating {
                         let repl_txt = self.call_fn_string(txt);
                         replace_string = Some(repl_txt);
                     } else if txt.starts_with("n_") {
-                        let repl_node = self.call_fn_node(txt);
-                        replace_node = Some(repl_node);
-                    } else if txt.starts_with("v_") {
-                        // vector of nodes
-                        let repl_vec_nodes = self.call_fn_vec_nodes(txt);
+                        // nodes  (in a vector)
+                        let repl_vec_element_nodes = self.call_fn_vec_nodes(txt);
+                        //TODO: nodes or element nodes?
+                        let mut repl_vec_nodes = vec![];
+                        for el in &repl_vec_element_nodes {
+                            repl_vec_nodes.push(Node {
+                                node_enum: NodeEnum::Element(el.clone()),
+                            });
+                        }
                         replace_vec_nodes = Some(repl_vec_nodes);
                     } else if txt.starts_with("b_") {
                         // boolean if this is true than render the next node, else don't render
                         replace_boolean = Some(self.call_fn_boolean(txt));
+                    } else if txt.starts_with("template_") {
+                        // replace exactly this placeholder for a sub-template
+                        let repl_vec_nodes = self.call_fn_vec_nodes(txt);
+                        for repl_node in repl_vec_nodes {
+                            element.children.push(Node {
+                                node_enum: NodeEnum::Element(repl_node.clone()),
+                            });
+                        }
                     } else {
                         // it is really a comment
                         element.children.push(Node {

@@ -156,7 +156,9 @@
 // region: use statements
 mod all_summary_mod;
 mod crev_query_mod;
+mod crev_query_templating_mod;
 mod html_template_mod;
+mod issue_mod;
 mod proof_mod;
 mod utils_mod;
 mod version_summary_mod;
