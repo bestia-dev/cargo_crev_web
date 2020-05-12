@@ -199,7 +199,11 @@ impl HtmlTemplating for AllSummaries {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // println!("{}",&format!("render_sub_template: {}", &placeholder));
+        println!(
+            "{}",
+            &format!("&sub_templates.len(): {}", &sub_templates.len())
+        );
+
         match template_name {
             "template_summary_version" => {
                 let sub_template = unwrap!(sub_templates

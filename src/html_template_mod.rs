@@ -112,7 +112,6 @@ pub trait HtmlTemplating {
                     &mut dom_path,
                     &sub_templates,
                 ) {
-                    // the methods are move, so I have to return the moved value
                     Ok(new_root_element) => root_element = new_root_element,
                     Err(err) => {
                         return Err(err);
@@ -305,93 +304,74 @@ pub trait HtmlTemplating {
 
     /// extract and saves sub_templates only one level deep, children
     fn extract_children_sub_templates(template_raw: &str) -> Vec<SubTemplate> {
-        // region: private fn
-        /// drain sub-template from super-template and save into vector
-        /// only one level deep
-        fn drain_and_save_sub_templates(sub_templates: &mut Vec<SubTemplate>, index: usize) {
-            // the syntax is <!--template_all_summaries start-->, <!--template_all_summaries end-->
-            // unique delimiters for start and end are great if there is nesting.
-            let mut pos_for_loop = 0;
-            loop {
-                let mut exist_template = false;
-                if let Some(pos_start) = find_pos_before_delimiter(
-                    &sub_templates[index].template,
-                    pos_for_loop,
-                    "<!--template_",
-                ) {
-                    if let Some(pos_end_name) = find_pos_before_delimiter(
-                        &sub_templates[index].template,
-                        pos_start,
-                        " start-->",
-                    ) {
-                        let sub_template_name =
-                            sub_templates[index].template[pos_start + 4..pos_end_name].to_string();
-                        //println!("sub_template_name: {}", sub_template_name);
-                        let pos_start_after_tag = pos_end_name + 9;
-                        let end_tag = format!("<!--{} end-->", sub_template_name);
-                        if let Some(pos_end_after_tag) = find_pos_after_delimiter(
-                            &sub_templates[index].template,
-                            pos_start,
-                            &end_tag,
-                        ) {
-                            exist_template = true;
-                            // special name for template that will not be used at all.
-                            // this happens when the graphic designer need more repetition of the
-                            // same sub-template only for visual effect while editing.
-                            if sub_template_name == "template_not_for_render" {
-                                //println!("template_not_for_render {} {}",pos_start, pos_end_after_tag);
-                                //remove all the template
-                                sub_templates[index]
-                                    .template
-                                    .drain(pos_start..pos_end_after_tag);
-                            } else {
-                                let sub_template_placeholder = sub_templates[index].template
-                                    [pos_start..pos_start_after_tag]
-                                    .to_string();
-                                pos_for_loop = pos_start_after_tag;
-
-                                // drain - extract a substring and remove it from the original
-                                // leave the header with the name. It will be used
-                                // as placeholder for replace later.
-                                let sub_template: String = sub_templates[index]
-                                    .template
-                                    .drain(pos_start_after_tag..pos_end_after_tag)
-                                    .collect();
-                                // remove the end tag
-                                let sub_template = sub_template.trim_end_matches(&end_tag);
-                                sub_templates.push(SubTemplate {
-                                    name: sub_template_name.to_string(),
-                                    placeholder: sub_template_placeholder.to_string(),
-                                    template: sub_template.to_string(),
-                                });
-                                //println!("{}",sub_template);
-                            }
-                        }
-                    }
-                }
-                if !exist_template {
-                    break;
-                }
-            }
-        }
-        // endregion: private fn
-
+        // drain sub-template from main template and save into vector
         // the sub_templates[0] is the main_template
-        // the template will change with draining sub-templates
+        // the main template will change with draining sub-templates
         let mut sub_templates = vec![SubTemplate {
             name: "main_template".to_string(),
             template: template_raw.to_string(),
             placeholder: String::new(),
         }];
-        // loop to drain and save sub_templates and their sub-templates in depth levels
-        let mut index = 0;
-        //the vector may acquires new members on every loop
-        //each one must be processed for sub-templates
-        while index < sub_templates.len() {
-            drain_and_save_sub_templates(&mut sub_templates, index);
-            index += 1;
+
+        // the syntax is <!--template_all_summaries start-->, <!--template_all_summaries end-->
+        // unique delimiters for start and end are great if there is nesting.
+        let mut pos_for_loop = 0;
+        loop {
+            let mut exist_template = false;
+            if let Some(pos_start) =
+                find_pos_before_delimiter(&sub_templates[0].template, pos_for_loop, "<!--template_")
+            {
+                if let Some(pos_end_name) =
+                    find_pos_before_delimiter(&sub_templates[0].template, pos_start, " start-->")
+                {
+                    let sub_template_name =
+                        sub_templates[0].template[pos_start + 4..pos_end_name].to_string();
+                    println!("sub_template_name: {}", sub_template_name);
+                    let pos_start_after_tag = pos_end_name + 9;
+                    let end_tag = format!("<!--{} end-->", sub_template_name);
+                    if let Some(pos_end_after_tag) =
+                        find_pos_after_delimiter(&sub_templates[0].template, pos_start, &end_tag)
+                    {
+                        exist_template = true;
+                        // special name for template that will not be used at all.
+                        // this happens when the graphic designer need more repetition of the
+                        // same sub-template only for visual effect while editing.
+                        if sub_template_name == "template_not_for_render" {
+                            //println!("template_not_for_render {} {}",pos_start, pos_end_after_tag);
+                            //remove all the template
+                            sub_templates[0]
+                                .template
+                                .drain(pos_start..pos_end_after_tag);
+                        } else {
+                            let sub_template_placeholder = sub_templates[0].template
+                                [pos_start..pos_start_after_tag]
+                                .to_string();
+                            pos_for_loop = pos_start_after_tag;
+
+                            // drain - extract a substring and remove it from the original
+                            // leave the header with the name. It will be used
+                            // as placeholder for replace later.
+                            let sub_template: String = sub_templates[0]
+                                .template
+                                .drain(pos_start_after_tag..pos_end_after_tag)
+                                .collect();
+                            // remove the end tag
+                            let sub_template = sub_template.trim_end_matches(&end_tag);
+                            sub_templates.push(SubTemplate {
+                                name: sub_template_name.to_string(),
+                                placeholder: sub_template_placeholder.to_string(),
+                                template: sub_template.to_string(),
+                            });
+                            //println!("{}",sub_template);
+                        }
+                    }
+                }
+            }
+            if !exist_template {
+                break;
+            }
         }
-        //println!("sub_templates.len(): {}", sub_templates.len());
+        println!("sub_templates.len(): {}", sub_templates.len());
         //return
         sub_templates
     }

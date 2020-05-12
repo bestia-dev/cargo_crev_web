@@ -80,7 +80,7 @@ impl HtmlTemplating for Issue {
     fn render_sub_template(
         &self,
         template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
+        _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
         // println!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {

@@ -38,16 +38,6 @@ pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> Str
     let nodes =
         unwrap!(crev_query_data.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html,));
     //because this is the root template it must return one ElementNode
-    let element_node = ElementNode {
-        tag_name: "h2".to_string(),
-        attributes: vec![],
-        children: vec![Node {
-            node_enum: NodeEnum::Text(
-                "Error: crev_query_mod nodes[0] has no root ElementNode.".to_string(),
-            ),
-        }],
-        namespace: None,
-    };
     let mut html = "".to_string();
     match &nodes[0].node_enum{
         NodeEnum::Element(temp_element_node)=>{
