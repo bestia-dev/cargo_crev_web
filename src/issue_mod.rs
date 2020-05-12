@@ -14,13 +14,13 @@ pub struct Issue {
 
 impl HtmlTemplating for Issue {
     /// html_templating boolean id the next node is rendered or not
-    fn call_fn_boolean(&self, fn_name: &str) -> bool {
-        // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
-        match fn_name {
+    fn call_fn_boolean(&self, placeholder: &str) -> bool {
+        // println!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        match placeholder {
             _ => {
                 println!(
                     "Error: Unrecognized issue_mod call_fn_boolean: \"{}\"",
-                    fn_name
+                    placeholder
                 );
                 true
             }
@@ -33,16 +33,16 @@ impl HtmlTemplating for Issue {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, fn_name: &str) -> String {
-        // println!("{}",&format!("call_fn_string: {}", &fn_name));
-        match fn_name {
+    fn call_fn_string(&self, placeholder: &str) -> String {
+        // println!("{}",&format!("call_fn_string: {}", &placeholder));
+        match placeholder {
             "t_issue_id" => self.id.to_string(),
             "t_issue_severity" => self.severity.to_string(),
             "t_issue_comment" => self.comment.to_string(),
             _ => {
                 let err_msg = format!(
                     "Error: Unrecognized issue_mod call_fn_string: \"{}\"",
-                    fn_name
+                    placeholder
                 );
                 println!("{}", &err_msg);
                 err_msg
@@ -51,14 +51,14 @@ impl HtmlTemplating for Issue {
     }
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<ElementNode> {
-        // println!("{}",&format!("call_fn_vec_nodes: {}", &fn_name));
-        match fn_name {
+    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<ElementNode> {
+        // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        match placeholder {
             _ => {
                 // so much boilerplate
                 let err_msg = format!(
                     "Error: Unrecognized issue_mod call_fn_vec_nodes: \"{}\"",
-                    fn_name
+                    placeholder
                 );
                 eprintln!("{}", &err_msg);
                 let node = ElementNode {
@@ -80,7 +80,7 @@ impl HtmlTemplating for Issue {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<ElementNode> {
-        // println!("{}",&format!("render_sub_template: {}", &fn_name));
+        // println!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             _ => {
                 // so much boilerplate

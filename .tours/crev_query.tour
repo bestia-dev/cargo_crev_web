@@ -1,0 +1,235 @@
+{
+  "title": "crev_query",
+  "steps": [
+    {
+      "file": "src/main.rs",
+      "line": 219,
+      "description": "## server route  \nThe web server recognizes the route /query/ and calls html_for_crev_query().",
+      "selection": {
+        "start": {
+          "line": 216,
+          "character": 9
+        },
+        "end": {
+          "line": 217,
+          "character": 92
+        }
+      }
+    },
+    {
+      "file": "src/crev_query_mod.rs",
+      "line": 32,
+      "description": "## data model  \nPrepare CrevQueryData. This is the data model with all the data for templating in one place.",
+      "selection": {
+        "start": {
+          "line": 25,
+          "character": 4
+        },
+        "end": {
+          "line": 31,
+          "character": 7
+        }
+      }
+    },
+    {
+      "file": "src/crev_query_mod.rs",
+      "line": 37,
+      "description": "## template on disk  \nRead the template from the disk and start the rendering.",
+      "selection": {
+        "start": {
+          "line": 36,
+          "character": 1
+        },
+        "end": {
+          "line": 37,
+          "character": 73
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 185,
+      "description": "## render_template_to_string  \nThis default trait method for rendering has no special knowledge about the data. Only about html templates. The final result is a string - html.",
+      "selection": {
+        "start": {
+          "line": 181,
+          "character": 8
+        },
+        "end": {
+          "line": 181,
+          "character": 33
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 171,
+      "description": "## must implement methods\nIn the same trait we have specific functions that must be implemented for every data model separately.",
+      "selection": {
+        "start": {
+          "line": 168,
+          "character": 1
+        },
+        "end": {
+          "line": 176,
+          "character": 27
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 238,
+      "description": "## render in nodes\nTrait default method for render. All the rendering is processed as Nodes. Just at the end is exported to string.",
+      "selection": {
+        "start": {
+          "line": 234,
+          "character": 1
+        },
+        "end": {
+          "line": 238,
+          "character": 39
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 241,
+      "description": "## extract children subtemplates  \nThe template can contain sub-templates. Here extract only the children (depth level 1).\nThe parent template is drained from subtemplates. Only a placeholder is retained for later replacement.",
+      "selection": {
+        "start": {
+          "line": 239,
+          "character": 1
+        },
+        "end": {
+          "line": 241,
+          "character": 70
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 251,
+      "description": "## read template events\nThe reader_for_microxml moves event by event sequentialy. For different types of events there is different code. Here we transform the input String into a Vec<Node> for easy manipulation.",
+      "selection": {
+        "start": {
+          "line": 244,
+          "character": 1
+        },
+        "end": {
+          "line": 251,
+          "character": 49
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 259,
+      "description": "## new node\nA new html node/element/tag. We create a new Node with only the basic data.",
+      "selection": {
+        "start": {
+          "line": 254,
+          "character": 16
+        },
+        "end": {
+          "line": 259,
+          "character": 19
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 266,
+      "description": "## Svg namespace\nSvg inside Html must be specially adorned with a namespace. Very annoying.",
+      "selection": {
+        "start": {
+          "line": 260,
+          "character": 1
+        },
+        "end": {
+          "line": 266,
+          "character": 18
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 275,
+      "description": "## fill node recursively\nThe new node we created will be filled in this method. This goes recursive.",
+      "selection": {
+        "start": {
+          "line": 269,
+          "character": 1
+        },
+        "end": {
+          "line": 275,
+          "character": 20
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 302,
+      "description": "## fill_element_node()  \nThis is the recursive method. It accepts a newly created ElementNode and fills it with attributes and children. Most of the template is just copied. Special Comments and data- attributes are points in the template to replace with dynamic content.",
+      "selection": {
+        "start": {
+          "line": 295,
+          "character": 1
+        },
+        "end": {
+          "line": 302,
+          "character": 39
+        }
+      }
+    },
+    {
+      "file": "webfolder/templates/query/crev_query_template.html",
+      "line": 28,
+      "description": "## static html template\nThe template's life starts as static content. The graphic designer can copy the html file to his disk and open it with the browser. He can use a text editor to change html and css design. The template contains static sample data similar to the dynamic data. So the designer has the visual clue how all will look at the end.",
+      "selection": {
+        "start": {
+          "line": 23,
+          "character": 1
+        },
+        "end": {
+          "line": 28,
+          "character": 80
+        }
+      }
+    },
+    {
+      "file": "webfolder/templates/query/crev_query_template.html",
+      "line": 42,
+      "description": "## dynamic content\nModifying the visuals of a web page is an eternal task. Let's separate as much as possible the work of the graphic designer and of the (data) developer.\nOnce the graphic design is ready, we need to add placeholders for dynamic data. This placeholders will be replaced with dynamic data while rendering. The placeholders must not destroy the capability of the html file to be viewed statically. I choosed to use html comments, for example <!--t_number--> "
+    },
+    {
+      "file": "webfolder/templates/query/crev_query_template.html",
+      "line": 48,
+      "description": "## replace text  \nThe static text \"1\" for this text node is used for the graphic preview. \nTo replace it with dynamic data, we add before it a comment with the special syntax <!--t_name-->. ",
+      "selection": {
+        "start": {
+          "line": 48,
+          "character": 17
+        },
+        "end": {
+          "line": 48,
+          "character": 47
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 408,
+      "description": "## text placeholder\nThe rendering finds the special comment. It calls `call_fn_string` and temporarily saves the result. It does not push the placeholder comment to the html nodes.",
+      "selection": {
+        "start": {
+          "line": 405,
+          "character": 1
+        },
+        "end": {
+          "line": 407,
+          "character": 57
+        }
+      }
+    }
+  ]
+}

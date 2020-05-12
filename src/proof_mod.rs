@@ -116,9 +116,9 @@ pub fn get_author(proof: &Proof) -> String {
 }
 impl HtmlTemplating for Proof {
     /// html_templating boolean id the next node is rendered or not
-    fn call_fn_boolean(&self, fn_name: &str) -> bool {
-        // println!("{}",&format!("call_fn_boolean: {}", &fn_name));
-        match fn_name {
+    fn call_fn_boolean(&self, placeholder: &str) -> bool {
+        // println!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        match placeholder {
             "b_not_for_render" => false,
             "b_has_alternatives" => self.alternatives.is_some(),
             "b_has_issues" => self.issues.is_some(),
@@ -127,7 +127,7 @@ impl HtmlTemplating for Proof {
             _ => {
                 println!(
                     "Error: Unrecognized proof_mod call_fn_boolean: \"{}\"",
-                    fn_name
+                    placeholder
                 );
                 true
             }
@@ -140,9 +140,9 @@ impl HtmlTemplating for Proof {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, fn_name: &str) -> String {
-        // println!("{}",&format!("call_fn_string: {}", &fn_name));
-        match fn_name {
+    fn call_fn_string(&self, placeholder: &str) -> String {
+        // println!("{}",&format!("call_fn_string: {}", &placeholder));
+        match placeholder {
             "t_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
             "t_review_rating" => {
                 if let Some(review) = &self.review {
@@ -252,7 +252,7 @@ impl HtmlTemplating for Proof {
             _ => {
                 let err_msg = format!(
                     "Error: Unrecognized proof_mod call_fn_string: \"{}\"",
-                    fn_name
+                    placeholder
                 );
                 println!("{}", &err_msg);
                 err_msg
@@ -261,14 +261,14 @@ impl HtmlTemplating for Proof {
     }
     /// html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<ElementNode> {
-        // println!("{}",&format!("call_fn_vec_nodes: {}", &fn_name));
-        match fn_name {
+    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<ElementNode> {
+        // println!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        match placeholder {
             _ => {
                 // so much boilerplate
                 let err_msg = format!(
                     "Error: Unrecognized proof_mod call_fn_vec_nodes: \"{}\"",
-                    fn_name
+                    placeholder
                 );
                 println!("{}", &err_msg);
                 let node = ElementNode {
@@ -290,7 +290,7 @@ impl HtmlTemplating for Proof {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<ElementNode> {
-        // println!("{}",&format!("render_sub_template: {}", &fn_name));
+        // println!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             _ => {
                 // so much boilerplate

@@ -25,14 +25,14 @@ pub fn template_raw_from_file(file_name: &str) -> String {
     template_raw
 }
 
-pub fn extract_sub_templates_from_file(file_name: &str) -> Vec<SubTemplate> {
+pub fn extract_children_sub_templates_from_file(file_name: &str) -> Vec<SubTemplate> {
     let template_raw = template_raw_from_file(file_name);
     // Returns the main template and children sub-templates. Only depth 1.
     //return
-    extract_sub_templates(&template_raw)
+    extract_children_sub_templates(&template_raw)
 }
 /// extract and saves sub_templates from local file_name
-pub fn extract_sub_templates(template_str: &str) -> Vec<SubTemplate> {
+pub fn extract_children_sub_templates(template_str: &str) -> Vec<SubTemplate> {
     // region: private fn
     /// drain sub-template from super-template and save into vector
     /// only one level deep
@@ -165,10 +165,10 @@ pub trait HtmlTemplating {
     // these are not really public methods. They are used only as
     //plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
-    fn call_fn_string(&self, fn_name: &str) -> String;
-    fn call_fn_boolean(&self, fn_name: &str) -> bool;
+    fn call_fn_string(&self, placeholder: &str) -> String;
+    fn call_fn_boolean(&self, placeholder: &str) -> bool;
     // this is also for sub-templates
-    fn call_fn_vec_nodes(&self, fn_name: &str) -> Vec<ElementNode>;
+    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<ElementNode>;
     fn render_sub_template(
         &self,
         template_name: &str,
@@ -216,7 +216,7 @@ pub trait HtmlTemplating {
         // Every template will be wrapped in a <template></template> node to assure
         // a unique root node. At the end this temporary node will be discarded.
         let html_template_raw = &format!("<template>{}</template>", html_template_raw);
-        let element_node = self.extract_sub_templates_and_render_template_to_element_node(
+        let element_node = self.extract_children_sub_templates_and_render_template_to_element_node(
             html_template_raw,
             html_or_svg_parent,
         )?;
@@ -230,15 +230,16 @@ pub trait HtmlTemplating {
     }
     // endregion: default implementation
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    /// extract subtemlates and get root element Node.   
-    fn extract_sub_templates_and_render_template_to_element_node(
+    /// extract sub_templates and get root element Node.   
+    fn extract_children_sub_templates_and_render_template_to_element_node(
         &self,
         html_template_raw: &str,
         html_or_svg_parent: HtmlOrSvg,
     ) -> Result<ElementNode, String> {
         // extract sub_templates. Only one level deep.
-        let sub_templates = extract_sub_templates(html_template_raw);
         // the index zero is the drained main template
+        let sub_templates = extract_children_sub_templates(html_template_raw);
+        
 
         let mut reader_for_microxml = ReaderForMicroXml::new(&sub_templates[0].template);
         let mut dom_path: Vec<String> = Vec::new();
@@ -361,12 +362,12 @@ pub trait HtmlTemplating {
                 }
                 Event::Attribute(name, value) => {
                     if name.starts_with("data-t-") {
-                        // fn_name is in the attribute value.
+                        // placeholder is in the attribute value.
                         // the attribute name is informative and should be similar to the next attribute
-                        // example: data-t-href="t_fn_name" href="x"
+                        // example: data-t-href="t_placeholder" href="x"
                         // The replace_string will always be applied to the next attribute. No matter the name.
-                        let fn_name = &value;
-                        let repl_txt = self.call_fn_string(fn_name);
+                        let placeholder = &value;
+                        let repl_txt = self.call_fn_string(placeholder);
                         replace_string = Some(repl_txt);
                     } else {
                         let value = if let Some(repl) = replace_string {
