@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `cargo_crev_web` crate."><meta name="keywords" content="rust, rustlang, rust-lang, cargo_crev_web"><title>cargo_crev_web - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../cargo_crev_web/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate cargo_crev_web</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all cargo_crev_web's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'cargo_crev_web', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/cargo_crev_web/main.rs.html#2-213' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>cargo_crev_web</a></span></h1><div class='docblock'><h1 id="cargo_crev_web" class="section-header"><a href="#cargo_crev_web">cargo_crev_web</a></h1>
-<p>version: 2020.501.1211  date: 2020-05-01 authors: Luciano Bestia<br />
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `cargo_crev_web` crate."><meta name="keywords" content="rust, rustlang, rust-lang, cargo_crev_web"><title>cargo_crev_web - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../cargo_crev_web/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate cargo_crev_web</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all cargo_crev_web's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'cargo_crev_web', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/cargo_crev_web/main.rs.html#2-275' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>cargo_crev_web</a></span></h1><div class='docblock'><h1 id="cargo_crev_web" class="section-header"><a href="#cargo_crev_web">cargo_crev_web</a></h1>
+<p>version: 2020.512.1728  date: 2020-05-12 authors: Luciano Bestia<br />
 <strong>web server to query reviews from cargo-crev</strong></p>
 <h2 id="cargo-crev" class="section-header"><a href="#cargo-crev">cargo-crev</a></h2>
 <p>Cargo-crev is a system of review for rust crates in crates.io.<br />
@@ -11,6 +11,11 @@ Having a web app will be very good for promoting the system.<br />
 The basis of cargo-crev is a list of trusted individuals.<br />
 For the web it would be a broader number of people to achieve more understanding in the community.<br />
 The same machine will have the web server and the git repository for cargo-crev.</p>
+<h2 id="cratesio-and-librs" class="section-header"><a href="#cratesio-and-librs">crates.io and lib.rs</a></h2>
+<p>A similar web page is also created by @Kornelski at <a href="https://lib.rs/crates/num-traits/crev">https://lib.rs/crates/num-traits/crev</a>.<br />
+lib.rs is an alternative index to crates.io.<br />
+Crates.io is official rust-lang server, focused more on the trusted storage of crates. It does near to nothing for searching a crate.<br />
+Lib.rs is more focused on making easier to find a crate in a category. The code is still stored on crates.io. So the trust of authenticity of the code is high.</p>
 <h2 id="warp" class="section-header"><a href="#warp">warp</a></h2>
 <p>Warp is a web server written in rust.<br />
 <a href="https://github.com/seanmonstar/warp">https://github.com/seanmonstar/warp</a><br />
@@ -45,7 +50,7 @@ create a new session<br />
 connect to an existing session<br />
 <code>screen -r cargo_crev_web_8051</code>,<br />
 start the web server<br />
-<code>cd /var/www/webapps/cargo_crev_web;sudo ./cargo_crev_web</code>
+<code>cd /var/www/webapps/cargo_crev_web; ./cargo_crev_web</code>
 detach the session
 <code>ctrl+a d</code></p>
 <h2 id="install-cargo-crev-to-fetch-reviews" class="section-header"><a href="#install-cargo-crev-to-fetch-reviews">install cargo-crev to fetch reviews</a></h2>
@@ -84,24 +89,64 @@ it is possible also to trust a repo:<br />
 <code>cargo crev trust &lt;url of someone's crev-proofs repo&gt;</code><br />
 At the end of editing the local data push:<br />
 <code>cargo crev repo publish</code></p>
-<h2 id="linux-scheduler-cron-tab" class="section-header"><a href="#linux-scheduler-cron-tab">Linux scheduler cron tab</a></h2>
-<p>I will repeatedly call<br />
+<h2 id="linux-scheduler" class="section-header"><a href="#linux-scheduler">Linux scheduler</a></h2>
+<p>I need to call every hour:<br />
 <code>cargo crev repo fetch trusted</code>
 to have fresh reviews available locally in <code>~/.cache/crev/</code>.<br />
-Open the Linux scheduler config file:<br />
-<code>crontab -e</code><br />
-add this line to start every hour at x:04 minutes<br />
-<code>4 * * * * cargo crev repo fetch trusted</code></p>
-<h2 id="testing-my-cachecrev" class="section-header"><a href="#testing-my-cachecrev">testing my .cache/crev</a></h2>
-<p>in development:<br />
-<a href="http://127.0.0.1:8051/query/btoi">http://127.0.0.1:8051/query/btoi</a>    alternatives<br />
-<a href="http://127.0.0.1:8051/query/num-traits">http://127.0.0.1:8051/query/num-traits</a>   issues<br />
-<a href="http://127.0.0.1:8051/query/protobuf">http://127.0.0.1:8051/query/protobuf</a>   advisory</p>
-<p>on the web:<br />
+The Linux scheduler <code>crontab</code> is ok, but I miss something more visual.<br />
+I wrote <a href="https://github.com/LucianoBestia/foreground_scheduler">https://github.com/LucianoBestia/foreground_scheduler</a> to do this.<br />
+It is a normal CLI and it is easy to see the output on the screen.<br />
+To make this run indefinitely in another terminal session I use <code>screen</code>.</p>
+<h2 id="testing-cachecrev" class="section-header"><a href="#testing-cachecrev">testing .cache/crev</a></h2>
+<p>Not all data is required in every review, so I need to test examples that contains different data.<br />
 <a href="https://bestia.dev/cargo_crev_web/query/btoi">https://bestia.dev/cargo_crev_web/query/btoi</a>  alternatives<br />
 <a href="https://bestia.dev/cargo_crev_web/query/num-traits">https://bestia.dev/cargo_crev_web/query/num-traits</a>  issues<br />
-<a href="https://bestia.dev/cargo_crev_web/query/protobuf">https://bestia.dev/cargo_crev_web/query/protobuf</a>  advisory  </p>
+<a href="https://bestia.dev/cargo_crev_web/query/protobuf">https://bestia.dev/cargo_crev_web/query/protobuf</a>  advisory old<br />
+<a href="https://bestia.dev/cargo_crev_web/query/inventory">https://bestia.dev/cargo_crev_web/query/inventory</a>   advisories</p>
+<p>Locally in development is the same, just the server is 127.0.0.1:8051/.</p>
+<h2 id="cargo-crev-reviews-and-advisory" class="section-header"><a href="#cargo-crev-reviews-and-advisory">cargo crev reviews and advisory</a></h2>
+<p>It is recommended to always use <a href="https://github.com/crev-dev/cargo-crev">cargo-crev</a><br />
+to verify the trustworthiness of each of your dependencies.<br />
+Please, spread this info.<br />
+On the web use this url to read crate reviews. Example:<br />
+<a href="https://bestia.dev/cargo_crev_web/query/num-traits">https://bestia.dev/cargo_crev_web/query/num-traits</a></p>
+<h2 id="html-templating" class="section-header"><a href="#html-templating">html templating</a></h2>
+<p>Like many developers I also suffer from &quot;graphical designitis&quot;.<br />
+It is very hard for me to find the exact color variations and shape proportions and subtle font differences to make a web page beautiful. It is not lack of knowledge of html and css. It is lack of style and taste.<br />
+Simply unrepairable!<br />
+So I created a simple html templating system to separate the graphical desiner work from the developer work. As much as possible.<br />
+First the graphical designer prepares a nice html+css with static data, that looks awesome.<br />
+The 2 files are on his local disk and don't need any server or configuration. The static data must be as realistic as possible.<br />
+Then I add comments that are commands where to insert the dynamic data. This comments don't destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.<br />
+On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.<br />
+The result is normal html and is sent to the browser.</p>
+<h2 id="codetour" class="section-header"><a href="#codetour">CodeTour</a></h2>
+<p>I like very much the VSCode extension CodeTour.<br />
+It makes a special kind of documentation that shows the code flow.<br />
+No other type of documentation is so useful as this.<br />
+It works only in VSCode. I made an export to md utility because is so much easier to distribute the md file around.</p>
+<h2 id="ideas" class="section-header"><a href="#ideas">ideas</a></h2>
+<p>The same web server can easily run on the local machine of the developer.<br />
+It is just one single binary executable file.<br />
+It will read only the trusted reviews specific to that developer.<br />
+So now we have a local web server and a browser. It means we have now the possibility to make a beautiful GUI for cargo-crev that works on any OS and remotely also. Good.<br />
+Maybe it will be possible to add the functionality to write new reviews in the browser.<br />
+I am terrible in VIM, I confess.</p>
+<h2 id="todo" class="section-header"><a href="#todo">TODO</a></h2>
+<ul>
+<li>cached results  - cached templates?</li>
+<li>filtered by version, rating,... from cached</li>
+<li>summary per author, because there will be a lot of duplicates</li>
+</ul>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
-<table><tr class='module-item'><td><a class="mod" href="crev_query_mod/index.html" title='cargo_crev_web::crev_query_mod mod'>crev_query_mod</a></td><td class='docblock-short'></td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table><tr class='module-item'><td><a class="mod" href="all_summary_mod/index.html" title='cargo_crev_web::all_summary_mod mod'>all_summary_mod</a></td><td class='docblock-short'><p>all_summary_mod</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="crev_query_mod/index.html" title='cargo_crev_web::crev_query_mod mod'>crev_query_mod</a></td><td class='docblock-short'><p>crev_query_mod</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="crev_query_templating_mod/index.html" title='cargo_crev_web::crev_query_templating_mod mod'>crev_query_templating_mod</a></td><td class='docblock-short'><p>crev_query_templating_mod</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="html_template_mod/index.html" title='cargo_crev_web::html_template_mod mod'>html_template_mod</a></td><td class='docblock-short'><p>html_template_mod</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="issue_mod/index.html" title='cargo_crev_web::issue_mod mod'>issue_mod</a></td><td class='docblock-short'><p>issue_mod</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="proof_mod/index.html" title='cargo_crev_web::proof_mod mod'>proof_mod</a></td><td class='docblock-short'><p>proof_mod</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="utils_mod/index.html" title='cargo_crev_web::utils_mod mod'>utils_mod</a></td><td class='docblock-short'><p>utils_mod.rs</p>
+</td></tr><tr class='module-item'><td><a class="mod" href="version_summary_mod/index.html" title='cargo_crev_web::version_summary_mod mod'>version_summary_mod</a></td><td class='docblock-short'><p>all_summary_mod</p>
+</td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table><tr class='module-item'><td><a class="fn" href="fn.main.html" title='cargo_crev_web::main fn'>main</a></td><td class='docblock-short'><p>main function of the binary</p>
 </td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "cargo_crev_web";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

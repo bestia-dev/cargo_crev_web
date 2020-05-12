@@ -1,7 +1,7 @@
 # cargo_crev_web
 
 [comment]: # (lmake_readme cargo.toml data start)
-version: 2020.512.1444  date: 2020-05-12 authors: Luciano Bestia  
+version: 2020.512.1728  date: 2020-05-12 authors: Luciano Bestia  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
@@ -17,6 +17,13 @@ Having a web app will be very good for promoting the system.
 The basis of cargo-crev is a list of trusted individuals.  
 For the web it would be a broader number of people to achieve more understanding in the community.  
 The same machine will have the web server and the git repository for cargo-crev.  
+
+## crates.io and lib.rs
+
+A similar web page is also created by @Kornelski at <https://lib.rs/crates/num-traits/crev>.  
+lib.rs is an alternative index to crates.io.  
+Crates.io is official rust-lang server, focused more on the trusted storage of crates. It does near to nothing for searching a crate.  
+Lib.rs is more focused on making easier to find a crate in a category. The code is still stored on crates.io. So the trust of authenticity of the code is high.  
 
 ## warp
 
@@ -102,29 +109,25 @@ it is possible also to trust a repo:
 At the end of editing the local data push:  
 `cargo crev repo publish`  
 
-## Linux scheduler cron tab
+## Linux scheduler
 
-I will repeatedly call  
+I need to call every hour:  
 `cargo crev repo fetch trusted`
 to have fresh reviews available locally in `~/.cache/crev/`.  
-Open the Linux scheduler config file:  
-`crontab -e`  
-add this line to start every hour at x:04 minutes  
-`4 * * * * cargo crev repo fetch trusted`  
+The Linux scheduler `crontab` is ok, but I miss something more visual.  
+I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
+It is a normal CLI and it is easy to see the output on the screen.  
+To make this run indefinitely in another terminal session I use `screen`.
 
-## testing my .cache/crev
+## testing .cache/crev
 
-in development:  
-<http://127.0.0.1:8051/query/btoi>    alternatives  
-<http://127.0.0.1:8051/query/num-traits>   issues  
-<http://127.0.0.1:8051/query/protobuf>   advisory old  
-<http://127.0.0.1:8051/query/inventory>   advisories
-
-on the web:  
+Not all data is required in every review, so I need to test examples that contains different data.  
 <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
 <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
 <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory old  
 <https://bestia.dev/cargo_crev_web/query/inventory>   advisories
+
+Locally in development is the same, just the server is 127.0.0.1:8051/.  
 
 ## cargo crev reviews and advisory
 
@@ -134,15 +137,36 @@ Please, spread this info.
 On the web use this url to read crate reviews. Example:  
 <https://bestia.dev/cargo_crev_web/query/num-traits>  
 
+## html templating
+
+Like many developers I also suffer from "graphical designitis".  
+It is very hard for me to find the exact color variations and shape proportions and subtle font differences to make a web page beautiful. It is not lack of knowledge of html and css. It is lack of style and taste.  
+Simply unrepairable!  
+So I created a simple html templating system to separate the graphical desiner work from the developer work. As much as possible.  
+First the graphical designer prepares a nice html+css with static data, that looks awesome.  
+The 2 files are on his local disk and don't need any server or configuration. The static data must be as realistic as possible.  
+Then I add comments that are commands where to insert the dynamic data. This comments don't destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.  
+On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.  
+The result is normal html and is sent to the browser.
+
+## CodeTour
+
+I like very much the VSCode extension CodeTour.  
+It makes a special kind of documentation that shows the code flow.  
+No other type of documentation is so useful as this.  
+It works only in VSCode. I made an export to md utility because is so much easier to distribute the md file around.  
+
+## ideas
+
+The same web server can easily run on the local machine of the developer.  
+It is just one single binary executable file.  
+It will read only the trusted reviews specific to that developer.  
+So now we have a local web server and a browser. It means we have now the possibility to make a beautiful GUI for cargo-crev that works on any OS and remotely also. Good.  
+Maybe it will be possible to add the functionality to write new reviews in the browser.  
+I am terrible in VIM, I confess.  
+
 ## TODO
 
-- templating. the parent template must call children templates
-and pass the data.
-- a similar module is also created by Kornelski: <https://lib.rs/crates/num-traits/crev>  
-- a short story on the index.html  
-  - include how this can be used locally  
-- cached results  
+- cached results  - cached templates?  
 - filtered by version, rating,... from cached  
-- cached templates?  
-- examples: advisory old: protobuf
-- reviews per author, because there will be a lot of duplicates
+- summary per author, because there will be a lot of duplicates

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["main","main function of the binary"]],"mod":[["crev_query_mod",""]]});
+initSidebarItems({"fn":[["main","main function of the binary"]],"mod":[["all_summary_mod","all_summary_mod"],["crev_query_mod","crev_query_mod"],["crev_query_templating_mod","crev_query_templating_mod"],["html_template_mod","html_template_mod"],["issue_mod","issue_mod"],["proof_mod","proof_mod"],["utils_mod","utils_mod.rs"],["version_summary_mod","all_summary_mod"]]});

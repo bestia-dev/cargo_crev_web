@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Level",""],["Rating",""]],"fn":[["get_author","naive method to extract author"]],"struct":[["Advisory",""],["AdvisoryOld",""],["Alternative",""],["Proof",""],["ProofFrom",""],["ProofPackage",""],["ProofReview",""]]});

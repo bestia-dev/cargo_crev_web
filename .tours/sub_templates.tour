@@ -1,5 +1,5 @@
 {
-  "title": "sub_templates",
+  "title": "sub_templates_children",
   "steps": [
     {
       "file": "webfolder/templates/query/crev_query_template.html",

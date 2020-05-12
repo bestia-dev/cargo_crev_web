@@ -211,11 +211,73 @@
 <span id="211">211</span>
 <span id="212">212</span>
 <span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// region: lmake_readme include &quot;readme.md&quot; //! A</span>
 <span class="doccomment">//! # cargo_crev_web</span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! version: 2020.501.1211  date: 2020-05-01 authors: Luciano Bestia  </span>
+<span class="doccomment">//! version: 2020.512.1728  date: 2020-05-12 authors: Luciano Bestia  </span>
 <span class="doccomment">//! **web server to query reviews from cargo-crev**</span>
 <span class="doccomment">//! </span>
 <span class="doccomment">//! </span>
@@ -230,6 +292,13 @@
 <span class="doccomment">//! The basis of cargo-crev is a list of trusted individuals.  </span>
 <span class="doccomment">//! For the web it would be a broader number of people to achieve more understanding in the community.  </span>
 <span class="doccomment">//! The same machine will have the web server and the git repository for cargo-crev.  </span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! ## crates.io and lib.rs</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! A similar web page is also created by @Kornelski at &lt;https://lib.rs/crates/num-traits/crev&gt;.  </span>
+<span class="doccomment">//! lib.rs is an alternative index to crates.io.  </span>
+<span class="doccomment">//! Crates.io is official rust-lang server, focused more on the trusted storage of crates. It does near to nothing for searching a crate.  </span>
+<span class="doccomment">//! Lib.rs is more focused on making easier to find a crate in a category. The code is still stored on crates.io. So the trust of authenticity of the code is high.  </span>
 <span class="doccomment">//! </span>
 <span class="doccomment">//! ## warp</span>
 <span class="doccomment">//! </span>
@@ -271,7 +340,7 @@
 <span class="doccomment">//! connect to an existing session  </span>
 <span class="doccomment">//! `screen -r cargo_crev_web_8051`,  </span>
 <span class="doccomment">//! start the web server  </span>
-<span class="doccomment">//! `cd /var/www/webapps/cargo_crev_web;sudo ./cargo_crev_web`</span>
+<span class="doccomment">//! `cd /var/www/webapps/cargo_crev_web; ./cargo_crev_web`</span>
 <span class="doccomment">//! detach the session</span>
 <span class="doccomment">//! `ctrl+a d`</span>
 <span class="doccomment">//! </span>
@@ -315,27 +384,67 @@
 <span class="doccomment">//! At the end of editing the local data push:  </span>
 <span class="doccomment">//! `cargo crev repo publish`  </span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! ## Linux scheduler cron tab</span>
+<span class="doccomment">//! ## Linux scheduler</span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! I will repeatedly call  </span>
+<span class="doccomment">//! I need to call every hour:  </span>
 <span class="doccomment">//! `cargo crev repo fetch trusted`</span>
 <span class="doccomment">//! to have fresh reviews available locally in `~/.cache/crev/`.  </span>
-<span class="doccomment">//! Open the Linux scheduler config file:  </span>
-<span class="doccomment">//! `crontab -e`  </span>
-<span class="doccomment">//! add this line to start every hour at x:04 minutes  </span>
-<span class="doccomment">//! `4 * * * * cargo crev repo fetch trusted`  </span>
+<span class="doccomment">//! The Linux scheduler `crontab` is ok, but I miss something more visual.  </span>
+<span class="doccomment">//! I wrote &lt;https://github.com/LucianoBestia/foreground_scheduler&gt; to do this.  </span>
+<span class="doccomment">//! It is a normal CLI and it is easy to see the output on the screen.  </span>
+<span class="doccomment">//! To make this run indefinitely in another terminal session I use `screen`.</span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! ## testing my .cache/crev</span>
+<span class="doccomment">//! ## testing .cache/crev</span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! in development:  </span>
-<span class="doccomment">//! &lt;http://127.0.0.1:8051/query/btoi&gt;    alternatives  </span>
-<span class="doccomment">//! &lt;http://127.0.0.1:8051/query/num-traits&gt;   issues  </span>
-<span class="doccomment">//! &lt;http://127.0.0.1:8051/query/protobuf&gt;   advisory  </span>
-<span class="doccomment">//! </span>
-<span class="doccomment">//! on the web:  </span>
+<span class="doccomment">//! Not all data is required in every review, so I need to test examples that contains different data.  </span>
 <span class="doccomment">//! &lt;https://bestia.dev/cargo_crev_web/query/btoi&gt;  alternatives  </span>
 <span class="doccomment">//! &lt;https://bestia.dev/cargo_crev_web/query/num-traits&gt;  issues  </span>
-<span class="doccomment">//! &lt;https://bestia.dev/cargo_crev_web/query/protobuf&gt;  advisory  </span>
+<span class="doccomment">//! &lt;https://bestia.dev/cargo_crev_web/query/protobuf&gt;  advisory old  </span>
+<span class="doccomment">//! &lt;https://bestia.dev/cargo_crev_web/query/inventory&gt;   advisories</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! Locally in development is the same, just the server is 127.0.0.1:8051/.  </span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! ## cargo crev reviews and advisory</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  </span>
+<span class="doccomment">//! to verify the trustworthiness of each of your dependencies.  </span>
+<span class="doccomment">//! Please, spread this info.  </span>
+<span class="doccomment">//! On the web use this url to read crate reviews. Example:  </span>
+<span class="doccomment">//! &lt;https://bestia.dev/cargo_crev_web/query/num-traits&gt;  </span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! ## html templating</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! Like many developers I also suffer from &quot;graphical designitis&quot;.  </span>
+<span class="doccomment">//! It is very hard for me to find the exact color variations and shape proportions and subtle font differences to make a web page beautiful. It is not lack of knowledge of html and css. It is lack of style and taste.  </span>
+<span class="doccomment">//! Simply unrepairable!  </span>
+<span class="doccomment">//! So I created a simple html templating system to separate the graphical desiner work from the developer work. As much as possible.  </span>
+<span class="doccomment">//! First the graphical designer prepares a nice html+css with static data, that looks awesome.  </span>
+<span class="doccomment">//! The 2 files are on his local disk and don&#39;t need any server or configuration. The static data must be as realistic as possible.  </span>
+<span class="doccomment">//! Then I add comments that are commands where to insert the dynamic data. This comments don&#39;t destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.  </span>
+<span class="doccomment">//! On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.  </span>
+<span class="doccomment">//! The result is normal html and is sent to the browser.</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! ## CodeTour</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! I like very much the VSCode extension CodeTour.  </span>
+<span class="doccomment">//! It makes a special kind of documentation that shows the code flow.  </span>
+<span class="doccomment">//! No other type of documentation is so useful as this.  </span>
+<span class="doccomment">//! It works only in VSCode. I made an export to md utility because is so much easier to distribute the md file around.  </span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! ## ideas</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! The same web server can easily run on the local machine of the developer.  </span>
+<span class="doccomment">//! It is just one single binary executable file.  </span>
+<span class="doccomment">//! It will read only the trusted reviews specific to that developer.  </span>
+<span class="doccomment">//! So now we have a local web server and a browser. It means we have now the possibility to make a beautiful GUI for cargo-crev that works on any OS and remotely also. Good.  </span>
+<span class="doccomment">//! Maybe it will be possible to add the functionality to write new reviews in the browser.  </span>
+<span class="doccomment">//! I am terrible in VIM, I confess.  </span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! ## TODO</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! - cached results  - cached templates?  </span>
+<span class="doccomment">//! - filtered by version, rating,... from cached  </span>
+<span class="doccomment">//! - summary per author, because there will be a lot of duplicates</span>
 <span class="comment">// endregion: lmake_readme include &quot;readme.md&quot; //! A</span>
 
 <span class="comment">// region: Clippy</span>
@@ -368,7 +477,14 @@
 <span class="comment">// endregion</span>
 
 <span class="comment">// region: use statements</span>
+<span class="kw">mod</span> <span class="ident">all_summary_mod</span>;
 <span class="kw">mod</span> <span class="ident">crev_query_mod</span>;
+<span class="kw">mod</span> <span class="ident">crev_query_templating_mod</span>;
+<span class="kw">mod</span> <span class="ident">html_template_mod</span>;
+<span class="kw">mod</span> <span class="ident">issue_mod</span>;
+<span class="kw">mod</span> <span class="ident">proof_mod</span>;
+<span class="kw">mod</span> <span class="ident">utils_mod</span>;
+<span class="kw">mod</span> <span class="ident">version_summary_mod</span>;
 
 <span class="kw">use</span> <span class="ident">clap</span>::<span class="ident">App</span>;
 <span class="kw">use</span> <span class="ident">env_logger</span>::<span class="ident">Env</span>;
@@ -408,20 +524,28 @@
     <span class="kw">let</span> <span class="ident">local_addr</span> <span class="op">=</span> <span class="ident">SocketAddr</span>::<span class="ident">new</span>(<span class="ident">local_ip</span>, <span class="ident">local_port</span>);
 
     <span class="macro">info</span><span class="macro">!</span>(
-        <span class="string">&quot;cargo-crev http server listening on {} &quot;</span>,
+        <span class="string">&quot;cargo_crev_web http server listening on {} &quot;</span>,
         <span class="ident">ansi_term</span>::<span class="ident">Colour</span>::<span class="ident">Red</span>.<span class="ident">paint</span>(<span class="ident">local_addr</span>.<span class="ident">to_string</span>())
     );
     <span class="comment">// endregion</span>
 
+    <span class="comment">// this webapp will start with the route cargo_crev_web</span>
+    <span class="comment">// the website does not matter.</span>
+    <span class="comment">// example: bestia.dev/cargo_crev_web/query/num-traits</span>
+    <span class="comment">//   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits</span>
+
     <span class="comment">// dynamic content</span>
-    <span class="kw">let</span> <span class="ident">query</span> <span class="op">=</span> <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;query&quot;</span> <span class="op">/</span> <span class="ident">String</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">crate_name</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">crev_query_mod</span>::<span class="ident">crev_query</span>(<span class="ident">crate_name</span>);
-        <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
-    });
-    <span class="comment">// static file server</span>
-    <span class="comment">// GET files of route / -&gt; are from folder ./crev/</span>
-    <span class="kw">let</span> <span class="ident">fileserver</span> <span class="op">=</span> <span class="ident">warp</span>::<span class="ident">fs</span>::<span class="ident">dir</span>(<span class="string">&quot;./crev/&quot;</span>);
-    <span class="kw">let</span> <span class="ident">routes</span> <span class="op">=</span> <span class="ident">query</span>.<span class="ident">or</span>(<span class="ident">fileserver</span>);
+    <span class="kw">let</span> <span class="ident">query_crate_name</span> <span class="op">=</span>
+        <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;cargo_crev_web&quot;</span> <span class="op">/</span> <span class="string">&quot;query&quot;</span> <span class="op">/</span> <span class="ident">String</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">crate_name</span>: <span class="ident">String</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">crev_query_mod</span>::<span class="ident">html_for_crev_query</span>(<span class="string">&quot;templates/&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">crate_name</span>);
+            <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
+        });
+
+    <span class="comment">// static file server (starts at cargo_crev_web)</span>
+    <span class="comment">// GET files of route /cargo_crev_web/ -&gt; are from folder ./cargo_crev_web_root_folder/</span>
+    <span class="kw">let</span> <span class="ident">fileserver</span> <span class="op">=</span>
+        <span class="ident">warp</span>::<span class="ident">path</span>(<span class="string">&quot;cargo_crev_web&quot;</span>).<span class="ident">and</span>(<span class="ident">warp</span>::<span class="ident">fs</span>::<span class="ident">dir</span>(<span class="string">&quot;./cargo_crev_web_root_folder/&quot;</span>));
+    <span class="kw">let</span> <span class="ident">routes</span> <span class="op">=</span> <span class="ident">query_crate_name</span>.<span class="ident">or</span>(<span class="ident">fileserver</span>);
 
     <span class="ident">warp</span>::<span class="ident">serve</span>(<span class="ident">routes</span>).<span class="ident">run</span>(<span class="ident">local_addr</span>).<span class="kw">await</span>;
 }
