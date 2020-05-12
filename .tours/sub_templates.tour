@@ -18,31 +18,61 @@
     },
     {
       "file": "src/html_template_mod.rs",
-      "line": 141,
+      "line": 81,
       "description": "## extract sub-template\nOnly one level deep, only the children. Then recursively the chldren will extract their children. Save them in a vector. The [0] member is the parent template. It is drained from the sub-templates. Only a placeholder remains.",
       "selection": {
         "start": {
-          "line": 141,
+          "line": 81,
           "character": 9
         },
         "end": {
-          "line": 141,
+          "line": 81,
           "character": 85
         }
       }
     },
     {
       "file": "src/html_template_mod.rs",
-      "line": 316,
+      "line": 256,
       "description": "## template placeholder\nWhen the template placeholder is found, the method render_sub_template is called.\nThe result is added to the parent node.",
       "selection": {
         "start": {
-          "line": 311,
-          "character": 51
+          "line": 250,
+          "character": 22
         },
         "end": {
-          "line": 311,
-          "character": 70
+          "line": 254,
+          "character": 77
+        }
+      }
+    },
+    {
+      "file": "src/all_summary_mod.rs",
+      "line": 219,
+      "description": "## render the sub-template\nFind it in the sub_templates vector. If the data is a vector, then render_template for every element. Push all nodes to parent node (extend_from_slice).",
+      "selection": {
+        "start": {
+          "line": 208,
+          "character": 13
+        },
+        "end": {
+          "line": 219,
+          "character": 22
+        }
+      }
+    },
+    {
+      "file": "src/html_template_mod.rs",
+      "line": 77,
+      "description": "## render\nThe render method is the same for templates and sub-templates.",
+      "selection": {
+        "start": {
+          "line": 73,
+          "character": 1
+        },
+        "end": {
+          "line": 77,
+          "character": 37
         }
       }
     }

@@ -251,9 +251,7 @@ pub trait HtmlTemplating {
                         // replace exactly this placeholder for a sub-template
                         let template_name = txt.trim_end_matches(" start");
                         let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
-                        for repl_node in repl_vec_nodes {
-                            element.children.push(repl_node.clone());
-                        }
+                        element.children.extend_from_slice(&repl_vec_nodes);
                     } else if txt.starts_with("n_") {
                         // nodes  (in a vector)
                         let repl_vec_nodes = self.call_fn_vec_nodes(txt);

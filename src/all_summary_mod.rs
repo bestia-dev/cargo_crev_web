@@ -211,9 +211,6 @@ impl HtmlTemplating for AllSummaries {
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 for version_summary in &self.version_summaries {
-                    //find the sub template name in templates
-                    // here is always the root node <template>
-                    // it needs to be removed
                     let vec_node = unwrap!(version_summary
                         .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html,));
                     nodes.extend_from_slice(&vec_node);
