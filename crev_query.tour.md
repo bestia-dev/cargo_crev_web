@@ -2,26 +2,26 @@
 ## server route  
 The web server recognizes the route /query/ and calls html_for_crev_query().
 
-##### step 1 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/main.rs#L219)
+##### step 1 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/main.rs#L266)
 ```rust
-mod html_template_mod;
-mod issue_mod;
-mod proof_mod;
-mod utils_mod;
-mod version_summary_mod;
+    // endregion
 
-use clap::App;
-use env_logger::Env;
-//use futures::{sync::mpsc, Future, Stream};
+    // this webapp will start with the route cargo_crev_web
+    // the website does not matter.
+    // example: bestia.dev/cargo_crev_web/query/num-traits
+    //   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits
+
+    // dynamic content
+    let query_crate_name =
 #//---------------------- selection start ----------------------
-use log::info;
-//use serde_derive::{Deserialize, Serialize};
+        warp::path!("cargo_crev_web" / "query" / String).map(|crate_name: String| {
+            let html_file = crev_query_mod::html_for_crev_query("templates/", &crate_name);
 #//----------------------- selection end -----------------------
 ```
 ## data model  
 Prepare CrevQueryData. This is the data model with all the data for templating in one place.
 
-##### step 2 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/crev_query_mod.rs#L32)
+##### step 2 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/crev_query_mod.rs#L32)
 ```rust
         crate_name
     );
@@ -40,7 +40,7 @@ Prepare CrevQueryData. This is the data model with all the data for templating i
 ## template on disk  
 Read the template from the disk and start the rendering.
 
-##### step 3 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/crev_query_mod.rs#L37)
+##### step 3 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/crev_query_mod.rs#L37)
 ```rust
     // put all data needed for this template in one place
     let crev_query_data = CrevQueryData {
@@ -56,182 +56,163 @@ Read the template from the disk and start the rendering.
     let html_template_raw = template_raw_from_file(&template_file_name);
 #//----------------------- selection end -----------------------
 ```
-## render_template_raw_to_string  
-This default trait method for rendering has no special knowledge about the data. Only about html templates. The final result is a string - html.
+## render_template_raw_to_nodes  
+This default trait method for rendering has no special knowledge about the data. Only about html templates. The templateing works with Nodes.
 
-##### step 4 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L185)
+##### step 4 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L77)
 ```rust
-                        // this tagname changes to html for children, not for this element
-                        html_or_svg_local = HtmlOrSvg::Html;
-                    }
-                    //recursion
-                    child_element = self.fill_element_node(
-                        reader_for_microxml,
-                        child_element,
-                        html_or_svg_local,
-                        dom_path,
-                        sub_templates,
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<Node>;
+    // endregion: methods to be implemented for a specific project
+
+    // region: the only true public method - default implementation code
+    // endregion: default implementation
+    // region: this methods should be private somehow, but I don't know in Rust how to do it
+    /// extract sub_templates and get root element Node.   
 #//---------------------- selection start ----------------------
-                    )?;
+    fn render_template_raw_to_nodes(
 #//----------------------- selection end -----------------------
 ```
 ## must implement methods
 In the same trait we have specific functions that must be implemented for every data model separately.
 
-##### step 5 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L171)
+##### step 5 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L66)
 ```rust
-                        // this is the
-                        // svg elements have this namespace
+    //plumbing between trait declaration and implementation
+    // while rendering, cannot mut rrc
 #//---------------------- selection start ----------------------
-                        child_element.namespace = Some("http://www.w3.org/2000/svg".to_string());
-                    }
-                    if tag_name == "foreignObject" {
-                        // this tagname changes to html for children, not for this element
-                        html_or_svg_local = HtmlOrSvg::Html;
-                    }
-                    //recursion
-                    child_element = self.fill_element_node(
-                        reader_for_microxml,
-#//----------------------- selection end -----------------------
-```
-## render in nodes
-Trait default method for render. All the rendering is processed as Nodes. Just at the end is exported to string.
-
-##### step 6 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L238)
-```rust
-                        replace_string = None;
-                        decode_5_xml_control_characters(&repl)
-                    } else {
-                        decode_5_xml_control_characters(txt)
-                    };
-                    // here accepts only utf-8.
-#//---------------------- selection start ----------------------
-                    // only minimum html entities are decoded
-                    element.children.push(Node {
-                        node_enum: NodeEnum::Text(txt),
-                    });
-                }
+    fn call_fn_string(&self, placeholder: &str) -> String;
+    fn call_fn_boolean(&self, placeholder: &str) -> bool;
+    // this is also for sub-templates
+    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node>;
+    fn render_sub_template(
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<Node>;
 #//----------------------- selection end -----------------------
 ```
 ## extract children subtemplates  
 The template can contain sub-templates. Here extract only the children (depth level 1).
 The parent template is drained from subtemplates. Only a placeholder is retained for later replacement.
 
-##### step 7 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L241)
+##### step 6 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L81)
 ```rust
-                        decode_5_xml_control_characters(txt)
-                    };
-                    // here accepts only utf-8.
-                    // only minimum html entities are decoded
-                    element.children.push(Node {
-                        node_enum: NodeEnum::Text(txt),
-                    });
-                }
+    // region: this methods should be private somehow, but I don't know in Rust how to do it
+    /// extract sub_templates and get root element Node.   
+    fn render_template_raw_to_nodes(
+        &self,
+        html_template_raw: &str,
+        html_or_svg_parent: HtmlOrSvg,
+    ) -> Result<Vec<Node>, String> {
+        // html_template_raw can be a fragment. I add the root, that will later be removed.
 #//---------------------- selection start ----------------------
-                Event::Comment(txt) => {
-                    // the main goal of comments is to change the value of the next text node
-                    // with the result of a function
+        let html_template_raw = &format!("<template>{}</template>", html_template_raw);
+        // extract sub_templates. Only one level deep.
+        let sub_templates = Self::extract_children_sub_templates(html_template_raw);
 #//----------------------- selection end -----------------------
 ```
 ## read template events
 The reader_for_microxml moves event by event sequentialy. For different types of events there is different code. Here we transform the input String into a Vec\<Node\> for easy manipulation.
 
-##### step 8 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L251)
+##### step 7 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L153)
 ```rust
-                    // with the result of a function
-                    // it must look like <!--t_get_text-->
-
+        let mut replace_node: Option<Node> = None;
+        let mut replace_vec_nodes: Option<Vec<Node>> = None;
+        let mut replace_boolean: Option<bool> = None;
+        let mut html_or_svg_local;
+        // loop through all the siblings in this iteration
 #//---------------------- selection start ----------------------
-                    if txt.starts_with("t_") {
-                        let repl_txt = self.call_fn_string(txt);
-                        replace_string = Some(repl_txt);
-                    } else if txt.starts_with("b_") {
-                        // boolean if this is true than render the next node, else don't render
-                        replace_boolean = Some(self.call_fn_boolean(txt));
-                    } else if txt.starts_with("template_") {
-                        // replace exactly this placeholder for a sub-template
+        loop {
+            // the children inherits html_or_svg from the parent, but cannot change the parent
+            html_or_svg_local = html_or_svg_parent;
+            match reader_for_microxml.read_event() {
+                Event::StartElement(tag_name) => {
+                    dom_path.push(tag_name.to_owned());
 #//----------------------- selection end -----------------------
 ```
 ## new node
 A new html node/element/tag. We create a new Node with only the basic data.
 
-##### step 9 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L259)
+##### step 8 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L160)
 ```rust
-                        replace_boolean = Some(self.call_fn_boolean(txt));
-                    } else if txt.starts_with("template_") {
-                        // replace exactly this placeholder for a sub-template
-                        let template_name = txt.trim_end_matches(" start");
-                        let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
+            html_or_svg_local = html_or_svg_parent;
+            match reader_for_microxml.read_event() {
+                Event::StartElement(tag_name) => {
+                    dom_path.push(tag_name.to_owned());
+                    // construct a child element and fill it (recursive)
 #//---------------------- selection start ----------------------
-                        for repl_node in repl_vec_nodes {
-                            element.children.push(repl_node.clone());
-                        }
-                    } else if txt.starts_with("n_") {
-                        // nodes  (in a vector)
-                        let repl_vec_nodes = self.call_fn_vec_nodes(txt);
+                    let mut child_element = ElementNode {
+                        tag_name: String::from(tag_name),
+                        attributes: vec![],
+                        children: vec![],
+                        namespace: None,
+                    };
 #//----------------------- selection end -----------------------
 ```
 ## Svg namespace
 Svg inside Html must be specially adorned with a namespace. Very annoying.
 
-##### step 10 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L266)
+##### step 9 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L169)
 ```rust
-                        }
-                    } else if txt.starts_with("n_") {
-                        // nodes  (in a vector)
-                        let repl_vec_nodes = self.call_fn_vec_nodes(txt);
+                        namespace: None,
+                    };
 #//---------------------- selection start ----------------------
-                        replace_vec_nodes = Some(repl_vec_nodes);
-                    } else {
-                        // it is really a comment
-                        element.children.push(Node {
-                            node_enum: NodeEnum::Comment(txt.to_string()),
-                        });
+                    if tag_name == "svg" {
+                        // this tagname changes to svg now
+                        html_or_svg_local = HtmlOrSvg::Svg;
+                    }
+                    if let HtmlOrSvg::Svg = html_or_svg_local {
+                        // this is the
+                        // svg elements have this namespace
+                        child_element.namespace = Some("http://www.w3.org/2000/svg".to_string());
                     }
 #//----------------------- selection end -----------------------
 ```
 ## fill node recursively
 The new node we created will be filled in this method. This goes recursive.
 
-##### step 11 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L275)
+##### step 10 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L181)
 ```rust
-                        });
+                        // this tagname changes to html for children, not for this element
+                        html_or_svg_local = HtmlOrSvg::Html;
                     }
-                }
-                Event::EndElement(name) => {
+                    //recursion
 #//---------------------- selection start ----------------------
-                    let last_name = unwrap!(dom_path.pop());
-                    // it can be also auto-closing element
-                    if last_name == name || name == "" {
-                        return Ok(element);
-                    } else {
-                        return Err(format!(
-                            "End element not correct: starts <{}> ends </{}>",
+                    child_element = self.fill_element_node(
+                        reader_for_microxml,
+                        child_element,
+                        html_or_svg_local,
+                        dom_path,
+                        sub_templates,
+                    )?;
 #//----------------------- selection end -----------------------
 ```
 ## fill_element_node()  
 This is the recursive method. It accepts a newly created ElementNode and fills it with attributes and children. Most of the template is just copied. Special Comments and data- attributes are points in the template to replace with dynamic content.
 
-##### step 12 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L302)
+##### step 11 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L141)
 ```rust
-        /// https://www.tutorialspoint.com/html5/html5_entities.htm  
-        fn decode_5_xml_control_characters(input: &str) -> String {
-            // The standard library replace() function makes allocation,
+    /// Recursive function to fill the Element with attributes
+    /// and sub-nodes(Element, Text, Comment).  
+    #[allow(clippy::too_many_lines, clippy::type_complexity)]
 #//---------------------- selection start ----------------------
-            //but is probably fast enough for my use case.
-            input
-                .replace("&quot;", "\"")
-                .replace("&apos;", "'")
-                .replace("&amp;", "&")
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
-        }
+    fn fill_element_node(
+        &self,
+        reader_for_microxml: &mut ReaderForMicroXml,
+        mut element: ElementNode,
+        html_or_svg_parent: HtmlOrSvg,
+        dom_path: &mut Vec<String>,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Result<ElementNode, String> {
 #//----------------------- selection end -----------------------
 ```
 ## static html template
 The template's life starts as static content. The graphic designer can copy the html file to his disk and open it with the browser. He can use a text editor to change html and css design. The template contains static sample data similar to the dynamic data. So the designer has the visual clue how all will look at the end.
 
-##### step 13 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L28)
+##### step 12 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L28)
 ```html
             <h3>query reviews from <a href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
             <h3>crate: <a data-t-href="t_crate_link" href="https://crates.io/crates/num-traits" target="_blank"><!--t_crate_name-->num-traits</a></h3>
@@ -251,8 +232,10 @@ The template's life starts as static content. The graphic designer can copy the 
 Modifying the visuals of a web page is an eternal task. Let's separate as much as possible the work of the graphic designer and of the (data) developer.
 Once the graphic design is ready, we need to add placeholders for dynamic data. This placeholders will be replaced with dynamic data while rendering. The placeholders must not destroy the capability of the html file to be viewed statically. I choosed to use html comments, for example \<!--t_number--\> 
 
-##### step 14 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L42)
+##### step 13 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L42)
 ```html
+            </div>
+            <div class="crate_summary_cell"></div>
             <div class="crate_summary_cell yellow" title="alternatives">a</div>
             <div class="crate_summary_cell orange" title="issues">i</div>
             <div class="crate_summary_cell red" title="advisories">a</div>
@@ -261,15 +244,15 @@ Once the graphic design is ready, we need to add placeholders for dynamic data. 
 
             <div class="crate_summary_cell bold">crate</div>
             <div class="crate_summary_cell bold" title="reviews count">
+#//---------------------- selection start ----------------------
                 <!--t_crate_review_number-->7</div>
-            <div class="crate_summary_cell bold greener" title="rating strong">
-                <!--t_crate_rating_strong-->2</div>
+#//----------------------- selection end -----------------------
 ```
 ## replace text  
 The static text "1" for this text node is used for the graphic preview. 
 To replace it with dynamic data, we add before it a comment with the special syntax \<!--t_name--\>. 
 
-##### step 15 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L48)
+##### step 14 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L48)
 ```html
             <div class="crate_summary_cell bold">crate</div>
             <div class="crate_summary_cell bold" title="reviews count">
@@ -289,26 +272,26 @@ To replace it with dynamic data, we add before it a comment with the special syn
 The rendering finds the special comment. It calls `call_fn_string` and temporarily saves the result. 
 It does not push the placeholder comment to the html nodes, because is not needed in the result html.
 
-##### step 16 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L408)
+##### step 15 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L246)
 ```rust
-    fn element_node_to_html(html: &mut String, element_node: &ElementNode) {
-        html.push_str("<");
-        html.push_str(&element_node.tag_name);
-        html.push_str(" ");
-        for attr in &element_node.attributes {
-            html.push_str(&attr.name);
-            html.push_str(" = \"");
-            html.push_str(&attr.value);
+                        node_enum: NodeEnum::Text(txt),
+                    });
+                }
+                Event::Comment(txt) => {
+                    // the main goal of comments is to change the value of the next text node
+                    // with the result of a function
+                    // it must look like <!--t_get_text-->
 #//---------------------- selection start ----------------------
-            html.push_str("\" ");
-        }
-        html.push_str(">");
+
+                    if txt.starts_with("t_") {
+                        let repl_txt = self.call_fn_string(txt);
+                        replace_string = Some(repl_txt);
 #//----------------------- selection end -----------------------
 ```
 ## dynamic data
 Every placeholder has code that returns dynamic data as a string. This method is implemented on the data model, so it has access to all the data it needs.
 
-##### step 17 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/all_summary_mod.rs#L146)
+##### step 16 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/all_summary_mod.rs#L146)
 ```rust
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -316,56 +299,58 @@ Every placeholder has code that returns dynamic data as a string. This method is
     )]
     fn call_fn_string(&self, placeholder: &str) -> String {
         // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
+#//---------------------- selection start ----------------------
         match placeholder {
             "t_crate_name" => self.crate_name.to_string(),
             "t_crate_link" => format!("https://crates.io/crates/{}", self.crate_name),
             "t_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
             "t_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
+#//----------------------- selection end -----------------------
 ```
 ## next TextNode
 When the rendering goes to the next TextNode it does not use the static content. 
 It uses the dynamic content temporarily saved.
 
-##### step 18 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L391)
+##### step 17 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L229)
 ```rust
-}
-// region: utility fn only for the root template
-/// only the root template comes from a file
-/// all sub-templates later are raw strings
-pub fn template_raw_from_file(file_name: &str) -> String {
-    let mut template_raw = unwrap!(fs::read_to_string(file_name));
-    // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
+                        element.attributes.push(Attribute {
+                            name: name.to_string(),
+                            value: value,
+                        });
+                    }
+                }
 #//---------------------- selection start ----------------------
-    // I will add <!DOCTYPE html> when the rendering ends.
-    let pos_html = unwrap!(template_raw.find("<html"));
-    template_raw.drain(..pos_html);
-    //return
+                Event::TextNode(txt) => {
+                    let txt = if let Some(repl) = replace_string {
+                        // empty the replace_string for the next node
+                        replace_string = None;
+                        decode_5_xml_control_characters(&repl)
 #//----------------------- selection end -----------------------
 ```
 ## push to parent node
 Then this dynamic TextNode is pushed to the parent node.
 
-##### step 19 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L398)
+##### step 18 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L237)
 ```rust
-    let pos_html = unwrap!(template_raw.find("<html"));
-    template_raw.drain(..pos_html);
-    //return
-    template_raw
-}
-/// default implementation - render template to string
-pub fn element_node_to_string(element_node: &ElementNode) -> Result<String, String> {
-    // region: private fn
+                        // empty the replace_string for the next node
+                        replace_string = None;
+                        decode_5_xml_control_characters(&repl)
+                    } else {
+                        decode_5_xml_control_characters(txt)
+                    };
+                    // here accepts only utf-8.
 #//---------------------- selection start ----------------------
-    /// sub element to html
-    fn element_node_to_html(html: &mut String, element_node: &ElementNode) {
-        html.push_str("<");
+                    // only minimum html entities are decoded
+                    element.children.push(Node {
+                        node_enum: NodeEnum::Text(txt),
+                    });
 #//----------------------- selection end -----------------------
 ```
 ## boolean placeholder
 The special comment \<!--b_...--\> can result in true or false. 
 It leaves or removes the next node completely.
 
-##### step 20 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L105)
+##### step 19 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L105)
 ```html
             <div class="review_header_cell green bold" title="rating">
                 <!--t_review_rating-->positive</div>
@@ -385,46 +370,46 @@ It leaves or removes the next node completely.
 The rendering finds the placeholder and calls the implementation method.
 It saves temporarily the result.
 
-##### step 21 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L422)
+##### step 20 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L249)
 ```rust
-                    //recursion
-                    element_node_to_html(html, sub_element);
-                }
-                NodeEnum::Text(text) => html.push_str(&text),
-                NodeEnum::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
-            }
-        }
-        //end tag
+                Event::Comment(txt) => {
+                    // the main goal of comments is to change the value of the next text node
+                    // with the result of a function
+                    // it must look like <!--t_get_text-->
+
+                    if txt.starts_with("t_") {
+                        let repl_txt = self.call_fn_string(txt);
+                        replace_string = Some(repl_txt);
 #//---------------------- selection start ----------------------
-        html.push_str("</");
-        html.push_str(&element_node.tag_name);
-        html.push_str(">");
+                    } else if txt.starts_with("b_") {
+                        // boolean if this is true than render the next node, else don't render
+                        replace_boolean = Some(self.call_fn_boolean(txt));
 #//----------------------- selection end -----------------------
 ```
 ## next node
 Before rendering the next node we look at the temporary value replace_boolean.
 If it is false, then we don't render the next node. Just jump over it.
 
-##### step 22 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L346)
+##### step 21 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L183)
 ```rust
-                    {
-                        exist_template = true;
-                        // special name for template that will not be used at all.
-                        // this happens when the graphic designer need more repetition of the
-                        // same sub-template only for visual effect while editing.
-                        if sub_template_name == "template_not_for_render" {
-                            // eprintln!("template_not_for_render {} {}",pos_start, pos_end_after_tag);
-                            //remove all the template
-                            sub_templates[0]
-                                .template
+                    }
+                    //recursion
+                    child_element = self.fill_element_node(
+                        reader_for_microxml,
+                        child_element,
+                        html_or_svg_local,
+                        dom_path,
+                        sub_templates,
+                    )?;
 #//---------------------- selection start ----------------------
-                                .drain(pos_start..pos_end_after_tag);
+                    // if the boolean is empty or true then render the next node
+                    if replace_boolean.unwrap_or(true) {
 #//----------------------- selection end -----------------------
 ```
 ## boolean method
 The implemented method returns true or false for the placeholder according to the data.
 
-##### step 23 of 23 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/proof_mod.rs#L125)
+##### step 22 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/proof_mod.rs#L125)
 ```rust
     //return
     author

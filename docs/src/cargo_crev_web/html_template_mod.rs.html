@@ -433,8 +433,6 @@
 <span id="433">433</span>
 <span id="434">434</span>
 <span id="435">435</span>
-<span id="436">436</span>
-<span id="437">437</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! html_template_mod</span>
 
@@ -689,9 +687,7 @@
                         <span class="comment">// replace exactly this placeholder for a sub-template</span>
                         <span class="kw">let</span> <span class="ident">template_name</span> <span class="op">=</span> <span class="ident">txt</span>.<span class="ident">trim_end_matches</span>(<span class="string">&quot; start&quot;</span>);
                         <span class="kw">let</span> <span class="ident">repl_vec_nodes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">render_sub_template</span>(<span class="ident">template_name</span>, <span class="ident">sub_templates</span>);
-                        <span class="kw">for</span> <span class="ident">repl_node</span> <span class="kw">in</span> <span class="ident">repl_vec_nodes</span> {
-                            <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">push</span>(<span class="ident">repl_node</span>.<span class="ident">clone</span>());
-                        }
+                        <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">repl_vec_nodes</span>);
                     } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;n_&quot;</span>) {
                         <span class="comment">// nodes  (in a vector)</span>
                         <span class="kw">let</span> <span class="ident">repl_vec_nodes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">call_fn_vec_nodes</span>(<span class="ident">txt</span>);
