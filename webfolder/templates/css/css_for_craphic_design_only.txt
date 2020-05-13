@@ -1,0 +1,2 @@
+This copy of css is for the phase of graphic design.
+So it can be changed without causing problems with the real css used in dynamic content.
