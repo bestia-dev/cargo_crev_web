@@ -273,11 +273,39 @@
 <span id="273">273</span>
 <span id="274">274</span>
 <span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// region: lmake_readme include &quot;readme.md&quot; //! A</span>
 <span class="doccomment">//! # cargo_crev_web</span>
 <span class="doccomment">//! </span>
-<span class="doccomment">//! version: 2020.512.1728  date: 2020-05-12 authors: Luciano Bestia  </span>
+<span class="doccomment">//! version: 2020.513.1655  date: 2020-05-13 authors: Luciano Bestia  </span>
 <span class="doccomment">//! **web server to query reviews from cargo-crev**</span>
 <span class="doccomment">//! </span>
 <span class="doccomment">//! </span>
@@ -480,6 +508,7 @@
 <span class="kw">mod</span> <span class="ident">all_summary_mod</span>;
 <span class="kw">mod</span> <span class="ident">crev_query_mod</span>;
 <span class="kw">mod</span> <span class="ident">crev_query_templating_mod</span>;
+<span class="kw">mod</span> <span class="ident">duration_mod</span>;
 <span class="kw">mod</span> <span class="ident">html_template_mod</span>;
 <span class="kw">mod</span> <span class="ident">issue_mod</span>;
 <span class="kw">mod</span> <span class="ident">proof_mod</span>;
@@ -489,8 +518,9 @@
 <span class="kw">use</span> <span class="ident">clap</span>::<span class="ident">App</span>;
 <span class="kw">use</span> <span class="ident">env_logger</span>::<span class="ident">Env</span>;
 <span class="comment">//use futures::{sync::mpsc, Future, Stream};</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
+<span class="kw">use</span> <span class="ident">ansi_term</span>::<span class="ident">Colour</span>::{<span class="ident">Blue</span>, <span class="ident">Green</span>, <span class="ident">Red</span>, <span class="ident">Yellow</span>};
 <span class="kw">use</span> <span class="ident">log</span>::<span class="ident">info</span>;
-<span class="comment">//use serde_derive::{Deserialize, Serialize};</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">net</span>::{<span class="ident">IpAddr</span>, <span class="ident">Ipv4Addr</span>, <span class="ident">SocketAddr</span>};
 <span class="comment">//use unwrap::unwrap;</span>
 <span class="kw">use</span> <span class="ident">warp</span>::<span class="ident">Filter</span>;
@@ -525,7 +555,7 @@
 
     <span class="macro">info</span><span class="macro">!</span>(
         <span class="string">&quot;cargo_crev_web http server listening on {} &quot;</span>,
-        <span class="ident">ansi_term</span>::<span class="ident">Colour</span>::<span class="ident">Red</span>.<span class="ident">paint</span>(<span class="ident">local_addr</span>.<span class="ident">to_string</span>())
+        <span class="ident">Red</span>.<span class="ident">paint</span>(<span class="ident">local_addr</span>.<span class="ident">to_string</span>())
     );
     <span class="comment">// endregion</span>
 
@@ -535,11 +565,37 @@
     <span class="comment">//   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits</span>
 
     <span class="comment">// dynamic content</span>
-    <span class="kw">let</span> <span class="ident">query_crate_name</span> <span class="op">=</span>
-        <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;cargo_crev_web&quot;</span> <span class="op">/</span> <span class="string">&quot;query&quot;</span> <span class="op">/</span> <span class="ident">String</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">crate_name</span>: <span class="ident">String</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">crev_query_mod</span>::<span class="ident">html_for_crev_query</span>(<span class="string">&quot;templates/&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">crate_name</span>);
+    <span class="kw">let</span> <span class="ident">query_crate_name</span> <span class="op">=</span> <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;cargo_crev_web&quot;</span> <span class="op">/</span> <span class="string">&quot;query&quot;</span> <span class="op">/</span> <span class="ident">String</span>)
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">crate_name</span>: <span class="ident">String</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">crev_query_mod</span>::<span class="ident">html_for_crev_query</span>(<span class="string">&quot;templates/&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">crate_name</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>);
             <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
-        });
+        })
+        .<span class="ident">or</span>(
+            <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;cargo_crev_web&quot;</span> <span class="op">/</span> <span class="string">&quot;query&quot;</span> <span class="op">/</span> <span class="ident">String</span> <span class="op">/</span> <span class="ident">String</span>).<span class="ident">map</span>(
+                <span class="op">|</span><span class="ident">crate_name</span>: <span class="ident">String</span>, <span class="ident">version</span>: <span class="ident">String</span><span class="op">|</span> {
+                    <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">crev_query_mod</span>::<span class="ident">html_for_crev_query</span>(
+                        <span class="string">&quot;templates/&quot;</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">crate_name</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">version</span>,
+                        <span class="string">&quot;&quot;</span>,
+                    );
+                    <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
+                },
+            ),
+        )
+        .<span class="ident">or</span>(
+            <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;cargo_crev_web&quot;</span> <span class="op">/</span> <span class="string">&quot;query&quot;</span> <span class="op">/</span> <span class="ident">String</span> <span class="op">/</span> <span class="ident">String</span> <span class="op">/</span> <span class="ident">String</span>).<span class="ident">map</span>(
+                <span class="op">|</span><span class="ident">crate_name</span>: <span class="ident">String</span>, <span class="ident">version</span>: <span class="ident">String</span>, <span class="ident">kind</span>: <span class="ident">String</span><span class="op">|</span> {
+                    <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">crev_query_mod</span>::<span class="ident">html_for_crev_query</span>(
+                        <span class="string">&quot;templates/&quot;</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">crate_name</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">version</span>,
+                        <span class="kw-2">&amp;</span><span class="ident">kind</span>,
+                    );
+                    <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
+                },
+            ),
+        );
 
     <span class="comment">// static file server (starts at cargo_crev_web)</span>
     <span class="comment">// GET files of route /cargo_crev_web/ -&gt; are from folder ./cargo_crev_web_root_folder/</span>

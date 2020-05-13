@@ -4,6 +4,8 @@ The web server recognizes the route /query/ and calls html_for_crev_query().
 
 ##### step 1 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/main.rs#L266)
 ```rust
+        Red.paint(local_addr.to_string())
+    );
     // endregion
 
     // this webapp will start with the route cargo_crev_web
@@ -11,11 +13,9 @@ The web server recognizes the route /query/ and calls html_for_crev_query().
     // example: bestia.dev/cargo_crev_web/query/num-traits
     //   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits
 
-    // dynamic content
-    let query_crate_name =
 #//---------------------- selection start ----------------------
-        warp::path!("cargo_crev_web" / "query" / String).map(|crate_name: String| {
-            let html_file = crev_query_mod::html_for_crev_query("templates/", &crate_name);
+    // dynamic content
+    let query_crate_name = warp::path!("cargo_crev_web" / "query" / String)
 #//----------------------- selection end -----------------------
 ```
 ## data model  
@@ -23,18 +23,18 @@ Prepare CrevQueryData. This is the data model with all the data for templating i
 
 ##### step 2 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/crev_query_mod.rs#L32)
 ```rust
-        crate_name
-    );
-
-    //first fill a vector with proofs, because I need to filter and sort them
+    version: &str,
+    kind: &str,
+) -> String {
+    let start = duration_mod::start_ns();
 #//---------------------- selection start ----------------------
-    let proofs = proofs_crev_query(crate_name);
-    let all_summaries = all_summary_mod::calculate_all_summary_for_proofs(crate_name, &proofs);
-    // put all data needed for this template in one place
-    let crev_query_data = CrevQueryData {
-        proofs,
-        all_summaries,
-    };
+    eprintln!(
+        "{}: crate_name: '{}', version '{}', kind '{}'",
+        &Local::now().format("%Y-%m-%d %H:%M:%S"),
+        Green.paint(crate_name),
+        Green.paint(version),
+        Green.paint(kind)
+    );
 #//----------------------- selection end -----------------------
 ```
 ## template on disk  
@@ -42,18 +42,18 @@ Read the template from the disk and start the rendering.
 
 ##### step 3 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/crev_query_mod.rs#L37)
 ```rust
-    // put all data needed for this template in one place
-    let crev_query_data = CrevQueryData {
-        proofs,
-        all_summaries,
-    };
+        &Local::now().format("%Y-%m-%d %H:%M:%S"),
+        Green.paint(crate_name),
+        Green.paint(version),
+        Green.paint(kind)
+    );
 
-    // now I have the data and I render the html from the template
-    // the folders hierarchy for templates is similar like the routes
-    // so to retain the same relative folders like css
+    // first fill a vector with proofs, because I need to filter and sort them
+    let mut proofs = proofs_crev_query(crate_name);
+    let before_sum_and_filter =
 #//---------------------- selection start ----------------------
-    let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
-    let html_template_raw = template_raw_from_file(&template_file_name);
+        duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
+
 #//----------------------- selection end -----------------------
 ```
 ## render_template_raw_to_nodes  
@@ -70,7 +70,7 @@ This default trait method for rendering has no special knowledge about the data.
     // region: the only true public method - default implementation code
     // endregion: default implementation
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    /// extract sub_templates and get root element Node.   
+    // / extract sub_templates and get root element Node.
 #//---------------------- selection start ----------------------
     fn render_template_raw_to_nodes(
 #//----------------------- selection end -----------------------
@@ -80,7 +80,7 @@ In the same trait we have specific functions that must be implemented for every 
 
 ##### step 5 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L66)
 ```rust
-    //plumbing between trait declaration and implementation
+    // plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
 #//---------------------- selection start ----------------------
     fn call_fn_string(&self, placeholder: &str) -> String;
@@ -101,7 +101,7 @@ The parent template is drained from subtemplates. Only a placeholder is retained
 ##### step 6 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L81)
 ```rust
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    /// extract sub_templates and get root element Node.   
+    // / extract sub_templates and get root element Node.
     fn render_template_raw_to_nodes(
         &self,
         html_template_raw: &str,
@@ -179,7 +179,7 @@ The new node we created will be filled in this method. This goes recursive.
                         // this tagname changes to html for children, not for this element
                         html_or_svg_local = HtmlOrSvg::Html;
                     }
-                    //recursion
+                    // recursion
 #//---------------------- selection start ----------------------
                     child_element = self.fill_element_node(
                         reader_for_microxml,
@@ -195,8 +195,8 @@ This is the recursive method. It accepts a newly created ElementNode and fills i
 
 ##### step 11 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L141)
 ```rust
-    /// Recursive function to fill the Element with attributes
-    /// and sub-nodes(Element, Text, Comment).  
+    // / Recursive function to fill the Element with attributes
+    // / and sub-nodes(Element, Text, Comment).
     #[allow(clippy::too_many_lines, clippy::type_complexity)]
 #//---------------------- selection start ----------------------
     fn fill_element_node(
@@ -214,18 +214,18 @@ The template's life starts as static content. The graphic designer can copy the 
 
 ##### step 12 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L28)
 ```html
-            <h3>query reviews from <a href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
-            <h3>crate: <a data-t-href="t_crate_link" href="https://crates.io/crates/num-traits" target="_blank"><!--t_crate_name-->num-traits</a></h3>
+            <div class="middle"><h2><a style="color:white" href="https://bestia.dev/cargo_crev_web" target="_blank">
+                    cargo_crev_web</a></h2></div>
+            <div class="middle right"><h3 >query reviews from <a style="color:white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3></div>
+        </div>
+            <div style="display: grid;grid-template-columns: 70% 15% 15%;">
+#//---------------------- selection start ----------------------
+                <div><h3 class="yellow">crate: <!--t_crate_name-->num-traits</h3></div>
+                <div class="right" ><a style="color:white" data-t-href="t_lib_rs_link" href="https://lib.rs/crates/num-traits" target="_blank">lib.rs</a></div>
+                <div class="right"><a style="color:white" data-t-href="t_crates_io_link" href="https://crates.io/crates/num-traits" target="_blank">crates.io</a></div>
+            </div>
         </div>
         <div class="crate_summary">
-            <div class="crate_summary_cell bold"></div>
-#//---------------------- selection start ----------------------
-            <div class="crate_summary_cell bold" title="reviews count">c</div>
-            <div class="crate_summary_cell bold greener" title="rating strong">S
-            </div>
-            <div class="crate_summary_cell bold green " title="rating positive">
-                P</div>
-            <div class="crate_summary_cell bold" title="rating neutral">E</div>
 #//----------------------- selection end -----------------------
 ```
 ## dynamic content
@@ -234,18 +234,18 @@ Once the graphic design is ready, we need to add placeholders for dynamic data. 
 
 ##### step 13 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L42)
 ```html
+            <div class="crate_summary_cell bold" title="reviews count">c</div>
+            <div class="crate_summary_cell bold greener" title="rating strong">S
+            </div>
+            <div class="crate_summary_cell bold green " title="rating positive">
+                P</div>
+            <div class="crate_summary_cell bold" title="rating neutral">E</div>
+            <div class="crate_summary_cell bold red" title="rating negative">N
             </div>
             <div class="crate_summary_cell"></div>
-            <div class="crate_summary_cell yellow" title="alternatives">a</div>
-            <div class="crate_summary_cell orange" title="issues">i</div>
-            <div class="crate_summary_cell red" title="advisories">a</div>
-            <div class="crate_summary_cell" title="thoroughness">t</div>
-            <div class="crate_summary_cell" title="understanding">u</div>
-
-            <div class="crate_summary_cell bold">crate</div>
-            <div class="crate_summary_cell bold" title="reviews count">
+            <div class="crate_summary_cell yellow" title="alternatives">v</div>
 #//---------------------- selection start ----------------------
-                <!--t_crate_review_number-->7</div>
+            <div class="crate_summary_cell orange" title="issues">i</div>
 #//----------------------- selection end -----------------------
 ```
 ## replace text  
@@ -254,18 +254,18 @@ To replace it with dynamic data, we add before it a comment with the special syn
 
 ##### step 14 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L48)
 ```html
-            <div class="crate_summary_cell bold">crate</div>
-            <div class="crate_summary_cell bold" title="reviews count">
-                <!--t_crate_review_number-->7</div>
-            <div class="crate_summary_cell bold greener" title="rating strong">
-                <!--t_crate_rating_strong-->2</div>
-            <div class="crate_summary_cell bold green " title="rating positive">
-                <!--t_crate_rating_positive-->3</div>
-            <div class="crate_summary_cell bold" title="rating neutral">
-                <!--t_crate_rating_neutral-->2</div>
-            <div class="crate_summary_cell bold red" title="rating negative">
+            <div class="crate_summary_cell"></div>
+            <div class="crate_summary_cell yellow" title="alternatives">v</div>
+            <div class="crate_summary_cell orange" title="issues">i</div>
+            <div class="crate_summary_cell red" title="advisories">a</div>
+            <div class="crate_summary_cell" title="thoroughness">t</div>
+            <div class="crate_summary_cell" title="understanding">u</div>
+
+            <div class="crate_summary_cell bold"><a data-t-href="t_filter_crate" href="">crate</a></div>
+            <div class="crate_summary_cell bold" title="reviews count"><a data-t-href="t_filter_crate" href="">
+                <!--t_crate_review_number-->7</a></div>
 #//---------------------- selection start ----------------------
-                <!--t_crate_rating_negative-->1</div>
+            <div class="crate_summary_cell bold greener" title="rating strong"><a data-t-href="t_filter_strong" href="">
 #//----------------------- selection end -----------------------
 ```
 ## text placeholder
@@ -293,18 +293,18 @@ Every placeholder has code that returns dynamic data as a string. This method is
 
 ##### step 16 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/all_summary_mod.rs#L146)
 ```rust
+    // / html_templating functions that return a String
+    #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
+#//---------------------- selection start ----------------------
     fn call_fn_string(&self, placeholder: &str) -> String {
         // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
-#//---------------------- selection start ----------------------
         match placeholder {
             "t_crate_name" => self.crate_name.to_string(),
-            "t_crate_link" => format!("https://crates.io/crates/{}", self.crate_name),
-            "t_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
-            "t_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
+            "t_crates_io_link" => format!("https://crates.io/crates/{}", self.crate_name),
 #//----------------------- selection end -----------------------
 ```
 ## next TextNode
@@ -352,18 +352,18 @@ It leaves or removes the next node completely.
 
 ##### step 19 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L105)
 ```html
-            <div class="review_header_cell green bold" title="rating">
+    </div>
+    <!--template_all_summaries end-->
+    <!--template_review_proof start-->
+    <div class="review_container">
+        <div class="review_header">
+            <div class="review_header_cell">
+                <!--t_crate_name_version-->num-traits 0.2.11</div>
+            <div data-t-class="t_rating_class_color" class="review_header_cell green bold" title="rating">
                 <!--t_review_rating-->positive</div>
             <div class="review_header_cell">
-                <!--t_review_date-->2020-01-18</div>
-            <div class="review_header_cell white">
-                <a target="_blank" data-t-href="t_review_author_link" href="https://github.com/niklasf/crev-proofs">
-                    <!--t_review_author-->author_name</a></div>
-            <div class="review_header_cell" title="thoroughness understanding">
-                <!--t_crate_thoroughness_understanding-->none high</div>
-        </div>
 #//---------------------- selection start ----------------------
-        <!--b_has_alternatives-->
+                <!--t_review_date-->2020-01-18</div>
 #//----------------------- selection end -----------------------
 ```
 ## boolean
@@ -393,7 +393,7 @@ If it is false, then we don't render the next node. Just jump over it.
 ##### step 21 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L183)
 ```rust
                     }
-                    //recursion
+                    // recursion
                     child_element = self.fill_element_node(
                         reader_for_microxml,
                         child_element,
@@ -411,11 +411,11 @@ The implemented method returns true or false for the placeholder according to th
 
 ##### step 22 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/proof_mod.rs#L125)
 ```rust
-    //return
+    // return
     author
 }
 impl HtmlTemplating for Proof {
-    /// html_templating boolean id the next node is rendered or not
+    // / html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
 #//---------------------- selection start ----------------------

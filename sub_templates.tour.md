@@ -9,13 +9,13 @@ A sub-template is needed when the data is from a different data model or when is
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>crev_query</title>
     <meta name="Description" content="web app for querying reviews from cargo-crev" />
-    <link rel="stylesheet" href="/cargo_crev_web/css/cargo_crev_web.css" />
+    <link rel="stylesheet" data-t-href="t_css_href"  href="../css/cargo_crev_web.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
+    <link rel="shortcut icon" type="image/x-icon" data-t-href="t_favicon_href" href="../favicon.png" />
 </head>
 
-<body>
 #//---------------------- selection start ----------------------
-    <!--template_all_summaries start-->
+<body>
 #//----------------------- selection end -----------------------
 ```
 ## extract sub-template
@@ -24,7 +24,7 @@ Only one level deep, only the children. Then recursively the chldren will extrac
 ##### step 2 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L81)
 ```rust
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    /// extract sub_templates and get root element Node.   
+    // / extract sub_templates and get root element Node.
     fn render_template_raw_to_nodes(
         &self,
         html_template_raw: &str,
@@ -63,18 +63,18 @@ Find it in the sub_templates vector. If the data is a vector, then render_templa
 ##### step 4 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/all_summary_mod.rs#L219)
 ```rust
 #//---------------------- selection start ----------------------
+    // / html_templating for sub-template
+    #[allow(clippy::needless_return)]
+    fn render_sub_template(
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<Node> {
+        // eprintln!("{}",&format!("&sub_templates.len(): {}", &sub_templates.len()));
+
+        match template_name {
             "template_summary_version" => {
                 let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
-                let mut nodes = vec![];
-                for version_summary in &self.version_summaries {
-                    let vec_node = unwrap!(version_summary
-                        .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html,));
-                    nodes.extend_from_slice(&vec_node);
-                }
-                //return
-                nodes
 #//----------------------- selection end -----------------------
 ```
 ## render
@@ -87,7 +87,7 @@ The render method is the same for templates and sub-templates.
     // region: the only true public method - default implementation code
     // endregion: default implementation
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    /// extract sub_templates and get root element Node.   
+    // / extract sub_templates and get root element Node.
 #//---------------------- selection start ----------------------
     fn render_template_raw_to_nodes(
         &self,
