@@ -69,7 +69,7 @@ pub trait HtmlTemplating {
     // region: the only true public method - default implementation code
     // endregion: default implementation
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    // / extract sub_templates and get root element Node.   
+    // / extract sub_templates and get root element Node.
     fn render_template_raw_to_nodes(
         &self,
         html_template_raw: &str,
@@ -129,7 +129,7 @@ pub trait HtmlTemplating {
     }
 
     // / Recursive function to fill the Element with attributes
-    // / and sub-nodes(Element, Text, Comment).  
+    // / and sub-nodes(Element, Text, Comment).
     #[allow(clippy::too_many_lines, clippy::type_complexity)]
     fn fill_element_node(
         &self,
@@ -283,11 +283,11 @@ pub trait HtmlTemplating {
                 }
             }
         }
-        // / private fn - decode 5 xml control characters : " ' & < >  
+        // / private fn - decode 5 xml control characters : " ' & < >
         // / https://www.liquid-technologies.com/XML/EscapingData.aspx
         // / I will ignore all html entities, to keep things simple,
         // / because all others characters can be written as utf-8 characters.
-        // / https://www.tutorialspoint.com/html5/html5_entities.htm  
+        // / https://www.tutorialspoint.com/html5/html5_entities.htm
         fn decode_5_xml_control_characters(input: &str) -> String {
             // The standard library replace() function makes allocation,
             // but is probably fast enough for my use case.

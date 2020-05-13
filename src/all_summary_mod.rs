@@ -23,7 +23,7 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
         crate_name: crate_name.to_string(),
         version_summaries: vec![],
         crate_summary: VersionSummary {
-            crate_name:crate_name.to_string(),
+            crate_name: crate_name.to_string(),
             version: String::new(),
             version_for_sorting: String::new(),
             review_number: 0,
@@ -51,7 +51,7 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
         if option_version.is_none() {
             // new element
             let mut version_to_push = VersionSummary::new();
-            version_to_push.crate_name= crate_name.to_string();
+            version_to_push.crate_name = crate_name.to_string();
             version_to_push.version = proof.package.version.to_string();
             version_to_push.version_for_sorting =
                 unwrap!(proof.package.version_for_sorting.clone()).to_string();
@@ -162,22 +162,12 @@ impl HtmlTemplating for AllSummaries {
 
             "t_filter_crate" => format!("/cargo_crev_web/query/{}", self.crate_name),
             "t_filter_strong" => format!("/cargo_crev_web/query/{}/crate/S", self.crate_name),
-            "t_filter_positive" => {
-                format!("/cargo_crev_web/query/{}/crate/P", self.crate_name)
-            }
-            "t_filter_neutral" => {
-                format!("/cargo_crev_web/query/{}/crate/E", self.crate_name)
-            }
-            "t_filter_negative" => {
-                format!("/cargo_crev_web/query/{}/crate/N", self.crate_name)
-            }
-            "t_filter_alternatives" => {
-                format!("/cargo_crev_web/query/{}/crate/v", self.crate_name)
-            }
+            "t_filter_positive" => format!("/cargo_crev_web/query/{}/crate/P", self.crate_name),
+            "t_filter_neutral" => format!("/cargo_crev_web/query/{}/crate/E", self.crate_name),
+            "t_filter_negative" => format!("/cargo_crev_web/query/{}/crate/N", self.crate_name),
+            "t_filter_alternatives" => format!("/cargo_crev_web/query/{}/crate/v", self.crate_name),
             "t_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
-            "t_filter_advisories" => {
-                format!("/cargo_crev_web/query/{}/crate/a", self.crate_name)
-            }
+            "t_filter_advisories" => format!("/cargo_crev_web/query/{}/crate/a", self.crate_name),
 
             _ => {
                 let err_msg = format!(

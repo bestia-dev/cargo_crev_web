@@ -10,7 +10,7 @@ use html_template_mod::*;
 
 #[derive(Clone, Debug)]
 pub struct VersionSummary {
-    pub crate_name:String,
+    pub crate_name: String,
     pub version: String,
     pub version_for_sorting: String,
     pub review_number: usize,
@@ -81,24 +81,37 @@ impl HtmlTemplating for VersionSummary {
             "t_thoroughness" => to_string_zero_to_empty(self.thoroughness),
             "t_understanding" => to_string_zero_to_empty(self.understanding),
 
-            "t_filter_version" => format!("/cargo_crev_web/query/{}/{}", self.crate_name, self.version),
-            "t_filter_strong" => format!("/cargo_crev_web/query/{}/{}/S", self.crate_name, self.version),
-            "t_filter_positive" => {
-                format!("/cargo_crev_web/query/{}/{}/P", self.crate_name, self.version)
+            "t_filter_version" => {
+                format!("/cargo_crev_web/query/{}/{}", self.crate_name, self.version)
             }
-            "t_filter_neutral" => {
-                format!("/cargo_crev_web/query/{}/{}/E", self.crate_name, self.version)
-            }
-            "t_filter_negative" => {
-                format!("/cargo_crev_web/query/{}/{}/N", self.crate_name, self.version)
-            }
-            "t_filter_alternatives" => {
-                format!("/cargo_crev_web/query/{}/{}/v", self.crate_name, self.version)
-            }
-            "t_filter_issues" => format!("/cargo_crev_web/query/{}/{}/i", self.crate_name, self.version),
-            "t_filter_advisories" => {
-                format!("/cargo_crev_web/query/{}/{}/a", self.crate_name, self.version)
-            }
+            "t_filter_strong" => format!(
+                "/cargo_crev_web/query/{}/{}/S",
+                self.crate_name, self.version
+            ),
+            "t_filter_positive" => format!(
+                "/cargo_crev_web/query/{}/{}/P",
+                self.crate_name, self.version
+            ),
+            "t_filter_neutral" => format!(
+                "/cargo_crev_web/query/{}/{}/E",
+                self.crate_name, self.version
+            ),
+            "t_filter_negative" => format!(
+                "/cargo_crev_web/query/{}/{}/N",
+                self.crate_name, self.version
+            ),
+            "t_filter_alternatives" => format!(
+                "/cargo_crev_web/query/{}/{}/v",
+                self.crate_name, self.version
+            ),
+            "t_filter_issues" => format!(
+                "/cargo_crev_web/query/{}/{}/i",
+                self.crate_name, self.version
+            ),
+            "t_filter_advisories" => format!(
+                "/cargo_crev_web/query/{}/{}/a",
+                self.crate_name, self.version
+            ),
             _ => {
                 let err_msg = format!(
                     "Unrecognized version_summary_mod call_fn_string: \"{}\"",

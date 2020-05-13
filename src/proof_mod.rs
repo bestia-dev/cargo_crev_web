@@ -151,12 +151,14 @@ impl HtmlTemplating for Proof {
                     "".to_string()
                 }
             }
-            "t_rating_class_color"=> format!("review_header_cell {} bold",color_from_rating( 
-                if let Some(review) = &self.review {
-                Some(&review.rating)
-            } else {
-                None
-            })),
+            "t_rating_class_color" => format!(
+                "review_header_cell {} bold",
+                color_from_rating(if let Some(review) = &self.review {
+                    Some(&review.rating)
+                } else {
+                    None
+                })
+            ),
             "t_review_date" => self.date[..10].to_string(),
             "t_review_author" => {
                 // naive method to extract author
@@ -340,16 +342,15 @@ impl HtmlTemplating for Proof {
     }
 }
 
-pub fn color_from_rating(rating: Option<&Rating>)->String{
+pub fn color_from_rating(rating: Option<&Rating>) -> String {
     if let Some(rating) = rating {
-        match rating{
-            Rating::Strong=>"greener".to_string(),
-            Rating::Positive=>"green".to_string(),
-            Rating::Neutral=>"".to_string(),
-            Rating::Negative=>"red".to_string(),
+        match rating {
+            Rating::Strong => "greener".to_string(),
+            Rating::Positive => "green".to_string(),
+            Rating::Neutral => "".to_string(),
+            Rating::Negative => "red".to_string(),
         }
     } else {
         "".to_string()
     }
-
 }

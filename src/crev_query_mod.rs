@@ -1,6 +1,7 @@
 //! crev_query_mod
 
 use crate::all_summary_mod::AllSummaries;
+use crate::duration_mod;
 use crate::html_template_mod::*;
 use crate::proof_mod::*;
 use crate::*;
@@ -8,8 +9,6 @@ use chrono::Local;
 use dirs;
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
-use crate::duration_mod;
-
 
 pub struct CrevQueryData {
     pub all_summaries: AllSummaries,
@@ -26,15 +25,16 @@ pub fn html_for_crev_query(
     eprintln!(
         "{}: crate_name: '{}', version '{}', kind '{}'",
         &Local::now().format("%Y-%m-%d %H:%M:%S"),
-        Green.paint( crate_name),
+        Green.paint(crate_name),
         Green.paint(version),
         Green.paint(kind)
     );
 
     // first fill a vector with proofs, because I need to filter and sort them
     let mut proofs = proofs_crev_query(crate_name);
-    let before_sum_and_filter = duration_mod::eprint_duration_ns("  after proofs_crev_query()",start);
- 
+    let before_sum_and_filter =
+        duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
+
     // the summary is always from all proofs. We must filter the proofs later.
     let all_summaries = all_summary_mod::calculate_all_summary_for_proofs(crate_name, &proofs);
     filter_proofs(&mut proofs, version, kind);
@@ -43,7 +43,7 @@ pub fn html_for_crev_query(
         proofs,
         all_summaries,
     };
-    let before_render = duration_mod::eprint_duration_ns("  sum_and_filter",before_sum_and_filter);
+    let before_render = duration_mod::eprint_duration_ns("  sum_and_filter", before_sum_and_filter);
     // now I have the data and I render the html from the template
     // the folders hierarchy for templates is similar like the routes
     // so to retain the same relative folders like css
@@ -59,8 +59,8 @@ pub fn html_for_crev_query(
         }
         _=>eprintln!("Error: crev_query_data.render_template_raw_to_nodes does not return one ElementNode.{}","")
     }
-    duration_mod::eprint_duration_ns("  render",before_render);
-    duration_mod::eprint_duration_ns("html_for_crev_query()",start);
+    duration_mod::eprint_duration_ns("  render", before_render);
+    duration_mod::eprint_duration_ns("html_for_crev_query()", start);
     // return
     html
 }
@@ -70,7 +70,6 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
     // first fill a vector with proofs, because I need to filter and sort them
     let mut proofs = vec![];
     // this part can be cached: last 10 queried crates
-
 
     // original cache crev folder: /home/luciano/.cache/crev/remotes
     // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes

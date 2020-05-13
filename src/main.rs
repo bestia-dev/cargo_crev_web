@@ -204,19 +204,19 @@
 mod all_summary_mod;
 mod crev_query_mod;
 mod crev_query_templating_mod;
+mod duration_mod;
 mod html_template_mod;
 mod issue_mod;
 mod proof_mod;
 mod utils_mod;
 mod version_summary_mod;
-mod duration_mod;
 
 use clap::App;
 use env_logger::Env;
 //use futures::{sync::mpsc, Future, Stream};
-use log::info;
 #[allow(unused_imports)]
-use ansi_term::Colour::{Red,Green,Yellow,Blue};
+use ansi_term::Colour::{Blue, Green, Red, Yellow};
+use log::info;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 //use unwrap::unwrap;
 use warp::Filter;
