@@ -13,7 +13,7 @@ pub struct Issue {
 }
 
 impl HtmlTemplating for Issue {
-    /// html_templating boolean id the next node is rendered or not
+    // / html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
@@ -27,7 +27,7 @@ impl HtmlTemplating for Issue {
         }
     }
 
-    /// html_templating functions that return a String
+    // / html_templating functions that return a String
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -49,7 +49,7 @@ impl HtmlTemplating for Issue {
             }
         }
     }
-    /// html_templating functions that return a vector of Nodes
+    // / html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
@@ -75,7 +75,7 @@ impl HtmlTemplating for Issue {
             }
         }
     }
-    /// html_templating for sub-template
+    // / html_templating for sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,

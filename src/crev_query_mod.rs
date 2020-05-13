@@ -8,28 +8,42 @@ use chrono::Local;
 use dirs;
 use std::{fs, io, path::Path};
 use unwrap::unwrap;
+use crate::duration_mod;
+
 
 pub struct CrevQueryData {
     pub all_summaries: AllSummaries,
     pub proofs: Vec<Proof>,
 }
 /// crev query returns html
-pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> String {
+pub fn html_for_crev_query(
+    templates_folder_name: &str,
+    crate_name: &str,
+    version: &str,
+    kind: &str,
+) -> String {
+    let start = duration_mod::start_ns();
     eprintln!(
-        "{}: crate_name: {}",
+        "{}: crate_name: '{}', version '{}', kind '{}'",
         &Local::now().format("%Y-%m-%d %H:%M:%S"),
-        crate_name
+        Green.paint( crate_name),
+        Green.paint(version),
+        Green.paint(kind)
     );
 
-    //first fill a vector with proofs, because I need to filter and sort them
-    let proofs = proofs_crev_query(crate_name);
+    // first fill a vector with proofs, because I need to filter and sort them
+    let mut proofs = proofs_crev_query(crate_name);
+    let before_sum_and_filter = duration_mod::eprint_duration_ns("  after proofs_crev_query()",start);
+ 
+    // the summary is always from all proofs. We must filter the proofs later.
     let all_summaries = all_summary_mod::calculate_all_summary_for_proofs(crate_name, &proofs);
+    filter_proofs(&mut proofs, version, kind);
     // put all data needed for this template in one place
     let crev_query_data = CrevQueryData {
         proofs,
         all_summaries,
     };
-
+    let before_render = duration_mod::eprint_duration_ns("  sum_and_filter",before_sum_and_filter);
     // now I have the data and I render the html from the template
     // the folders hierarchy for templates is similar like the routes
     // so to retain the same relative folders like css
@@ -37,7 +51,7 @@ pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> Str
     let html_template_raw = template_raw_from_file(&template_file_name);
     let nodes =
         unwrap!(crev_query_data.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html,));
-    //because this is the root template it must return one ElementNode
+    // because this is the root template it must return one ElementNode
     let mut html = "".to_string();
     match &nodes[0].node_enum{
         NodeEnum::Element(temp_element_node)=>{
@@ -45,28 +59,33 @@ pub fn html_for_crev_query(templates_folder_name: &str, crate_name: &str) -> Str
         }
         _=>eprintln!("Error: crev_query_data.render_template_raw_to_nodes does not return one ElementNode.{}","")
     }
-    //return
+    duration_mod::eprint_duration_ns("  render",before_render);
+    duration_mod::eprint_duration_ns("html_for_crev_query()",start);
+    // return
     html
 }
 
 /// crev query returns html
 fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
-    //first fill a vector with proofs, because I need to filter and sort them
+    // first fill a vector with proofs, because I need to filter and sort them
     let mut proofs = vec![];
+    // this part can be cached: last 10 queried crates
+
+
     // original cache crev folder: /home/luciano/.cache/crev/remotes
     // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
     // local webfolder example "crev/cache/crev/remotes"
     let path = unwrap!(dirs::home_dir());
     let path = path.join(".cache/crev/remotes");
-    eprintln!("path: {}", path.display());
-    let mut count_files = 0;
+    // eprintln!("path: {}", path.display());
+    // let mut count_files = 0;
     for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
         &path,
         "/*.crev",
         // avoid big folders and other folders with *.crev
         &vec!["/.git".to_string(), "/trust".to_string()]
     )) {
-        count_files += 1;
+        //count_files += 1;
         // eprintln!("filename_crev: {}", filename_crev);
         // for filename_result in unwrap!(glob("/proofs/*.crev")) {
         // read crev file
@@ -77,7 +96,7 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut proofs, &crate_name, filename_crev);
+                    push_proof(proof_string, &mut proofs, &crate_name);
                 }
             }
         }
@@ -88,33 +107,65 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut proofs, &crate_name, filename_crev);
+                    push_proof(proof_string, &mut proofs, &crate_name);
                 }
             }
         }
     }
-    eprintln!("files queried: {}", count_files);
-    //sort first by version desc, but semver version and then by date
+    // eprintln!("files queried: {}", count_files);
+    // sort first by version desc, but semver version and then by date
     proofs.sort_by(|a, b| {
         b.package
             .version_for_sorting
             .cmp(&a.package.version_for_sorting)
     });
-    //return
+    // return
     proofs
+}
+
+fn filter_proofs(proofs: &mut Vec<Proof>, version: &str, kind: &str) {
+    if !version.is_empty() && version != "crate" {
+        proofs.retain(|x| x.package.version == version);
+    }
+    if !kind.is_empty() && kind != "c" {
+        // strong
+        if kind == "S" {
+            proofs.retain(|x| {
+                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Strong
+            });
+        } else if kind == "P" {
+            proofs.retain(|x| {
+                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Positive
+            });
+        } else if kind == "E" {
+            proofs.retain(|x| {
+                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Neutral
+            });
+        } else if kind == "N" {
+            proofs.retain(|x| {
+                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Negative
+            });
+        } else if kind == "v" {
+            proofs.retain(|x| x.alternatives.is_some());
+        } else if kind == "i" {
+            proofs.retain(|x| x.issues.is_some());
+        } else if kind == "a" {
+            proofs.retain(|x| x.advisories.is_some() || x.advisory.is_some());
+        }
+    }
 }
 
 /// parse semver ex. 12.99.88alpha
 fn parse_semver(text: &str) -> (usize, usize, usize) {
     let pos = 0;
     let (major, pos) = parse_next_number(&text, pos);
-    //jump over dot
+    // jump over dot
     let pos = pos + 1;
     let (minor, pos) = parse_next_number(&text, pos);
-    //jump over dot
+    // jump over dot
     let pos = pos + 1;
     let (patch, _pos) = parse_next_number(&text, pos);
-    //return
+    // return
     (major, minor, patch)
 }
 /// parse next characters until is numeric or end
@@ -131,7 +182,7 @@ fn parse_next_number(text: &str, pos: usize) -> (usize, usize) {
         one_char = text[pos..pos + 1].chars().next().unwrap();
     }
     let number: usize = unwrap!(number.parse());
-    //return
+    // return
     (number, pos)
 }
 
@@ -173,12 +224,12 @@ fn traverse_dir_with_exclude_dir(
     Ok(v)
 }
 
-fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str, _filename_crev: &str) {
+fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str) {
     let mut proof: Proof = unwrap!(serde_yaml::from_str(proof_string));
-    //filter: only one crate_name
+    // filter: only one crate_name
     if &proof.package.name == crate_name {
         // proofs without review are not important
-        //version for sorting
+        // version for sorting
         let (major, minor, patch) = parse_semver(&proof.package.version);
         proof.package.version_for_sorting = Some(format!(
             "{:09}.{:09}.{:09}-{}",

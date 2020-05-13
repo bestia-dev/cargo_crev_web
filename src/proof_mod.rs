@@ -111,11 +111,11 @@ pub fn get_author(proof: &Proof) -> String {
         .url
         .replace("https://github.com/", "")
         .replace("/crev-proofs", "");
-    //return
+    // return
     author
 }
 impl HtmlTemplating for Proof {
-    /// html_templating boolean id the next node is rendered or not
+    // / html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
@@ -134,7 +134,7 @@ impl HtmlTemplating for Proof {
         }
     }
 
-    /// html_templating functions that return a String
+    // / html_templating functions that return a String
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -151,6 +151,12 @@ impl HtmlTemplating for Proof {
                     "".to_string()
                 }
             }
+            "t_rating_class_color"=> format!("review_header_cell {} bold",color_from_rating( 
+                if let Some(review) = &self.review {
+                Some(&review.rating)
+            } else {
+                None
+            })),
             "t_review_date" => self.date[..10].to_string(),
             "t_review_author" => {
                 // naive method to extract author
@@ -259,7 +265,7 @@ impl HtmlTemplating for Proof {
             }
         }
     }
-    /// html_templating functions that return a vector of Nodes
+    // / html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
@@ -285,7 +291,7 @@ impl HtmlTemplating for Proof {
             }
         }
     }
-    /// html_templating for sub-template
+    // / html_templating for sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,
@@ -295,7 +301,7 @@ impl HtmlTemplating for Proof {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             "template_issues" => {
-                eprintln!("template_issues: {}", "");
+                // eprintln!("template_issues: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));
@@ -308,7 +314,7 @@ impl HtmlTemplating for Proof {
                         nodes.extend_from_slice(&vec_node);
                     }
                 }
-                //return
+                // return
                 nodes
             }
             _ => {
@@ -332,4 +338,18 @@ impl HtmlTemplating for Proof {
             }
         }
     }
+}
+
+pub fn color_from_rating(rating: Option<&Rating>)->String{
+    if let Some(rating) = rating {
+        match rating{
+            Rating::Strong=>"greener".to_string(),
+            Rating::Positive=>"green".to_string(),
+            Rating::Neutral=>"".to_string(),
+            Rating::Negative=>"red".to_string(),
+        }
+    } else {
+        "".to_string()
+    }
+
 }

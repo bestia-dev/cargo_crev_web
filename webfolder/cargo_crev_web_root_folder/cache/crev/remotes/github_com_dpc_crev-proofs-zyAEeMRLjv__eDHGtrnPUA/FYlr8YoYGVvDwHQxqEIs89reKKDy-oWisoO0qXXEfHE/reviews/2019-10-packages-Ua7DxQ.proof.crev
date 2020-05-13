@@ -543,9 +543,9 @@ comment: |
   
   
   ```
-      /// Rather than exposing a custom error type through results, this library has opted
-      /// for representing potential connection/TLS/etc errors as HTTP response codes.
-      /// These invented codes are called "synthetic".
+      // / Rather than exposing a custom error type through results, this library has opted
+      // / for representing potential connection/TLS/etc errors as HTTP response codes.
+      // / These invented codes are called "synthetic".
   ```
   
   I don't know how I feel about this. Seems like a bad idea. :D . It will lead to confusion during debugging eg. by people who don't know about this "feature" (eg. DevOps that will be reading logs of software that is using this library). They will see "error: 535", and wonder how the hell this code happened.

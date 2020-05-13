@@ -14,11 +14,11 @@ pub struct Node {
 }
 #[derive(Clone, Debug)]
 pub enum NodeEnum {
-    /// A text node.
+    // / A text node.
     Text(String),
-    /// An element potentially with attributes and children.
+    // / An element potentially with attributes and children.
     Element(ElementNode),
-    /// comment
+    // / comment
     Comment(String),
 }
 #[derive(Clone, Debug)]
@@ -37,9 +37,9 @@ pub struct Attribute {
 /// Svg elements are different because they have a namespace
 #[derive(Clone, Copy)]
 pub enum HtmlOrSvg {
-    /// html element
+    // / html element
     Html,
-    /// svg element
+    // / svg element
     Svg,
 }
 
@@ -53,7 +53,7 @@ pub struct SubTemplate {
 pub trait HtmlTemplating {
     // region: methods to be implemented for a specific project
     // these are not really public methods. They are used only as
-    //plumbing between trait declaration and implementation
+    // plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
     fn call_fn_string(&self, placeholder: &str) -> String;
     fn call_fn_boolean(&self, placeholder: &str) -> bool;
@@ -69,7 +69,7 @@ pub trait HtmlTemplating {
     // region: the only true public method - default implementation code
     // endregion: default implementation
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    /// extract sub_templates and get root element Node.   
+    // / extract sub_templates and get root element Node.   
     fn render_template_raw_to_nodes(
         &self,
         html_template_raw: &str,
@@ -128,8 +128,8 @@ pub trait HtmlTemplating {
         Ok(root_element.children)
     }
 
-    /// Recursive function to fill the Element with attributes
-    /// and sub-nodes(Element, Text, Comment).  
+    // / Recursive function to fill the Element with attributes
+    // / and sub-nodes(Element, Text, Comment).  
     #[allow(clippy::too_many_lines, clippy::type_complexity)]
     fn fill_element_node(
         &self,
@@ -171,7 +171,7 @@ pub trait HtmlTemplating {
                         // this tagname changes to html for children, not for this element
                         html_or_svg_local = HtmlOrSvg::Html;
                     }
-                    //recursion
+                    // recursion
                     child_element = self.fill_element_node(
                         reader_for_microxml,
                         child_element,
@@ -283,14 +283,14 @@ pub trait HtmlTemplating {
                 }
             }
         }
-        /// private fn - decode 5 xml control characters : " ' & < >  
-        /// https://www.liquid-technologies.com/XML/EscapingData.aspx
-        /// I will ignore all html entities, to keep things simple,
-        /// because all others characters can be written as utf-8 characters.
-        /// https://www.tutorialspoint.com/html5/html5_entities.htm  
+        // / private fn - decode 5 xml control characters : " ' & < >  
+        // / https://www.liquid-technologies.com/XML/EscapingData.aspx
+        // / I will ignore all html entities, to keep things simple,
+        // / because all others characters can be written as utf-8 characters.
+        // / https://www.tutorialspoint.com/html5/html5_entities.htm  
         fn decode_5_xml_control_characters(input: &str) -> String {
             // The standard library replace() function makes allocation,
-            //but is probably fast enough for my use case.
+            // but is probably fast enough for my use case.
             input
                 .replace("&quot;", "\"")
                 .replace("&apos;", "'")
@@ -300,7 +300,7 @@ pub trait HtmlTemplating {
         }
     }
 
-    /// extract and saves sub_templates only one level deep, children
+    // / extract and saves sub_templates only one level deep, children
     fn extract_children_sub_templates(template_raw: &str) -> Vec<SubTemplate> {
         // drain sub-template from main template and save into vector
         // the sub_templates[0] is the main_template
@@ -336,7 +336,7 @@ pub trait HtmlTemplating {
                         // same sub-template only for visual effect while editing.
                         if sub_template_name == "template_not_for_render" {
                             // eprintln!("template_not_for_render {} {}",pos_start, pos_end_after_tag);
-                            //remove all the template
+                            // remove all the template
                             sub_templates[0]
                                 .template
                                 .drain(pos_start..pos_end_after_tag);
@@ -370,7 +370,7 @@ pub trait HtmlTemplating {
             }
         }
         // eprintln!("sub_templates.len(): {}", sub_templates.len());
-        //return
+        // return
         sub_templates
     }
     // endregion: template and sub-templates
@@ -385,13 +385,13 @@ pub fn template_raw_from_file(file_name: &str) -> String {
     // I will add <!DOCTYPE html> when the rendering ends.
     let pos_html = unwrap!(template_raw.find("<html"));
     template_raw.drain(..pos_html);
-    //return
+    // return
     template_raw
 }
 /// default implementation - render template to string
 pub fn element_node_to_string(element_node: &ElementNode) -> Result<String, String> {
     // region: private fn
-    /// sub element to html
+    // / sub element to html
     fn element_node_to_html(html: &mut String, element_node: &ElementNode) {
         html.push_str("<");
         html.push_str(&element_node.tag_name);
@@ -406,14 +406,14 @@ pub fn element_node_to_string(element_node: &ElementNode) -> Result<String, Stri
         for sub_elem in &element_node.children {
             match &sub_elem.node_enum {
                 NodeEnum::Element(sub_element) => {
-                    //recursion
+                    // recursion
                     element_node_to_html(html, sub_element);
                 }
                 NodeEnum::Text(text) => html.push_str(&text),
                 NodeEnum::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
             }
         }
-        //end tag
+        // end tag
         html.push_str("</");
         html.push_str(&element_node.tag_name);
         html.push_str(">");
@@ -421,7 +421,7 @@ pub fn element_node_to_string(element_node: &ElementNode) -> Result<String, Stri
     // region: private fn
     let mut html = String::with_capacity(5000);
     element_node_to_html(&mut html, element_node);
-    //return
+    // return
     Ok(html)
 }
 // region: utility fn only for the root template

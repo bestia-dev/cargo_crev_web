@@ -53,14 +53,13 @@ table, caption, tbody, tfoot, thead, tr, th, td {
  background: transparent;
 }
 
-
 a:link, a:visited {
-  color: white;
+  color:inherit;
   text-decoration: none;
 }
 
 a:hover, a:active {
-  color: white;
+  color:inherit;
   text-decoration: none;
 }
 
@@ -77,6 +76,7 @@ a:hover, a:active {
   display: grid;
   grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;
 }
+
 .crate_summary_cell {
   background-color: #181A1F;
   padding: 0px;
@@ -151,7 +151,8 @@ a:hover, a:active {
 }
 
 .white {
-  color: #D6D8DA;
+  /*#color: #D6D8DA;*/
+  color:white;
 }
 .greener {
   color: #2CBE4E;
@@ -167,4 +168,13 @@ color:yellow;
 }
 .red{
   color:red;
+}
+
+div.middle{
+    display: grid;
+    align-items: center;
+}
+
+div.right{
+ text-align: right;
 }

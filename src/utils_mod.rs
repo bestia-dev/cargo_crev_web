@@ -23,7 +23,7 @@ pub fn find_pos_before_delimiter(
     if let Some(pos_end_data) = find_from(md_text_content, pos, delimiter) {
         return Some(pos_end_data);
     }
-    //return
+    // return
     None
 }
 

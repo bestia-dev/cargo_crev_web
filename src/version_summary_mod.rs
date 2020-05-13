@@ -10,6 +10,7 @@ use html_template_mod::*;
 
 #[derive(Clone, Debug)]
 pub struct VersionSummary {
+    pub crate_name:String,
     pub version: String,
     pub version_for_sorting: String,
     pub review_number: usize,
@@ -27,6 +28,7 @@ pub struct VersionSummary {
 impl VersionSummary {
     pub fn new() -> Self {
         VersionSummary {
+            crate_name: "".to_string(),
             version: "".to_string(),
             version_for_sorting: "".to_string(),
             review_number: 0,
@@ -44,7 +46,7 @@ impl VersionSummary {
 }
 
 impl HtmlTemplating for VersionSummary {
-    /// html_templating boolean id the next node is rendered or not
+    // / html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
@@ -58,7 +60,7 @@ impl HtmlTemplating for VersionSummary {
         }
     }
 
-    /// html_templating functions that return a String
+    // / html_templating functions that return a String
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -78,6 +80,25 @@ impl HtmlTemplating for VersionSummary {
             "t_advisories" => to_string_zero_to_empty(self.advisories),
             "t_thoroughness" => to_string_zero_to_empty(self.thoroughness),
             "t_understanding" => to_string_zero_to_empty(self.understanding),
+
+            "t_filter_version" => format!("/cargo_crev_web/query/{}/{}", self.crate_name, self.version),
+            "t_filter_strong" => format!("/cargo_crev_web/query/{}/{}/S", self.crate_name, self.version),
+            "t_filter_positive" => {
+                format!("/cargo_crev_web/query/{}/{}/P", self.crate_name, self.version)
+            }
+            "t_filter_neutral" => {
+                format!("/cargo_crev_web/query/{}/{}/E", self.crate_name, self.version)
+            }
+            "t_filter_negative" => {
+                format!("/cargo_crev_web/query/{}/{}/N", self.crate_name, self.version)
+            }
+            "t_filter_alternatives" => {
+                format!("/cargo_crev_web/query/{}/{}/v", self.crate_name, self.version)
+            }
+            "t_filter_issues" => format!("/cargo_crev_web/query/{}/{}/i", self.crate_name, self.version),
+            "t_filter_advisories" => {
+                format!("/cargo_crev_web/query/{}/{}/a", self.crate_name, self.version)
+            }
             _ => {
                 let err_msg = format!(
                     "Unrecognized version_summary_mod call_fn_string: \"{}\"",
@@ -88,7 +109,7 @@ impl HtmlTemplating for VersionSummary {
             }
         }
     }
-    /// html_templating functions that return a vector of Nodes
+    // / html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
@@ -114,7 +135,7 @@ impl HtmlTemplating for VersionSummary {
             }
         }
     }
-    /// html_templating for sub-template
+    // / html_templating for sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,

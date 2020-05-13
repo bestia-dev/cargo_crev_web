@@ -23,6 +23,7 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
         crate_name: crate_name.to_string(),
         version_summaries: vec![],
         crate_summary: VersionSummary {
+            crate_name:crate_name.to_string(),
             version: String::new(),
             version_for_sorting: String::new(),
             review_number: 0,
@@ -39,7 +40,7 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
     };
 
     for proof in proofs {
-        //find version in vector or create new
+        // find version in vector or create new
         let mut option_version: Option<&mut VersionSummary> = None;
         for version_summary in &mut all_summaries.version_summaries {
             if version_summary.version == proof.package.version {
@@ -48,8 +49,9 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
             }
         }
         if option_version.is_none() {
-            //new element
+            // new element
             let mut version_to_push = VersionSummary::new();
+            version_to_push.crate_name= crate_name.to_string();
             version_to_push.version = proof.package.version.to_string();
             version_to_push.version_for_sorting =
                 unwrap!(proof.package.version_for_sorting.clone()).to_string();
@@ -112,12 +114,12 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
             version_summary.advisories += 1;
         }
     }
-    //return
+    // return
     all_summaries
 }
 
 impl HtmlTemplating for AllSummaries {
-    /// html_templating boolean id the next node is rendered or not
+    // / html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
@@ -131,7 +133,7 @@ impl HtmlTemplating for AllSummaries {
         }
     }
 
-    /// html_templating functions that return a String
+    // / html_templating functions that return a String
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -141,7 +143,8 @@ impl HtmlTemplating for AllSummaries {
         // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_crate_name" => self.crate_name.to_string(),
-            "t_crate_link" => format!("https://crates.io/crates/{}", self.crate_name),
+            "t_crates_io_link" => format!("https://crates.io/crates/{}", self.crate_name),
+            "t_lib_rs_link" => format!("https://lib.rs/crates/{}", self.crate_name),
             "t_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
             "t_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
             "t_crate_rating_positive" => {
@@ -156,6 +159,26 @@ impl HtmlTemplating for AllSummaries {
             "t_crate_advisories" => to_string_zero_to_empty(self.crate_summary.advisories),
             "t_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
             "t_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
+
+            "t_filter_crate" => format!("/cargo_crev_web/query/{}", self.crate_name),
+            "t_filter_strong" => format!("/cargo_crev_web/query/{}/crate/S", self.crate_name),
+            "t_filter_positive" => {
+                format!("/cargo_crev_web/query/{}/crate/P", self.crate_name)
+            }
+            "t_filter_neutral" => {
+                format!("/cargo_crev_web/query/{}/crate/E", self.crate_name)
+            }
+            "t_filter_negative" => {
+                format!("/cargo_crev_web/query/{}/crate/N", self.crate_name)
+            }
+            "t_filter_alternatives" => {
+                format!("/cargo_crev_web/query/{}/crate/v", self.crate_name)
+            }
+            "t_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
+            "t_filter_advisories" => {
+                format!("/cargo_crev_web/query/{}/crate/a", self.crate_name)
+            }
+
             _ => {
                 let err_msg = format!(
                     "Error: Unrecognized all_summary_mod call_fn_string: \"{}\"",
@@ -166,7 +189,7 @@ impl HtmlTemplating for AllSummaries {
             }
         }
     }
-    /// html_templating functions that return a vector of Nodes
+    // / html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
@@ -192,17 +215,14 @@ impl HtmlTemplating for AllSummaries {
             }
         }
     }
-    /// html_templating for sub-template
+    // / html_templating for sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        eprintln!(
-            "{}",
-            &format!("&sub_templates.len(): {}", &sub_templates.len())
-        );
+        // eprintln!("{}",&format!("&sub_templates.len(): {}", &sub_templates.len()));
 
         match template_name {
             "template_summary_version" => {
@@ -215,7 +235,7 @@ impl HtmlTemplating for AllSummaries {
                         .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html,));
                     nodes.extend_from_slice(&vec_node);
                 }
-                //return
+                // return
                 nodes
             }
             _ => {
