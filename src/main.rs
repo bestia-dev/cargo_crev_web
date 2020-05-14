@@ -270,8 +270,8 @@ async fn main() {
         warp::reply::html(html_file)
     });
 
-    // query_crate_name dynamic content query
-    let query_crate_name = warp::path!("cargo_crev_web" / "query" / String)
+    // query_crate dynamic content query
+    let query_crate = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
             let html_file = crev_query_mod::html_for_crev_query("templates/", &crate_name, "", "");
             warp::reply::html(html_file)
@@ -310,6 +310,6 @@ async fn main() {
     // endregion: prepare routes
 
     // combine all routes
-    let routes = query_crate_name.or(fileserver);
+    let routes = info.or(query_crate.or(fileserver));
     warp::serve(routes).run(local_addr).await;
 }

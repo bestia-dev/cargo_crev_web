@@ -174,3 +174,7 @@ I am terrible in VIM, I confess.
 - cached results  - cached templates?  
 - filtered by version, rating,... from cached  
 - summary per author, because there will be a lot of duplicates
+
+## References
+
+<https://github.com/rustomax/rust-iterators>  

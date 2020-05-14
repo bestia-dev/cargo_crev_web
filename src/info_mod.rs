@@ -60,6 +60,8 @@ impl HtmlTemplatingRender for InfoData {
         // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
+            "t_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
             "t_number_of_reviews" => self.number_of_reviews.to_string(),
             "t_number_of_authors" => self.number_of_authors.to_string(),
             _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
@@ -78,11 +80,32 @@ impl HtmlTemplatingRender for InfoData {
     fn render_sub_template(
         &self,
         template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
+        _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }
     }
+}
+
+// iterating in the original file format is not performant
+// it is better to read the files one time and make an index of all
+// and then mostly use this index from memory.
+// this index is created every time the web app is initialized
+// or manually when the new and updated files are fetched
+
+pub struct ProofIndexItem{
+    crate_name:String,
+    version:String,
+    author:String,
+    repo:String,
+    file_path:String,
+    rating_strong:usize,
+    rating_positive:usize,
+    rating_neutral:usize,
+    rating_negative:usize,
+    alternatives:usize,
+    issues:usize,
+    advisories:usize,
 }
