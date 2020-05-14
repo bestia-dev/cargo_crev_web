@@ -2,6 +2,7 @@
 
 use crate::html_template_mod::*;
 use crate::issue_mod::Issue;
+use crate::utils_mod::*;
 use serde_derive::{Deserialize, Serialize};
 use strum_macros;
 use unwrap::unwrap;
@@ -80,6 +81,7 @@ pub enum Rating {
     Neutral,
     Positive,
     Strong,
+    None,
 }
 
 #[derive(
@@ -104,16 +106,40 @@ pub enum Level {
     High,
 }
 
-/// naive method to extract author
-pub fn get_author(proof: &Proof) -> String {
-    let author = proof
-        .from
-        .url
-        .replace("https://github.com/", "")
-        .replace("/crev-proofs", "");
-    // return
-    author
+impl Proof {
+    /// naive method to extract author
+    pub fn get_author(&self) -> String {
+        let author = self
+            .from
+            .url
+            .replace("https://github.com/", "")
+            .replace("/crev-proofs", "");
+        // return
+        author
+    }
+    /// version for sorting
+    pub fn version_for_sorting(&self) -> String {
+        let (major, minor, patch) = parse_semver(&self.package.version);
+        let version_for_sorting = format!(
+            "{:09}.{:09}.{:09}-{}",
+            major,
+            minor,
+            patch,
+            self.get_author(),
+        );
+        //return
+        version_for_sorting
+    }
+    /// get rating even when review in none
+    pub fn get_rating(&self) -> Rating {
+        if let Some(review) = &self.review {
+            review.rating.clone()
+        } else {
+            Rating::None
+        }
+    }
 }
+
 impl HtmlTemplatingRender for Proof {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
@@ -161,7 +187,7 @@ impl HtmlTemplatingRender for Proof {
             "t_review_date" => self.date[..10].to_string(),
             "t_review_author" => {
                 // naive method to extract author
-                get_author(self)
+                self.get_author()
             }
             "t_review_author_link" => self.from.url.to_string(),
             "t_crate_thoroughness_understanding" => {
@@ -305,6 +331,7 @@ pub fn color_from_rating(rating: Option<&Rating>) -> String {
             Rating::Positive => "green".to_string(),
             Rating::Neutral => "".to_string(),
             Rating::Negative => "red".to_string(),
+            Rating::None => "".to_string(),
         }
     } else {
         "".to_string()

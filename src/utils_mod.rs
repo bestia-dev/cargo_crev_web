@@ -80,3 +80,43 @@ pub fn traverse_dir_with_exclude_dir(
     }
     Ok(v)
 }
+
+/// parse semver ex. 12.99.88alpha
+pub fn parse_semver(text: &str) -> (usize, usize, usize) {
+    let pos = 0;
+    let (major, pos) = parse_next_number(&text, pos);
+    // jump over dot
+    let pos = pos + 1;
+    let (minor, pos) = parse_next_number(&text, pos);
+    // jump over dot
+    let pos = pos + 1;
+    let (patch, _pos) = parse_next_number(&text, pos);
+    // return
+    (major, minor, patch)
+}
+
+/// parse next characters until is numeric or end
+fn parse_next_number(text: &str, pos: usize) -> (usize, usize) {
+    let mut pos = pos;
+    let mut number = "".to_string();
+    let mut one_char = text[pos..pos + 1].chars().next().unwrap();
+    while one_char.is_numeric() {
+        number.push(one_char);
+        pos += 1;
+        if pos > text.len() - 1 {
+            break;
+        }
+        one_char = text[pos..pos + 1].chars().next().unwrap();
+    }
+    let number: usize = unwrap!(number.parse());
+    // return
+    (number, pos)
+}
+/// similar to ternary operator
+pub fn conditional_usize(expr: bool, result_if_true: usize, result_if_false: usize) -> usize {
+    if expr {
+        result_if_true
+    } else {
+        result_if_false
+    }
+}

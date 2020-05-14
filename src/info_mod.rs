@@ -2,15 +2,35 @@
 
 use crate::duration_mod;
 use crate::html_template_mod::*;
+use crate::proof_mod::*;
 use crate::utils_mod::*;
 
 use chrono::Local;
-use std::{fs, io, path::Path};
+use std::{fs, };
 use unwrap::unwrap;
 
+#[derive( Clone,Debug)]
+pub struct ProofIndexItem {
+    crate_name: String,
+    version: String,
+    version_for_sorting: String,
+    author: String,
+    repo: String,
+    file_path: String,
+    rating_strong: usize,
+    rating_positive: usize,
+    rating_neutral: usize,
+    rating_negative: usize,
+    rating_none: usize,
+    alternatives: usize,
+    issues: usize,
+    advisories: usize,
+}
+#[derive( Clone,Debug)]
 struct InfoData {
     number_of_reviews: usize,
     number_of_authors: usize,
+    proofs_index:Vec<ProofIndexItem>,
 }
 
 /// info about reviews
@@ -35,7 +55,9 @@ fn proofs_info() -> InfoData {
     let info_data = InfoData {
         number_of_reviews: 0,
         number_of_authors: 0,
+        proofs_index:prepare_proof_index(),
     };
+    // eprintln!("proofs_index: {:#?}",info_data.proofs_index);
     //return
     info_data
 }
@@ -98,21 +120,6 @@ impl HtmlTemplatingRender for InfoData {
 // and then mostly use this index from memory.
 // this index is created every time the web app is initialized
 // or manually when the new and updated files are fetched
-
-pub struct ProofIndexItem {
-    crate_name: String,
-    version: String,
-    author: String,
-    repo: String,
-    file_path: String,
-    rating_strong: usize,
-    rating_positive: usize,
-    rating_neutral: usize,
-    rating_negative: usize,
-    alternatives: usize,
-    issues: usize,
-    advisories: usize,
-}
 pub fn prepare_proof_index() -> Vec<ProofIndexItem> {
     let mut proofs_index: Vec<ProofIndexItem> = vec![];
     // original cache crev folder: /home/luciano/.cache/crev/remotes
@@ -139,7 +146,7 @@ pub fn prepare_proof_index() -> Vec<ProofIndexItem> {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    //push_proof(proof_string, &mut proofs, &crate_name);
+                    push_proof_index(proof_string, &mut proofs_index, filename_crev);
                 }
             }
         }
@@ -150,11 +157,34 @@ pub fn prepare_proof_index() -> Vec<ProofIndexItem> {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    //push_proof(proof_string, &mut proofs, &crate_name);
+                    push_proof_index(proof_string, &mut proofs_index, filename_crev);
                 }
             }
         }
     }
     //return
     proofs_index
+}
+
+fn push_proof_index(proof_string: &str, proofs_index: &mut Vec<ProofIndexItem>, file_path: &str) {
+    let proof: crate::proof_mod::Proof = unwrap!(serde_yaml::from_str(proof_string));
+    // use only some of the data for the index
+    let proof_index_item = ProofIndexItem {
+        crate_name: proof.package.name.to_string(),
+        version: proof.package.version.to_string(),
+        version_for_sorting: proof.version_for_sorting(),
+        author: proof.get_author(),
+        repo: proof.from.url.to_string(),
+        file_path: file_path.to_string(),
+        rating_strong: conditional_usize(proof.get_rating() == Rating::Strong, 1, 0),
+        rating_positive: conditional_usize(proof.get_rating() == Rating::Positive, 1, 0),
+        rating_neutral: conditional_usize(proof.get_rating() == Rating::Neutral, 1, 0),
+        rating_negative: conditional_usize(proof.get_rating() == Rating::Negative, 1, 0),
+        rating_none: conditional_usize(proof.get_rating() == Rating::None, 1, 0),
+        // TODO:
+        alternatives: 0,
+        issues: 0,
+        advisories: 0,
+    };
+    proofs_index.push(proof_index_item);
 }

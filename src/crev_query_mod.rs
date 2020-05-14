@@ -8,7 +8,7 @@ use crate::utils_mod::*;
 use crate::*;
 use chrono::Local;
 use dirs;
-use std::{fs, io, path::Path};
+use std::{fs, };
 use unwrap::unwrap;
 
 pub struct CrevQueryData {
@@ -146,37 +146,6 @@ fn filter_proofs(proofs: &mut Vec<Proof>, version: &str, kind: &str) {
     }
 }
 
-/// parse semver ex. 12.99.88alpha
-fn parse_semver(text: &str) -> (usize, usize, usize) {
-    let pos = 0;
-    let (major, pos) = parse_next_number(&text, pos);
-    // jump over dot
-    let pos = pos + 1;
-    let (minor, pos) = parse_next_number(&text, pos);
-    // jump over dot
-    let pos = pos + 1;
-    let (patch, _pos) = parse_next_number(&text, pos);
-    // return
-    (major, minor, patch)
-}
-/// parse next characters until is numeric or end
-fn parse_next_number(text: &str, pos: usize) -> (usize, usize) {
-    let mut pos = pos;
-    let mut number = "".to_string();
-    let mut one_char = text[pos..pos + 1].chars().next().unwrap();
-    while one_char.is_numeric() {
-        number.push(one_char);
-        pos += 1;
-        if pos > text.len() - 1 {
-            break;
-        }
-        one_char = text[pos..pos + 1].chars().next().unwrap();
-    }
-    let number: usize = unwrap!(number.parse());
-    // return
-    (number, pos)
-}
-
 fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str) {
     let mut proof: Proof = unwrap!(serde_yaml::from_str(proof_string));
     // filter: only one crate_name
@@ -184,12 +153,13 @@ fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str) {
         // proofs without review are not important
         // version for sorting
         let (major, minor, patch) = parse_semver(&proof.package.version);
-        proof.package.version_for_sorting = Some(format!(
+        proof.package.version_for_sorting = Some(proof.version_for_sorting());
+        Some(format!(
             "{:09}.{:09}.{:09}-{}",
             major,
             minor,
             patch,
-            get_author(&proof)
+            proof.get_author()
         ));
         proofs.push(proof);
     }
