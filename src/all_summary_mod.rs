@@ -118,22 +118,21 @@ pub fn calculate_all_summary_for_proofs(crate_name: &str, proofs: &Vec<Proof>) -
     all_summaries
 }
 
-impl HtmlTemplating for AllSummaries {
-    // / html_templating boolean id the next node is rendered or not
+impl HtmlTemplatingRender for AllSummaries {
+    /// data model name is used for eprint
+    fn data_model_name(&self) -> String {
+        //return
+        "AllSummaries".to_string()
+    }
+    // html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
-            _ => {
-                eprintln!(
-                    "Error: Unrecognized all_summary_mod call_fn_boolean: \"{}\"",
-                    placeholder
-                );
-                true
-            }
+            _ => call_fn_boolean_match_else(&self.data_model_name(), placeholder),
         }
     }
 
-    // / html_templating functions that return a String
+    // html_templating functions that return a String
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -168,44 +167,18 @@ impl HtmlTemplating for AllSummaries {
             "t_filter_alternatives" => format!("/cargo_crev_web/query/{}/crate/v", self.crate_name),
             "t_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
             "t_filter_advisories" => format!("/cargo_crev_web/query/{}/crate/a", self.crate_name),
-
-            _ => {
-                let err_msg = format!(
-                    "Error: Unrecognized all_summary_mod call_fn_string: \"{}\"",
-                    placeholder
-                );
-                eprintln!("{}", &err_msg);
-                err_msg
-            }
+            _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // / html_templating functions that return a vector of Nodes
+    // html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
-            _ => {
-                // so much boilerplate
-                let err_msg = format!(
-                    "Error: Unrecognized all_summary_mod call_fn_vec_nodes: \"{}\"",
-                    placeholder
-                );
-                eprintln!("{}", &err_msg);
-                let node = Node {
-                    node_enum: NodeEnum::Element(ElementNode {
-                        tag_name: "h2".to_string(),
-                        attributes: vec![],
-                        children: vec![Node {
-                            node_enum: NodeEnum::Text(err_msg),
-                        }],
-                        namespace: None,
-                    }),
-                };
-                return vec![node];
-            }
+            _ => call_fn_vec_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // / html_templating for sub-template
+    // html_templating for sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,
@@ -228,25 +201,7 @@ impl HtmlTemplating for AllSummaries {
                 // return
                 nodes
             }
-            _ => {
-                // so much boilerplate
-                let err_msg = format!(
-                    "Error: Unrecognized all_summary_mod render_sub_template: \"{}\"",
-                    template_name
-                );
-                eprintln!("{}", &err_msg);
-                let node = Node {
-                    node_enum: NodeEnum::Element(ElementNode {
-                        tag_name: "h2".to_string(),
-                        attributes: vec![],
-                        children: vec![Node {
-                            node_enum: NodeEnum::Text(err_msg),
-                        }],
-                        namespace: None,
-                    }),
-                };
-                return vec![node];
-            }
+            _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }
     }
 }

@@ -14,11 +14,11 @@ pub struct Node {
 }
 #[derive(Clone, Debug)]
 pub enum NodeEnum {
-    // / A text node.
+    // A text node.
     Text(String),
-    // / An element potentially with attributes and children.
+    // An element potentially with attributes and children.
     Element(ElementNode),
-    // / comment
+    // comment
     Comment(String),
 }
 #[derive(Clone, Debug)]
@@ -37,9 +37,9 @@ pub struct Attribute {
 /// Svg elements are different because they have a namespace
 #[derive(Clone, Copy)]
 pub enum HtmlOrSvg {
-    // / html element
+    // html element
     Html,
-    // / svg element
+    // svg element
     Svg,
 }
 
@@ -50,11 +50,12 @@ pub struct SubTemplate {
     pub placeholder: String,
     pub template: String,
 }
-pub trait HtmlTemplating {
+pub trait HtmlTemplatingRender {
     // region: methods to be implemented for a specific project
     // these are not really public methods. They are used only as
     // plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
+    fn data_model_name(&self) -> String;
     fn call_fn_string(&self, placeholder: &str) -> String;
     fn call_fn_boolean(&self, placeholder: &str) -> bool;
     // this is also for sub-templates
@@ -66,10 +67,40 @@ pub trait HtmlTemplating {
     ) -> Vec<Node>;
     // endregion: methods to be implemented for a specific project
 
-    // region: the only true public method - default implementation code
+    // region: the only 2 true public methods - default implementation code
+    /// render for root template (not subtemplates) from file
+    fn render_from_file(&self, template_file_name: &str) -> String {
+        let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
+        // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
+        // I will add <!DOCTYPE html> when the rendering ends, before returning the html.
+        let pos_html = unwrap!(template_raw.find("<html"));
+        template_raw.drain(..pos_html);
+
+        self.render(&template_raw)
+    }
+    /// render for root template (not subtemplates) from string
+    fn render(&self, html_template_raw: &str) -> String {
+        let nodes =
+            unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html,));
+        // because this is the root template it must return one ElementNode
+        let mut html = "".to_string();
+        match &nodes[0].node_enum {
+            NodeEnum::Element(temp_element_node) => {
+                html = unwrap!(root_element_node_to_string(temp_element_node));
+            }
+            _ => eprintln!(
+                "Error: render_template_raw_to_nodes() does not return one ElementNode.{}",
+                ""
+            ),
+        }
+        //return
+        html
+    }
     // endregion: default implementation
+
     // region: this methods should be private somehow, but I don't know in Rust how to do it
-    // / extract sub_templates and get root element Node.
+    // this is used for templates and subtemplates equally
+    // extracts sub_templates and get Nodes.
     fn render_template_raw_to_nodes(
         &self,
         html_template_raw: &str,
@@ -128,8 +159,8 @@ pub trait HtmlTemplating {
         Ok(root_element.children)
     }
 
-    // / Recursive function to fill the Element with attributes
-    // / and sub-nodes(Element, Text, Comment).
+    // Recursive function to fill the Element with attributes
+    // and sub-nodes(Element, Text, Comment).
     #[allow(clippy::too_many_lines, clippy::type_complexity)]
     fn fill_element_node(
         &self,
@@ -283,11 +314,11 @@ pub trait HtmlTemplating {
                 }
             }
         }
-        // / private fn - decode 5 xml control characters : " ' & < >
-        // / https://www.liquid-technologies.com/XML/EscapingData.aspx
-        // / I will ignore all html entities, to keep things simple,
-        // / because all others characters can be written as utf-8 characters.
-        // / https://www.tutorialspoint.com/html5/html5_entities.htm
+        // private fn - decode 5 xml control characters : " ' & < >
+        // https://www.liquid-technologies.com/XML/EscapingData.aspx
+        // I will ignore all html entities, to keep things simple,
+        // because all others characters can be written as utf-8 characters.
+        // https://www.tutorialspoint.com/html5/html5_entities.htm
         fn decode_5_xml_control_characters(input: &str) -> String {
             // The standard library replace() function makes allocation,
             // but is probably fast enough for my use case.
@@ -300,7 +331,7 @@ pub trait HtmlTemplating {
         }
     }
 
-    // / extract and saves sub_templates only one level deep, children
+    // extract and saves sub_templates only one level deep, children
     fn extract_children_sub_templates(template_raw: &str) -> Vec<SubTemplate> {
         // drain sub-template from main template and save into vector
         // the sub_templates[0] is the main_template
@@ -374,25 +405,67 @@ pub trait HtmlTemplating {
         sub_templates
     }
     // endregion: template and sub-templates
-    // region: this methods should be private somehow, but I don't know in Rust how to do it
 }
-// region: utility fn only for the root template
-/// only the root template comes from a file
-/// all sub-templates later are raw strings
-pub fn template_raw_from_file(file_name: &str) -> String {
-    let mut template_raw = unwrap!(fs::read_to_string(file_name));
-    // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
-    // I will add <!DOCTYPE html> when the rendering ends.
-    let pos_html = unwrap!(template_raw.find("<html"));
-    template_raw.drain(..pos_html);
-    // return
-    template_raw
+// region: utility fn
+/// boilerplate
+pub fn call_fn_boolean_match_else(data_model_name: &str, placeholder: &str) -> bool {
+    eprintln!(
+        "Error: Unrecognized {} call_fn_boolean: \"{}\"",
+        data_model_name, placeholder
+    );
+    true
 }
-/// default implementation - render template to string
-pub fn element_node_to_string(element_node: &ElementNode) -> Result<String, String> {
-    // region: private fn
-    // / sub element to html
-    fn element_node_to_html(html: &mut String, element_node: &ElementNode) {
+/// boilerplate
+pub fn call_fn_string_match_else(data_model_name: &str, placeholder: &str) -> String {
+    let err_msg = format!(
+        "Error: Unrecognized {} call_fn_string: \"{}\"",
+        data_model_name, placeholder
+    );
+    eprintln!("{}", &err_msg);
+    err_msg
+}
+/// boilerplate
+pub fn call_fn_vec_nodes_match_else(data_model_name: &str, placeholder: &str) -> Vec<Node> {
+    let err_msg = format!(
+        "Error: Unrecognized {} call_fn_vec_nodes: \"{}\"",
+        data_model_name, placeholder
+    );
+    eprintln!("{}", &err_msg);
+    let node = Node {
+        node_enum: NodeEnum::Element(ElementNode {
+            tag_name: "h2".to_string(),
+            attributes: vec![],
+            children: vec![Node {
+                node_enum: NodeEnum::Text(err_msg),
+            }],
+            namespace: None,
+        }),
+    };
+    return vec![node];
+}
+///boilerplate
+pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str) -> Vec<Node> {
+    let err_msg = format!(
+        "Error: Unrecognized {} render_sub_template: \"{}\"",
+        data_model_name, template_name
+    );
+    eprintln!("{}", &err_msg);
+    let node = Node {
+        node_enum: NodeEnum::Element(ElementNode {
+            tag_name: "h2".to_string(),
+            attributes: vec![],
+            children: vec![Node {
+                node_enum: NodeEnum::Text(err_msg),
+            }],
+            namespace: None,
+        }),
+    };
+    return vec![node];
+}
+/// convert element node to string
+pub fn root_element_node_to_string(element_node: &ElementNode) -> Result<String, String> {
+    /// recursive private fn sub element to html
+    fn sub_element_node_mut_html(html: &mut String, element_node: &ElementNode) {
         html.push_str("<");
         html.push_str(&element_node.tag_name);
         html.push_str(" ");
@@ -407,7 +480,7 @@ pub fn element_node_to_string(element_node: &ElementNode) -> Result<String, Stri
             match &sub_elem.node_enum {
                 NodeEnum::Element(sub_element) => {
                     // recursion
-                    element_node_to_html(html, sub_element);
+                    sub_element_node_mut_html(html, sub_element);
                 }
                 NodeEnum::Text(text) => html.push_str(&text),
                 NodeEnum::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
@@ -418,14 +491,14 @@ pub fn element_node_to_string(element_node: &ElementNode) -> Result<String, Stri
         html.push_str(&element_node.tag_name);
         html.push_str(">");
     }
-    // region: private fn
+
     let mut html = String::with_capacity(5000);
-    element_node_to_html(&mut html, element_node);
+    html.push_str("<!DOCTYPE html>");
+    sub_element_node_mut_html(&mut html, element_node);
     // return
     Ok(html)
 }
-// region: utility fn only for the root template
-
+/// to string, but zero converts to empty
 pub fn to_string_zero_to_empty(number: usize) -> String {
     if number == 0 {
         "".to_string()
@@ -433,3 +506,4 @@ pub fn to_string_zero_to_empty(number: usize) -> String {
         number.to_string()
     }
 }
+// endregion: utility fn

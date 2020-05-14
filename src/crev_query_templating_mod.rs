@@ -4,22 +4,21 @@ use crate::crev_query_mod::*;
 use crate::html_template_mod::*;
 use unwrap::unwrap;
 
-impl HtmlTemplating for CrevQueryData {
-    // / html_templating boolean id the next node is rendered or not
+impl HtmlTemplatingRender for CrevQueryData {
+    /// data model name is used for eprint
+    fn data_model_name(&self) -> String {
+        //return
+        "CrevQueryData".to_string()
+    }
+    // html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
         match placeholder {
-            _ => {
-                eprintln!(
-                    "Error: Unrecognized crev_query_templating_mod call_fn_boolean: \"{}\"",
-                    placeholder
-                );
-                true
-            }
+            _ => call_fn_boolean_match_else(&self.data_model_name(), placeholder),
         }
     }
 
-    // / html_templating functions that return a String
+    // html_templating functions that return a String
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -31,43 +30,18 @@ impl HtmlTemplating for CrevQueryData {
             // the href for css is good for static data. For dynamic route it must be different.
             "t_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
             "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
-            _ => {
-                let err_msg = format!(
-                    "Error: Unrecognized crev_query_templating_mod call_fn_string: \"{}\"",
-                    placeholder
-                );
-                eprintln!("{}", &err_msg);
-                err_msg
-            }
+            _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // / html_templating functions that return a vector of Nodes
+    // html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
         match placeholder {
-            _ => {
-                // so much boilerplate
-                let err_msg = format!(
-                    "Error: Unrecognized crev_query_templating_mod call_fn_vec_nodes: \"{}\"",
-                    placeholder
-                );
-                eprintln!("{}", &err_msg);
-                let node = Node {
-                    node_enum: NodeEnum::Element(ElementNode {
-                        tag_name: "h2".to_string(),
-                        attributes: vec![],
-                        children: vec![Node {
-                            node_enum: NodeEnum::Text(err_msg),
-                        }],
-                        namespace: None,
-                    }),
-                };
-                return vec![node];
-            }
+            _ => call_fn_vec_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // / html_templating for sub-template
+    // html_templating for sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,
@@ -106,25 +80,7 @@ impl HtmlTemplating for CrevQueryData {
                 // return
                 nodes
             }
-            _ => {
-                // so much boilerplate
-                let err_msg = format!(
-                    "Error: Unrecognized crev_query_templating_mod render_sub_template: \"{}\"",
-                    template_name
-                );
-                eprintln!("{}", &err_msg);
-                let node = Node {
-                    node_enum: NodeEnum::Element(ElementNode {
-                        tag_name: "h2".to_string(),
-                        attributes: vec![],
-                        children: vec![Node {
-                            node_enum: NodeEnum::Text(err_msg),
-                        }],
-                        namespace: None,
-                    }),
-                };
-                return vec![node];
-            }
+            _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }
     }
 }

@@ -1,12 +1,12 @@
 // region: lmake_readme include "readme.md" //! A
 //! # cargo_crev_web
-//! 
+//!
 //! version: 2020.513.1655  date: 2020-05-13 authors: Luciano Bestia  
 //! **web server to query reviews from cargo-crev**
-//! 
-//! 
+//!
+//!
 //! ## cargo-crev
-//! 
+//!
 //! Cargo-crev is a system of review for rust crates in crates.io.  
 //! <https://github.com/crev-dev/cargo-crev>  
 //! Originally it is a CLI that programmers use on their local machines while developing.  
@@ -16,27 +16,27 @@
 //! The basis of cargo-crev is a list of trusted individuals.  
 //! For the web it would be a broader number of people to achieve more understanding in the community.  
 //! The same machine will have the web server and the git repository for cargo-crev.  
-//! 
+//!
 //! ## crates.io and lib.rs
-//! 
+//!
 //! A similar web page is also created by @Kornelski at <https://lib.rs/crates/num-traits/crev>.  
 //! lib.rs is an alternative index to crates.io.  
 //! Crates.io is official rust-lang server, focused more on the trusted storage of crates. It does near to nothing for searching a crate.  
 //! Lib.rs is more focused on making easier to find a crate in a category. The code is still stored on crates.io. So the trust of authenticity of the code is high.  
-//! 
+//!
 //! ## warp
-//! 
+//!
 //! Warp is a web server written in rust.  
 //! <https://github.com/seanmonstar/warp>  
 //! It will listen on port 8051 listens to http.  
-//! 
+//!
 //! ## Google vm
-//! 
+//!
 //! One beta working server is installed on my google vm.  
 //! There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8051.
 //! Nginx also redirects all http 80 to https 443.  
 //! In sites-available/default I added this lines:
-//! 
+//!
 //! ```nginx
 //! #region cargo_crev_web
 //!     #without the trailing / it is not a directory (for the server and for the browser)
@@ -56,7 +56,7 @@
 //!     }
 //!   #endregion
 //! ```
-//! 
+//!
 //! The application will be in background with the command "screen" with a session_name.  
 //! So I can see all the stdout of the application easily.  
 //! create a new session  
@@ -67,9 +67,9 @@
 //! `cd /var/www/webapps/cargo_crev_web; ./cargo_crev_web`
 //! detach the session
 //! `ctrl+a d`
-//! 
+//!
 //! ## install cargo-crev to fetch reviews
-//! 
+//!
 //! On my web server I want to fetch the cargo-crev reviews from GitHub in regular intervals.  
 //! I need to install cargo-crev.  
 //! My first attempt was to install rust and cargo with rustup with minimal profile.
@@ -83,9 +83,9 @@
 //! `~/.cargo/bin`  
 //! I could use it already and fetch all the repos, but that is not super safe. Better is to fetch only the trusted repos.  
 //! For this I need to create a crev Id and for that I need to have a GitHub repo.  
-//! 
+//!
 //! ## GitHub crev-proofs
-//! 
+//!
 //! I followed the instructions <https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md>  
 //! I created a new GitHub user: `cargo-crev-web`. I wanted cargo_crev_web, but I couldn't. So I have inconsistent name here.  
 //! I used my second email, because my first email is used for my personal GitHub LucianoBestia.  
@@ -107,9 +107,9 @@
 //! `cargo crev trust <url of someone's crev-proofs repo>`  
 //! At the end of editing the local data push:  
 //! `cargo crev repo publish`  
-//! 
+//!
 //! ## Linux scheduler
-//! 
+//!
 //! I need to call every hour:  
 //! `cargo crev repo fetch trusted`
 //! to have fresh reviews available locally in `~/.cache/crev/`.  
@@ -117,27 +117,27 @@
 //! I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
 //! It is a normal CLI and it is easy to see the output on the screen.  
 //! To make this run indefinitely in another terminal session I use `screen`.
-//! 
+//!
 //! ## testing .cache/crev
-//! 
+//!
 //! Not all data is required in every review, so I need to test examples that contains different data.  
 //! <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
 //! <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
 //! <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory old  
 //! <https://bestia.dev/cargo_crev_web/query/inventory>   advisories
-//! 
+//!
 //! Locally in development is the same, just the server is 127.0.0.1:8051/.  
-//! 
+//!
 //! ## cargo crev reviews and advisory
-//! 
+//!
 //! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
 //! to verify the trustworthiness of each of your dependencies.  
 //! Please, spread this info.  
 //! On the web use this url to read crate reviews. Example:  
 //! <https://bestia.dev/cargo_crev_web/query/num-traits>  
-//! 
+//!
 //! ## html templating
-//! 
+//!
 //! Like many developers I also suffer from "graphical designitis".  
 //! It is very hard for me to find the exact color variations and shape proportions and subtle font differences to make a web page beautiful. It is not lack of knowledge of html and css. It is lack of style and taste.  
 //! Simply unrepairable!  
@@ -145,27 +145,27 @@
 //! First the graphical designer prepares a nice html+css with static data, that looks awesome.  
 //! The 2 files are on his local disk and don't need any server or configuration. The static data must be as realistic as possible.  
 //! Then I add comments that are commands where to insert the dynamic data. This comments don't destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.  
-//! On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.  
+//! On the web server the HtmlTemplatingRender trait takes the template and inserts the dynamic data.  
 //! The result is normal html and is sent to the browser.
-//! 
+//!
 //! ## CodeTour
-//! 
+//!
 //! I like very much the VSCode extension CodeTour.  
 //! It makes a special kind of documentation that shows the code flow.  
 //! No other type of documentation is so useful as this.  
 //! It works only in VSCode. I made an export to md utility because is so much easier to distribute the md file around.  
-//! 
+//!
 //! ## ideas
-//! 
+//!
 //! The same web server can easily run on the local machine of the developer.  
 //! It is just one single binary executable file.  
 //! It will read only the trusted reviews specific to that developer.  
 //! So now we have a local web server and a browser. It means we have now the possibility to make a beautiful GUI for cargo-crev that works on any OS and remotely also. Good.  
 //! Maybe it will be possible to add the functionality to write new reviews in the browser.  
 //! I am terrible in VIM, I confess.  
-//! 
+//!
 //! ## TODO
-//! 
+//!
 //! - cached results  - cached templates?  
 //! - filtered by version, rating,... from cached  
 //! - summary per author, because there will be a lot of duplicates
@@ -206,6 +206,7 @@ mod crev_query_mod;
 mod crev_query_templating_mod;
 mod duration_mod;
 mod html_template_mod;
+mod info_mod;
 mod issue_mod;
 mod proof_mod;
 mod utils_mod;
@@ -255,12 +256,21 @@ async fn main() {
     );
     // endregion
 
-    // this webapp will start with the route cargo_crev_web
-    // the website does not matter.
+    // websites are mostly always made of more separate web-apps
+    // it is good for web-apps to NOT start from the website root
+    // this webapp starts with the route website/cargo_crev_web/
     // example: bestia.dev/cargo_crev_web/query/num-traits
     //   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits
 
-    // dynamic content
+    // region: prepare routes
+
+    // info dynamic content info
+    let info = warp::path!("cargo_crev_web" / "info").map(|| {
+        let html_file = info_mod::html_for_info("templates/");
+        warp::reply::html(html_file)
+    });
+
+    // query_crate_name dynamic content query
     let query_crate_name = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
             let html_file = crev_query_mod::html_for_crev_query("templates/", &crate_name, "", "");
@@ -294,10 +304,12 @@ async fn main() {
         );
 
     // static file server (starts at cargo_crev_web)
-    // GET files of route /cargo_crev_web/ -> are from folder ./cargo_crev_web_root_folder/
+    // route /cargo_crev_web/ get files from folder ./cargo_crev_web_root_folder/
     let fileserver =
         warp::path("cargo_crev_web").and(warp::fs::dir("./cargo_crev_web_root_folder/"));
-    let routes = query_crate_name.or(fileserver);
+    // endregion: prepare routes
 
+    // combine all routes
+    let routes = query_crate_name.or(fileserver);
     warp::serve(routes).run(local_addr).await;
 }

@@ -84,6 +84,10 @@ I unzip it twice and saved the binary file `cargo-crev` in:
 `~/.cargo/bin`  
 I could use it already and fetch all the repos, but that is not super safe. Better is to fetch only the trusted repos.  
 For this I need to create a crev Id and for that I need to have a GitHub repo.  
+Size of .cache/crev
+On my local machine is 7 MB
+On web server 2 MB
+It looks that it is not extremly big.
 
 ## GitHub crev-proofs
 

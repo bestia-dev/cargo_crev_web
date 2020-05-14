@@ -48,17 +48,8 @@ pub fn html_for_crev_query(
     // the folders hierarchy for templates is similar like the routes
     // so to retain the same relative folders like css
     let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
-    let html_template_raw = template_raw_from_file(&template_file_name);
-    let nodes =
-        unwrap!(crev_query_data.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html,));
-    // because this is the root template it must return one ElementNode
-    let mut html = "".to_string();
-    match &nodes[0].node_enum{
-        NodeEnum::Element(temp_element_node)=>{
-            html = unwrap!(element_node_to_string(temp_element_node));
-        }
-        _=>eprintln!("Error: crev_query_data.render_template_raw_to_nodes does not return one ElementNode.{}","")
-    }
+    let html = crev_query_data.render_from_file(&template_file_name);
+
     duration_mod::eprint_duration_ns("  render", before_render);
     duration_mod::eprint_duration_ns("html_for_crev_query()", start);
     // return
