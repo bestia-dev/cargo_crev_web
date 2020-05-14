@@ -2,7 +2,11 @@
 
 use crate::duration_mod;
 use crate::html_template_mod::*;
+use crate::utils_mod::*;
+
 use chrono::Local;
+use std::{fs, io, path::Path};
+use unwrap::unwrap;
 
 struct InfoData {
     number_of_reviews: usize,
@@ -95,17 +99,62 @@ impl HtmlTemplatingRender for InfoData {
 // this index is created every time the web app is initialized
 // or manually when the new and updated files are fetched
 
-pub struct ProofIndexItem{
-    crate_name:String,
-    version:String,
-    author:String,
-    repo:String,
-    file_path:String,
-    rating_strong:usize,
-    rating_positive:usize,
-    rating_neutral:usize,
-    rating_negative:usize,
-    alternatives:usize,
-    issues:usize,
-    advisories:usize,
+pub struct ProofIndexItem {
+    crate_name: String,
+    version: String,
+    author: String,
+    repo: String,
+    file_path: String,
+    rating_strong: usize,
+    rating_positive: usize,
+    rating_neutral: usize,
+    rating_negative: usize,
+    alternatives: usize,
+    issues: usize,
+    advisories: usize,
+}
+pub fn prepare_proof_index() -> Vec<ProofIndexItem> {
+    let mut proofs_index: Vec<ProofIndexItem> = vec![];
+    // original cache crev folder: /home/luciano/.cache/crev/remotes
+    // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
+    // local webfolder example "crev/cache/crev/remotes"
+    let path = unwrap!(dirs::home_dir());
+    let path = path.join(".cache/crev/remotes");
+    // eprintln!("path: {}", path.display());
+    // let mut count_files = 0;
+    for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
+        &path,
+        "/*.crev",
+        // avoid big folders and other folders with *.crev
+        &vec!["/.git".to_string(), "/trust".to_string()]
+    )) {
+        //count_files += 1;
+        // eprintln!("filename_crev: {}", filename_crev);
+        // for filename_result in unwrap!(glob("/proofs/*.crev")) {
+        // read crev file
+        let crev_text = unwrap!(fs::read_to_string(filename_crev));
+        for part1 in crev_text.split("----- END CREV PROOF -----") {
+            let start_delimiter = "----- BEGIN CREV PROOF -----";
+            if let Some(start_pos) = part1.find(start_delimiter) {
+                let start_pos = start_pos + start_delimiter.len() + 1;
+                if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
+                    let proof_string = &part1[start_pos..end_pos];
+                    //push_proof(proof_string, &mut proofs, &crate_name);
+                }
+            }
+        }
+        // older review has different delimiter. Everything else is the same.
+        for part1 in crev_text.split("-----END CREV PACKAGE REVIEW-----") {
+            let start_delimiter = "-----BEGIN CREV PACKAGE REVIEW-----";
+            if let Some(start_pos) = part1.find(start_delimiter) {
+                let start_pos = start_pos + start_delimiter.len() + 1;
+                if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
+                    let proof_string = &part1[start_pos..end_pos];
+                    //push_proof(proof_string, &mut proofs, &crate_name);
+                }
+            }
+        }
+    }
+    //return
+    proofs_index
 }
