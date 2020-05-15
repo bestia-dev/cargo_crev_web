@@ -154,10 +154,28 @@ impl InfoData {
             rating_neutral: conditional_usize(proof.get_rating() == Rating::Neutral, 1, 0),
             rating_negative: conditional_usize(proof.get_rating() == Rating::Negative, 1, 0),
             rating_none: conditional_usize(proof.get_rating() == Rating::None, 1, 0),
-            // TODO:
-            alternatives: 0,
-            issues: 0,
-            advisories: 0,
+
+            alternatives: {
+                if let Some(alternatives) = proof.alternatives {
+                    alternatives.len()
+                } else {
+                    0
+                }
+            },
+            issues: {
+                if let Some(issues) = proof.issues {
+                    issues.len()
+                } else {
+                    0
+                }
+            },
+            advisories: {
+                if let Some(advisories) = proof.advisories {
+                    advisories.len()
+                } else {
+                    0
+                }
+            },
         };
         proofs_index.push(proof_index_item);
     }
