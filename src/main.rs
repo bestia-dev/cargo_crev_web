@@ -273,7 +273,7 @@ async fn main() {
     // region: prepare routes
 
     // info dynamic content info
-    let info = warp::path!("cargo_crev_web" / "info").map(|| {
+    let info = warp::path!("cargo_crev_web" / "info" / "group_by_crate").map(|| {
         let html_file = info_mod::InfoData::html_for_info("templates/");
         warp::reply::html(html_file)
     });
