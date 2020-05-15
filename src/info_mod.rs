@@ -250,9 +250,9 @@ impl HtmlTemplatingRender for InfoData {
             "t_number_of_reviews" => self.number_of_reviews.to_string(),
             "t_number_of_authors" => self.number_of_authors.to_string(),
             // this is a grid with repeated rows. Use the cursor_pos
-            "t_ordinal_number" => cursor_pos.to_string(),
+            "t_ordinal_number" => (cursor_pos + 1).to_string(),
             "t_crate_name" => self.order_by_crate[cursor_pos].crate_name.to_string(),
-            "t_open_crate" => self.order_by_crate[cursor_pos].crate_name.to_string(),
+            "t_open_crate" => format!("query/{}", self.order_by_crate[cursor_pos].crate_name),
             "t_count_of_reviews" => self.order_by_crate[cursor_pos].count_of_reviews.to_string(),
             "t_unique_versions" => self.order_by_crate[cursor_pos].unique_versions.to_string(),
             "t_unique_authors" => self.order_by_crate[cursor_pos].unique_authors.to_string(),

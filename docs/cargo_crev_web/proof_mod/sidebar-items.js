@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Level",""],["Rating",""]],"fn":[["color_from_rating",""],["get_author","naive method to extract author"]],"struct":[["Advisory",""],["AdvisoryOld",""],["Alternative",""],["Proof",""],["ProofFrom",""],["ProofPackage",""],["ProofReview",""]]});
+initSidebarItems({"enum":[["Level",""],["Rating",""]],"fn":[["color_from_rating",""]],"struct":[["Advisory",""],["AdvisoryOld",""],["Alternative",""],["Proof",""],["ProofFrom",""],["ProofPackage",""],["ProofReview",""]]});

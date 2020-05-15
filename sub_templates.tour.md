@@ -23,18 +23,18 @@ Only one level deep, only the children. Then recursively the chldren will extrac
 
 ##### step 2 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L81)
 ```rust
-    // region: this methods should be private somehow, but I don't know in Rust how to do it
-    // / extract sub_templates and get root element Node.
-    fn render_template_raw_to_nodes(
-        &self,
-        html_template_raw: &str,
-        html_or_svg_parent: HtmlOrSvg,
-    ) -> Result<Vec<Node>, String> {
-        // html_template_raw can be a fragment. I add the root, that will later be removed.
-        let html_template_raw = &format!("<template>{}</template>", html_template_raw);
-        // extract sub_templates. Only one level deep.
+    /// render for root template (not subtemplates) from file
+    fn render_from_file(&self, template_file_name: &str) -> String {
+        let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
+        // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
+        // I will add <!DOCTYPE html> when the rendering ends, before returning the html.
+        let pos_html = unwrap!(template_raw.find("<html"));
+        template_raw.drain(..pos_html);
+
+        self.render(&template_raw)
+    }
 #//---------------------- selection start ----------------------
-        let sub_templates = Self::extract_children_sub_templates(html_template_raw);
+    /// render for root template (not subtemplates) from string
 #//----------------------- selection end -----------------------
 ```
 ## template placeholder
@@ -43,18 +43,18 @@ The result is added to the parent node.
 
 ##### step 3 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L256)
 ```rust
-                    if txt.starts_with("t_") {
-                        let repl_txt = self.call_fn_string(txt);
+                        let repl_txt = self.call_fn_string(placeholder, cursor_pos);
                         replace_string = Some(repl_txt);
-                    } else if txt.starts_with("b_") {
-                        // boolean if this is true than render the next node, else don't render
-                        replace_boolean = Some(self.call_fn_boolean(txt));
+                    } else {
+                        let value = if let Some(repl) = replace_string {
+                            // empty the replace_string for the next node
+                            replace_string = None;
 #//---------------------- selection start ----------------------
-                    } else if txt.starts_with("template_") {
-                        // replace exactly this placeholder for a sub-template
-                        let template_name = txt.trim_end_matches(" start");
-                        let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
-                        element.children.extend_from_slice(&repl_vec_nodes);
+                            decode_5_xml_control_characters(&repl)
+                        } else {
+                            decode_5_xml_control_characters(value)
+                        };
+                        element.attributes.push(Attribute {
 #//----------------------- selection end -----------------------
 ```
 ## render the sub-template
@@ -63,36 +63,25 @@ Find it in the sub_templates vector. If the data is a vector, then render_templa
 ##### step 4 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/all_summary_mod.rs#L219)
 ```rust
 #//---------------------- selection start ----------------------
-    // / html_templating for sub-template
-    #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
-        // eprintln!("{}",&format!("&sub_templates.len(): {}", &sub_templates.len()));
-
-        match template_name {
-            "template_summary_version" => {
-                let sub_template = unwrap!(sub_templates
-#//----------------------- selection end -----------------------
-```
+        }
+    }
+}
 ## render
 The render method is the same for templates and sub-templates.
 
 ##### step 5 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/html_template_mod.rs#L77)
 ```rust
+    ) -> Vec<Node>;
     // endregion: methods to be implemented for a specific project
 
-    // region: the only true public method - default implementation code
-    // endregion: default implementation
-    // region: this methods should be private somehow, but I don't know in Rust how to do it
-    // / extract sub_templates and get root element Node.
+    // region: the only 2 true public methods - default implementation code
+    /// render for root template (not subtemplates) from file
+    fn render_from_file(&self, template_file_name: &str) -> String {
 #//---------------------- selection start ----------------------
-    fn render_template_raw_to_nodes(
-        &self,
-        html_template_raw: &str,
-        html_or_svg_parent: HtmlOrSvg,
-    ) -> Result<Vec<Node>, String> {
+        let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
+        // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
+        // I will add <!DOCTYPE html> when the rendering ends, before returning the html.
+        let pos_html = unwrap!(template_raw.find("<html"));
+        template_raw.drain(..pos_html);
 #//----------------------- selection end -----------------------
 ```

@@ -340,25 +340,12 @@
 <span id="340">340</span>
 <span id="341">341</span>
 <span id="342">342</span>
-<span id="343">343</span>
-<span id="344">344</span>
-<span id="345">345</span>
-<span id="346">346</span>
-<span id="347">347</span>
-<span id="348">348</span>
-<span id="349">349</span>
-<span id="350">350</span>
-<span id="351">351</span>
-<span id="352">352</span>
-<span id="353">353</span>
-<span id="354">354</span>
-<span id="355">355</span>
-<span id="356">356</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! proof_mod</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">html_template_mod</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">issue_mod</span>::<span class="ident">Issue</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils_mod</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">serde_derive</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">strum_macros</span>;
 <span class="kw">use</span> <span class="ident">unwrap</span>::<span class="ident">unwrap</span>;
@@ -437,6 +424,7 @@
     <span class="ident">Neutral</span>,
     <span class="ident">Positive</span>,
     <span class="ident">Strong</span>,
+    <span class="prelude-val">None</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(
@@ -461,18 +449,47 @@
     <span class="ident">High</span>,
 }
 
-<span class="doccomment">/// naive method to extract author</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_author</span>(<span class="ident">proof</span>: <span class="kw-2">&amp;</span><span class="ident">Proof</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-    <span class="kw">let</span> <span class="ident">author</span> <span class="op">=</span> <span class="ident">proof</span>
-        .<span class="ident">from</span>
-        .<span class="ident">url</span>
-        .<span class="ident">replace</span>(<span class="string">&quot;https://github.com/&quot;</span>, <span class="string">&quot;&quot;</span>)
-        .<span class="ident">replace</span>(<span class="string">&quot;/crev-proofs&quot;</span>, <span class="string">&quot;&quot;</span>);
-    <span class="comment">// return</span>
-    <span class="ident">author</span>
+<span class="kw">impl</span> <span class="ident">Proof</span> {
+    <span class="doccomment">/// naive method to extract author</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_author</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> <span class="ident">author</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">from</span>
+            .<span class="ident">url</span>
+            .<span class="ident">replace</span>(<span class="string">&quot;https://github.com/&quot;</span>, <span class="string">&quot;&quot;</span>)
+            .<span class="ident">replace</span>(<span class="string">&quot;/crev-proofs&quot;</span>, <span class="string">&quot;&quot;</span>);
+        <span class="comment">// return</span>
+        <span class="ident">author</span>
+    }
+    <span class="doccomment">/// version for sorting</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">version_for_sorting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+        <span class="kw">let</span> (<span class="ident">major</span>, <span class="ident">minor</span>, <span class="ident">patch</span>) <span class="op">=</span> <span class="ident">parse_semver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">package</span>.<span class="ident">version</span>);
+        <span class="kw">let</span> <span class="ident">version_for_sorting</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;{:09}.{:09}.{:09}-{}&quot;</span>,
+            <span class="ident">major</span>,
+            <span class="ident">minor</span>,
+            <span class="ident">patch</span>,
+            <span class="self">self</span>.<span class="ident">get_author</span>(),
+        );
+        <span class="comment">//return</span>
+        <span class="ident">version_for_sorting</span>
+    }
+    <span class="doccomment">/// get rating even when review in none</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_rating</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Rating</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">review</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">review</span> {
+            <span class="ident">review</span>.<span class="ident">rating</span>.<span class="ident">clone</span>()
+        } <span class="kw">else</span> {
+            <span class="ident">Rating</span>::<span class="prelude-val">None</span>
+        }
+    }
 }
-<span class="kw">impl</span> <span class="ident">HtmlTemplating</span> <span class="kw">for</span> <span class="ident">Proof</span> {
-    <span class="comment">// / html_templating boolean id the next node is rendered or not</span>
+
+<span class="kw">impl</span> <span class="ident">HtmlTemplatingRender</span> <span class="kw">for</span> <span class="ident">Proof</span> {
+    <span class="doccomment">/// data model name is used for eprint</span>
+    <span class="kw">fn</span> <span class="ident">data_model_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+        <span class="comment">//return</span>
+        <span class="string">&quot;Proof&quot;</span>.<span class="ident">to_string</span>()
+    }
+    <span class="comment">// html_templating boolean id the next node is rendered or not</span>
     <span class="kw">fn</span> <span class="ident">call_fn_boolean</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="comment">// eprintln!(&quot;{}&quot;,&amp;format!(&quot;call_fn_boolean: {}&quot;, &amp;placeholder));</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
@@ -481,23 +498,17 @@
             <span class="string">&quot;b_has_issues&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">issues</span>.<span class="ident">is_some</span>(),
             <span class="string">&quot;b_has_advisories&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">advisories</span>.<span class="ident">is_some</span>(),
             <span class="string">&quot;b_has_old_advisory&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">advisory</span>.<span class="ident">is_some</span>(),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">eprintln</span><span class="macro">!</span>(
-                    <span class="string">&quot;Error: Unrecognized proof_mod call_fn_boolean: \&quot;{}\&quot;&quot;</span>,
-                    <span class="ident">placeholder</span>
-                );
-                <span class="bool-val">true</span>
-            }
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">call_fn_boolean_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
 
-    <span class="comment">// / html_templating functions that return a String</span>
+    <span class="comment">// html_templating functions that return a String</span>
     <span class="attribute">#[<span class="ident">allow</span>(
         <span class="ident">clippy</span>::<span class="ident">needless_return</span>,
         <span class="ident">clippy</span>::<span class="ident">integer_arithmetic</span>,
         <span class="ident">clippy</span>::<span class="ident">indexing_slicing</span>
     )]</span>
-    <span class="kw">fn</span> <span class="ident">call_fn_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">call_fn_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_cursor_pos</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// eprintln!(&quot;{}&quot;,&amp;format!(&quot;call_fn_string: {}&quot;, &amp;placeholder));</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="string">&quot;t_crate_name_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">name</span>, <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">version</span>),
@@ -519,7 +530,7 @@
             <span class="string">&quot;t_review_date&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">date</span>[..<span class="number">10</span>].<span class="ident">to_string</span>(),
             <span class="string">&quot;t_review_author&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// naive method to extract author</span>
-                <span class="ident">get_author</span>(<span class="self">self</span>)
+                <span class="self">self</span>.<span class="ident">get_author</span>()
             }
             <span class="string">&quot;t_review_author_link&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">from</span>.<span class="ident">url</span>.<span class="ident">to_string</span>(),
             <span class="string">&quot;t_crate_thoroughness_understanding&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
@@ -614,43 +625,18 @@
                     <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>()
                 }
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
-                    <span class="string">&quot;Error: Unrecognized proof_mod call_fn_string: \&quot;{}\&quot;&quot;</span>,
-                    <span class="ident">placeholder</span>
-                );
-                <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
-                <span class="ident">err_msg</span>
-            }
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">call_fn_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
-    <span class="comment">// / html_templating functions that return a vector of Nodes</span>
+    <span class="comment">// html_templating functions that return a vector of Nodes</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">needless_return</span>)]</span>
     <span class="kw">fn</span> <span class="ident">call_fn_vec_nodes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
         <span class="comment">// eprintln!(&quot;{}&quot;,&amp;format!(&quot;call_fn_vec_nodes: {}&quot;, &amp;placeholder));</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="comment">// so much boilerplate</span>
-                <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
-                    <span class="string">&quot;Error: Unrecognized proof_mod call_fn_vec_nodes: \&quot;{}\&quot;&quot;</span>,
-                    <span class="ident">placeholder</span>
-                );
-                <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
-                <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="ident">Node</span> {
-                    <span class="ident">node_enum</span>: <span class="ident">NodeEnum</span>::<span class="ident">Element</span>(<span class="ident">ElementNode</span> {
-                        <span class="ident">tag_name</span>: <span class="string">&quot;h2&quot;</span>.<span class="ident">to_string</span>(),
-                        <span class="ident">attributes</span>: <span class="macro">vec</span><span class="macro">!</span>[],
-                        <span class="ident">children</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Node</span> {
-                            <span class="ident">node_enum</span>: <span class="ident">NodeEnum</span>::<span class="ident">Text</span>(<span class="ident">err_msg</span>),
-                        }],
-                        <span class="ident">namespace</span>: <span class="prelude-val">None</span>,
-                    }),
-                };
-                <span class="kw">return</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">node</span>];
-            }
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">call_fn_vec_nodes_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
-    <span class="comment">// / html_templating for sub-template</span>
+    <span class="comment">// html_templating for sub-template</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">needless_return</span>)]</span>
     <span class="kw">fn</span> <span class="ident">render_sub_template</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -668,33 +654,18 @@
                 <span class="comment">// sub-template repeatable</span>
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">issues</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">issues</span> {
                     <span class="kw">for</span> <span class="ident">issue</span> <span class="kw">in</span> <span class="ident">issues</span> {
-                        <span class="kw">let</span> <span class="ident">vec_node</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">issue</span>
-                            .<span class="ident">render_template_raw_to_nodes</span>(<span class="kw-2">&amp;</span><span class="ident">sub_template</span>.<span class="ident">template</span>, <span class="ident">HtmlOrSvg</span>::<span class="ident">Html</span>));
+                        <span class="kw">let</span> <span class="ident">vec_node</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">issue</span>.<span class="ident">render_template_raw_to_nodes</span>(
+                            <span class="kw-2">&amp;</span><span class="ident">sub_template</span>.<span class="ident">template</span>,
+                            <span class="ident">HtmlOrSvg</span>::<span class="ident">Html</span>,
+                            <span class="number">0</span>
+                        ));
                         <span class="ident">nodes</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">vec_node</span>);
                     }
                 }
                 <span class="comment">// return</span>
                 <span class="ident">nodes</span>
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="comment">// so much boilerplate</span>
-                <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
-                    <span class="string">&quot;Error: Unrecognized proof_mod render_sub_template: \&quot;{}\&quot;&quot;</span>,
-                    <span class="ident">template_name</span>
-                );
-                <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
-                <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="ident">Node</span> {
-                    <span class="ident">node_enum</span>: <span class="ident">NodeEnum</span>::<span class="ident">Element</span>(<span class="ident">ElementNode</span> {
-                        <span class="ident">tag_name</span>: <span class="string">&quot;h2&quot;</span>.<span class="ident">to_string</span>(),
-                        <span class="ident">attributes</span>: <span class="macro">vec</span><span class="macro">!</span>[],
-                        <span class="ident">children</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">Node</span> {
-                            <span class="ident">node_enum</span>: <span class="ident">NodeEnum</span>::<span class="ident">Text</span>(<span class="ident">err_msg</span>),
-                        }],
-                        <span class="ident">namespace</span>: <span class="prelude-val">None</span>,
-                    }),
-                };
-                <span class="kw">return</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">node</span>];
-            }
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">render_sub_template_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">template_name</span>),
         }
     }
 }
@@ -706,6 +677,7 @@
             <span class="ident">Rating</span>::<span class="ident">Positive</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;green&quot;</span>.<span class="ident">to_string</span>(),
             <span class="ident">Rating</span>::<span class="ident">Neutral</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
             <span class="ident">Rating</span>::<span class="ident">Negative</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;red&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="ident">Rating</span>::<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
         }
     } <span class="kw">else</span> {
         <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>()
