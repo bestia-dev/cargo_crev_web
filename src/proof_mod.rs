@@ -165,7 +165,7 @@ impl HtmlTemplatingRender for Proof {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, placeholder: &str) -> String {
+    fn call_fn_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
@@ -311,8 +311,11 @@ impl HtmlTemplatingRender for Proof {
                 // sub-template repeatable
                 if let Some(issues) = &self.issues {
                     for issue in issues {
-                        let vec_node = unwrap!(issue
-                            .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html));
+                        let vec_node = unwrap!(issue.render_template_raw_to_nodes(
+                            &sub_template.template,
+                            HtmlOrSvg::Html,
+                            0
+                        ));
                         nodes.extend_from_slice(&vec_node);
                     }
                 }

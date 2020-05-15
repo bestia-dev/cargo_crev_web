@@ -65,7 +65,7 @@ impl HtmlTemplatingRender for VersionSummary {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, placeholder: &str) -> String {
+    fn call_fn_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_version" => self.version.to_string(),

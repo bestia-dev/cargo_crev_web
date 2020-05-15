@@ -266,7 +266,7 @@ async fn main() {
 
     // info dynamic content info
     let info = warp::path!("cargo_crev_web" / "info").map(|| {
-        let html_file = info_mod::html_for_info("templates/");
+        let html_file = info_mod::InfoData::html_for_info("templates/");
         warp::reply::html(html_file)
     });
 

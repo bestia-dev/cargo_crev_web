@@ -5,19 +5,72 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>crev_query</title>
     <meta name="Description" content="web app for querying reviews from cargo-crev" />
-    <link rel="stylesheet" data-t-href="t_css_href"  href="../css/cargo_crev_web.css" />
+    <link rel="stylesheet" data-t-href="t_css_href" href="../css/cargo_crev_web.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
     <link rel="shortcut icon" type="image/x-icon" data-t-href="t_favicon_href" href="../favicon.png" />
 </head>
 
 <body>
-    
-        <div style="display: grid;grid-template-columns: 40% 60% ;">
-            <div class="middle"><h2>
-                number_of_reviews: <!--t_number_of_reviews-->33</h2></div>
-            <div class="middle right"><h3 >number_of_authors:<!--t_number_of_authors-->12</h3></div>
+    <div>
+        <div class="middle">
+            <h2>
+                number_of_reviews:
+                <!--t_number_of_reviews-->33</h2>
         </div>
-        
+        <div class="middle right">
+            <h3>number_of_authors:
+                <!--t_number_of_authors-->12</h3>
+        </div>
+    </div>
+    <div class="crate_summary" style="display: grid;grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto ;">
+        <div class="crate_summary_cell bold" title="ordinal number">o</div>
+        <div class="crate_summary_cell bold">crate</div>
+        <div class="crate_summary_cell bold" title="reviews count">c</div>
+        <div class="crate_summary_cell bold" title="unique versions count">c</div>
+        <div class="crate_summary_cell bold" title="unique authors count">c</div>
+        <div class="crate_summary_cell bold greener" title="rating strong">S
+        </div>
+        <div class="crate_summary_cell bold green " title="rating positive">
+            P</div>
+        <div class="crate_summary_cell bold" title="rating neutral">E</div>
+        <div class="crate_summary_cell bold red" title="rating negative">N
+        </div>
+        <div class="crate_summary_cell"></div>
+        <div class="crate_summary_cell yellow" title="alternatives">v</div>
+        <div class="crate_summary_cell orange" title="issues">i</div>
+        <div class="crate_summary_cell red" title="advisories">a</div>
+
+        <!--template_crate_summary start-->
+        <div class="crate_summary_cell bold" title="ordinal_number">
+            <!--t_ordinal_number-->1</div>
+        <div class="crate_summary_cell bold"><a data-t-href="t_open_crate" href="">
+                <!--t_crate_name-->crate_name</a></div>
+        <div class="crate_summary_cell bold" title="reviews count">
+            <!--t_count_of_reviews-->7</div>
+        <div class="crate_summary_cell bold" title="unique versions">
+            <!--t_unique_versions-->7</div>
+        <div class="crate_summary_cell bold" title="unique authors">
+            <!--unique_authors-->7</div>
+        <div class="crate_summary_cell bold greener" title="rating strong">
+            <!--count_of_rating_strong-->2</div>
+        <div class="crate_summary_cell bold green " title="rating positive">
+            <!--count_of_rating_positive-->3</div>
+        <div class="crate_summary_cell bold" title="rating neutral">
+            <!--count_of_rating_neutral-->2</div>
+        <div class="crate_summary_cell bold red" title="rating negative">
+            <!--count_of_rating_negative-->1</div>
+        <div class="crate_summary_cell bold red" title="rating negative">
+            <!--count_of_rating_none-->1</div>
+        <div class="crate_summary_cell"></div>
+        <div class="crate_summary_cell yellow" title="alternatives">
+            <!--count_of_alternatives-->2</div>
+        <div class="crate_summary_cell orange" title="issues">
+            <!--count_of_issues-->1</div>
+        <div class="crate_summary_cell red" title="advisories">
+            <!--count_of_advisories-->1</div>
+        <!--template_crate_summary end-->
+    </div>
+
 </body>
 
 </html>

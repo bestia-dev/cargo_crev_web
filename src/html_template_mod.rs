@@ -56,7 +56,7 @@ pub trait HtmlTemplatingRender {
     // plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
     fn data_model_name(&self) -> String;
-    fn call_fn_string(&self, placeholder: &str) -> String;
+    fn call_fn_string(&self, placeholder: &str, cursor_pos: usize) -> String;
     fn call_fn_boolean(&self, placeholder: &str) -> bool;
     // this is also for sub-templates
     fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node>;
@@ -81,7 +81,7 @@ pub trait HtmlTemplatingRender {
     /// render for root template (not subtemplates) from string
     fn render(&self, html_template_raw: &str) -> String {
         let nodes =
-            unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html,));
+            unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, 0));
         // because this is the root template it must return one ElementNode
         let mut html = "".to_string();
         match &nodes[0].node_enum {
@@ -105,6 +105,7 @@ pub trait HtmlTemplatingRender {
         &self,
         html_template_raw: &str,
         html_or_svg_parent: HtmlOrSvg,
+        cursor_pos: usize,
     ) -> Result<Vec<Node>, String> {
         // html_template_raw can be a fragment. I add the root, that will later be removed.
         let html_template_raw = &format!("<template>{}</template>", html_template_raw);
@@ -142,6 +143,7 @@ pub trait HtmlTemplatingRender {
                     html_or_svg_local,
                     &mut dom_path,
                     &sub_templates,
+                    cursor_pos,
                 ) {
                     Ok(new_root_element) => root_element = new_root_element,
                     Err(err) => {
@@ -169,6 +171,7 @@ pub trait HtmlTemplatingRender {
         html_or_svg_parent: HtmlOrSvg,
         dom_path: &mut Vec<String>,
         sub_templates: &Vec<SubTemplate>,
+        cursor_pos: usize,
     ) -> Result<ElementNode, String> {
         let mut replace_string: Option<String> = None;
         let mut replace_node: Option<Node> = None;
@@ -209,6 +212,7 @@ pub trait HtmlTemplatingRender {
                         html_or_svg_local,
                         dom_path,
                         sub_templates,
+                        cursor_pos,
                     )?;
                     // if the boolean is empty or true then render the next node
                     if replace_boolean.unwrap_or(true) {
@@ -237,7 +241,7 @@ pub trait HtmlTemplatingRender {
                         // example: data-t-href="t_placeholder" href="x"
                         // The replace_string will always be applied to the next attribute. No matter the name.
                         let placeholder = &value;
-                        let repl_txt = self.call_fn_string(placeholder);
+                        let repl_txt = self.call_fn_string(placeholder, cursor_pos);
                         replace_string = Some(repl_txt);
                     } else {
                         let value = if let Some(repl) = replace_string {
@@ -273,7 +277,7 @@ pub trait HtmlTemplatingRender {
                     // it must look like <!--t_get_text-->
 
                     if txt.starts_with("t_") {
-                        let repl_txt = self.call_fn_string(txt);
+                        let repl_txt = self.call_fn_string(txt, cursor_pos);
                         replace_string = Some(repl_txt);
                     } else if txt.starts_with("b_") {
                         // boolean if this is true than render the next node, else don't render

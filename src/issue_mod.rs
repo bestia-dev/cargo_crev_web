@@ -32,7 +32,7 @@ impl HtmlTemplatingRender for Issue {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, placeholder: &str) -> String {
+    fn call_fn_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
         match placeholder {
             "t_issue_id" => self.id.to_string(),

@@ -5,6 +5,7 @@
         "Wiso",
         "delim",
         "filedate",
+        "itertools",
         "nanos",
         "websysmod"
     ]

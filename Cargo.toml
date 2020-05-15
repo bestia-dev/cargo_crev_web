@@ -1,7 +1,7 @@
 [package]
 name = "cargo_crev_web"
 #no need for semver if it is not a library
-version = "2020.514.1758" 
+version = "2020.515.2300" 
 description = "web server to query reviews from cargo-crev"
 authors = ["Luciano Bestia"]
 edition = "2018"
@@ -15,24 +15,24 @@ publish = false
 [dependencies]
 reader_for_microxml = "1.0.4"
 
-futures = "0.3.4"
+futures = "0.3.5"
 log = "0.4.8"
 env_logger = "0.7.1"
 warp="0.2.2"
 regex="1.3.7"
-tokio = { version = "0.2", features = ["macros"] }
+tokio = { version = "0.2.21", features = ["macros"] }
 # cmd line input parameters
-clap ="2.33.0"
+clap ="2.33.1"
 # colorful output to screen
 ansi_term = "0.12.1"
-serde = "1.0.106"
-serde_derive ="1.0.106"
-serde_yaml = "0.8.11"
+serde = "1.0.110"
+serde_derive ="1.0.110"
+serde_yaml = "0.8.12"
 unwrap = "1.2.1"
-# regex = "1.3.6"
-# lazy_static="1.4.0"
+lazy_static="1.4.0"
 glob="0.3.0"
 dirs="2.0.2"
 strum="0.18.0"
 strum_macros = "0.18.0"
 chrono="0.4.11"
+itertools = "0.9.0"

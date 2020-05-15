@@ -8,7 +8,7 @@ use crate::utils_mod::*;
 use crate::*;
 use chrono::Local;
 use dirs;
-use std::{fs, };
+use std::fs;
 use unwrap::unwrap;
 
 pub struct CrevQueryData {
