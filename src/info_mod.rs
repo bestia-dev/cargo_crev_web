@@ -271,31 +271,24 @@ impl HtmlTemplatingRender for InfoData {
             "t_ordinal_number" => (cursor_pos + 1).to_string(),
             "t_crate_name" => self.order_by_crate[cursor_pos].crate_name.to_string(),
             "t_open_crate" => format!("query/{}", self.order_by_crate[cursor_pos].crate_name),
-            "t_count_of_reviews" => self.order_by_crate[cursor_pos].count_of_reviews.to_string(),
-            "t_unique_versions" => self.order_by_crate[cursor_pos].unique_versions.to_string(),
-            "t_unique_authors" => self.order_by_crate[cursor_pos].unique_authors.to_string(),
-            "t_count_of_rating_strong" => self.order_by_crate[cursor_pos]
-                .count_of_rating_strong
-                .to_string(),
-            "t_count_of_rating_positive" => self.order_by_crate[cursor_pos]
-                .count_of_rating_positive
-                .to_string(),
-            "t_count_of_rating_neutral" => self.order_by_crate[cursor_pos]
-                .count_of_rating_neutral
-                .to_string(),
-            "t_count_of_rating_negative" => self.order_by_crate[cursor_pos]
-                .count_of_rating_negative
-                .to_string(),
-            "t_count_of_rating_none" => self.order_by_crate[cursor_pos]
-                .count_of_rating_none
-                .to_string(),
-            "t_count_of_alternatives" => self.order_by_crate[cursor_pos]
-                .count_of_alternatives
-                .to_string(),
-            "t_count_of_issues" => self.order_by_crate[cursor_pos].count_of_issues.to_string(),
-            "t_count_of_advisories" => self.order_by_crate[cursor_pos]
-                .count_of_advisories
-                .to_string(),
+            "t_count_of_reviews" => to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_reviews),
+            "t_unique_versions" => to_string_zero_to_empty(self.order_by_crate[cursor_pos].unique_versions),
+            "t_unique_authors" => to_string_zero_to_empty(self.order_by_crate[cursor_pos].unique_authors),
+            "t_count_of_rating_strong" => to_string_zero_to_empty(self.order_by_crate[cursor_pos]
+                .count_of_rating_strong),
+            "t_count_of_rating_positive" => to_string_zero_to_empty(self.order_by_crate[cursor_pos]
+                .count_of_rating_positive),
+            "t_count_of_rating_neutral" => to_string_zero_to_empty(self.order_by_crate[cursor_pos]
+                .count_of_rating_neutral),
+            "t_count_of_rating_negative" => to_string_zero_to_empty(self.order_by_crate[cursor_pos]
+                .count_of_rating_negative),
+            "t_count_of_rating_none" => to_string_zero_to_empty(self.order_by_crate[cursor_pos]
+                .count_of_rating_none),
+            "t_count_of_alternatives" => to_string_zero_to_empty(self.order_by_crate[cursor_pos]
+                .count_of_alternatives),
+            "t_count_of_issues" => to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_issues),
+            "t_count_of_advisories" => to_string_zero_to_empty(self.order_by_crate[cursor_pos]
+                .count_of_advisories),
             _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
         }
     }
