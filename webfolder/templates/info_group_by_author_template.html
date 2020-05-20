@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>crev info order_by_crate</title>
+    <title>crev info order_by_author</title>
     <meta name="Description" content="web app for querying reviews from cargo-crev" />
     <link rel="stylesheet" data-t-href="t_css_href" href="../cargo_crev_web_root_folder/css/cargo_crev_web.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
@@ -24,18 +24,17 @@
             </div>
             <div style="display: grid;grid-template-columns: 70% 15% 15%;">
                 <div>
-                    <h3 class="yellow">number of reviews grouped by crate</h3>
+                    <h3 class="yellow">number of reviews grouped by authors</h3>
                 </div>
                 <div class="right"><a style="color:white" href="https://lib.rs/" target="_blank">lib.rs</a></div>
                 <div class="right"><a style="color:white" href="https://crates.io/" target="_blank">crates.io</a></div>
             </div>
         </div>
-        <div class="crate_summary" style="display: grid;grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto;">
+        <div class="crate_summary" style="display: grid;grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto;">
             <div class="crate_summary_cell bold" title="ordinal number">o</div>
-            <div class="crate_summary_cell bold">crate</div>
+            <div class="crate_summary_cell bold">author</div>
             <div class="crate_summary_cell bold" title="reviews count">c</div>
-            <div class="crate_summary_cell bold" title="unique versions count">u</div>
-            <div class="crate_summary_cell bold" title="unique authors count">h</div>
+            <div class="crate_summary_cell bold" title="unique crate count">h</div>
             <div class="crate_summary_cell bold greener" title="rating strong">S
             </div>
             <div class="crate_summary_cell bold green " title="rating positive">
@@ -50,19 +49,17 @@
             <div class="crate_summary_cell orange" title="issues">i</div>
             <div class="crate_summary_cell red" title="advisories">a</div>
 
-            <!--template_crate_summary start-->
+            <!--template_author_summary start-->
             <div class="version_summary_cell bold" title="ordinal_number">
                 <!--t_ordinal_number-->1</div>
             <div class="version_summary_cell bold">
-                <a target="_blank" data-t-href="t_open_crate" href="">
-                    <!--t_crate_name-->crate_name</a>
+                <a target="_blank">
+                    <!--t_author-->author</a>
             </div>
             <div class="version_summary_cell bold" title="reviews count">
                 <!--t_count_of_reviews-->7</div>
-            <div class="version_summary_cell bold" title="unique versions">
-                <!--t_unique_versions-->7</div>
-            <div class="version_summary_cell bold" title="unique authors">
-                <!--t_unique_authors-->7</div>
+            <div class="version_summary_cell bold" title="unique crates">
+                <!--t_unique_crates-->7</div>
             <div class="version_summary_cell bold greener" title="rating strong">
                 <!--t_count_of_rating_strong-->2</div>
             <div class="version_summary_cell bold green " title="rating positive">
@@ -80,7 +77,7 @@
                 <!--t_count_of_issues-->1</div>
             <div class="version_summary_cell red" title="advisories">
                 <!--t_count_of_advisories-->1</div>
-            <!--template_crate_summary end-->
+            <!--template_author_summary end-->
         </div>
     </div>
 </body>

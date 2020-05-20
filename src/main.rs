@@ -220,6 +220,7 @@ mod issue_mod;
 mod proof_mod;
 mod utils_mod;
 mod version_summary_mod;
+mod info_group_by_author_mod;
 
 use clap::App;
 use env_logger::Env;
@@ -285,8 +286,8 @@ async fn main() {
         warp::reply::html(html_file)
     })).or(
         warp::path!("cargo_crev_web" / "info" / "group_by_author").map(|| {
-            let group_by_crate = info_group_by_crate_mod::InfoDataByCrate::new();
-            let html_file = group_by_crate.render_html_file("templates/");
+            let group_by_author = info_group_by_author_mod::InfoDataByAuthor::new();
+            let html_file = group_by_author.render_html_file("templates/");
             warp::reply::html(html_file)
         })
     );
