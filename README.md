@@ -174,6 +174,9 @@ I am terrible in VIM, I confess.
 - cached results  - cached templates?  
 - filtered by version, rating,... from cached  
 - summary per author, because there will be a lot of duplicates
+- change css file name on every release to avoid cacheing
+I am already manipulating css names in the dynamic content because of the folders.
+
 
 ## References
 

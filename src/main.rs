@@ -214,7 +214,8 @@ mod crev_query_mod;
 mod crev_query_templating_mod;
 mod duration_mod;
 mod html_template_mod;
-mod info_mod;
+mod proof_index_mod;
+mod info_group_by_crate_mod;
 mod issue_mod;
 mod proof_mod;
 mod utils_mod;
@@ -273,10 +274,22 @@ async fn main() {
     // region: prepare routes
 
     // info dynamic content info
-    let info = warp::path!("cargo_crev_web" / "info" / "group_by_crate").map(|| {
-        let html_file = info_mod::InfoData::html_for_info("templates/");
+    let info =
+    warp::path!("cargo_crev_web" / "info" ).map(|| {
+        let info_data = proof_index_mod::InfoData::new();
+        let html_file = info_data.render_html_file("templates/");
         warp::reply::html(html_file)
-    });
+    }).or(warp::path!("cargo_crev_web" / "info" / "group_by_crate").map(|| {
+        let group_by_crate = info_group_by_crate_mod::InfoDataByCrate::new();
+        let html_file = group_by_crate.render_html_file("templates/");
+        warp::reply::html(html_file)
+    })).or(
+        warp::path!("cargo_crev_web" / "info" / "group_by_author").map(|| {
+            let group_by_crate = info_group_by_crate_mod::InfoDataByCrate::new();
+            let html_file = group_by_crate.render_html_file("templates/");
+            warp::reply::html(html_file)
+        })
+    );
 
     // query_crate dynamic content query
     let query_crate = warp::path!("cargo_crev_web" / "query" / String)
