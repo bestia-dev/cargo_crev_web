@@ -5,7 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>crev_query</title>
     <meta name="Description" content="web app for querying reviews from cargo-crev" />
-    <link rel="stylesheet" data-t-href="t_css_href"  href="../../cargo_crev_web_root_folder/css/cargo_crev_web.css" />
+    <link rel="stylesheet" data-t-href="t_css_href" href="../../cargo_crev_web_root_folder/css/cargo_crev_web.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
     <link rel="shortcut icon" type="image/x-icon" data-t-href="t_favicon_href" href="../favicon.png" />
 </head>
@@ -15,13 +15,20 @@
     <div class="summary_container">
         <div style="padding: 20px;">
             <div style="display: grid;grid-template-columns: 40% 60% ;">
-            <div class="middle"><h2><a style="color:white" href="https://bestia.dev/cargo_crev_web" target="_blank">
-                    cargo_crev_web</a></h2></div>
-            <div class="middle right"><h3 >query reviews from <a style="color:white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3></div>
-        </div>
+                <div class="middle">
+                    <h2><a style="color:white" href="/cargo_crev_web/" target="_blank">
+                    cargo_crev_web</a></h2>
+                </div>
+                <div class="middle right">
+                    <h3>query reviews from <a style="color:white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
+                </div>
+            </div>
             <div style="display: grid;grid-template-columns: 70% 15% 15%;">
-                <div><h3 class="yellow">crate: <!--t_crate_name-->num-traits</h3></div>
-                <div class="right" ><a style="color:white" data-t-href="t_lib_rs_link" href="https://lib.rs/crates/num-traits" target="_blank">lib.rs</a></div>
+                <div>
+                    <h3 class="yellow">crate:
+                        <!--t_crate_name-->num-traits</h3>
+                </div>
+                <div class="right"><a style="color:white" data-t-href="t_lib_rs_link" href="https://lib.rs/crates/num-traits" target="_blank">lib.rs</a></div>
                 <div class="right"><a style="color:white" data-t-href="t_crates_io_link" href="https://crates.io/crates/num-traits" target="_blank">crates.io</a></div>
             </div>
         </div>
@@ -43,48 +50,82 @@
             <div class="crate_summary_cell" title="understanding">u</div>
 
             <div class="crate_summary_cell bold"><a data-t-href="t_filter_crate" href="">crate</a></div>
-            <div class="crate_summary_cell bold" title="reviews count"><a data-t-href="t_filter_crate" href="">
-                <!--t_crate_review_number-->7</a></div>
-            <div class="crate_summary_cell bold greener" title="rating strong"><a data-t-href="t_filter_strong" href="">
-                <!--t_crate_rating_strong-->2</a></div>
-            <div class="crate_summary_cell bold green " title="rating positive"><a data-t-href="t_filter_positive" href="">
-                <!--t_crate_rating_positive-->3</a></div>
-            <div class="crate_summary_cell bold" title="rating neutral"><a data-t-href="t_filter_neutral" href="">
-                <!--t_crate_rating_neutral-->2</a></div>
-            <div class="crate_summary_cell bold red" title="rating negative"><a data-t-href="t_filter_negative" href="">
-                <!--t_crate_rating_negative-->1</a></div>
+            <div class="crate_summary_cell bold" title="reviews count">
+                <a data-t-href="t_filter_crate" href="">
+                    <!--t_crate_review_number-->7</a>
+            </div>
+            <div class="crate_summary_cell bold greener" title="rating strong">
+                <a data-t-href="t_filter_strong" href="">
+                    <!--t_crate_rating_strong-->2</a>
+            </div>
+            <div class="crate_summary_cell bold green " title="rating positive">
+                <a data-t-href="t_filter_positive" href="">
+                    <!--t_crate_rating_positive-->3</a>
+            </div>
+            <div class="crate_summary_cell bold" title="rating neutral">
+                <a data-t-href="t_filter_neutral" href="">
+                    <!--t_crate_rating_neutral-->2</a>
+            </div>
+            <div class="crate_summary_cell bold red" title="rating negative">
+                <a data-t-href="t_filter_negative" href="">
+                    <!--t_crate_rating_negative-->1</a>
+            </div>
             <div class="crate_summary_cell"></div>
-            <div class="crate_summary_cell yellow" title="alternatives"><a data-t-href="t_filter_alternatives" href="">
-                <!--t_crate_alternatives-->2</a></div>
-            <div class="crate_summary_cell orange" title="issues"><a data-t-href="t_filter_issues" href="">
-                <!--t_crate_issues-->1</a></div>
-            <div class="crate_summary_cell red" title="advisories"><a data-t-href="t_filter_advisories" href="">
-                <!--t_crate_advisories-->1</a></div>
+            <div class="crate_summary_cell yellow" title="alternatives">
+                <a data-t-href="t_filter_alternatives" href="">
+                    <!--t_crate_alternatives-->2</a>
+            </div>
+            <div class="crate_summary_cell orange" title="issues">
+                <a data-t-href="t_filter_issues" href="">
+                    <!--t_crate_issues-->1</a>
+            </div>
+            <div class="crate_summary_cell red" title="advisories">
+                <a data-t-href="t_filter_advisories" href="">
+                    <!--t_crate_advisories-->1</a>
+            </div>
             <div class="crate_summary_cell" title="thoroughness">
                 <!--t_crate_thoroughness-->1</div>
             <div class="crate_summary_cell" title="understanding">
                 <!--t_crate_understanding-->1</div>
             <!--template_summary_version start-->
             <!--this template will repeat, but that is knowledge of the data model -->
-            <div class="version_summary_cell bold"><a data-t-href="t_filter_version" href="">
-                <!--t_version-->0.1.0</a></div>
-            <div class="version_summary_cell bold"><a data-t-href="t_filter_version" href="">
-                <!--t_review_number-->4</a></div>
-            <div class="version_summary_cell bold greener"><a data-t-href="t_filter_strong" href="">
-                <!--t_rating_strong-->1</a></div>
-            <div class="version_summary_cell bold green "><a data-t-href="t_filter_positive" href="">
-                <!--t_rating_positive-->2</a></div>
-            <div class="version_summary_cell bold"><a data-t-href="t_filter_neutral" href="">
-                <!--t_rating_neutral-->2</a></div>
-            <div class="version_summary_cell bold red"><a data-t-href="t_filter_negative" href="">
-                <!--t_rating_negative-->1</a></div>
+            <div class="version_summary_cell bold">
+                <a data-t-href="t_filter_version" href="">
+                    <!--t_version-->0.1.0</a>
+            </div>
+            <div class="version_summary_cell bold">
+                <a data-t-href="t_filter_version" href="">
+                    <!--t_review_number-->4</a>
+            </div>
+            <div class="version_summary_cell bold greener">
+                <a data-t-href="t_filter_strong" href="">
+                    <!--t_rating_strong-->1</a>
+            </div>
+            <div class="version_summary_cell bold green ">
+                <a data-t-href="t_filter_positive" href="">
+                    <!--t_rating_positive-->2</a>
+            </div>
+            <div class="version_summary_cell bold">
+                <a data-t-href="t_filter_neutral" href="">
+                    <!--t_rating_neutral-->2</a>
+            </div>
+            <div class="version_summary_cell bold red">
+                <a data-t-href="t_filter_negative" href="">
+                    <!--t_rating_negative-->1</a>
+            </div>
             <div class="version_summary_cell"></div>
-            <div class="version_summary_cell yellow"><a data-t-href="t_filter_alternatives" href="">
-                <!--t_alternatives-->1</a></div>
-            <div class="version_summary_cell orange"><a data-t-href="t_filter_issues" href="">
-                <!--t_issues-->0</a></div>
-            <div class="version_summary_cell red"><a data-t-href="t_filter_advisories" href="">
-                <!--t_advisories-->0</a></div>
+            <div class="version_summary_cell yellow">
+                <a data-t-href="t_filter_alternatives" href="">
+                    <!--t_alternatives-->1</a>
+            </div>
+            <div class="version_summary_cell orange">
+                <a data-t-href="t_filter_issues" href="">
+                    <!--t_issues-->0</a>
+            </div>
+            <div class="version_summary_cell red">
+                <a data-t-href="t_filter_advisories" href="">
+                    <!--t_advisories-->0</a>
+            </div>
             <div class="version_summary_cell">
                 <!--t_thoroughness-->1</div>
             <div class="version_summary_cell">
@@ -104,7 +145,8 @@
                 <!--t_review_date-->2020-01-18</div>
             <div class="review_header_cell white">
                 <a class="white" target="_blank" data-t-href="t_review_author_link" href="https://github.com/niklasf/crev-proofs">
-                    <!--t_review_author-->author_name</a></div>
+                    <!--t_review_author-->author_name</a>
+            </div>
             <div class="review_header_cell" title="thoroughness understanding">
                 <!--t_crate_thoroughness_understanding-->none high</div>
         </div>
@@ -112,29 +154,29 @@
         <div class="review_alternative">
             <div class="review_header_cell">alternative:</div>
             <div class="review_header_cell">
-                <a target="_blank" data-t-href="t_alternative_source"
-                   href="https://github.com/rust-num/num-traits/advisory/125">
-                    <!--t_alternative_source-->alternative.source </a></div>
-            <div class="review_header_cell"><!--t_alternative_name-->alternative.name</div>
+                <a target="_blank" data-t-href="t_alternative_source" href="https://github.com/rust-num/num-traits/advisory/125">
+                    <!--t_alternative_source-->alternative.source </a>
+            </div>
+            <div class="review_header_cell">
+                <!--t_alternative_name-->alternative.name</div>
         </div>
         <!--template_issues start-->
         <div class="review_issue">
             <div class="review_header_cell">issues:</div>
             <div class="review_header_cell">
-                <a target="_blank" data-t-href="t_issue_id"
-                   href="https://github.com/rust-num/num-traits/advisory/125">
+                <a target="_blank" data-t-href="t_issue_id" href="https://github.com/rust-num/num-traits/advisory/125">
                     https://github.com/rust-num/num-traits/issues/125</a></div>
             <div class="review_header_cell" title="severity">
                 <!--t_issue_severity-->medium</div>
-            <div class="review_header_cell" title="comment"><!--t_issue_comment-->comment</div>
+            <div class="review_header_cell" title="comment">
+                <!--t_issue_comment-->comment</div>
         </div>
         <!--template_issues end-->
         <!--b_has_advisories-->
         <div class="review_advisory">
             <div class="review_header_cell">advisories:</div>
             <div class="review_header_cell">
-                <a target="_blank" data-t-href="t_advisories_ids"
-                   href="https://github.com/rust-num/num-traits/advisory/125">
+                <a target="_blank" data-t-href="t_advisories_ids" href="https://github.com/rust-num/num-traits/advisory/125">
                     <!--t_advisories_ids-->https://github.com/rust-num/num-traits/advisory/125 </a>
             </div>
             <div class="review_header_cell" title="severity">
@@ -151,13 +193,8 @@
                 <!--t_advisory_critical-->major</div>
         </div>
         <div class="review_comment" style="word-wrap: break-word;overflow-wrap:break-word;">
-            <!--t_review_comment-->num-traits provides traits for writing
-            code generic over numeric types
-            and implementations for built-in numeric types. I exclusively
-            reviewed unsafe code.
-            num-traits uses some instances of unsafe code. Each unsafe block
-            has a comment explaining why it is required and why it is sound.
-            The blocks are easy to understand and check locally.
+            <!--t_review_comment-->num-traits provides traits for writing code generic over numeric types and implementations for built-in numeric types. I exclusively reviewed unsafe code. num-traits uses some instances of unsafe code. Each unsafe block has a comment explaining
+            why it is required and why it is sound. The blocks are easy to understand and check locally.
         </div>
     </div>
     <!--template_review_proof end-->
@@ -174,14 +211,8 @@
             <div class="review_header_cell">medium high</div>
         </div>
 
-        <div class="review_comment">Not quite ready for untrusted input due
-            to
-            panics and not fuzzed. Minor
-            soundness concerns for floating point operations, rooted in Rust
-            language
-            `as` operator not having fully specified behavior (yet). All is
-            well for the
-            integer part of the library.
+        <div class="review_comment">Not quite ready for untrusted input due to panics and not fuzzed. Minor soundness concerns for floating point operations, rooted in Rust language `as` operator not having fully specified behavior (yet). All is well for the integer part of the
+            library.
         </div>
     </div>
     <!--template_not_for_render end-->
