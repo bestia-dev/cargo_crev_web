@@ -15,6 +15,7 @@ pub struct InfoDataByAuthor {
 #[derive(Clone, Debug)]
 pub struct ByAuthorItem {
     pub author: String,
+    pub repo: String,
     pub count_of_reviews: usize,
     pub unique_crates: usize,
     pub count_of_rating_strong: usize,
@@ -70,6 +71,7 @@ impl InfoDataByAuthor {
                 //a new group begins
                 let last = ByAuthorItem {
                     author: index_item.author.clone(),
+                    repo: index_item.repo.clone(),
                     unique_crates: 0,
                     count_of_reviews: 0,
                     count_of_rating_strong: 0,
@@ -132,7 +134,7 @@ impl HtmlTemplatingRender for InfoDataByAuthor {
             // this is a grid with repeated rows. Use the cursor_pos
             "t_ordinal_number" => (cursor_pos + 1).to_string(),
             "t_author" => self.order_by_author[cursor_pos].author.to_string(),
-            "t_open_author" => format!("../../query/{}", self.order_by_author[cursor_pos].author),
+            "t_open_author" => format!("{}", self.order_by_author[cursor_pos].repo),
             "t_count_of_reviews" => to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_reviews),
             "t_unique_crates" => to_string_zero_to_empty(self.order_by_author[cursor_pos].unique_crates),
             "t_count_of_rating_strong" => to_string_zero_to_empty(self.order_by_author[cursor_pos]

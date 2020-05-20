@@ -145,7 +145,7 @@ impl HtmlTemplatingRender for InfoDataByCrate {
             // this is a grid with repeated rows. Use the cursor_pos
             "t_ordinal_number" => (cursor_pos + 1).to_string(),
             "t_crate_name" => self.order_by_crate[cursor_pos].crate_name.to_string(),
-            "t_open_crate" => format!("../../query/{}", self.order_by_crate[cursor_pos].crate_name),
+            "t_open_crate" => format!("../../../query/{}", self.order_by_crate[cursor_pos].crate_name),
             "t_count_of_reviews" => to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_reviews),
             "t_unique_versions" => to_string_zero_to_empty(self.order_by_crate[cursor_pos].unique_versions),
             "t_unique_authors" => to_string_zero_to_empty(self.order_by_crate[cursor_pos].unique_authors),
