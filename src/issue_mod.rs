@@ -41,9 +41,9 @@ impl HtmlTemplatingRender for Issue {
     fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
-            "t_issue_id" => self.id.to_string(),
-            "t_issue_severity" => self.severity.to_string(),
-            "t_issue_comment" => self.comment.to_string(),
+            "st_issue_id" => self.id.to_string(),
+            "st_issue_severity" => self.severity.to_string(),
+            "st_issue_comment" => self.comment.to_string(),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

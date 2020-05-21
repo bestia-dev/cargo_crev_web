@@ -147,32 +147,32 @@ impl HtmlTemplatingRender for CrateVersionSummary {
     fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
-            "t_crate_name" => self.crate_name.to_string(),
-            "t_crates_io_link" => format!("https://crates.io/crates/{}", self.crate_name),
-            "t_lib_rs_link" => format!("https://lib.rs/crates/{}", self.crate_name),
-            "t_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
-            "t_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
-            "t_crate_rating_positive" => {
+            "st_crate_name" => self.crate_name.to_string(),
+            "st_crates_io_link" => format!("https://crates.io/crates/{}", self.crate_name),
+            "st_lib_rs_link" => format!("https://lib.rs/crates/{}", self.crate_name),
+            "st_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
+            "st_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
+            "st_crate_rating_positive" => {
                 to_string_zero_to_empty(self.crate_summary.rating_positive)
             }
-            "t_crate_rating_neutral" => to_string_zero_to_empty(self.crate_summary.rating_neutral),
-            "t_crate_rating_negative" => {
+            "st_crate_rating_neutral" => to_string_zero_to_empty(self.crate_summary.rating_neutral),
+            "st_crate_rating_negative" => {
                 to_string_zero_to_empty(self.crate_summary.rating_negative)
             }
-            "t_crate_alternatives" => to_string_zero_to_empty(self.crate_summary.alternatives),
-            "t_crate_issues" => to_string_zero_to_empty(self.crate_summary.issues),
-            "t_crate_advisories" => to_string_zero_to_empty(self.crate_summary.advisories),
-            "t_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
-            "t_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
+            "st_crate_alternatives" => to_string_zero_to_empty(self.crate_summary.alternatives),
+            "st_crate_issues" => to_string_zero_to_empty(self.crate_summary.issues),
+            "st_crate_advisories" => to_string_zero_to_empty(self.crate_summary.advisories),
+            "st_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
+            "st_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
 
-            "t_filter_crate" => format!("/cargo_crev_web/query/{}", self.crate_name),
-            "t_filter_strong" => format!("/cargo_crev_web/query/{}/crate/S", self.crate_name),
-            "t_filter_positive" => format!("/cargo_crev_web/query/{}/crate/P", self.crate_name),
-            "t_filter_neutral" => format!("/cargo_crev_web/query/{}/crate/E", self.crate_name),
-            "t_filter_negative" => format!("/cargo_crev_web/query/{}/crate/N", self.crate_name),
-            "t_filter_alternatives" => format!("/cargo_crev_web/query/{}/crate/v", self.crate_name),
-            "t_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
-            "t_filter_advisories" => format!("/cargo_crev_web/query/{}/crate/a", self.crate_name),
+            "st_filter_crate" => format!("/cargo_crev_web/query/{}", self.crate_name),
+            "st_filter_strong" => format!("/cargo_crev_web/query/{}/crate/S", self.crate_name),
+            "st_filter_positive" => format!("/cargo_crev_web/query/{}/crate/P", self.crate_name),
+            "st_filter_neutral" => format!("/cargo_crev_web/query/{}/crate/E", self.crate_name),
+            "st_filter_negative" => format!("/cargo_crev_web/query/{}/crate/N", self.crate_name),
+            "st_filter_alternatives" => format!("/cargo_crev_web/query/{}/crate/v", self.crate_name),
+            "st_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
+            "st_filter_advisories" => format!("/cargo_crev_web/query/{}/crate/a", self.crate_name),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -194,7 +194,7 @@ impl HtmlTemplatingRender for CrateVersionSummary {
         // eprintln!("{}",&format!("&sub_templates.len(): {}", &sub_templates.len()));
 
         match template_name {
-            "template_summary_version" => {
+            "stmpl_summary_version" => {
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

@@ -126,40 +126,40 @@ impl HtmlTemplatingRender for ReviewIndexByAuthor {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "t_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "st_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
             // this is a grid with repeated rows. Use the cursor_pos
-            "t_ordinal_number" => (cursor_pos + 1).to_string(),
-            "t_author" => self.vec[cursor_pos].author.to_string(),
-            "t_author_url" => format!("{}", self.vec[cursor_pos].author_url),
-            "t_count_of_reviews" => {
+            "st_ordinal_number" => (cursor_pos + 1).to_string(),
+            "st_author" => self.vec[cursor_pos].author.to_string(),
+            "st_author_url" => format!("{}", self.vec[cursor_pos].author_url),
+            "st_count_of_reviews" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews)
             }
-            "t_unique_crates" => {
+            "st_unique_crates" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].unique_crates)
             }
-            "t_count_of_rating_strong" => {
+            "st_count_of_rating_strong" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_strong)
             }
-            "t_count_of_rating_positive" => {
+            "st_count_of_rating_positive" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_positive)
             }
-            "t_count_of_rating_neutral" => {
+            "st_count_of_rating_neutral" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_neutral)
             }
-            "t_count_of_rating_negative" => {
+            "st_count_of_rating_negative" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_negative)
             }
-            "t_count_of_rating_none" => {
+            "st_count_of_rating_none" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_none)
             }
-            "t_count_of_alternatives" => {
+            "st_count_of_alternatives" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_alternatives)
             }
-            "t_count_of_issues" => {
+            "st_count_of_issues" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_issues)
             }
-            "t_count_of_advisories" => {
+            "st_count_of_advisories" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_advisories)
             }
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
@@ -182,8 +182,8 @@ impl HtmlTemplatingRender for ReviewIndexByAuthor {
     ) -> Vec<Node> {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
-            "template_author_summary" => {
-                // eprintln!("template_crate_version_summary: {}", "");
+            "stmpl_author_summary" => {
+                // eprintln!("stmpl_crate_version_summary: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

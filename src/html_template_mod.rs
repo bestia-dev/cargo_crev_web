@@ -232,7 +232,7 @@ pub trait HtmlTemplatingRender {
                     if name.starts_with("data-t-") {
                         // placeholder is in the attribute value.
                         // the attribute name is informative and should be similar to the next attribute
-                        // example: data-t-href="t_placeholder" href="x"
+                        // example: data-t-href="st_placeholder" href="x"
                         // The replace_string will always be applied to the next attribute. No matter the name.
                         let placeholder = &value;
                         let repl_txt = self.replace_with_string(placeholder, cursor_pos);
@@ -266,15 +266,15 @@ pub trait HtmlTemplatingRender {
                 Event::Comment(txt) => {
                     // the main goal of comments is to change the value of the next text node
                     // with the result of a function
-                    // it must look like <!--t_get_text-->
+                    // it must look like <!--st_get_text-->
 
-                    if txt.starts_with("t_") {
+                    if txt.starts_with("st_") {
                         let repl_txt = self.replace_with_string(txt, cursor_pos);
                         replace_string = Some(repl_txt);
-                    } else if txt.starts_with("b_") {
+                    } else if txt.starts_with("sb_") {
                         // boolean if this is true than render the next node, else don't render
                         replace_boolean = Some(self.retain_next_node(txt));
-                    } else if txt.starts_with("template_") {
+                    } else if txt.starts_with("stmpl_") {
                         // replace exactly this placeholder for a sub-template
                         let template_name = txt.trim_end_matches(" start");
                         let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
@@ -336,13 +336,13 @@ pub trait HtmlTemplatingRender {
             placeholder: String::new(),
         }];
 
-        // the syntax is <!--template_crate_version_summary start-->, <!--template_crate_version_summary end-->
+        // the syntax is <!--stmpl_crate_version_summary start-->, <!--stmpl_crate_version_summary end-->
         // unique delimiters for start and end are great if there is nesting.
         let mut pos_for_loop = 0;
         loop {
             let mut exist_template = false;
             if let Some(pos_start) =
-                find_pos_before_delimiter(&sub_templates[0].template, pos_for_loop, "<!--template_")
+                find_pos_before_delimiter(&sub_templates[0].template, pos_for_loop, "<!--stmpl_")
             {
                 if let Some(pos_end_name) =
                     find_pos_before_delimiter(&sub_templates[0].template, pos_start, " start-->")
@@ -359,8 +359,8 @@ pub trait HtmlTemplatingRender {
                         // special name for template that will not be used at all.
                         // this happens when the graphic designer need more repetition of the
                         // same sub-template only for visual effect while editing.
-                        if sub_template_name == "template_not_for_render" {
-                            // eprintln!("template_not_for_render {} {}",pos_start, pos_end_after_tag);
+                        if sub_template_name == "stmpl_not_for_render" {
+                            // eprintln!("stmpl_not_for_render {} {}",pos_start, pos_end_after_tag);
                             // remove all the template
                             sub_templates[0]
                                 .template

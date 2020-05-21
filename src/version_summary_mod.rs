@@ -73,46 +73,46 @@ impl HtmlTemplatingRender for VersionSummary {
     fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
-            "t_version" => self.version.to_string(),
-            "t_review_number" => to_string_zero_to_empty(self.review_number),
-            "t_rating_strong" => to_string_zero_to_empty(self.rating_strong),
-            "t_rating_positive" => to_string_zero_to_empty(self.rating_positive),
-            "t_rating_neutral" => to_string_zero_to_empty(self.rating_neutral),
-            "t_rating_negative" => to_string_zero_to_empty(self.rating_negative),
-            "t_alternatives" => to_string_zero_to_empty(self.alternatives),
-            "t_issues" => to_string_zero_to_empty(self.issues),
-            "t_advisories" => to_string_zero_to_empty(self.advisories),
-            "t_thoroughness" => to_string_zero_to_empty(self.thoroughness),
-            "t_understanding" => to_string_zero_to_empty(self.understanding),
+            "st_version" => self.version.to_string(),
+            "st_review_number" => to_string_zero_to_empty(self.review_number),
+            "st_rating_strong" => to_string_zero_to_empty(self.rating_strong),
+            "st_rating_positive" => to_string_zero_to_empty(self.rating_positive),
+            "st_rating_neutral" => to_string_zero_to_empty(self.rating_neutral),
+            "st_rating_negative" => to_string_zero_to_empty(self.rating_negative),
+            "st_alternatives" => to_string_zero_to_empty(self.alternatives),
+            "st_issues" => to_string_zero_to_empty(self.issues),
+            "st_advisories" => to_string_zero_to_empty(self.advisories),
+            "st_thoroughness" => to_string_zero_to_empty(self.thoroughness),
+            "st_understanding" => to_string_zero_to_empty(self.understanding),
 
-            "t_filter_version" => {
+            "st_filter_version" => {
                 format!("/cargo_crev_web/query/{}/{}", self.crate_name, self.version)
             }
-            "t_filter_strong" => format!(
+            "st_filter_strong" => format!(
                 "/cargo_crev_web/query/{}/{}/S",
                 self.crate_name, self.version
             ),
-            "t_filter_positive" => format!(
+            "st_filter_positive" => format!(
                 "/cargo_crev_web/query/{}/{}/P",
                 self.crate_name, self.version
             ),
-            "t_filter_neutral" => format!(
+            "st_filter_neutral" => format!(
                 "/cargo_crev_web/query/{}/{}/E",
                 self.crate_name, self.version
             ),
-            "t_filter_negative" => format!(
+            "st_filter_negative" => format!(
                 "/cargo_crev_web/query/{}/{}/N",
                 self.crate_name, self.version
             ),
-            "t_filter_alternatives" => format!(
+            "st_filter_alternatives" => format!(
                 "/cargo_crev_web/query/{}/{}/v",
                 self.crate_name, self.version
             ),
-            "t_filter_issues" => format!(
+            "st_filter_issues" => format!(
                 "/cargo_crev_web/query/{}/{}/i",
                 self.crate_name, self.version
             ),
-            "t_filter_advisories" => format!(
+            "st_filter_advisories" => format!(
                 "/cargo_crev_web/query/{}/{}/a",
                 self.crate_name, self.version
             ),

@@ -155,11 +155,11 @@ impl HtmlTemplatingRender for Review {
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
-            "b_not_for_render" => false,
-            "b_has_alternatives" => self.alternatives.is_some(),
-            "b_has_issues" => self.issues.is_some(),
-            "b_has_advisories" => self.advisories.is_some(),
-            "b_has_old_advisory" => self.advisory.is_some(),
+            "sb_not_for_render" => false,
+            "sb_has_alternatives" => self.alternatives.is_some(),
+            "sb_has_issues" => self.issues.is_some(),
+            "sb_has_advisories" => self.advisories.is_some(),
+            "sb_has_old_advisory" => self.advisory.is_some(),
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -173,15 +173,15 @@ impl HtmlTemplatingRender for Review {
     fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
-            "t_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
-            "t_review_rating" => {
+            "st_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
+            "st_review_rating" => {
                 if let Some(review) = &self.review {
                     review.rating.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_rating_class_color" => format!(
+            "st_rating_class_color" => format!(
                 "review_header_cell {} bold",
                 color_from_rating(if let Some(review) = &self.review {
                     Some(&review.rating)
@@ -189,13 +189,13 @@ impl HtmlTemplatingRender for Review {
                     None
                 })
             ),
-            "t_review_date" => self.date[..10].to_string(),
-            "t_review_author" => {
+            "st_review_date" => self.date[..10].to_string(),
+            "st_review_author" => {
                 // naive method to extract author
                 self.get_author()
             }
-            "t_review_author_url" => self.from.url.to_string(),
-            "t_crate_thoroughness_understanding" => {
+            "st_review_author_url" => self.from.url.to_string(),
+            "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
                     format!(
                         "{} {}",
@@ -206,63 +206,63 @@ impl HtmlTemplatingRender for Review {
                     "".to_string()
                 }
             }
-            "t_review_comment" => {
+            "st_review_comment" => {
                 if let Some(comment) = &self.comment {
                     comment.clone()
                 } else {
                     "".to_string()
                 }
             }
-            "t_alternative_source" => {
+            "st_alternative_source" => {
                 if let Some(alternatives) = &self.alternatives {
                     alternatives[0].source.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_alternative_name" => {
+            "st_alternative_name" => {
                 if let Some(alternatives) = &self.alternatives {
                     alternatives[0].name.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_issue_id" => {
+            "st_issue_id" => {
                 if let Some(issues) = &self.issues {
                     issues[0].id.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_issue_severity" => {
+            "st_issue_severity" => {
                 if let Some(issues) = &self.issues {
                     issues[0].severity.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_issue_comment" => {
+            "st_issue_comment" => {
                 if let Some(issues) = &self.issues {
                     issues[0].comment.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_advisories_ids" => {
+            "st_advisories_ids" => {
                 if let Some(advisories) = &self.advisories {
                     advisories[0].ids[0].to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_advisories_severity" => {
+            "st_advisories_severity" => {
                 if let Some(advisories) = &self.advisories {
                     advisories[0].severity.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_advisories_range" => {
+            "st_advisories_range" => {
                 if let Some(advisories) = &self.advisories {
                     advisories[0]
                         .range
@@ -273,14 +273,14 @@ impl HtmlTemplatingRender for Review {
                     "".to_string()
                 }
             }
-            "t_advisory_affected" => {
+            "st_advisory_affected" => {
                 if let Some(advisory) = &self.advisory {
                     advisory.affected.to_string()
                 } else {
                     "".to_string()
                 }
             }
-            "t_advisory_critical" => {
+            "st_advisory_critical" => {
                 if let Some(advisory) = &self.advisory {
                     advisory.critical.to_string()
                 } else {
@@ -307,8 +307,8 @@ impl HtmlTemplatingRender for Review {
     ) -> Vec<Node> {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
-            "template_issues" => {
-                // eprintln!("template_issues: {}", "");
+            "stmpl_issues" => {
+                // eprintln!("stmpl_issues: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

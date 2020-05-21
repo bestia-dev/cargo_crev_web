@@ -110,19 +110,19 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "t_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
-            "t_unique_crates" => self.unique_crates.to_string(),
-            "t_unique_authors" => self.unique_authors.to_string(),
-            "t_count_of_reviews" => self.count_of_reviews.to_string(),
-            "t_count_of_rating_strong" => self.count_of_rating_strong.to_string(),
-            "t_count_of_rating_positive" => self.count_of_rating_positive.to_string(),
-            "t_count_of_rating_neutral" => self.count_of_rating_neutral.to_string(),
-            "t_count_of_rating_negative" => self.count_of_rating_negative.to_string(),
-            "t_count_of_rating_none" => self.count_of_rating_none.to_string(),
-            "t_count_of_alternatives" => self.count_of_alternatives.to_string(),
-            "t_count_of_issues" => self.count_of_issues.to_string(),
-            "t_count_of_advisories" => self.count_of_advisories.to_string(),
+            "st_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "st_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_unique_crates" => self.unique_crates.to_string(),
+            "st_unique_authors" => self.unique_authors.to_string(),
+            "st_count_of_reviews" => self.count_of_reviews.to_string(),
+            "st_count_of_rating_strong" => self.count_of_rating_strong.to_string(),
+            "st_count_of_rating_positive" => self.count_of_rating_positive.to_string(),
+            "st_count_of_rating_neutral" => self.count_of_rating_neutral.to_string(),
+            "st_count_of_rating_negative" => self.count_of_rating_negative.to_string(),
+            "st_count_of_rating_none" => self.count_of_rating_none.to_string(),
+            "st_count_of_alternatives" => self.count_of_alternatives.to_string(),
+            "st_count_of_issues" => self.count_of_issues.to_string(),
+            "st_count_of_advisories" => self.count_of_advisories.to_string(),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
