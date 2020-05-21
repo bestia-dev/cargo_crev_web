@@ -11,7 +11,7 @@ use unwrap::unwrap;
 pub struct AuthorReviews {
     pub author: String,
     pub author_url: String,
-    pub author_id:String,
+    pub author_id: String,
     pub reviews: Vec<Review>,
 }
 
@@ -31,8 +31,8 @@ impl AuthorReviews {
             file_path: "don't push the first row".to_string(),
             reviews_pk: vec![],
         };
-        let mut author="".to_string();
-        let mut author_url="".to_string();
+        let mut author = "".to_string();
+        let mut author_url = "".to_string();
         for index_item in review_index.vec.iter() {
             if index_item.author_id == author_id {
                 if index_item.file_path != old_file_path {
@@ -57,9 +57,15 @@ impl AuthorReviews {
                 });
             }
         }
-        let ns_read_from_index = ns_print(&format!("read from index, file_path count: {}", many_file.vec.len()), ns_start);
+        let ns_read_from_index = ns_print(
+            &format!("read from index, file_path count: {}", many_file.vec.len()),
+            ns_start,
+        );
         let reviews = get_vec_of_review(many_file);
-        ns_print(&format!("read from files reviews.len(): {}", reviews.len()), ns_read_from_index);
+        ns_print(
+            &format!("read from files reviews.len(): {}", reviews.len()),
+            ns_read_from_index,
+        );
         //return
         AuthorReviews {
             author: author,
@@ -70,7 +76,6 @@ impl AuthorReviews {
     }
 }
 
-
 impl HtmlServerTemplateRender for AuthorReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
@@ -79,7 +84,10 @@ impl HtmlServerTemplateRender for AuthorReviews {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!("{}author/author_reviews_template.html", templates_folder_name);
+        let template_file_name = format!(
+            "{}author/author_reviews_template.html",
+            templates_folder_name
+        );
         let html = self.render_from_file(&template_file_name);
         // return
         html
@@ -104,7 +112,7 @@ impl HtmlServerTemplateRender for AuthorReviews {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
             "st_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
-            "st_author"=> self.author.to_string(),
+            "st_author" => self.author.to_string(),
             "st_crates_io_link" => format!("https://crates.io/{}", ""),
             "st_lib_rs_link" => format!("https://lib.rs/{}", ""),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
@@ -127,24 +135,24 @@ impl HtmlServerTemplateRender for AuthorReviews {
     ) -> Vec<Node> {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
-        "stmplt_reviews" => {
-            // eprintln!("stmplt_reviews: {}", "");
-            let sub_template = unwrap!(sub_templates
-                .iter()
-                .find(|&template| template.name == template_name));
-            let mut nodes = vec![];
-            // sub-template repeatable
-            for review in &self.reviews {
-                let vec_node = unwrap!(review.render_template_raw_to_nodes(
-                    &sub_template.template,
-                    HtmlOrSvg::Html,
-                    0
-                ));
-                nodes.extend_from_slice(&vec_node);
+            "stmplt_reviews" => {
+                // eprintln!("stmplt_reviews: {}", "");
+                let sub_template = unwrap!(sub_templates
+                    .iter()
+                    .find(|&template| template.name == template_name));
+                let mut nodes = vec![];
+                // sub-template repeatable
+                for review in &self.reviews {
+                    let vec_node = unwrap!(review.render_template_raw_to_nodes(
+                        &sub_template.template,
+                        HtmlOrSvg::Html,
+                        0
+                    ));
+                    nodes.extend_from_slice(&vec_node);
+                }
+                // return
+                nodes
             }
-            // return
-            nodes
-        }
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }
     }
