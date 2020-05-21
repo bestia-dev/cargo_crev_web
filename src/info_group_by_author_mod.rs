@@ -10,7 +10,7 @@ use unwrap::unwrap;
 
 /// only one field with a generic name vec
 #[derive(Clone, Debug)]
-pub struct ProofIndexByAuthor {
+pub struct ReviewIndexByAuthor {
     vec: Vec<ByAuthorItem>,
 }
 #[derive(Clone, Debug)]
@@ -29,16 +29,16 @@ pub struct ByAuthorItem {
     pub count_of_advisories: usize,
 }
 
-impl ProofIndexByAuthor {
-    pub fn new() -> ProofIndexByAuthor {
-        let mut proof_index = ProofIndex::new();
+impl ReviewIndexByAuthor {
+    pub fn new() -> ReviewIndexByAuthor {
+        let mut proof_index = ReviewIndex::new();
         // sort order for group by, so I don't need to send a mutable
         proof_index
             .vec
             .sort_by(|a, b| Ord::cmp(&a.author, &b.author));
         let mut old_author = "".to_string();
         let mut for_unique_crates: Vec<String> = vec![];
-        let mut proof_index_by_author = ProofIndexByAuthor{vec: vec![]};
+        let mut proof_index_by_author = ReviewIndexByAuthor{vec: vec![]};
         for index_item in &proof_index.vec {
             //the proofs are already sorted by author
             if &index_item.author != &old_author {
@@ -85,11 +85,11 @@ impl ProofIndexByAuthor {
         proof_index_by_author
     }
 }
-impl HtmlTemplatingRender for ProofIndexByAuthor {
+impl HtmlTemplatingRender for ReviewIndexByAuthor {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "ProofIndexByAuthor".to_string()
+        "ReviewIndexByAuthor".to_string()
     }
     /// render full html file from full template
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -183,7 +183,7 @@ impl HtmlTemplatingRender for ProofIndexByAuthor {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
             "template_author_summary" => {
-                // eprintln!("template_all_summaries: {}", "");
+                // eprintln!("template_crate_version_summary: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

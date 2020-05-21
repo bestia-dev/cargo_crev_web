@@ -336,7 +336,7 @@ pub trait HtmlTemplatingRender {
             placeholder: String::new(),
         }];
 
-        // the syntax is <!--template_all_summaries start-->, <!--template_all_summaries end-->
+        // the syntax is <!--template_crate_version_summary start-->, <!--template_crate_version_summary end-->
         // unique delimiters for start and end are great if there is nesting.
         let mut pos_for_loop = 0;
         loop {

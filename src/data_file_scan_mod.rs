@@ -18,7 +18,7 @@ pub struct OneFileReviewsPk {
 
 /// find one or more reviews from one file
 /// the review PK crate_name, author_url, version
-fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Proof> {
+fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Review> {
     // first fill a vector with proofs, because I need to filter and sort them
     let mut proofs = vec![];
     for review_pk in &review_pks {
@@ -57,8 +57,8 @@ fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) 
     proofs
 }
 
-fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, review_pk: &ReviewPk) {
-    let mut proof: Proof = unwrap!(serde_yaml::from_str(proof_string));
+fn push_proof(proof_string: &str, proofs: &mut Vec<Review>, review_pk: &ReviewPk) {
+    let mut proof: Review = unwrap!(serde_yaml::from_str(proof_string));
     // filter: only the one equal to review_pk
     if proof.package.name == review_pk.crate_name
         && proof.from.url == review_pk.author_url

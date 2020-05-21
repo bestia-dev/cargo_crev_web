@@ -209,9 +209,9 @@
 // endregion: (collapsed) Clippy
 
 // region: (collapsed) use statements
-mod all_summary_mod;
+mod crate_version_summary_mod;
 mod author_reviews_mod;
-mod crev_query_mod;
+mod crate_proofs_mod;
 mod data_file_scan_mod;
 mod duration_mod;
 mod html_template_mod;
@@ -281,20 +281,20 @@ async fn main() {
     // info dynamic content info
     let info = warp::path!("cargo_crev_web" / "info")
         .map(|| {
-            let data_model = proof_index_summary_mod::ProofIndexSummary::new();
+            let data_model = proof_index_summary_mod::ReviewIndexSummary::new();
             let html_file = data_model.render_html_file("templates/");
             warp::reply::html(html_file)
         })
         .or(
             warp::path!("cargo_crev_web" / "info" / "group_by_crate").map(|| {
-                let data_model = info_group_by_crate_mod::ProofIndexByCrate::new();
+                let data_model = info_group_by_crate_mod::ReviewIndexByCrate::new();
                 let html_file = data_model.render_html_file("templates/");
                 warp::reply::html(html_file)
             }),
         )
         .or(
             warp::path!("cargo_crev_web" / "info" / "group_by_author").map(|| {
-                let data_model = info_group_by_author_mod::ProofIndexByAuthor::new();
+                let data_model = info_group_by_author_mod::ReviewIndexByAuthor::new();
                 let html_file = data_model.render_html_file("templates/");
                 warp::reply::html(html_file)
             }),
@@ -303,14 +303,14 @@ async fn main() {
     // query_crate dynamic content query
     let query_crate = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
-            let data_model = crev_query_mod::CrevQueryData::new(&crate_name, "", "");
+            let data_model = crate_proofs_mod::CrateReviews::new(&crate_name, "", "");
             let html_file = data_model.render_html_file("templates/");
             warp::reply::html(html_file)
         })
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String).map(
                 |crate_name: String, version: String| {
-                    let data_model = crev_query_mod::CrevQueryData::new(&crate_name, &version, "");
+                    let data_model = crate_proofs_mod::CrateReviews::new(&crate_name, &version, "");
                     let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },
@@ -320,7 +320,7 @@ async fn main() {
             warp::path!("cargo_crev_web" / "query" / String / String / String).map(
                 |crate_name: String, version: String, kind: String| {
                     let data_model =
-                        crev_query_mod::CrevQueryData::new(&crate_name, &version, &kind);
+                        crate_proofs_mod::CrateReviews::new(&crate_name, &version, &kind);
                     let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },

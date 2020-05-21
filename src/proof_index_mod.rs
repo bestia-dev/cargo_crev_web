@@ -14,7 +14,7 @@ use unwrap::unwrap;
 
 /// one item in the index
 #[derive(Clone, Debug)]
-pub struct ProofIndexItem {
+pub struct ReviewIndexItem {
     pub crate_name: String,
     pub version: String,
     pub version_for_sorting: String,
@@ -31,15 +31,15 @@ pub struct ProofIndexItem {
     pub advisories: usize,
 }
 /// only one field with a generic name vec
-pub struct ProofIndex {
-    pub vec: Vec<ProofIndexItem>,
+pub struct ReviewIndex {
+    pub vec: Vec<ReviewIndexItem>,
 }
 
-impl ProofIndex {
+impl ReviewIndex {
     /// prepares the data
     /// todo: this could be cached
-    pub fn new() -> ProofIndex {
-        let mut proof_index = ProofIndex { vec: vec![] };
+    pub fn new() -> ReviewIndex {
+        let mut proof_index = ReviewIndex { vec: vec![] };
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
         // local webfolder example "crev/cache/crev/remotes"
@@ -87,11 +87,11 @@ impl ProofIndex {
     }
 
     /// mutates proof_index
-    fn push_proof_index(proof_string: &str, proof_index: &mut ProofIndex, file_path: &str) {
+    fn push_proof_index(proof_string: &str, proof_index: &mut ReviewIndex, file_path: &str) {
         // deserialize one proof
-        let proof: crate::proof_mod::Proof = unwrap!(serde_yaml::from_str(proof_string));
+        let proof: crate::proof_mod::Review = unwrap!(serde_yaml::from_str(proof_string));
         // use only some of the data for the index
-        let proof_index_item = ProofIndexItem {
+        let proof_index_item = ReviewIndexItem {
             crate_name: proof.package.name.to_string(),
             version: proof.package.version.to_string(),
             version_for_sorting: proof.version_for_sorting(),

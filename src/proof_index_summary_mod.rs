@@ -10,7 +10,7 @@ use crate::proof_index_mod::*;
 use chrono::Local;
 //use unwrap::unwrap;
 #[derive(Clone, Debug)]
-pub struct ProofIndexSummary {
+pub struct ReviewIndexSummary {
     pub unique_crates: usize,
     pub unique_authors: usize,
     pub count_of_reviews: usize,
@@ -24,13 +24,13 @@ pub struct ProofIndexSummary {
     pub count_of_advisories: usize,
 }
 
-impl ProofIndexSummary {
+impl ReviewIndexSummary {
     /// prepares the data
-    pub fn new() -> ProofIndexSummary {
-        let proof_index = ProofIndex::new();
+    pub fn new() -> ReviewIndexSummary {
+        let proof_index = ReviewIndex::new();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
-        let mut summary = ProofIndexSummary {
+        let mut summary = ReviewIndexSummary {
             unique_crates: 0,
             unique_authors: 0,
             count_of_reviews: 0,
@@ -66,11 +66,11 @@ impl ProofIndexSummary {
     }
 }
 
-impl HtmlTemplatingRender for ProofIndexSummary {
+impl HtmlTemplatingRender for ReviewIndexSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "ProofIndexSummary".to_string()
+        "ReviewIndexSummary".to_string()
     }
     /// render html file
     fn render_html_file(&self, templates_folder_name: &str) -> String {

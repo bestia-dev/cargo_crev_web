@@ -1,4 +1,4 @@
-//! all_summary_mod
+//! crate_version_summary_mod
 
 // region: use
 use crate::*;

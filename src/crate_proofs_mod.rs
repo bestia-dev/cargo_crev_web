@@ -1,6 +1,6 @@
-//! crev_query_mod
+//! crate_proofs_mod
 
-use crate::all_summary_mod::*;
+use crate::crate_version_summary_mod::*;
 use crate::duration_mod;
 use crate::html_template_mod::*;
 use crate::proof_mod::*;
@@ -12,13 +12,13 @@ use dirs;
 use std::fs;
 use unwrap::unwrap;
 
-pub struct CrevQueryData {
-    pub all_summaries: AllSummaries,
-    pub proofs: Vec<Proof>,
+pub struct CrateReviews {
+    pub crate_version_summary: CrateVersionSummary,
+    pub proofs: Vec<Review>,
 }
 
-impl CrevQueryData {
-    pub fn new(crate_name: &str, version: &str, kind: &str) -> CrevQueryData {
+impl CrateReviews {
+    pub fn new(crate_name: &str, version: &str, kind: &str) -> CrateReviews {
         let start = duration_mod::start_ns();
         eprintln!(
             "{}: crate_name: '{}', version '{}', kind '{}'",
@@ -34,19 +34,19 @@ impl CrevQueryData {
             duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
 
         // the summary is always from all proofs. We must filter the proofs later.
-        let all_summaries = AllSummaries::new(crate_name, &proofs);
+        let crate_version_summary = CrateVersionSummary::new(crate_name, &proofs);
         filter_proofs(&mut proofs, version, kind);
 
         //return
-        CrevQueryData {
-            all_summaries,
+        CrateReviews {
+            crate_version_summary,
             proofs,
         }
     }
 }
 
 /// crev query returns html
-fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
+fn proofs_crev_query(crate_name: &str) -> Vec<Review> {
     // first fill a vector with proofs, because I need to filter and sort them
     let mut proofs = vec![];
     // this part can be cached: last 10 queried crates
@@ -102,7 +102,7 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Proof> {
     proofs
 }
 
-fn filter_proofs(proofs: &mut Vec<Proof>, version: &str, kind: &str) {
+fn filter_proofs(proofs: &mut Vec<Review>, version: &str, kind: &str) {
     if !version.is_empty() && version != "crate" {
         proofs.retain(|x| x.package.version == version);
     }
@@ -134,8 +134,8 @@ fn filter_proofs(proofs: &mut Vec<Proof>, version: &str, kind: &str) {
     }
 }
 
-fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str) {
-    let mut proof: Proof = unwrap!(serde_yaml::from_str(proof_string));
+fn push_proof(proof_string: &str, proofs: &mut Vec<Review>, crate_name: &str) {
+    let mut proof: Review = unwrap!(serde_yaml::from_str(proof_string));
     // filter: only one crate_name
     if &proof.package.name == crate_name {
         // proofs without review are not important
@@ -153,11 +153,11 @@ fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str) {
     }
 }
 
-impl HtmlTemplatingRender for CrevQueryData {
+impl HtmlTemplatingRender for CrateReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "CrevQueryData".to_string()
+        "CrateReviews".to_string()
     }
     /// render full html
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -206,14 +206,14 @@ impl HtmlTemplatingRender for CrevQueryData {
     ) -> Vec<Node> {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
-            "template_all_summaries" => {
-                // eprintln!("template_all_summaries: {}", "");
+            "template_crate_version_summary" => {
+                // eprintln!("template_crate_version_summary: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template NOT repeatable
-                let vec_node = unwrap!(self.all_summaries.render_template_raw_to_nodes(
+                let vec_node = unwrap!(self.crate_version_summary.render_template_raw_to_nodes(
                     &sub_template.template,
                     HtmlOrSvg::Html,
                     0

@@ -8,14 +8,14 @@ use strum_macros;
 use unwrap::unwrap;
 
 #[derive(Serialize, Deserialize, Clone)]
-pub struct ProofFrom {
+pub struct ReviewFrom {
     #[serde(rename = "id-type")]
     pub id_type: String,
     pub id: String,
     pub url: String,
 }
 #[derive(Serialize, Deserialize, Clone)]
-pub struct ProofPackage {
+pub struct ReviewPackage {
     pub source: String,
     pub name: String,
     pub version: String,
@@ -23,7 +23,7 @@ pub struct ProofPackage {
     pub version_for_sorting: Option<String>,
 }
 #[derive(Serialize, Deserialize, Clone)]
-pub struct ProofReview {
+pub struct ReviewReview {
     pub thoroughness: Level,
     pub understanding: Level,
     pub rating: Rating,
@@ -47,13 +47,13 @@ pub struct AdvisoryOld {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
-pub struct Proof {
+pub struct Review {
     pub kind: Option<String>,
     pub version: String,
     pub date: String,
-    pub from: ProofFrom,
-    pub package: ProofPackage,
-    pub review: Option<ProofReview>,
+    pub from: ReviewFrom,
+    pub package: ReviewPackage,
+    pub review: Option<ReviewReview>,
     pub alternatives: Option<Vec<Alternative>>,
     pub issues: Option<Vec<Issue>>,
     pub advisory: Option<AdvisoryOld>,
@@ -106,7 +106,7 @@ pub enum Level {
     High,
 }
 
-impl Proof {
+impl Review {
     /// naive method to extract author
     pub fn get_author(&self) -> String {
         let author = self
@@ -140,11 +140,11 @@ impl Proof {
     }
 }
 
-impl HtmlTemplatingRender for Proof {
+impl HtmlTemplatingRender for Review {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "Proof".to_string()
+        "Review".to_string()
     }
     /// This struct is never a full html file. It is always a sub-template.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {

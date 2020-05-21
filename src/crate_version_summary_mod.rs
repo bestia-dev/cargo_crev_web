@@ -1,4 +1,4 @@
-//! all_summary_mod
+//! crate_version_summary_mod
 
 // region: use
 use crate::proof_mod::*;
@@ -11,15 +11,15 @@ use unwrap::unwrap;
 // endregion: use
 
 #[derive(Clone, Debug)]
-pub struct AllSummaries {
+pub struct CrateVersionSummary {
     pub crate_name: String,
     pub crate_summary: VersionSummary,
     pub version_summaries: Vec<VersionSummary>,
 }
-impl AllSummaries {
-    pub fn new(crate_name: &str, proofs: &Vec<Proof>) -> AllSummaries {
+impl CrateVersionSummary {
+    pub fn new(crate_name: &str, proofs: &Vec<Review>) -> CrateVersionSummary {
         // the first version empty_string is for "all_versions" or crate_summary
-        let mut all_summaries = AllSummaries {
+        let mut crate_version_summary = CrateVersionSummary {
             crate_name: crate_name.to_string(),
             version_summaries: vec![],
             crate_summary: VersionSummary {
@@ -42,7 +42,7 @@ impl AllSummaries {
         for proof in proofs {
             // find version in vector or create new
             let mut option_version: Option<&mut VersionSummary> = None;
-            for version_summary in &mut all_summaries.version_summaries {
+            for version_summary in &mut crate_version_summary.version_summaries {
                 if version_summary.version == proof.package.version {
                     option_version = Some(version_summary);
                     break;
@@ -55,77 +55,77 @@ impl AllSummaries {
                 version_to_push.version = proof.package.version.to_string();
                 version_to_push.version_for_sorting =
                     unwrap!(proof.package.version_for_sorting.clone()).to_string();
-                all_summaries.version_summaries.push(version_to_push);
-                option_version = Some(unwrap!(all_summaries.version_summaries.last_mut()));
+                crate_version_summary.version_summaries.push(version_to_push);
+                option_version = Some(unwrap!(crate_version_summary.version_summaries.last_mut()));
             }
             // Here Option is not needed any more.
             let mut version_summary = unwrap!(option_version);
-            all_summaries.crate_summary.review_number += 1;
+            crate_version_summary.crate_summary.review_number += 1;
             version_summary.review_number += 1;
 
             if let Some(review) = &proof.review {
                 if review.rating == Rating::Strong {
-                    all_summaries.crate_summary.rating_strong += 1;
+                    crate_version_summary.crate_summary.rating_strong += 1;
                     version_summary.rating_strong += 1;
                 }
                 if review.rating == Rating::Positive {
-                    all_summaries.crate_summary.rating_positive += 1;
+                    crate_version_summary.crate_summary.rating_positive += 1;
                     version_summary.rating_positive += 1;
                 }
                 if review.rating == Rating::Neutral {
-                    all_summaries.crate_summary.rating_neutral += 1;
+                    crate_version_summary.crate_summary.rating_neutral += 1;
                     version_summary.rating_neutral += 1;
                 }
                 if review.rating == Rating::Negative {
-                    all_summaries.crate_summary.rating_negative += 1;
+                    crate_version_summary.crate_summary.rating_negative += 1;
                     version_summary.rating_negative += 1;
                 }
                 if review.thoroughness == Level::High {
-                    all_summaries.crate_summary.thoroughness += 2;
+                    crate_version_summary.crate_summary.thoroughness += 2;
                     version_summary.thoroughness += 2;
                 }
                 if review.thoroughness == Level::Medium {
-                    all_summaries.crate_summary.thoroughness += 1;
+                    crate_version_summary.crate_summary.thoroughness += 1;
                     version_summary.thoroughness += 1;
                 }
                 if review.understanding == Level::High {
-                    all_summaries.crate_summary.understanding += 2;
+                    crate_version_summary.crate_summary.understanding += 2;
                     version_summary.understanding += 2;
                 }
                 if review.understanding == Level::Medium {
-                    all_summaries.crate_summary.understanding += 1;
+                    crate_version_summary.crate_summary.understanding += 1;
                     version_summary.understanding += 1;
                 }
             }
             if let Some(_alternative) = &proof.alternatives {
-                all_summaries.crate_summary.alternatives += 1;
+                crate_version_summary.crate_summary.alternatives += 1;
                 version_summary.alternatives += 1;
             }
             if let Some(_issue) = &proof.issues {
-                all_summaries.crate_summary.issues += 1;
+                crate_version_summary.crate_summary.issues += 1;
                 version_summary.issues += 1;
             }
             if let Some(_advisory) = &proof.advisories {
-                all_summaries.crate_summary.advisories += 1;
+                crate_version_summary.crate_summary.advisories += 1;
                 version_summary.advisories += 1;
             }
             if let Some(_advisory) = &proof.advisory {
-                all_summaries.crate_summary.advisories += 1;
+                crate_version_summary.crate_summary.advisories += 1;
                 version_summary.advisories += 1;
             }
         }
         // return
-        all_summaries
+        crate_version_summary
     }
 }
 
-impl HtmlTemplatingRender for AllSummaries {
+impl HtmlTemplatingRender for CrateVersionSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "AllSummaries".to_string()
+        "CrateVersionSummary".to_string()
     }
-    /// AllSummaries is never a full html file. It is always a sub-template.
+    /// CrateVersionSummary is never a full html file. It is always a sub-template.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
         //return
         String::new()

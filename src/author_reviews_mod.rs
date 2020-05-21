@@ -5,22 +5,22 @@
 //use crate::data_file_scan_mod::*;
 
 /*
-pub fn prepare_proofs_for_author() -> Vec<Proof> {
-    //fill ProofIndex
-    let proof_index = ProofIndex::new();
+pub fn prepare_proofs_for_author() -> Vec<Review> {
+    //fill ReviewIndex
+    let proof_index = ReviewIndex::new();
 
-// pub fn new() -> ProofIndex {
+// pub fn new() -> ReviewIndex {
 
     //get_review_pk
 
 
     // file scan for proofs
-    //fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Proof> {
+    //fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Review> {
 
 }
 
 // from the index returns path_name and ReviewPk
-pub fn get_review_pk_for_author(proof_index: &ProofIndex, author_url: &str) -> Vec<OneFileReviewsPk> {
+pub fn get_review_pk_for_author(proof_index: &ReviewIndex, author_url: &str) -> Vec<OneFileReviewsPk> {
     // if they are sorted by author_url, than is easy
     let vec_one_file_reviews_pk = vec![];
     let old_file_path = "";
