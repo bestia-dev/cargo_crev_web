@@ -15,6 +15,7 @@ pub struct ReviewIndexByAuthor {
 pub struct ByAuthorItem {
     pub author: String,
     pub author_url: String,
+    pub author_id: String,
     pub count_of_reviews: usize,
     pub unique_crates: usize,
     pub count_of_rating_strong: usize,
@@ -53,6 +54,7 @@ impl ReviewIndexByAuthor {
                 let last = ByAuthorItem {
                     author: index_item.author.clone(),
                     author_url: index_item.author_url.clone(),
+                    author_id: index_item.author_id.clone(),
                     unique_crates: 0,
                     count_of_reviews: 0,
                     count_of_rating_strong: 0,
@@ -127,7 +129,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             "st_author" => self.vec[cursor_pos].author.to_string(),
             "st_author_url" => format!("{}", self.vec[cursor_pos].author_url),
             "st_author_review_url" => {
-                format!("/cargo_crev_web/author/{}/", self.vec[cursor_pos].author)
+                format!("/cargo_crev_web/author/{}/", self.vec[cursor_pos].author_id)
             }
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
             "st_unique_crates" => to_string_zero_to_empty(self.vec[cursor_pos].unique_crates),

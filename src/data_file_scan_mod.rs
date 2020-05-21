@@ -9,7 +9,7 @@ use unwrap::unwrap;
 #[derive(Clone, Debug)]
 pub struct ReviewPk {
     pub crate_name: String,
-    pub author_url: String,
+    pub author_id: String,
     pub version: String,
 }
 #[derive(Clone, Debug)]
@@ -31,7 +31,7 @@ pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
     reviews
 }
 /// find one or more reviews from one file
-/// the review PK crate_name, author_url, version
+/// the review PK crate_name, author_id, version
 fn get_vec_of_review_by_review_pk(one_file_review_pk: &OneFileReviewsPk) -> Vec<Review> {
     let file_path = &one_file_review_pk.file_path;
     let review_pks = &one_file_review_pk.reviews_pk;
@@ -77,7 +77,7 @@ fn push_review(review_string: &str, reviews: &mut Vec<Review>, review_pk: &Revie
     let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
     // filter: only the one equal to review_pk
     if review.package.name == review_pk.crate_name
-        && review.from.url == review_pk.author_url
+        && review.from.id == review_pk.author_id
         && review.package.version == review_pk.version
     {
         // reviews without review are not important

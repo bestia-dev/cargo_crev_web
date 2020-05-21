@@ -325,12 +325,13 @@ async fn main() {
     // query_crate dynamic content query
     let author = warp::path!("cargo_crev_web" / "author" / String)
         .and(cached_review_index.clone())
-        .map(|author: String, cached_review_index| {
+        .map(|author_id: String, cached_review_index| {
             let ns_start = ns_start(&format!(
                 "AuthorReviews author: '{}'",
-                Yellow.paint(&author),
+                Yellow.paint(&author_id),
             ));
-            let data_model = author_reviews_mod::AuthorReviews::new(cached_review_index, &author);
+            let data_model =
+                author_reviews_mod::AuthorReviews::new(cached_review_index, &author_id);
             let ns_new = ns_print("new()", ns_start);
             //let html_file = data_model.render_html_file("templates/");
             let html_file = "we are here";

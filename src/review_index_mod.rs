@@ -20,6 +20,7 @@ pub struct ReviewIndexItem {
     pub version_for_sorting: String,
     pub author: String,
     pub author_url: String,
+    pub author_id: String,
     pub file_path: String,
     pub rating_strong: usize,
     pub rating_positive: usize,
@@ -84,7 +85,9 @@ impl ReviewIndex {
             }
         }
         // sort by file_path
-        review_index.vec.sort_by(|a, b| b.file_path.cmp(&a.file_path));
+        review_index
+            .vec
+            .sort_by(|a, b| b.file_path.cmp(&a.file_path));
         ns_print("ReviewIndex.new()", ns_start);
         //return
         review_index
@@ -101,6 +104,7 @@ impl ReviewIndex {
             version_for_sorting: review.version_for_sorting(),
             author: review.get_author(),
             author_url: review.from.url.to_string(),
+            author_id: review.from.id.to_string(),
             file_path: file_path.to_string(),
             rating_strong: conditional_usize(review.get_rating() == Rating::Strong, 1, 0),
             rating_positive: conditional_usize(review.get_rating() == Rating::Positive, 1, 0),

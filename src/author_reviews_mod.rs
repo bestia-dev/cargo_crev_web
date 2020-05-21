@@ -9,11 +9,12 @@ use crate::*;
 pub struct AuthorReviews {
     pub author: String,
     pub author_url: String,
+    pub author_id:String,
     pub reviews: Vec<Review>,
 }
 
 impl AuthorReviews {
-    pub fn new(cached_review_index: CachedReviewIndex, author_url: &str) -> Self {
+    pub fn new(cached_review_index: CachedReviewIndex, author_id: &str) -> Self {
         let review_index = cached_review_index
             .lock()
             .expect("error cached_review_index.lock()");
@@ -21,38 +22,46 @@ impl AuthorReviews {
         // the data is sorted by path_file in ReviewIndex.new()
         // nobody else should sort the data
         // search data in the index
-        let mut many_file = ManyFileReviewsPk{vec:vec![],};
+        let mut many_file = ManyFileReviewsPk { vec: vec![] };
         let old_file_path = "".to_string();
         let mut one_file = OneFileReviewsPk {
-            file_path: "dummy".to_string(),
+            file_path: "don't push the first row".to_string(),
             reviews_pk: vec![],
         };
-        for i in review_index.vec.iter() {
-            if i.file_path != old_file_path {
-                if one_file.file_path != "dummy" {
-                    // push the old one before creating the new one
-                    many_file.vec.push(one_file);
+        let mut author="".to_string();
+        let mut author_url="".to_string();
+        for index_item in review_index.vec.iter() {
+            if index_item.author_id == author_id {
+                if index_item.file_path != old_file_path {
+                    if one_file.file_path != "don't push the first row" {
+                        //only once read the author
+                        author = index_item.author.clone();
+                        author_url = index_item.author_url.clone();
+                        // push the old one before creating the new one
+                        many_file.vec.push(one_file);
+                    }
+                    // create new OneFile
+                    one_file = OneFileReviewsPk {
+                        file_path: index_item.file_path.clone(),
+                        reviews_pk: vec![],
+                    };
                 }
-                // create new OneFile
-                one_file = OneFileReviewsPk {
-                    file_path: i.file_path.clone(),
-                    reviews_pk: vec![],
-                };
+                // add data to reviews_pk
+                one_file.reviews_pk.push(ReviewPk {
+                    crate_name: index_item.crate_name.clone(),
+                    author_id: index_item.author_id.clone(),
+                    version: index_item.version.clone(),
+                });
             }
-            // add data to reviews_pk
-            one_file.reviews_pk.push(ReviewPk {
-                crate_name: i.crate_name.clone(),
-                author_url: i.author_url.clone(),
-                version: i.version.clone(),
-            });
         }
         let reviews = get_vec_of_review(many_file);
-
+        println!("reviews.len(): {}", reviews.len());
         //return
         AuthorReviews {
             author: author.to_string(),
             author_url: author_url.to_string(),
-            reviews 
+            author_id: author_id.to_string(),
+            reviews,
         }
     }
 }
