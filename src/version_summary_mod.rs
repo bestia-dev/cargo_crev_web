@@ -1,7 +1,6 @@
 //! crate_version_summary_mod
 
 // region: use
-use crate::duration_mod::*;
 use crate::*;
 use html_server_template_mod::*;
 //use serde_derive::{Deserialize, Serialize};
@@ -28,7 +27,7 @@ pub struct VersionSummary {
 
 impl VersionSummary {
     pub fn new() -> Self {
-        let ns_start = ns_start("VersionSummary::new()");
+        
         VersionSummary {
             crate_name: "".to_string(),
             version: "".to_string(),

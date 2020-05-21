@@ -1,11 +1,9 @@
 //! crate_reviews_mod
 
 use crate::crate_version_summary_mod::*;
-use crate::duration_mod::*;
 use crate::html_server_template_mod::*;
 use crate::review_mod::*;
 use crate::utils_mod::*;
-use crate::*;
 
 use dirs;
 use std::fs;
@@ -18,13 +16,6 @@ pub struct CrateReviews {
 
 impl CrateReviews {
     pub fn new(crate_name: &str, version: &str, kind: &str) -> CrateReviews {
-        let ns_start = ns_start(&format!(
-            "crate_name: '{}', version '{}', kind '{}'",
-            Yellow.paint(crate_name),
-            Yellow.paint(version),
-            Yellow.paint(kind)
-        ));
-
         // first fill a vector with reviews, because I need to filter and sort them
         let mut reviews = query_reviews(crate_name);
 
@@ -32,7 +23,6 @@ impl CrateReviews {
         let crate_version_summary = CrateVersionSummary::new(crate_name, &reviews);
         filter_reviews(&mut reviews, version, kind);
 
-        ns_print("  CrateReviews::new()", ns_start);
         //return
         CrateReviews {
             crate_version_summary,
@@ -157,10 +147,10 @@ impl HtmlServerTemplateRender for CrateReviews {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let ns_start = ns_start("");
+        
         let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
-        ns_print("render_html_file()", ns_start);
+        
         // return
         html
     }

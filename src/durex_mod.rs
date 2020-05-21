@@ -1,4 +1,4 @@
-//! duration_mod
+//! durex_mod
 
 #[allow(unused_imports)]
 use ansi_term::Colour::{Blue, Green, Red, Yellow};

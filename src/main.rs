@@ -213,7 +213,7 @@ mod author_reviews_mod;
 mod crate_reviews_mod;
 mod crate_version_summary_mod;
 mod data_file_scan_mod;
-mod duration_mod;
+mod durex_mod;
 mod html_server_template_mod;
 mod info_group_by_author_mod;
 mod info_group_by_crate_mod;
@@ -226,6 +226,7 @@ mod version_summary_mod;
 
 // I must put the trait in scope
 use crate::html_server_template_mod::*;
+use crate::durex_mod::*;
 
 use clap::App;
 use env_logger::Env;
@@ -236,6 +237,7 @@ use log::info;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 //use unwrap::unwrap;
 use warp::Filter;
+use std::sync::{Arc, Mutex};
 // region: (collapsed) use statements
 
 /// main function of the binary
@@ -267,7 +269,12 @@ async fn main() {
         Red.paint(local_addr.to_string())
     );
     // endregion
-
+/*
+    // I need something to cache data
+    let mutex_cache = Arc::new(Mutex::new(HashMap::new()));
+    // Turn our "state" into a new Filter...
+    let mutex_cache = warp::any().map(move || mutex_cache.clone());
+*/
     // websites are mostly always made of more separate web-apps
     // it is good for web-apps to NOT start from the website root
     // this webapp starts with the route website_url/cargo_crev_web/
@@ -281,21 +288,30 @@ async fn main() {
     // info dynamic content info
     let info = warp::path!("cargo_crev_web" / "info")
         .map(|| {
+            let ns_start = ns_start("ReviewIndexSummary");
             let data_model = review_index_summary_mod::ReviewIndexSummary::new();
+            let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
         .or(
             warp::path!("cargo_crev_web" / "info" / "group_by_crate").map(|| {
+                let ns_start = ns_start("ReviewIndexByCrate");
                 let data_model = info_group_by_crate_mod::ReviewIndexByCrate::new();
+                let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
                 warp::reply::html(html_file)
             }),
         )
         .or(
             warp::path!("cargo_crev_web" / "info" / "group_by_author").map(|| {
+                let ns_start = ns_start("ReviewIndexByAuthor");
                 let data_model = info_group_by_author_mod::ReviewIndexByAuthor::new();
+                let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
                 warp::reply::html(html_file)
             }),
         );
@@ -303,16 +319,29 @@ async fn main() {
     // query_crate dynamic content query
     let query_crate = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
+            let ns_start = ns_start(&format!(
+                "CrateReviews crate_name: '{}'",
+                Yellow.paint(&crate_name),
+            ));
             let data_model = crate_reviews_mod::CrateReviews::new(&crate_name, "", "");
+            let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String).map(
                 |crate_name: String, version: String| {
+                    let ns_start = ns_start(&format!(
+                        "CrateReviews crate_name: '{}', version '{}'",
+                        Yellow.paint(&crate_name),
+                        Yellow.paint(&version),
+                    ));
                     let data_model =
                         crate_reviews_mod::CrateReviews::new(&crate_name, &version, "");
+                        let ns_new = ns_print("new()", ns_start);
                     let html_file = data_model.render_html_file("templates/");
+                    ns_print("render_html_file()", ns_new);
                     warp::reply::html(html_file)
                 },
             ),
@@ -320,9 +349,17 @@ async fn main() {
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String / String).map(
                 |crate_name: String, version: String, kind: String| {
+                    let ns_start = ns_start(&format!(
+                        "CrateReviews crate_name: '{}', version '{}', kind '{}'",
+                        Yellow.paint(&crate_name),
+                        Yellow.paint(&version),
+                        Yellow.paint(&kind)
+                    ));
                     let data_model =
                         crate_reviews_mod::CrateReviews::new(&crate_name, &version, &kind);
+                        let ns_new = ns_print("new()", ns_start);
                     let html_file = data_model.render_html_file("templates/");
+                    ns_print("render_html_file()", ns_new);
                     warp::reply::html(html_file)
                 },
             ),
