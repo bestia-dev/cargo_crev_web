@@ -1,4 +1,4 @@
-//! author_review_mod
+//! author_reviews_mod
 
 //use crate::proof_mod::*;
 //use crate::proof_index_mod::*;

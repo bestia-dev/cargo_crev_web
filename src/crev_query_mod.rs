@@ -16,46 +16,35 @@ pub struct CrevQueryData {
     pub all_summaries: AllSummaries,
     pub proofs: Vec<Proof>,
 }
-/// crev query returns html
-pub fn html_for_crev_query(
-    templates_folder_name: &str,
-    crate_name: &str,
-    version: &str,
-    kind: &str,
-) -> String {
-    let start = duration_mod::start_ns();
-    eprintln!(
-        "{}: crate_name: '{}', version '{}', kind '{}'",
-        &Local::now().format("%Y-%m-%d %H:%M:%S"),
-        Green.paint(crate_name),
-        Green.paint(version),
-        Green.paint(kind)
-    );
 
-    // first fill a vector with proofs, because I need to filter and sort them
-    let mut proofs = proofs_crev_query(crate_name);
-    let before_sum_and_filter =
-        duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
-
-    // the summary is always from all proofs. We must filter the proofs later.
-    let all_summaries = AllSummaries::new(crate_name, &proofs);
-    filter_proofs(&mut proofs, version, kind);
-    // put all data needed for this template in one place
-    let crev_query_data = CrevQueryData {
-        proofs,
-        all_summaries,
-    };
-    let before_render = duration_mod::eprint_duration_ns("  sum_and_filter", before_sum_and_filter);
-    // now I have the data and I render the html from the template
-    // the folders hierarchy for templates is similar like the routes
-    // so to retain the same relative folders like css
-    let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
-    let html = crev_query_data.render_from_file(&template_file_name);
-
-    duration_mod::eprint_duration_ns("  render", before_render);
-    duration_mod::eprint_duration_ns("html_for_crev_query()", start);
-    // return
-    html
+impl CrevQueryData{
+    pub fn new(crate_name: &str,
+        version: &str,
+        kind: &str,)->CrevQueryData{
+            let start = duration_mod::start_ns();
+            eprintln!(
+                "{}: crate_name: '{}', version '{}', kind '{}'",
+                &Local::now().format("%Y-%m-%d %H:%M:%S"),
+                Green.paint(crate_name),
+                Green.paint(version),
+                Green.paint(kind)
+            );
+        
+            // first fill a vector with proofs, because I need to filter and sort them
+            let mut proofs = proofs_crev_query(crate_name);
+            let before_sum_and_filter =
+                duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
+        
+            // the summary is always from all proofs. We must filter the proofs later.
+            let all_summaries = AllSummaries::new(crate_name, &proofs);
+            filter_proofs(&mut proofs, version, kind);
+            
+        //return
+        CrevQueryData {
+            all_summaries,
+            proofs,
+        }
+    }
 }
 
 /// crev query returns html
@@ -163,5 +152,97 @@ fn push_proof(proof_string: &str, proofs: &mut Vec<Proof>, crate_name: &str) {
             proof.get_author()
         ));
         proofs.push(proof);
+    }
+}
+
+impl HtmlTemplatingRender for CrevQueryData {
+    /// data model name is used for eprint
+    fn data_model_name(&self) -> String {
+        //return
+        "CrevQueryData".to_string()
+    }
+    /// render full html
+    fn render_html_file(&self, templates_folder_name: &str) -> String {
+    let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
+    let html = self.render_from_file(&template_file_name);
+    // return
+    html
+    }
+    // html_templating boolean id the next node is rendered or not
+    fn call_fn_boolean(&self, placeholder: &str) -> bool {
+        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
+        match placeholder {
+            _ => call_fn_boolean_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+
+    // html_templating functions that return a String
+    #[allow(
+        clippy::needless_return,
+        clippy::integer_arithmetic,
+        clippy::indexing_slicing
+    )]
+    fn call_fn_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
+        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
+        match placeholder {
+            // the href for css is good for static data. For dynamic route it must be different.
+            "t_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
+            _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    // html_templating functions that return a vector of Nodes
+    #[allow(clippy::needless_return)]
+    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
+        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+        match placeholder {
+            _ => call_fn_vec_nodes_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    // html_templating for sub-template
+    #[allow(clippy::needless_return)]
+    fn render_sub_template(
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<Node> {
+        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        match template_name {
+            "template_all_summaries" => {
+                // eprintln!("template_all_summaries: {}", "");
+                let sub_template = unwrap!(sub_templates
+                    .iter()
+                    .find(|&template| template.name == template_name));
+                let mut nodes = vec![];
+                // sub-template NOT repeatable
+                let vec_node = unwrap!(self.all_summaries.render_template_raw_to_nodes(
+                    &sub_template.template,
+                    HtmlOrSvg::Html,
+                    0
+                ));
+                nodes.extend_from_slice(&vec_node);
+                // return
+                nodes
+            }
+            "template_review_proof" => {
+                // eprintln!("template_review_proof: {}", "");
+                let sub_template = unwrap!(sub_templates
+                    .iter()
+                    .find(|&template| template.name == template_name));
+                let mut nodes = vec![];
+                // sub-template repeatable
+                for proof in &self.proofs {
+                    let vec_node = unwrap!(proof.render_template_raw_to_nodes(
+                        &sub_template.template,
+                        HtmlOrSvg::Html,
+                        0
+                    ));
+                    nodes.extend_from_slice(&vec_node);
+                }
+                // return
+                nodes
+            }
+            _ => render_sub_template_match_else(&self.data_model_name(), template_name),
+        }
     }
 }

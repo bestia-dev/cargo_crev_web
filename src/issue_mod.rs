@@ -2,9 +2,10 @@
 
 use crate::html_template_mod::*;
 use crate::proof_mod::Level;
-use serde_derive::{Deserialize, Serialize};
 //use unwrap::unwrap;
 //use strum_macros;
+use serde_derive::{Deserialize, Serialize};
+
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Issue {
     pub id: String,

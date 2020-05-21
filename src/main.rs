@@ -1,4 +1,4 @@
-// region: lmake_readme include "readme.md" //! A
+// region: (collapsed) lmake_readme include "readme.md" //! A
 //! # cargo_crev_web
 //!
 //! version: 2020.515.2307  date: 2020-05-15 authors: Luciano Bestia  
@@ -177,9 +177,9 @@
 //! ## References
 //!
 //! <https://github.com/rustomax/rust-iterators>  
-// endregion: lmake_readme include "readme.md" //! A
+// endregion: (collapsed) lmake_readme include "readme.md" //! A
 
-// region: Clippy
+// region: (collapsed) Clippy
 #![warn(
     clippy::all,
     clippy::restriction,
@@ -206,13 +206,12 @@
     // Why is this bad : Doc is good. rustc has a MISSING_DOCS allowed-by-default lint for public members, but has no way to enforce documentation of private items. This lint fixes that.
     clippy::doc_markdown,
 )]
-// endregion
+// endregion: (collapsed) Clippy
 
-// region: use statements
+// region: (collapsed) use statements
 mod all_summary_mod;
-mod author_review_mod;
+mod author_reviews_mod;
 mod crev_query_mod;
-mod crev_query_templating_mod;
 mod data_file_scan_mod;
 mod duration_mod;
 mod html_template_mod;
@@ -237,10 +236,7 @@ use log::info;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 //use unwrap::unwrap;
 use warp::Filter;
-// endregion
-
-// region: enum, structs, const,...
-// endregion
+// region: (collapsed) use statements
 
 /// main function of the binary
 #[tokio::main]
@@ -274,30 +270,32 @@ async fn main() {
 
     // websites are mostly always made of more separate web-apps
     // it is good for web-apps to NOT start from the website root
-    // this webapp starts with the route website/cargo_crev_web/
+    // this webapp starts with the route website_url/cargo_crev_web/
     // example: bestia.dev/cargo_crev_web/query/num-traits
     //   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits
+    // that way is easy to publish it on different websites.
+    // if they have this route not taken.
 
     // region: prepare routes
 
     // info dynamic content info
     let info = warp::path!("cargo_crev_web" / "info")
         .map(|| {
-            let summary = proof_index_summary_mod::ProofIndexSummary::new();
-            let html_file = summary.render_html_file("templates/");
+            let data_model = proof_index_summary_mod::ProofIndexSummary::new();
+            let html_file = data_model.render_html_file("templates/");
             warp::reply::html(html_file)
         })
         .or(
             warp::path!("cargo_crev_web" / "info" / "group_by_crate").map(|| {
-                let group_by_crate = info_group_by_crate_mod::ProofIndexByCrate::new();
-                let html_file = group_by_crate.render_html_file("templates/");
+                let data_model = info_group_by_crate_mod::ProofIndexByCrate::new();
+                let html_file = data_model.render_html_file("templates/");
                 warp::reply::html(html_file)
             }),
         )
         .or(
             warp::path!("cargo_crev_web" / "info" / "group_by_author").map(|| {
-                let group_by_author = info_group_by_author_mod::ProofIndexByAuthor::new();
-                let html_file = group_by_author.render_html_file("templates/");
+                let data_model = info_group_by_author_mod::ProofIndexByAuthor::new();
+                let html_file = data_model.render_html_file("templates/");
                 warp::reply::html(html_file)
             }),
         );
@@ -305,18 +303,15 @@ async fn main() {
     // query_crate dynamic content query
     let query_crate = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
-            let html_file = crev_query_mod::html_for_crev_query("templates/", &crate_name, "", "");
+            let data_model = crev_query_mod::CrevQueryData::new(&crate_name, "", "");
+            let html_file = data_model.render_html_file("templates/");
             warp::reply::html(html_file)
         })
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String).map(
                 |crate_name: String, version: String| {
-                    let html_file = crev_query_mod::html_for_crev_query(
-                        "templates/",
-                        &crate_name,
-                        &version,
-                        "",
-                    );
+                    let data_model = crev_query_mod::CrevQueryData::new(&crate_name, &version, "");
+                    let html_file = data_model.render_html_file ("templates/",);
                     warp::reply::html(html_file)
                 },
             ),
@@ -324,12 +319,8 @@ async fn main() {
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String / String).map(
                 |crate_name: String, version: String, kind: String| {
-                    let html_file = crev_query_mod::html_for_crev_query(
-                        "templates/",
-                        &crate_name,
-                        &version,
-                        &kind,
-                    );
+                    let data_model = crev_query_mod::CrevQueryData::new(&crate_name, &version, &kind);
+                    let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },
             ),

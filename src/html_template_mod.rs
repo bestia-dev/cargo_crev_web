@@ -7,7 +7,6 @@ use std::fs;
 use unwrap::unwrap;
 // endregion: use
 
-// region: render_template
 #[derive(Clone, Debug)]
 pub struct Node {
     pub node_enum: NodeEnum,
@@ -43,7 +42,6 @@ pub enum HtmlOrSvg {
     Svg,
 }
 
-// #region: template and sub-templates
 #[derive(Clone, Debug)]
 pub struct SubTemplate {
     pub name: String,
