@@ -88,13 +88,13 @@
 //! On web server 2 MB
 //! It looks that it is not extremly big.
 //!
-//! ## GitHub crev-proofs
+//! ## GitHub crev-xxxxxs
 //!
 //! I followed the instructions <https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md>  
 //! I created a new GitHub user: `cargo-crev-web`. I wanted cargo_crev_web, but I couldn't. So I have inconsistent name here.  
 //! I used my second email, because my first email is used for my personal GitHub LucianoBestia.  
 //! On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.  
-//! I forked the template <https://github.com/crev-dev/crev-proofs>.  
+//! I forked the template <https://github.com/crev-dev/crev-xxxxxs>.  
 //! For fetch I will open a new screen session:  
 //! `screen -S cargo_crev_web_git`  
 //! to reconnect later: `screen -r cargo_crev_web_git`  
@@ -102,13 +102,13 @@
 //! `eval $(ssh-agent -s)`  
 //! `ssh-add ~/.ssh/bestia2_for_github`  
 //! create new crev id with my new github repo:  
-//! `cargo crev id new --url https://github.com/cargo-crev-web/crev-proofs`  
+//! `cargo crev id new --url https://github.com/cargo-crev-web/crev-xxxxxs`  
 //! add a trusted user:  
 //! `crev id trust <hash>`  
 //! example for dpc - Dawid Ciężarkiewicz, the author of cargo-crev. I trust him:  
 //! `cargo crev id trust FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE`  
 //! it is possible also to trust a repo:  
-//! `cargo crev trust <url of someone's crev-proofs repo>`  
+//! `cargo crev trust <url of someone's crev-xxxxxs repo>`  
 //! At the end of editing the local data push:  
 //! `cargo crev repo publish`  
 //!
@@ -211,7 +211,7 @@
 // region: (collapsed) use statements
 mod crate_version_summary_mod;
 mod author_reviews_mod;
-mod crate_proofs_mod;
+mod crate_reviews_mod;
 mod data_file_scan_mod;
 mod duration_mod;
 mod html_template_mod;
@@ -220,7 +220,7 @@ mod info_group_by_crate_mod;
 mod issue_mod;
 mod review_index_mod;
 mod review_index_summary_mod;
-mod proof_mod;
+mod review_mod;
 mod utils_mod;
 mod version_summary_mod;
 
@@ -303,14 +303,14 @@ async fn main() {
     // query_crate dynamic content query
     let query_crate = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
-            let data_model = crate_proofs_mod::CrateReviews::new(&crate_name, "", "");
+            let data_model = crate_reviews_mod::CrateReviews::new(&crate_name, "", "");
             let html_file = data_model.render_html_file("templates/");
             warp::reply::html(html_file)
         })
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String).map(
                 |crate_name: String, version: String| {
-                    let data_model = crate_proofs_mod::CrateReviews::new(&crate_name, &version, "");
+                    let data_model = crate_reviews_mod::CrateReviews::new(&crate_name, &version, "");
                     let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },
@@ -320,7 +320,7 @@ async fn main() {
             warp::path!("cargo_crev_web" / "query" / String / String / String).map(
                 |crate_name: String, version: String, kind: String| {
                     let data_model =
-                        crate_proofs_mod::CrateReviews::new(&crate_name, &version, &kind);
+                        crate_reviews_mod::CrateReviews::new(&crate_name, &version, &kind);
                     let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },

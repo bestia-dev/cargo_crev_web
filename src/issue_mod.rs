@@ -1,7 +1,7 @@
 //! issue_mod
 
 use crate::html_template_mod::*;
-use crate::proof_mod::Level;
+use crate::review_mod::Level;
 //use unwrap::unwrap;
 //use strum_macros;
 use serde_derive::{Deserialize, Serialize};

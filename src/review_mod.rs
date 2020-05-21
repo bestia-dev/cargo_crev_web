@@ -1,4 +1,4 @@
-//! proof_mod
+//! review_mod
 
 use crate::html_template_mod::*;
 use crate::issue_mod::Issue;
@@ -113,7 +113,7 @@ impl Review {
             .from
             .url
             .replace("https://github.com/", "")
-            .replace("/crev-proofs", "");
+            .replace("/crev-xxxxxs", "");
         // return
         author
     }

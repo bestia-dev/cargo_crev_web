@@ -1,9 +1,9 @@
-//! crate_proofs_mod
+//! crate_reviews_mod
 
 use crate::crate_version_summary_mod::*;
 use crate::duration_mod;
 use crate::html_template_mod::*;
-use crate::proof_mod::*;
+use crate::review_mod::*;
 use crate::utils_mod::*;
 use crate::*;
 
@@ -14,7 +14,7 @@ use unwrap::unwrap;
 
 pub struct CrateReviews {
     pub crate_version_summary: CrateVersionSummary,
-    pub proofs: Vec<Review>,
+    pub reviews: Vec<Review>,
 }
 
 impl CrateReviews {
@@ -28,27 +28,27 @@ impl CrateReviews {
             Green.paint(kind)
         );
 
-        // first fill a vector with proofs, because I need to filter and sort them
-        let mut proofs = proofs_crev_query(crate_name);
+        // first fill a vector with reviews, because I need to filter and sort them
+        let mut reviews = query_reviews(crate_name);
         let before_sum_and_filter =
-            duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
+            duration_mod::eprint_duration_ns("  after query_reviews()", start);
 
-        // the summary is always from all proofs. We must filter the proofs later.
-        let crate_version_summary = CrateVersionSummary::new(crate_name, &proofs);
-        filter_proofs(&mut proofs, version, kind);
+        // the summary is always from all reviews. We must filter the reviews later.
+        let crate_version_summary = CrateVersionSummary::new(crate_name, &reviews);
+        filter_reviews(&mut reviews, version, kind);
 
         //return
         CrateReviews {
             crate_version_summary,
-            proofs,
+            reviews,
         }
     }
 }
 
 /// crev query returns html
-fn proofs_crev_query(crate_name: &str) -> Vec<Review> {
-    // first fill a vector with proofs, because I need to filter and sort them
-    let mut proofs = vec![];
+fn query_reviews(crate_name: &str) -> Vec<Review> {
+    // first fill a vector with reviews, because I need to filter and sort them
+    let mut reviews = vec![];
     // this part can be cached: last 10 queried crates
 
     // original cache crev folder: /home/luciano/.cache/crev/remotes
@@ -66,7 +66,7 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Review> {
     )) {
         //count_files += 1;
         // eprintln!("filename_crev: {}", filename_crev);
-        // for filename_result in unwrap!(glob("/proofs/*.crev")) {
+        // for filename_result in unwrap!(glob("/reviews/*.crev")) {
         // read crev file
         let crev_text = unwrap!(fs::read_to_string(filename_crev));
         for part1 in crev_text.split("----- END CREV PROOF -----") {
@@ -75,7 +75,7 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Review> {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut proofs, &crate_name);
+                    push_proof(proof_string, &mut reviews, &crate_name);
                 }
             }
         }
@@ -86,59 +86,59 @@ fn proofs_crev_query(crate_name: &str) -> Vec<Review> {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut proofs, &crate_name);
+                    push_proof(proof_string, &mut reviews, &crate_name);
                 }
             }
         }
     }
     // eprintln!("files queried: {}", count_files);
     // sort first by version desc, but semver version and then by date
-    proofs.sort_by(|a, b| {
+    reviews.sort_by(|a, b| {
         b.package
             .version_for_sorting
             .cmp(&a.package.version_for_sorting)
     });
     // return
-    proofs
+    reviews
 }
 
-fn filter_proofs(proofs: &mut Vec<Review>, version: &str, kind: &str) {
+fn filter_reviews(reviews: &mut Vec<Review>, version: &str, kind: &str) {
     if !version.is_empty() && version != "crate" {
-        proofs.retain(|x| x.package.version == version);
+        reviews.retain(|x| x.package.version == version);
     }
     if !kind.is_empty() && kind != "c" {
         // strong
         if kind == "S" {
-            proofs.retain(|x| {
+            reviews.retain(|x| {
                 x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Strong
             });
         } else if kind == "P" {
-            proofs.retain(|x| {
+            reviews.retain(|x| {
                 x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Positive
             });
         } else if kind == "E" {
-            proofs.retain(|x| {
+            reviews.retain(|x| {
                 x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Neutral
             });
         } else if kind == "N" {
-            proofs.retain(|x| {
+            reviews.retain(|x| {
                 x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Negative
             });
         } else if kind == "v" {
-            proofs.retain(|x| x.alternatives.is_some());
+            reviews.retain(|x| x.alternatives.is_some());
         } else if kind == "i" {
-            proofs.retain(|x| x.issues.is_some());
+            reviews.retain(|x| x.issues.is_some());
         } else if kind == "a" {
-            proofs.retain(|x| x.advisories.is_some() || x.advisory.is_some());
+            reviews.retain(|x| x.advisories.is_some() || x.advisory.is_some());
         }
     }
 }
 
-fn push_proof(proof_string: &str, proofs: &mut Vec<Review>, crate_name: &str) {
+fn push_proof(proof_string: &str, reviews: &mut Vec<Review>, crate_name: &str) {
     let mut proof: Review = unwrap!(serde_yaml::from_str(proof_string));
     // filter: only one crate_name
     if &proof.package.name == crate_name {
-        // proofs without review are not important
+        // reviews without review are not important
         // version for sorting
         let (major, minor, patch) = parse_semver(&proof.package.version);
         proof.package.version_for_sorting = Some(proof.version_for_sorting());
@@ -149,7 +149,7 @@ fn push_proof(proof_string: &str, proofs: &mut Vec<Review>, crate_name: &str) {
             patch,
             proof.get_author()
         ));
-        proofs.push(proof);
+        reviews.push(proof);
     }
 }
 
@@ -229,7 +229,7 @@ impl HtmlTemplatingRender for CrateReviews {
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
-                for proof in &self.proofs {
+                for proof in &self.reviews {
                     let vec_node = unwrap!(proof.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,

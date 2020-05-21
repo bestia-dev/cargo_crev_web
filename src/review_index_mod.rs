@@ -5,7 +5,7 @@
 /// this index is created every time the web app is initialized
 /// or manually when the new and updated files are fetched
 //use crate::duration_mod;
-use crate::proof_mod::*;
+use crate::review_mod::*;
 use crate::utils_mod::*;
 
 //use chrono::Local;
@@ -55,7 +55,7 @@ impl ReviewIndex {
         )) {
             //count_files += 1;
             // eprintln!("filename_crev: {}", filename_crev);
-            // for filename_result in unwrap!(glob("/proofs/*.crev")) {
+            // for filename_result in unwrap!(glob("/reviews/*.crev")) {
             // read crev file
             let crev_text = unwrap!(fs::read_to_string(filename_crev));
             for part1 in crev_text.split("----- END CREV PROOF -----") {
@@ -89,7 +89,7 @@ impl ReviewIndex {
     /// mutates review_index
     fn push_review_index(proof_string: &str, review_index: &mut ReviewIndex, file_path: &str) {
         // deserialize one proof
-        let proof: crate::proof_mod::Review = unwrap!(serde_yaml::from_str(proof_string));
+        let proof: crate::review_mod::Review = unwrap!(serde_yaml::from_str(proof_string));
         // use only some of the data for the index
         let review_index_item = ReviewIndexItem {
             crate_name: proof.package.name.to_string(),

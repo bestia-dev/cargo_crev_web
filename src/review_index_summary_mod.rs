@@ -3,7 +3,7 @@
 //use crate::data_file_scan_mod::*;
 use crate::duration_mod;
 use crate::html_template_mod::*;
-//use crate::proof_mod::*;
+//use crate::review_mod::*;
 //use crate::utils_mod::*;
 use crate::review_index_mod::*;
 
@@ -80,7 +80,7 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
             &Local::now().format("%Y-%m-%d %H:%M:%S"),
         );
 
-        // count the proofs and their numeric values
+        // count the reviews and their numeric values
         let before_render = duration_mod::eprint_duration_ns("  after new()", start);
 
         let template_file_name =

@@ -40,7 +40,7 @@ impl ReviewIndexByAuthor {
         let mut for_unique_crates: Vec<String> = vec![];
         let mut review_index_by_author = ReviewIndexByAuthor{vec: vec![]};
         for index_item in &review_index.vec {
-            //the proofs are already sorted by author
+            //the reviews are already sorted by author
             if &index_item.author != &old_author {
                 if !old_author.is_empty() {
                     //finalize the previous group

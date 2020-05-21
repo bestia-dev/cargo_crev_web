@@ -1,11 +1,11 @@
 //! author_reviews_mod
 
-//use crate::proof_mod::*;
+//use crate::review_mod::*;
 //use crate::review_index_mod::*;
 //use crate::data_file_scan_mod::*;
 
 /*
-pub fn prepare_proofs_for_author() -> Vec<Review> {
+pub fn prepare_reviews_for_author() -> Vec<Review> {
     //fill ReviewIndex
     let review_index = ReviewIndex::new();
 
@@ -14,7 +14,7 @@ pub fn prepare_proofs_for_author() -> Vec<Review> {
     //get_review_pk
 
 
-    // file scan for proofs
+    // file scan for reviews
     //fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Review> {
 
 }

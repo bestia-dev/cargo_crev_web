@@ -1,7 +1,7 @@
 //! crate_version_summary_mod
 
 // region: use
-use crate::proof_mod::*;
+use crate::review_mod::*;
 use crate::version_summary_mod::VersionSummary;
 use crate::*;
 use html_template_mod::*;
@@ -17,7 +17,7 @@ pub struct CrateVersionSummary {
     pub version_summaries: Vec<VersionSummary>,
 }
 impl CrateVersionSummary {
-    pub fn new(crate_name: &str, proofs: &Vec<Review>) -> CrateVersionSummary {
+    pub fn new(crate_name: &str, reviews: &Vec<Review>) -> CrateVersionSummary {
         // the first version empty_string is for "all_versions" or crate_summary
         let mut crate_version_summary = CrateVersionSummary {
             crate_name: crate_name.to_string(),
@@ -39,7 +39,7 @@ impl CrateVersionSummary {
             },
         };
 
-        for proof in proofs {
+        for proof in reviews {
             // find version in vector or create new
             let mut option_version: Option<&mut VersionSummary> = None;
             for version_summary in &mut crate_version_summary.version_summaries {

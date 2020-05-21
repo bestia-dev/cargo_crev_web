@@ -42,7 +42,7 @@ impl ReviewIndexByCrate {
         let mut for_unique_authors: Vec<String> = vec![];
         let mut review_index_by_crate = ReviewIndexByCrate { vec: vec![] };
         for index_item in &review_index.vec {
-            //the proofs are already sorted by crate_name
+            //the reviews are already sorted by crate_name
             if &index_item.crate_name != &old_crate_name {
                 if !old_crate_name.is_empty() {
                     //finalize the previous group
@@ -104,7 +104,7 @@ impl HtmlTemplatingRender for ReviewIndexByCrate {
             &Local::now().format("%Y-%m-%d %H:%M:%S"),
         );
 
-        // count the proofs and their numeric values
+        // count the reviews and their numeric values
 
         let before_render = duration_mod::eprint_duration_ns("  after new()", start);
 

@@ -1,6 +1,6 @@
 //! data_file_scan_mod
 
-use crate::proof_mod::*;
+use crate::review_mod::*;
 use crate::utils_mod::*;
 
 use std::fs;
@@ -19,8 +19,8 @@ pub struct OneFileReviewsPk {
 /// find one or more reviews from one file
 /// the review PK crate_name, author_url, version
 fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Review> {
-    // first fill a vector with proofs, because I need to filter and sort them
-    let mut proofs = vec![];
+    // first fill a vector with reviews, because I need to filter and sort them
+    let mut reviews = vec![];
     for review_pk in &review_pks {
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
@@ -37,7 +37,7 @@ fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) 
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut proofs, &review_pk);
+                    push_proof(proof_string, &mut reviews, &review_pk);
                 }
             }
         }
@@ -48,23 +48,23 @@ fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) 
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
                     let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut proofs, &review_pk);
+                    push_proof(proof_string, &mut reviews, &review_pk);
                 }
             }
         }
     }
     // return
-    proofs
+    reviews
 }
 
-fn push_proof(proof_string: &str, proofs: &mut Vec<Review>, review_pk: &ReviewPk) {
+fn push_proof(proof_string: &str, reviews: &mut Vec<Review>, review_pk: &ReviewPk) {
     let mut proof: Review = unwrap!(serde_yaml::from_str(proof_string));
     // filter: only the one equal to review_pk
     if proof.package.name == review_pk.crate_name
         && proof.from.url == review_pk.author_url
         && proof.package.version == review_pk.version
     {
-        // proofs without review are not important
+        // reviews without review are not important
         // version for sorting
         let (major, minor, patch) = parse_semver(&proof.package.version);
         proof.package.version_for_sorting = Some(proof.version_for_sorting());
@@ -75,6 +75,6 @@ fn push_proof(proof_string: &str, proofs: &mut Vec<Review>, review_pk: &ReviewPk
             patch,
             proof.get_author()
         ));
-        proofs.push(proof);
+        reviews.push(proof);
     }
 }
