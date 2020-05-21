@@ -61,13 +61,13 @@ impl AuthorReviews {
             &format!("read from index, file_path count: {}", many_file.vec.len()),
             ns_start,
         );
-        let reviews = get_vec_of_review(many_file);
+        let mut reviews = get_vec_of_review(many_file);
         ns_print(
             &format!("read from files reviews.len(): {}", reviews.len()),
             ns_read_from_index,
         );
         // sort reviews
-        reviews.sort_by(|a, b| {a.crate_name.cmp(&b.crate_name)});
+        reviews.sort_by(|a, b| {a.package.name.cmp(&b.package.name)});
         //return
         AuthorReviews {
             author: author,
