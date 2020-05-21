@@ -131,10 +131,10 @@ impl HtmlTemplatingRender for AllSummaries {
         String::new()
     }
     // html_templating boolean id the next node is rendered or not
-    fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
+    fn retain_next_node(&self, placeholder: &str) -> bool {
+        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
-            _ => call_fn_boolean_match_else(&self.data_model_name(), placeholder),
+            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
 
@@ -144,8 +144,8 @@ impl HtmlTemplatingRender for AllSummaries {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
-        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
+    fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
+        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             "t_crate_name" => self.crate_name.to_string(),
             "t_crates_io_link" => format!("https://crates.io/crates/{}", self.crate_name),
@@ -173,15 +173,15 @@ impl HtmlTemplatingRender for AllSummaries {
             "t_filter_alternatives" => format!("/cargo_crev_web/query/{}/crate/v", self.crate_name),
             "t_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
             "t_filter_advisories" => format!("/cargo_crev_web/query/{}/crate/a", self.crate_name),
-            _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
+            _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
     // html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+    fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
+        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
         match placeholder {
-            _ => call_fn_vec_nodes_match_else(&self.data_model_name(), placeholder),
+            _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
     // html_templating for sub-template

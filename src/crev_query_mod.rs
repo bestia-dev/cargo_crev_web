@@ -167,10 +167,10 @@ impl HtmlTemplatingRender for CrevQueryData {
         html
     }
     // html_templating boolean id the next node is rendered or not
-    fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
+    fn retain_next_node(&self, placeholder: &str) -> bool {
+        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
-            _ => call_fn_boolean_match_else(&self.data_model_name(), placeholder),
+            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
 
@@ -180,21 +180,21 @@ impl HtmlTemplatingRender for CrevQueryData {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
-        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
+    fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
+        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "t_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
             "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
-            _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
+            _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
     // html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+    fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
+        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
         match placeholder {
-            _ => call_fn_vec_nodes_match_else(&self.data_model_name(), placeholder),
+            _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
     // html_templating for sub-template

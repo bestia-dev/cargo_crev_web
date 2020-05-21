@@ -54,12 +54,12 @@ pub trait HtmlTemplatingRender {
     // plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
     fn data_model_name(&self) -> String;
-    /// renders the complete html file. Must be implemented.
+    /// renders the complete html file. Not a sub-template/fragment. Must be implemented.
     fn render_html_file(&self, templates_folder_name: &str) -> String;
-    fn call_fn_string(&self, placeholder: &str, cursor_pos: usize) -> String;
-    fn call_fn_boolean(&self, placeholder: &str) -> bool;
+    fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String;
+    fn retain_next_node(&self, placeholder: &str) -> bool;
     // this is also for sub-templates
-    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node>;
+    fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node>;
     fn render_sub_template(
         &self,
         template_name: &str,
@@ -241,7 +241,7 @@ pub trait HtmlTemplatingRender {
                         // example: data-t-href="t_placeholder" href="x"
                         // The replace_string will always be applied to the next attribute. No matter the name.
                         let placeholder = &value;
-                        let repl_txt = self.call_fn_string(placeholder, cursor_pos);
+                        let repl_txt = self.replace_with_string(placeholder, cursor_pos);
                         replace_string = Some(repl_txt);
                     } else {
                         let value = if let Some(repl) = replace_string {
@@ -277,11 +277,11 @@ pub trait HtmlTemplatingRender {
                     // it must look like <!--t_get_text-->
 
                     if txt.starts_with("t_") {
-                        let repl_txt = self.call_fn_string(txt, cursor_pos);
+                        let repl_txt = self.replace_with_string(txt, cursor_pos);
                         replace_string = Some(repl_txt);
                     } else if txt.starts_with("b_") {
                         // boolean if this is true than render the next node, else don't render
-                        replace_boolean = Some(self.call_fn_boolean(txt));
+                        replace_boolean = Some(self.retain_next_node(txt));
                     } else if txt.starts_with("template_") {
                         // replace exactly this placeholder for a sub-template
                         let template_name = txt.trim_end_matches(" start");
@@ -289,7 +289,7 @@ pub trait HtmlTemplatingRender {
                         element.children.extend_from_slice(&repl_vec_nodes);
                     } else if txt.starts_with("n_") {
                         // nodes  (in a vector)
-                        let repl_vec_nodes = self.call_fn_vec_nodes(txt);
+                        let repl_vec_nodes = self.replace_with_nodes(txt);
                         replace_vec_nodes = Some(repl_vec_nodes);
                     } else {
                         // it is really a comment
@@ -412,26 +412,26 @@ pub trait HtmlTemplatingRender {
 }
 // region: utility fn
 /// boilerplate
-pub fn call_fn_boolean_match_else(data_model_name: &str, placeholder: &str) -> bool {
+pub fn retain_next_node_match_else(data_model_name: &str, placeholder: &str) -> bool {
     eprintln!(
-        "Error: Unrecognized {} call_fn_boolean: \"{}\"",
+        "Error: Unrecognized {} retain_next_node: \"{}\"",
         data_model_name, placeholder
     );
     true
 }
 /// boilerplate
-pub fn call_fn_string_match_else(data_model_name: &str, placeholder: &str) -> String {
+pub fn replace_with_string_match_else(data_model_name: &str, placeholder: &str) -> String {
     let err_msg = format!(
-        "Error: Unrecognized {} call_fn_string: \"{}\"",
+        "Error: Unrecognized {} replace_with_string: \"{}\"",
         data_model_name, placeholder
     );
     eprintln!("{}", &err_msg);
     err_msg
 }
 /// boilerplate
-pub fn call_fn_vec_nodes_match_else(data_model_name: &str, placeholder: &str) -> Vec<Node> {
+pub fn replace_with_nodes_match_else(data_model_name: &str, placeholder: &str) -> Vec<Node> {
     let err_msg = format!(
-        "Error: Unrecognized {} call_fn_vec_nodes: \"{}\"",
+        "Error: Unrecognized {} replace_with_nodes: \"{}\"",
         data_model_name, placeholder
     );
     eprintln!("{}", &err_msg);

@@ -152,15 +152,15 @@ impl HtmlTemplatingRender for Proof {
         String::new()
     }
     // html_templating boolean id the next node is rendered or not
-    fn call_fn_boolean(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
+    fn retain_next_node(&self, placeholder: &str) -> bool {
+        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
             "b_not_for_render" => false,
             "b_has_alternatives" => self.alternatives.is_some(),
             "b_has_issues" => self.issues.is_some(),
             "b_has_advisories" => self.advisories.is_some(),
             "b_has_old_advisory" => self.advisory.is_some(),
-            _ => call_fn_boolean_match_else(&self.data_model_name(), placeholder),
+            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
 
@@ -170,8 +170,8 @@ impl HtmlTemplatingRender for Proof {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn call_fn_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
-        // eprintln!("{}",&format!("call_fn_string: {}", &placeholder));
+    fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
+        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             "t_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
             "t_review_rating" => {
@@ -287,15 +287,15 @@ impl HtmlTemplatingRender for Proof {
                     "".to_string()
                 }
             }
-            _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
+            _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
     // html_templating functions that return a vector of Nodes
     #[allow(clippy::needless_return)]
-    fn call_fn_vec_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("call_fn_vec_nodes: {}", &placeholder));
+    fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
+        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
         match placeholder {
-            _ => call_fn_vec_nodes_match_else(&self.data_model_name(), placeholder),
+            _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
     // html_templating for sub-template
