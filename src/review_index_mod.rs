@@ -8,7 +8,7 @@
 //use crate::durex_mod;
 use crate::review_mod::*;
 use crate::utils_mod::*;
-//use chrono::Local;
+use crate::durex_mod::*;
 use std::fs;
 use unwrap::unwrap;
 
@@ -39,7 +39,7 @@ impl ReviewIndex {
     /// prepares the data
     /// todo: this could be cached
     pub fn new() -> Self {
-        
+        let ns_start = ns_start("ReviewIndex");
         let mut review_index = ReviewIndex { vec: vec![] };
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
@@ -83,7 +83,7 @@ impl ReviewIndex {
                 }
             }
         }
-        
+        ns_print("ReviewIndex.new()", ns_start);
         //return
         review_index
     }
