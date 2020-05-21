@@ -214,7 +214,7 @@ mod author_reviews_mod;
 mod crate_reviews_mod;
 mod data_file_scan_mod;
 mod duration_mod;
-mod html_template_mod;
+mod html_server_template_mod;
 mod info_group_by_author_mod;
 mod info_group_by_crate_mod;
 mod issue_mod;
@@ -225,7 +225,7 @@ mod utils_mod;
 mod version_summary_mod;
 
 // I must put the trait in scope
-use crate::html_template_mod::*;
+use crate::html_server_template_mod::*;
 
 use clap::App;
 use env_logger::Env;

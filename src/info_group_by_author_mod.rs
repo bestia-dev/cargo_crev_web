@@ -1,7 +1,7 @@
 //! info_group_by_author_mod
 
 use crate::duration_mod;
-use crate::html_template_mod::*;
+use crate::html_server_template_mod::*;
 //use crate::utils_mod::*;
 use crate::review_index_mod::*;
 
@@ -85,13 +85,13 @@ impl ReviewIndexByAuthor {
         review_index_by_author
     }
 }
-impl HtmlTemplatingRender for ReviewIndexByAuthor {
+impl HtmlServerTemplateRender for ReviewIndexByAuthor {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
         "ReviewIndexByAuthor".to_string()
     }
-    /// render full html file from full template
+    /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
         let start = duration_mod::start_ns();
         eprintln!(
@@ -108,7 +108,7 @@ impl HtmlTemplatingRender for ReviewIndexByAuthor {
         html
     }
 
-    // html_templating boolean id the next node is rendered or not
+    /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
@@ -116,7 +116,7 @@ impl HtmlTemplatingRender for ReviewIndexByAuthor {
         }
     }
 
-    // html_templating functions that return a String
+    /// returns a String to replace the next text-node
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -165,7 +165,7 @@ impl HtmlTemplatingRender for ReviewIndexByAuthor {
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // html_templating functions that return a vector of Nodes
+    /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
@@ -182,8 +182,8 @@ impl HtmlTemplatingRender for ReviewIndexByAuthor {
     ) -> Vec<Node> {
         // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
         match template_name {
-            "stmpl_author_summary" => {
-                // eprintln!("stmpl_crate_version_summary: {}", "");
+            "stmplt_author_summary" => {
+                // eprintln!("stmplt_crate_version_summary: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

@@ -1,4 +1,6 @@
-//! html_template_mod
+//! html_server_template_mod
+//! templating library for the web server
+
 
 // region: use
 use crate::utils_mod::*;
@@ -44,18 +46,23 @@ pub struct SubTemplate {
     pub placeholder: String,
     pub template: String,
 }
-pub trait HtmlTemplatingRender {
+pub trait HtmlServerTemplateRender {
     // region: methods to be implemented for a specific project
     // these are not really public methods. They are used only as
     // plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
+
+    /// name of data model for debugging
     fn data_model_name(&self) -> String;
-    /// renders the complete html file. Not a sub-template/fragment. Must be implemented.
+    /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String;
+    /// returns a String to replace the next text-node
     fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String;
+    //// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool;
-    // this is also for sub-templates
+    /// returns a vector of Nodes to replace the next Node
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node>;
+    /// renders sub-template
     fn render_sub_template(
         &self,
         template_name: &str,
@@ -274,7 +281,7 @@ pub trait HtmlTemplatingRender {
                     } else if txt.starts_with("sb_") {
                         // boolean if this is true than render the next node, else don't render
                         replace_boolean = Some(self.retain_next_node(txt));
-                    } else if txt.starts_with("stmpl_") {
+                    } else if txt.starts_with("stmplt_") {
                         // replace exactly this placeholder for a sub-template
                         let template_name = txt.trim_end_matches(" start");
                         let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
@@ -336,13 +343,13 @@ pub trait HtmlTemplatingRender {
             placeholder: String::new(),
         }];
 
-        // the syntax is <!--stmpl_crate_version_summary start-->, <!--stmpl_crate_version_summary end-->
+        // the syntax is <!--stmplt_crate_version_summary start-->, <!--stmplt_crate_version_summary end-->
         // unique delimiters for start and end are great if there is nesting.
         let mut pos_for_loop = 0;
         loop {
             let mut exist_template = false;
             if let Some(pos_start) =
-                find_pos_before_delimiter(&sub_templates[0].template, pos_for_loop, "<!--stmpl_")
+                find_pos_before_delimiter(&sub_templates[0].template, pos_for_loop, "<!--stmplt_")
             {
                 if let Some(pos_end_name) =
                     find_pos_before_delimiter(&sub_templates[0].template, pos_start, " start-->")
@@ -359,8 +366,8 @@ pub trait HtmlTemplatingRender {
                         // special name for template that will not be used at all.
                         // this happens when the graphic designer need more repetition of the
                         // same sub-template only for visual effect while editing.
-                        if sub_template_name == "stmpl_not_for_render" {
-                            // eprintln!("stmpl_not_for_render {} {}",pos_start, pos_end_after_tag);
+                        if sub_template_name == "stmplt_not_for_render" {
+                            // eprintln!("stmplt_not_for_render {} {}",pos_start, pos_end_after_tag);
                             // remove all the template
                             sub_templates[0]
                                 .template

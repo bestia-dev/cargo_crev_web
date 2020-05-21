@@ -4,7 +4,7 @@
 use crate::review_mod::*;
 use crate::version_summary_mod::VersionSummary;
 use crate::*;
-use html_template_mod::*;
+use html_server_template_mod::*;
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
 use unwrap::unwrap;
@@ -119,18 +119,18 @@ impl CrateVersionSummary {
     }
 }
 
-impl HtmlTemplatingRender for CrateVersionSummary {
+impl HtmlServerTemplateRender for CrateVersionSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
         "CrateVersionSummary".to_string()
     }
-    /// CrateVersionSummary is never a full html file. It is always a sub-template.
+    /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
         //return
         String::new()
     }
-    // html_templating boolean id the next node is rendered or not
+    /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
@@ -138,7 +138,7 @@ impl HtmlTemplatingRender for CrateVersionSummary {
         }
     }
 
-    // html_templating functions that return a String
+    /// returns a String to replace the next text-node
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -176,7 +176,7 @@ impl HtmlTemplatingRender for CrateVersionSummary {
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // html_templating functions that return a vector of Nodes
+    /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
@@ -184,7 +184,7 @@ impl HtmlTemplatingRender for CrateVersionSummary {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // html_templating for sub-template
+    /// renders sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,
@@ -194,7 +194,7 @@ impl HtmlTemplatingRender for CrateVersionSummary {
         // eprintln!("{}",&format!("&sub_templates.len(): {}", &sub_templates.len()));
 
         match template_name {
-            "stmpl_summary_version" => {
+            "stmplt_summary_version" => {
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

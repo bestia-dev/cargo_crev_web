@@ -2,7 +2,7 @@
 
 //use crate::data_file_scan_mod::*;
 use crate::duration_mod;
-use crate::html_template_mod::*;
+use crate::html_server_template_mod::*;
 //use crate::review_mod::*;
 //use crate::utils_mod::*;
 use crate::review_index_mod::*;
@@ -66,13 +66,13 @@ impl ReviewIndexSummary {
     }
 }
 
-impl HtmlTemplatingRender for ReviewIndexSummary {
+impl HtmlServerTemplateRender for ReviewIndexSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
         "ReviewIndexSummary".to_string()
     }
-    /// render html file
+    /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
         let start = duration_mod::start_ns();
         eprintln!(
@@ -92,7 +92,7 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
         // return
         html
     }
-    // html_templating boolean id the next node is rendered or not
+    /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
@@ -100,7 +100,7 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
         }
     }
 
-    // html_templating functions that return a String
+    /// returns a String to replace the next text-node
     #[allow(
         clippy::needless_return,
         clippy::integer_arithmetic,
@@ -126,7 +126,7 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // html_templating functions that return a vector of Nodes
+    /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
         // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
@@ -134,7 +134,7 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // html_templating for sub-template
+    /// renders sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,
