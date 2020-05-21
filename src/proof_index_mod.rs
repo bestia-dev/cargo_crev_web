@@ -4,8 +4,6 @@
 /// and then mostly use this index from memory.
 /// this index is created every time the web app is initialized
 /// or manually when the new and updated files are fetched
-
-
 //use crate::duration_mod;
 use crate::proof_mod::*;
 use crate::utils_mod::*;
@@ -32,14 +30,16 @@ pub struct ProofIndexItem {
     pub issues: usize,
     pub advisories: usize,
 }
-/// this looks like renaming a type
-pub struct ProofIndex(pub Vec<ProofIndexItem>);
+/// only one field with a generic name vec
+pub struct ProofIndex {
+    pub vec: Vec<ProofIndexItem>,
+}
 
 impl ProofIndex {
     /// prepares the data
     /// todo: this could be cached
     pub fn new() -> ProofIndex {
-        let mut proof_index = ProofIndex( vec![]);
+        let mut proof_index = ProofIndex { vec: vec![] };
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
         // local webfolder example "crev/cache/crev/remotes"
@@ -87,11 +87,7 @@ impl ProofIndex {
     }
 
     /// mutates proof_index
-    fn push_proof_index(
-        proof_string: &str,
-        proof_index: &mut ProofIndex,
-        file_path: &str,
-    ) {
+    fn push_proof_index(proof_string: &str, proof_index: &mut ProofIndex, file_path: &str) {
         // deserialize one proof
         let proof: crate::proof_mod::Proof = unwrap!(serde_yaml::from_str(proof_string));
         // use only some of the data for the index
@@ -130,6 +126,6 @@ impl ProofIndex {
                 }
             },
         };
-        proof_index.0.push(proof_index_item);
+        proof_index.vec.push(proof_index_item);
     }
 }

@@ -311,7 +311,7 @@ async fn main() {
             warp::path!("cargo_crev_web" / "query" / String / String).map(
                 |crate_name: String, version: String| {
                     let data_model = crev_query_mod::CrevQueryData::new(&crate_name, &version, "");
-                    let html_file = data_model.render_html_file ("templates/",);
+                    let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },
             ),
@@ -319,7 +319,8 @@ async fn main() {
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String / String).map(
                 |crate_name: String, version: String, kind: String| {
-                    let data_model = crev_query_mod::CrevQueryData::new(&crate_name, &version, &kind);
+                    let data_model =
+                        crev_query_mod::CrevQueryData::new(&crate_name, &version, &kind);
                     let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },

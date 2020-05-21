@@ -17,28 +17,26 @@ pub struct CrevQueryData {
     pub proofs: Vec<Proof>,
 }
 
-impl CrevQueryData{
-    pub fn new(crate_name: &str,
-        version: &str,
-        kind: &str,)->CrevQueryData{
-            let start = duration_mod::start_ns();
-            eprintln!(
-                "{}: crate_name: '{}', version '{}', kind '{}'",
-                &Local::now().format("%Y-%m-%d %H:%M:%S"),
-                Green.paint(crate_name),
-                Green.paint(version),
-                Green.paint(kind)
-            );
-        
-            // first fill a vector with proofs, because I need to filter and sort them
-            let mut proofs = proofs_crev_query(crate_name);
-            let before_sum_and_filter =
-                duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
-        
-            // the summary is always from all proofs. We must filter the proofs later.
-            let all_summaries = AllSummaries::new(crate_name, &proofs);
-            filter_proofs(&mut proofs, version, kind);
-            
+impl CrevQueryData {
+    pub fn new(crate_name: &str, version: &str, kind: &str) -> CrevQueryData {
+        let start = duration_mod::start_ns();
+        eprintln!(
+            "{}: crate_name: '{}', version '{}', kind '{}'",
+            &Local::now().format("%Y-%m-%d %H:%M:%S"),
+            Green.paint(crate_name),
+            Green.paint(version),
+            Green.paint(kind)
+        );
+
+        // first fill a vector with proofs, because I need to filter and sort them
+        let mut proofs = proofs_crev_query(crate_name);
+        let before_sum_and_filter =
+            duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
+
+        // the summary is always from all proofs. We must filter the proofs later.
+        let all_summaries = AllSummaries::new(crate_name, &proofs);
+        filter_proofs(&mut proofs, version, kind);
+
         //return
         CrevQueryData {
             all_summaries,
@@ -163,10 +161,10 @@ impl HtmlTemplatingRender for CrevQueryData {
     }
     /// render full html
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-    let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
-    let html = self.render_from_file(&template_file_name);
-    // return
-    html
+        let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
+        let html = self.render_from_file(&template_file_name);
+        // return
+        html
     }
     // html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {

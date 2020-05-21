@@ -16,7 +16,7 @@ pub struct AllSummaries {
     pub crate_summary: VersionSummary,
     pub version_summaries: Vec<VersionSummary>,
 }
-impl AllSummaries{
+impl AllSummaries {
     pub fn new(crate_name: &str, proofs: &Vec<Proof>) -> AllSummaries {
         // the first version empty_string is for "all_versions" or crate_summary
         let mut all_summaries = AllSummaries {
@@ -38,7 +38,7 @@ impl AllSummaries{
                 understanding: 0,
             },
         };
-    
+
         for proof in proofs {
             // find version in vector or create new
             let mut option_version: Option<&mut VersionSummary> = None;
@@ -62,7 +62,7 @@ impl AllSummaries{
             let mut version_summary = unwrap!(option_version);
             all_summaries.crate_summary.review_number += 1;
             version_summary.review_number += 1;
-    
+
             if let Some(review) = &proof.review {
                 if review.rating == Rating::Strong {
                     all_summaries.crate_summary.rating_strong += 1;
@@ -117,7 +117,6 @@ impl AllSummaries{
         // return
         all_summaries
     }
-    
 }
 
 impl HtmlTemplatingRender for AllSummaries {

@@ -8,9 +8,10 @@ use crate::proof_index_mod::*;
 use chrono::Local;
 use unwrap::unwrap;
 
+/// only one field with a generic name vec
 #[derive(Clone, Debug)]
 pub struct ProofIndexByCrate {
-    order_by_crate: Vec<ByCrateItem>,
+    pub vec: Vec<ByCrateItem>,
 }
 #[derive(Clone, Debug)]
 pub struct ByCrateItem {
@@ -32,26 +33,21 @@ impl ProofIndexByCrate {
     pub fn new() -> ProofIndexByCrate {
         let mut proof_index = ProofIndex::new();
         // sort order for group by, so I don't need to send a mutable
-        proof_index.0.sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
-        let order_by_crate = Self::group_by_crate(&proof_index);
+        proof_index
+            .vec
+            .sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
 
-        //return
-        ProofIndexByCrate { order_by_crate }
-    }
-
-    /// create a new vector with data grouped by crate
-    pub fn group_by_crate(proof_index: &ProofIndex) -> Vec<ByCrateItem> {
         let mut old_crate_name = "".to_string();
         let mut for_unique_versions: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
-        let mut order_by_crate: Vec<ByCrateItem> = vec![];
-        for index_item in &proof_index.0 {
+        let mut proof_index_by_crate = ProofIndexByCrate { vec: vec![] };
+        for index_item in &proof_index.vec {
             //the proofs are already sorted by crate_name
             if &index_item.crate_name != &old_crate_name {
                 if !old_crate_name.is_empty() {
                     //finalize the previous group
                     use itertools::Itertools;
-                    let mut last = unwrap!(order_by_crate.last_mut());
+                    let mut last = unwrap!(proof_index_by_crate.vec.last_mut());
                     last.unique_versions = for_unique_versions.into_iter().unique().count();
                     for_unique_versions = vec![];
                     last.unique_authors = for_unique_authors.into_iter().unique().count();
@@ -72,11 +68,11 @@ impl ProofIndexByCrate {
                     count_of_issues: 0,
                     count_of_advisories: 0,
                 };
-                order_by_crate.push(last);
+                proof_index_by_crate.vec.push(last);
                 old_crate_name = index_item.crate_name.to_string();
             }
             // add to the last group
-            let mut last = unwrap!(order_by_crate.last_mut());
+            let mut last = unwrap!(proof_index_by_crate.vec.last_mut());
             last.count_of_reviews += 1;
             for_unique_versions.push(index_item.version.to_string());
             for_unique_authors.push(index_item.author.to_string());
@@ -89,11 +85,10 @@ impl ProofIndexByCrate {
             last.count_of_issues += index_item.issues;
             last.count_of_advisories += index_item.advisories;
         }
-        // println!("data_grouped: {:#?}", order_by_crate);
+        // println!("data_grouped: {:#?}", proof_index_by_crate);
         //return
-        order_by_crate
+        proof_index_by_crate
     }
-    //pub fn group_by_author() {}
 }
 impl HtmlTemplatingRender for ProofIndexByCrate {
     /// data model name is used for eprint
@@ -101,29 +96,28 @@ impl HtmlTemplatingRender for ProofIndexByCrate {
         //return
         "ProofIndexByCrate".to_string()
     }
-        /// full html file
-        fn render_html_file(&self, templates_folder_name: &str) -> String {
-            let start = duration_mod::start_ns();
-            eprintln!(
-                "{}: info_group_by_crate_mod",
-                &Local::now().format("%Y-%m-%d %H:%M:%S"),
-            );
-    
-            // count the proofs and their numeric values
-    
-            let before_render =
-                duration_mod::eprint_duration_ns("  after new()", start);
-    
-            let template_file_name =
-                format!("{}info_group_by_crate_template.html", templates_folder_name);
-            let html = self.render_from_file(&template_file_name);
-    
-            duration_mod::eprint_duration_ns("  render", before_render);
-            duration_mod::eprint_duration_ns("render_html_file()", start);
-            // return
-            html
-        }
-    
+    /// full html file
+    fn render_html_file(&self, templates_folder_name: &str) -> String {
+        let start = duration_mod::start_ns();
+        eprintln!(
+            "{}: info_group_by_crate_mod",
+            &Local::now().format("%Y-%m-%d %H:%M:%S"),
+        );
+
+        // count the proofs and their numeric values
+
+        let before_render = duration_mod::eprint_duration_ns("  after new()", start);
+
+        let template_file_name =
+            format!("{}info_group_by_crate_template.html", templates_folder_name);
+        let html = self.render_from_file(&template_file_name);
+
+        duration_mod::eprint_duration_ns("  render", before_render);
+        duration_mod::eprint_duration_ns("render_html_file()", start);
+        // return
+        html
+    }
+
     // html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
@@ -146,40 +140,32 @@ impl HtmlTemplatingRender for ProofIndexByCrate {
             "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
             // this is a grid with repeated rows. Use the cursor_pos
             "t_ordinal_number" => (cursor_pos + 1).to_string(),
-            "t_crate_name" => self.order_by_crate[cursor_pos].crate_name.to_string(),
-            "t_open_crate" => format!("../../query/{}", self.order_by_crate[cursor_pos].crate_name),
-            "t_count_of_reviews" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_reviews)
-            }
-            "t_unique_versions" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].unique_versions)
-            }
-            "t_unique_authors" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].unique_authors)
-            }
+            "t_crate_name" => self.vec[cursor_pos].crate_name.to_string(),
+            "t_open_crate" => format!("../../query/{}", self.vec[cursor_pos].crate_name),
+            "t_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
+            "t_unique_versions" => to_string_zero_to_empty(self.vec[cursor_pos].unique_versions),
+            "t_unique_authors" => to_string_zero_to_empty(self.vec[cursor_pos].unique_authors),
             "t_count_of_rating_strong" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_rating_strong)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_strong)
             }
             "t_count_of_rating_positive" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_rating_positive)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_positive)
             }
             "t_count_of_rating_neutral" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_rating_neutral)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_neutral)
             }
             "t_count_of_rating_negative" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_rating_negative)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_negative)
             }
             "t_count_of_rating_none" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_rating_none)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_none)
             }
             "t_count_of_alternatives" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_alternatives)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_alternatives)
             }
-            "t_count_of_issues" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_issues)
-            }
+            "t_count_of_issues" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_issues),
             "t_count_of_advisories" => {
-                to_string_zero_to_empty(self.order_by_crate[cursor_pos].count_of_advisories)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_advisories)
             }
             _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
         }
@@ -208,7 +194,7 @@ impl HtmlTemplatingRender for ProofIndexByCrate {
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
-                for cursor_for_order_by_crate in 0..self.order_by_crate.len() {
+                for cursor_for_order_by_crate in 0..self.vec.len() {
                     let vec_node = unwrap!(self.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,

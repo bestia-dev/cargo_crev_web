@@ -8,9 +8,10 @@ use crate::proof_index_mod::*;
 use chrono::Local;
 use unwrap::unwrap;
 
+/// only one field with a generic name vec
 #[derive(Clone, Debug)]
 pub struct ProofIndexByAuthor {
-    order_by_author: Vec<ByAuthorItem>,
+    vec: Vec<ByAuthorItem>,
 }
 #[derive(Clone, Debug)]
 pub struct ByAuthorItem {
@@ -32,24 +33,19 @@ impl ProofIndexByAuthor {
     pub fn new() -> ProofIndexByAuthor {
         let mut proof_index = ProofIndex::new();
         // sort order for group by, so I don't need to send a mutable
-        proof_index.0.sort_by(|a, b| Ord::cmp(&a.author, &b.author));
-        let order_by_author = Self::group_by_author(&proof_index);
-
-        //return
-        ProofIndexByAuthor { order_by_author }
-    }
-    /// create a new vector with data grouped by crate
-    pub fn group_by_author(proof_index: &ProofIndex) -> Vec<ByAuthorItem> {
+        proof_index
+            .vec
+            .sort_by(|a, b| Ord::cmp(&a.author, &b.author));
         let mut old_author = "".to_string();
         let mut for_unique_crates: Vec<String> = vec![];
-        let mut order_by_author: Vec<ByAuthorItem> = vec![];
-        for index_item in &proof_index.0 {
+        let mut proof_index_by_author = ProofIndexByAuthor{vec: vec![]};
+        for index_item in &proof_index.vec {
             //the proofs are already sorted by author
             if &index_item.author != &old_author {
                 if !old_author.is_empty() {
                     //finalize the previous group
                     use itertools::Itertools;
-                    let mut last = unwrap!(order_by_author.last_mut());
+                    let mut last = unwrap!(proof_index_by_author.vec.last_mut());
                     last.unique_crates = for_unique_crates.into_iter().unique().count();
                     for_unique_crates = vec![];
                 }
@@ -68,11 +64,11 @@ impl ProofIndexByAuthor {
                     count_of_issues: 0,
                     count_of_advisories: 0,
                 };
-                order_by_author.push(last);
+                proof_index_by_author.vec.push(last);
                 old_author = index_item.author.to_string();
             }
             // add to the last group
-            let mut last = unwrap!(order_by_author.last_mut());
+            let mut last = unwrap!(proof_index_by_author.vec.last_mut());
             last.count_of_reviews += 1;
             for_unique_crates.push(index_item.author.to_string());
             last.count_of_rating_strong += index_item.rating_strong;
@@ -84,11 +80,10 @@ impl ProofIndexByAuthor {
             last.count_of_issues += index_item.issues;
             last.count_of_advisories += index_item.advisories;
         }
-        // println!("data_grouped: {:#?}", order_by_author);
+        // println!("data_grouped: {:#?}", vec);
         //return
-        order_by_author
+        proof_index_by_author
     }
-    //pub fn group_by_author() {}
 }
 impl HtmlTemplatingRender for ProofIndexByAuthor {
     /// data model name is used for eprint
@@ -135,37 +130,37 @@ impl HtmlTemplatingRender for ProofIndexByAuthor {
             "t_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
             // this is a grid with repeated rows. Use the cursor_pos
             "t_ordinal_number" => (cursor_pos + 1).to_string(),
-            "t_author" => self.order_by_author[cursor_pos].author.to_string(),
-            "t_author_url" => format!("{}", self.order_by_author[cursor_pos].author_url),
+            "t_author" => self.vec[cursor_pos].author.to_string(),
+            "t_author_url" => format!("{}", self.vec[cursor_pos].author_url),
             "t_count_of_reviews" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_reviews)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews)
             }
             "t_unique_crates" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].unique_crates)
+                to_string_zero_to_empty(self.vec[cursor_pos].unique_crates)
             }
             "t_count_of_rating_strong" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_strong)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_strong)
             }
             "t_count_of_rating_positive" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_positive)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_positive)
             }
             "t_count_of_rating_neutral" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_neutral)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_neutral)
             }
             "t_count_of_rating_negative" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_negative)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_negative)
             }
             "t_count_of_rating_none" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_none)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_none)
             }
             "t_count_of_alternatives" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_alternatives)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_alternatives)
             }
             "t_count_of_issues" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_issues)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_issues)
             }
             "t_count_of_advisories" => {
-                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_advisories)
+                to_string_zero_to_empty(self.vec[cursor_pos].count_of_advisories)
             }
             _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
         }
@@ -194,11 +189,11 @@ impl HtmlTemplatingRender for ProofIndexByAuthor {
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
-                for cursor_for_order_by_author in 0..self.order_by_author.len() {
+                for cursor_for_vec in 0..self.vec.len() {
                     let vec_node = unwrap!(self.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,
-                        cursor_for_order_by_author
+                        cursor_for_vec
                     ));
                     nodes.extend_from_slice(&vec_node);
                 }

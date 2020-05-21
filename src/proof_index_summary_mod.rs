@@ -43,7 +43,7 @@ impl ProofIndexSummary {
             count_of_issues: 0,
             count_of_advisories: 0,
         };
-        for index_item in proof_index.0 {
+        for index_item in proof_index.vec {
             for_unique_crates.push(index_item.crate_name.to_string());
             for_unique_authors.push(index_item.author.to_string());
             summary.count_of_reviews += 1;
@@ -61,10 +61,9 @@ impl ProofIndexSummary {
         summary.unique_crates = for_unique_crates.into_iter().unique().count();
         summary.unique_authors = for_unique_authors.into_iter().unique().count();
 
-        // return 
+        // return
         summary
     }
-
 }
 
 impl HtmlTemplatingRender for ProofIndexSummary {
@@ -73,7 +72,7 @@ impl HtmlTemplatingRender for ProofIndexSummary {
         //return
         "ProofIndexSummary".to_string()
     }
-    /// render html file 
+    /// render html file
     fn render_html_file(&self, templates_folder_name: &str) -> String {
         let start = duration_mod::start_ns();
         eprintln!(
@@ -82,10 +81,10 @@ impl HtmlTemplatingRender for ProofIndexSummary {
         );
 
         // count the proofs and their numeric values
-        let before_render =
-            duration_mod::eprint_duration_ns("  after new()", start);
+        let before_render = duration_mod::eprint_duration_ns("  after new()", start);
 
-        let template_file_name = format!("{}proof_index_summary_template.html", templates_folder_name);
+        let template_file_name =
+            format!("{}proof_index_summary_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
 
         duration_mod::eprint_duration_ns("  render", before_render);
