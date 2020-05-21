@@ -2,7 +2,6 @@
 
 use crate::html_server_template_mod::*;
 use crate::CachedReviewIndex;
-use crate::review_index_mod::*;
 
 use unwrap::unwrap;
 

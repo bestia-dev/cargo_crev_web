@@ -3,8 +3,30 @@
 //use crate::review_mod::*;
 //use crate::review_index_mod::*;
 //use crate::data_file_scan_mod::*;
+use crate::*;
 
+pub struct AuthorReviews{
+    pub author:String,
+    pub author_url: String,
+}
+
+impl AuthorReviews{
+    pub fn new(cached_review_index:CachedReviewIndex, author:&str)->Self{
+        // search data in the index
+        println!("AuthorReviews");
+
+
+        //pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
+
+        //return
+        AuthorReviews{
+            author:"".to_string(),
+            author_url:"".to_string(),
+        }
+    }
+}
 /*
+
 pub fn prepare_reviews_for_author() -> Vec<Review> {
     //fill ReviewIndex
     let review_index = ReviewIndex::new();
