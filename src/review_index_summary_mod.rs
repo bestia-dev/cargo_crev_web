@@ -1,7 +1,7 @@
 //! review_index_summary_mod
 
 use crate::html_server_template_mod::*;
-//use crate::review_mod::*;
+use crate::*;
 //use crate::utils_mod::*;
 use crate::review_index_mod::*;
 //use unwrap::unwrap;
@@ -22,9 +22,9 @@ pub struct ReviewIndexSummary {
 
 impl ReviewIndexSummary {
     /// prepares the data
-    pub fn new() -> Self {
+    pub fn new(cached_review_index:CachedReviewIndex) -> Self {
+        let mut review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
         
-        let review_index = ReviewIndex::new();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
         let mut summary = ReviewIndexSummary {
@@ -40,7 +40,7 @@ impl ReviewIndexSummary {
             count_of_issues: 0,
             count_of_advisories: 0,
         };
-        for index_item in review_index.vec {
+        for index_item in &review_index.vec {
             for_unique_crates.push(index_item.crate_name.to_string());
             for_unique_authors.push(index_item.author.to_string());
             summary.count_of_reviews += 1;

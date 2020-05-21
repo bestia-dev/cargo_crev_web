@@ -1,7 +1,7 @@
 //! info_group_by_crate_mod
 
 use crate::html_server_template_mod::*;
-//use crate::utils_mod::*;
+use crate::CachedReviewIndex;
 use crate::review_index_mod::*;
 
 use unwrap::unwrap;
@@ -28,9 +28,9 @@ pub struct ByCrateItem {
 }
 
 impl ReviewIndexByCrate {
-    pub fn new() -> Self {
-        
-        let mut review_index = ReviewIndex::new();
+    pub fn new(cached_review_index:CachedReviewIndex) -> Self {
+        let mut review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
+
         // sort order for group by, so I don't need to send a mutable
         review_index
             .vec

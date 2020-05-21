@@ -238,6 +238,9 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 //use unwrap::unwrap;
 use warp::Filter;
 use std::sync::{Arc, Mutex};
+
+type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
+
 // region: (collapsed) use statements
 
 /// main function of the binary
@@ -269,12 +272,12 @@ async fn main() {
         Red.paint(local_addr.to_string())
     );
     // endregion
-/*
-    // I need something to cache data
-    let mutex_cache = Arc::new(Mutex::new(HashMap::new()));
+
+    // I will cache the review index
+    let cached_review_index = Arc::new(Mutex::new(review_index_mod::ReviewIndex::new()));
     // Turn our "state" into a new Filter...
-    let mutex_cache = warp::any().map(move || mutex_cache.clone());
-*/
+    let cached_review_index = warp::any().map(move || cached_review_index.clone());
+
     // websites are mostly always made of more separate web-apps
     // it is good for web-apps to NOT start from the website root
     // this webapp starts with the route website_url/cargo_crev_web/
@@ -287,18 +290,21 @@ async fn main() {
 
     // info dynamic content info
     let info = warp::path!("cargo_crev_web" / "info")
-        .map(|| {
+        .and(cached_review_index.clone())
+        .map(|cached_review_index| {
             let ns_start = ns_start("ReviewIndexSummary");
-            let data_model = review_index_summary_mod::ReviewIndexSummary::new();
+            let data_model = review_index_summary_mod::ReviewIndexSummary::new(cached_review_index);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
         .or(
-            warp::path!("cargo_crev_web" / "info" / "group_by_crate").map(|| {
+            warp::path!("cargo_crev_web" / "info" / "group_by_crate")
+            .and(cached_review_index.clone())
+            .map(|cached_review_index| {
                 let ns_start = ns_start("ReviewIndexByCrate");
-                let data_model = info_group_by_crate_mod::ReviewIndexByCrate::new();
+                let data_model = info_group_by_crate_mod::ReviewIndexByCrate::new(cached_review_index);
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
@@ -306,9 +312,11 @@ async fn main() {
             }),
         )
         .or(
-            warp::path!("cargo_crev_web" / "info" / "group_by_author").map(|| {
+            warp::path!("cargo_crev_web" / "info" / "group_by_author")
+            .and(cached_review_index.clone())
+            .map(|cached_review_index| {
                 let ns_start = ns_start("ReviewIndexByAuthor");
-                let data_model = info_group_by_author_mod::ReviewIndexByAuthor::new();
+                let data_model = info_group_by_author_mod::ReviewIndexByAuthor::new(cached_review_index);
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
@@ -318,7 +326,7 @@ async fn main() {
 
     // query_crate dynamic content query
     let query_crate = warp::path!("cargo_crev_web" / "query" / String)
-        .map(|crate_name: String| {
+    .map(|crate_name: String| {
             let ns_start = ns_start(&format!(
                 "CrateReviews crate_name: '{}'",
                 Yellow.paint(&crate_name),
