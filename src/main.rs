@@ -209,9 +209,9 @@
 // endregion: (collapsed) Clippy
 
 // region: (collapsed) use statements
-mod crate_version_summary_mod;
 mod author_reviews_mod;
 mod crate_reviews_mod;
+mod crate_version_summary_mod;
 mod data_file_scan_mod;
 mod duration_mod;
 mod html_server_template_mod;
@@ -310,7 +310,8 @@ async fn main() {
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String).map(
                 |crate_name: String, version: String| {
-                    let data_model = crate_reviews_mod::CrateReviews::new(&crate_name, &version, "");
+                    let data_model =
+                        crate_reviews_mod::CrateReviews::new(&crate_name, &version, "");
                     let html_file = data_model.render_html_file("templates/");
                     warp::reply::html(html_file)
                 },
@@ -329,8 +330,7 @@ async fn main() {
 
     // static file server (starts at cargo_crev_web)
     // route /cargo_crev_web/ get files from folder ./web_content_folder/
-    let fileserver =
-        warp::path("cargo_crev_web").and(warp::fs::dir("./web_content_folder/"));
+    let fileserver = warp::path("cargo_crev_web").and(warp::fs::dir("./web_content_folder/"));
     // endregion: prepare routes
 
     // combine all routes

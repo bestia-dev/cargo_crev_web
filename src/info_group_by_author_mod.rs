@@ -38,7 +38,7 @@ impl ReviewIndexByAuthor {
             .sort_by(|a, b| Ord::cmp(&a.author, &b.author));
         let mut old_author = "".to_string();
         let mut for_unique_crates: Vec<String> = vec![];
-        let mut review_index_by_author = ReviewIndexByAuthor{vec: vec![]};
+        let mut review_index_by_author = ReviewIndexByAuthor { vec: vec![] };
         for index_item in &review_index.vec {
             //the reviews are already sorted by author
             if &index_item.author != &old_author {
@@ -132,12 +132,8 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
             "st_author" => self.vec[cursor_pos].author.to_string(),
             "st_author_url" => format!("{}", self.vec[cursor_pos].author_url),
-            "st_count_of_reviews" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews)
-            }
-            "st_unique_crates" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].unique_crates)
-            }
+            "st_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
+            "st_unique_crates" => to_string_zero_to_empty(self.vec[cursor_pos].unique_crates),
             "st_count_of_rating_strong" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_strong)
             }
@@ -156,9 +152,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             "st_count_of_alternatives" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_alternatives)
             }
-            "st_count_of_issues" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_issues)
-            }
+            "st_count_of_issues" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_issues),
             "st_count_of_advisories" => {
                 to_string_zero_to_empty(self.vec[cursor_pos].count_of_advisories)
             }

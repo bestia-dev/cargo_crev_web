@@ -55,7 +55,9 @@ impl CrateVersionSummary {
                 version_to_push.version = review.package.version.to_string();
                 version_to_push.version_for_sorting =
                     unwrap!(review.package.version_for_sorting.clone()).to_string();
-                crate_version_summary.version_summaries.push(version_to_push);
+                crate_version_summary
+                    .version_summaries
+                    .push(version_to_push);
                 option_version = Some(unwrap!(crate_version_summary.version_summaries.last_mut()));
             }
             // Here Option is not needed any more.
@@ -170,7 +172,9 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             "st_filter_positive" => format!("/cargo_crev_web/query/{}/crate/P", self.crate_name),
             "st_filter_neutral" => format!("/cargo_crev_web/query/{}/crate/E", self.crate_name),
             "st_filter_negative" => format!("/cargo_crev_web/query/{}/crate/N", self.crate_name),
-            "st_filter_alternatives" => format!("/cargo_crev_web/query/{}/crate/v", self.crate_name),
+            "st_filter_alternatives" => {
+                format!("/cargo_crev_web/query/{}/crate/v", self.crate_name)
+            }
             "st_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
             "st_filter_advisories" => format!("/cargo_crev_web/query/{}/crate/a", self.crate_name),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),

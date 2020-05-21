@@ -83,8 +83,10 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         // count the reviews and their numeric values
         let before_render = duration_mod::eprint_duration_ns("  after new()", start);
 
-        let template_file_name =
-            format!("{}review_index_summary_template.html", templates_folder_name);
+        let template_file_name = format!(
+            "{}review_index_summary_template.html",
+            templates_folder_name
+        );
         let html = self.render_from_file(&template_file_name);
 
         duration_mod::eprint_duration_ns("  render", before_render);

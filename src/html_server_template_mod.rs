@@ -1,6 +1,6 @@
 //! html_server_template_mod
-//! templating library for the web server
-
+//! html templating library for the web server
+//! should be compatible also with svg, because of namespaces
 
 // region: use
 use crate::utils_mod::*;
@@ -47,15 +47,14 @@ pub struct SubTemplate {
     pub template: String,
 }
 pub trait HtmlServerTemplateRender {
-    // region: methods to be implemented for a specific project
-    // these are not really public methods. They are used only as
-    // plumbing between trait declaration and implementation
-    // while rendering, cannot mut rrc
+    // region: methods must be implemented for a specific project
+    // because the data model is always different and is known only to the project.
 
-    /// name of data model for debugging
-    fn data_model_name(&self) -> String;
+    /// The code for templating starts here.
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String;
+    /// name of data model for debugging
+    fn data_model_name(&self) -> String;
     /// returns a String to replace the next text-node
     fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String;
     //// boolean : is the next node rendered or not
@@ -68,10 +67,12 @@ pub trait HtmlServerTemplateRender {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node>;
-    // endregion: methods to be implemented for a specific project
+    // endregion: methods must be implemented for a specific project
 
-    // region: the only 2 true public methods - default implementation code
-    /// render for root template (not subtemplates) from file
+    // region: this other methods should be private
+    // but I don't know how to do it in Rust.
+
+    /// render root template (not sub-templates) from file
     fn render_from_file(&self, template_file_name: &str) -> String {
         let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
         // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
@@ -89,7 +90,7 @@ pub trait HtmlServerTemplateRender {
         let mut html = "".to_string();
         match &nodes[0] {
             Node::Element(temp_element_node) => {
-                html = unwrap!(root_element_node_to_string(temp_element_node));
+                html = unwrap!(Self::root_element_node_to_html_string(temp_element_node));
             }
             _ => eprintln!(
                 "Error: render_template_raw_to_nodes() does not return one ElementNode.{}",
@@ -99,11 +100,10 @@ pub trait HtmlServerTemplateRender {
         //return
         html
     }
-    // endregion: default implementation
 
-    // region: this methods should be private somehow, but I don't know in Rust how to do it
-    // this is used for templates and subtemplates equally
-    // extracts sub_templates and get Nodes.
+    /// this is used for templates and subtemplates equally
+    /// first extracts all children sub_templates
+    /// returns Nodes
     fn render_template_raw_to_nodes(
         &self,
         html_template_raw: &str,
@@ -315,11 +315,12 @@ pub trait HtmlServerTemplateRender {
                 }
             }
         }
-        // private fn - decode 5 xml control characters : " ' & < >
-        // https://www.liquid-technologies.com/XML/EscapingData.aspx
-        // I will ignore all html entities, to keep things simple,
-        // because all others characters can be written as utf-8 characters.
-        // https://www.tutorialspoint.com/html5/html5_entities.htm
+        /// private fn - decode 5 xml control characters : " ' & < >
+        /// https://www.liquid-technologies.com/XML/EscapingData.aspx
+        /// I will ignore all html entities, to keep things simple,
+        /// because all others characters can be written as utf-8 characters.
+        /// it is mandatory that text is encoded in utf-8.
+        /// https://www.tutorialspoint.com/html5/html5_entities.htm
         fn decode_5_xml_control_characters(input: &str) -> String {
             // The standard library replace() function makes allocation,
             // but is probably fast enough for my use case.
@@ -332,7 +333,7 @@ pub trait HtmlServerTemplateRender {
         }
     }
 
-    // extract and saves sub_templates only one level deep, children
+    /// extracts and saves sub_templates only one level deep: children
     fn extract_children_sub_templates(template_raw: &str) -> Vec<SubTemplate> {
         // drain sub-template from main template and save into vector
         // the sub_templates[0] is the main_template
@@ -405,7 +406,43 @@ pub trait HtmlServerTemplateRender {
         // return
         sub_templates
     }
-    // endregion: template and sub-templates
+
+    /// converts element node to string
+    fn root_element_node_to_html_string(element_node: &ElementNode) -> Result<String, String> {
+        /// recursive private fn sub element to html
+        fn sub_element_node_mut_html(html: &mut String, element_node: &ElementNode) {
+            html.push_str("<");
+            html.push_str(&element_node.tag_name);
+            html.push_str(" ");
+            for attr in &element_node.attributes {
+                html.push_str(&attr.name);
+                html.push_str(" = \"");
+                html.push_str(&attr.value);
+                html.push_str("\" ");
+            }
+            html.push_str(">");
+            for sub_elem in &element_node.children {
+                match &sub_elem {
+                    Node::Element(sub_element) => {
+                        // recursion
+                        sub_element_node_mut_html(html, sub_element);
+                    }
+                    Node::Text(text) => html.push_str(&text),
+                    Node::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
+                }
+            }
+            // end tag
+            html.push_str("</");
+            html.push_str(&element_node.tag_name);
+            html.push_str(">");
+        }
+
+        let mut html = String::with_capacity(5000);
+        html.push_str("<!DOCTYPE html>");
+        sub_element_node_mut_html(&mut html, element_node);
+        // return
+        Ok(html)
+    }
 }
 // region: utility fn
 /// boilerplate
@@ -433,11 +470,11 @@ pub fn replace_with_nodes_match_else(data_model_name: &str, placeholder: &str) -
     );
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
-            tag_name: "h2".to_string(),
-            attributes: vec![],
-            children: vec![Node::Text(err_msg)],
-            namespace: None,
-        });
+        tag_name: "h2".to_string(),
+        attributes: vec![],
+        children: vec![Node::Text(err_msg)],
+        namespace: None,
+    });
     return vec![node];
 }
 ///boilerplate
@@ -448,48 +485,12 @@ pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str
     );
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
-            tag_name: "h2".to_string(),
-            attributes: vec![],
-            children: vec![Node::Text(err_msg)],
-            namespace: None,
-        });
+        tag_name: "h2".to_string(),
+        attributes: vec![],
+        children: vec![Node::Text(err_msg)],
+        namespace: None,
+    });
     return vec![node];
-}
-/// convert element node to string
-pub fn root_element_node_to_string(element_node: &ElementNode) -> Result<String, String> {
-    /// recursive private fn sub element to html
-    fn sub_element_node_mut_html(html: &mut String, element_node: &ElementNode) {
-        html.push_str("<");
-        html.push_str(&element_node.tag_name);
-        html.push_str(" ");
-        for attr in &element_node.attributes {
-            html.push_str(&attr.name);
-            html.push_str(" = \"");
-            html.push_str(&attr.value);
-            html.push_str("\" ");
-        }
-        html.push_str(">");
-        for sub_elem in &element_node.children {
-            match &sub_elem {
-                Node::Element(sub_element) => {
-                    // recursion
-                    sub_element_node_mut_html(html, sub_element);
-                }
-                Node::Text(text) => html.push_str(&text),
-                Node::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
-            }
-        }
-        // end tag
-        html.push_str("</");
-        html.push_str(&element_node.tag_name);
-        html.push_str(">");
-    }
-
-    let mut html = String::with_capacity(5000);
-    html.push_str("<!DOCTYPE html>");
-    sub_element_node_mut_html(&mut html, element_node);
-    // return
-    Ok(html)
 }
 /// to string, but zero converts to empty
 pub fn to_string_zero_to_empty(number: usize) -> String {
