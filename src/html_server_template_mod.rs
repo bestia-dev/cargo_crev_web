@@ -236,10 +236,10 @@ pub trait HtmlServerTemplateRender {
                     }
                 }
                 Event::Attribute(name, value) => {
-                    if name.starts_with("data-t-") {
+                    if name.starts_with("data-st-") {
                         // placeholder is in the attribute value.
                         // the attribute name is informative and should be similar to the next attribute
-                        // example: data-t-href="st_placeholder" href="x"
+                        // example: data-st-href="st_placeholder" href="x"
                         // The replace_string will always be applied to the next attribute. No matter the name.
                         let placeholder = &value;
                         let repl_txt = self.replace_with_string(placeholder, cursor_pos);
@@ -286,12 +286,12 @@ pub trait HtmlServerTemplateRender {
                         let template_name = txt.trim_end_matches(" start");
                         let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
                         element.children.extend_from_slice(&repl_vec_nodes);
-                    } else if txt.starts_with("n_") {
+                    } else if txt.starts_with("sn_") {
                         // nodes  (in a vector)
                         let repl_vec_nodes = self.replace_with_nodes(txt);
                         replace_vec_nodes = Some(repl_vec_nodes);
                     } else {
-                        // it is really a comment
+                        // it is really a comment, retain it.
                         element.children.push(Node::Comment(txt.to_string()));
                     }
                 }
