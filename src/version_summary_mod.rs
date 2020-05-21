@@ -27,7 +27,6 @@ pub struct VersionSummary {
 
 impl VersionSummary {
     pub fn new() -> Self {
-        
         VersionSummary {
             crate_name: "".to_string(),
             version: "".to_string(),

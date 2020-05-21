@@ -6,23 +6,25 @@ use crate::utils_mod::*;
 use std::fs;
 use unwrap::unwrap;
 
+#[derive(Clone, Debug)]
 pub struct ReviewPk {
     pub crate_name: String,
     pub author_url: String,
     pub version: String,
 }
+#[derive(Clone, Debug)]
 pub struct OneFileReviewsPk {
     pub file_path: String,
     pub reviews_pk: Vec<ReviewPk>,
 }
-
+#[derive(Clone, Debug)]
 pub struct ManyFileReviewsPk {
     pub vec: Vec<OneFileReviewsPk>,
 }
 
 pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
-    let mut reviews=vec![];
-    for one_file in &review_pks.vec{
+    let mut reviews = vec![];
+    for one_file in &review_pks.vec {
         reviews.extend_from_slice(&get_vec_of_review_by_review_pk(&one_file));
     }
     // return
@@ -31,7 +33,6 @@ pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
 /// find one or more reviews from one file
 /// the review PK crate_name, author_url, version
 fn get_vec_of_review_by_review_pk(one_file_review_pk: &OneFileReviewsPk) -> Vec<Review> {
-
     let file_path = &one_file_review_pk.file_path;
     let review_pks = &one_file_review_pk.reviews_pk;
     // first fill a vector with reviews, because I need to filter and sort them

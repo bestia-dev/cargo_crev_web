@@ -1,27 +1,58 @@
 //! author_reviews_mod
 
-//use crate::review_mod::*;
+use crate::review_mod::*;
 //use crate::review_index_mod::*;
-//use crate::data_file_scan_mod::*;
+use crate::data_file_scan_mod::*;
 use crate::*;
 
-pub struct AuthorReviews{
-    pub author:String,
+//use unwrap::unwrap;
+pub struct AuthorReviews {
+    pub author: String,
     pub author_url: String,
+    pub reviews: Vec<Review>,
 }
 
-impl AuthorReviews{
-    pub fn new(cached_review_index:CachedReviewIndex, author:&str)->Self{
+impl AuthorReviews {
+    pub fn new(cached_review_index: CachedReviewIndex, author_url: &str) -> Self {
+        let review_index = cached_review_index
+            .lock()
+            .expect("error cached_review_index.lock()");
+        // sort data by file_path
+        // the data is sorted by path_file in ReviewIndex.new()
+        // nobody else should sort the data
         // search data in the index
-        println!("AuthorReviews");
-
-
-        //pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
+        let mut many_file = ManyFileReviewsPk{vec:vec![],};
+        let old_file_path = "".to_string();
+        let mut one_file = OneFileReviewsPk {
+            file_path: "dummy".to_string(),
+            reviews_pk: vec![],
+        };
+        for i in review_index.vec.iter() {
+            if i.file_path != old_file_path {
+                if one_file.file_path != "dummy" {
+                    // push the old one before creating the new one
+                    many_file.vec.push(one_file);
+                }
+                // create new OneFile
+                one_file = OneFileReviewsPk {
+                    file_path: i.file_path.clone(),
+                    reviews_pk: vec![],
+                };
+            }
+            // add data to reviews_pk
+            one_file.reviews_pk.push(ReviewPk {
+                crate_name: i.crate_name.clone(),
+                author_url: i.author_url.clone(),
+                version: i.version.clone(),
+            });
+        }
+        let reviews = get_vec_of_review(many_file);
 
         //return
-        AuthorReviews{
-            author:"".to_string(),
-            author_url:"".to_string(),
+        AuthorReviews {
+            author: author.to_string(),
+            author_url: author_url.to_string(),
+            reviews 
         }
     }
 }

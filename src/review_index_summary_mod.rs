@@ -21,9 +21,11 @@ pub struct ReviewIndexSummary {
 
 impl ReviewIndexSummary {
     /// prepares the data
-    pub fn new(cached_review_index:CachedReviewIndex) -> Self {
-        let mut review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
-        
+    pub fn new(cached_review_index: CachedReviewIndex) -> Self {
+        let review_index = cached_review_index
+            .lock()
+            .expect("error cached_review_index.lock()");
+
         let mut for_unique_crates: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
         let mut summary = ReviewIndexSummary {
@@ -56,7 +58,7 @@ impl ReviewIndexSummary {
         use itertools::Itertools;
         summary.unique_crates = for_unique_crates.into_iter().unique().count();
         summary.unique_authors = for_unique_authors.into_iter().unique().count();
-        
+
         // return
         summary
     }
@@ -70,13 +72,12 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        
         let template_file_name = format!(
             "{}review_index_summary_template.html",
             templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
-        
+
         // return
         html
     }

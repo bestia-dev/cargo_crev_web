@@ -28,9 +28,10 @@ pub struct ByAuthorItem {
 }
 
 impl ReviewIndexByAuthor {
-    pub fn new(cached_review_index:CachedReviewIndex) -> Self {
-        
-        let mut review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
+    pub fn new(cached_review_index: CachedReviewIndex) -> Self {
+        let mut review_index = cached_review_index
+            .lock()
+            .expect("error cached_review_index.lock()");
         // sort order for group by, so I don't need to send a mutable
         review_index
             .vec
@@ -79,8 +80,7 @@ impl ReviewIndexByAuthor {
             last.count_of_issues += index_item.issues;
             last.count_of_advisories += index_item.advisories;
         }
-        
-        
+
         //return
         review_index_by_author
     }
@@ -93,7 +93,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-                let template_file_name = format!(
+        let template_file_name = format!(
             "{}info_group_by_author_template.html",
             templates_folder_name
         );
@@ -126,6 +126,9 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
             "st_author" => self.vec[cursor_pos].author.to_string(),
             "st_author_url" => format!("{}", self.vec[cursor_pos].author_url),
+            "st_author_review_url" => {
+                format!("/cargo_crev_web/author/{}/", self.vec[cursor_pos].author)
+            }
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
             "st_unique_crates" => to_string_zero_to_empty(self.vec[cursor_pos].unique_crates),
             "st_count_of_rating_strong" => {
