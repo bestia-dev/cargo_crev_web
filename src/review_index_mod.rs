@@ -63,8 +63,8 @@ impl ReviewIndex {
                 if let Some(start_pos) = part1.find(start_delimiter) {
                     let start_pos = start_pos + start_delimiter.len() + 1;
                     if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
-                        let proof_string = &part1[start_pos..end_pos];
-                        Self::push_review_index(proof_string, &mut review_index, filename_crev);
+                        let review_string = &part1[start_pos..end_pos];
+                        Self::push_review_index(review_string, &mut review_index, filename_crev);
                     }
                 }
             }
@@ -76,8 +76,8 @@ impl ReviewIndex {
                     if let Some(end_pos) =
                         part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----")
                     {
-                        let proof_string = &part1[start_pos..end_pos];
-                        Self::push_review_index(proof_string, &mut review_index, filename_crev);
+                        let review_string = &part1[start_pos..end_pos];
+                        Self::push_review_index(review_string, &mut review_index, filename_crev);
                     }
                 }
             }
@@ -87,39 +87,39 @@ impl ReviewIndex {
     }
 
     /// mutates review_index
-    fn push_review_index(proof_string: &str, review_index: &mut ReviewIndex, file_path: &str) {
-        // deserialize one proof
-        let proof: crate::review_mod::Review = unwrap!(serde_yaml::from_str(proof_string));
+    fn push_review_index(review_string: &str, review_index: &mut ReviewIndex, file_path: &str) {
+        // deserialize one review
+        let review: crate::review_mod::Review = unwrap!(serde_yaml::from_str(review_string));
         // use only some of the data for the index
         let review_index_item = ReviewIndexItem {
-            crate_name: proof.package.name.to_string(),
-            version: proof.package.version.to_string(),
-            version_for_sorting: proof.version_for_sorting(),
-            author: proof.get_author(),
-            author_url: proof.from.url.to_string(),
+            crate_name: review.package.name.to_string(),
+            version: review.package.version.to_string(),
+            version_for_sorting: review.version_for_sorting(),
+            author: review.get_author(),
+            author_url: review.from.url.to_string(),
             file_path: file_path.to_string(),
-            rating_strong: conditional_usize(proof.get_rating() == Rating::Strong, 1, 0),
-            rating_positive: conditional_usize(proof.get_rating() == Rating::Positive, 1, 0),
-            rating_neutral: conditional_usize(proof.get_rating() == Rating::Neutral, 1, 0),
-            rating_negative: conditional_usize(proof.get_rating() == Rating::Negative, 1, 0),
-            rating_none: conditional_usize(proof.get_rating() == Rating::None, 1, 0),
+            rating_strong: conditional_usize(review.get_rating() == Rating::Strong, 1, 0),
+            rating_positive: conditional_usize(review.get_rating() == Rating::Positive, 1, 0),
+            rating_neutral: conditional_usize(review.get_rating() == Rating::Neutral, 1, 0),
+            rating_negative: conditional_usize(review.get_rating() == Rating::Negative, 1, 0),
+            rating_none: conditional_usize(review.get_rating() == Rating::None, 1, 0),
 
             alternatives: {
-                if let Some(alternatives) = proof.alternatives {
+                if let Some(alternatives) = review.alternatives {
                     alternatives.len()
                 } else {
                     0
                 }
             },
             issues: {
-                if let Some(issues) = proof.issues {
+                if let Some(issues) = review.issues {
                     issues.len()
                 } else {
                     0
                 }
             },
             advisories: {
-                if let Some(advisories) = proof.advisories {
+                if let Some(advisories) = review.advisories {
                     advisories.len()
                 } else {
                     0

@@ -74,8 +74,8 @@ fn query_reviews(crate_name: &str) -> Vec<Review> {
             if let Some(start_pos) = part1.find(start_delimiter) {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
-                    let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut reviews, &crate_name);
+                    let review_string = &part1[start_pos..end_pos];
+                    push_review(review_string, &mut reviews, &crate_name);
                 }
             }
         }
@@ -85,8 +85,8 @@ fn query_reviews(crate_name: &str) -> Vec<Review> {
             if let Some(start_pos) = part1.find(start_delimiter) {
                 let start_pos = start_pos + start_delimiter.len() + 1;
                 if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
-                    let proof_string = &part1[start_pos..end_pos];
-                    push_proof(proof_string, &mut reviews, &crate_name);
+                    let review_string = &part1[start_pos..end_pos];
+                    push_review(review_string, &mut reviews, &crate_name);
                 }
             }
         }
@@ -134,22 +134,22 @@ fn filter_reviews(reviews: &mut Vec<Review>, version: &str, kind: &str) {
     }
 }
 
-fn push_proof(proof_string: &str, reviews: &mut Vec<Review>, crate_name: &str) {
-    let mut proof: Review = unwrap!(serde_yaml::from_str(proof_string));
+fn push_review(review_string: &str, reviews: &mut Vec<Review>, crate_name: &str) {
+    let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
     // filter: only one crate_name
-    if &proof.package.name == crate_name {
+    if &review.package.name == crate_name {
         // reviews without review are not important
         // version for sorting
-        let (major, minor, patch) = parse_semver(&proof.package.version);
-        proof.package.version_for_sorting = Some(proof.version_for_sorting());
+        let (major, minor, patch) = parse_semver(&review.package.version);
+        review.package.version_for_sorting = Some(review.version_for_sorting());
         Some(format!(
             "{:09}.{:09}.{:09}-{}",
             major,
             minor,
             patch,
-            proof.get_author()
+            review.get_author()
         ));
-        reviews.push(proof);
+        reviews.push(review);
     }
 }
 
@@ -222,15 +222,15 @@ impl HtmlTemplatingRender for CrateReviews {
                 // return
                 nodes
             }
-            "template_review_proof" => {
-                // eprintln!("template_review_proof: {}", "");
+            "template_reviews" => {
+                // eprintln!("template_reviews: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
-                for proof in &self.reviews {
-                    let vec_node = unwrap!(proof.render_template_raw_to_nodes(
+                for review in &self.reviews {
+                    let vec_node = unwrap!(review.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,
                         0

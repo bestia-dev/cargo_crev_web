@@ -15,7 +15,7 @@ pub fn prepare_reviews_for_author() -> Vec<Review> {
 
 
     // file scan for reviews
-    //fn get_vector_of_proof_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Review> {
+    //fn get_vec_of_review_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Review> {
 
 }
 

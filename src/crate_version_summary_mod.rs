@@ -39,11 +39,11 @@ impl CrateVersionSummary {
             },
         };
 
-        for proof in reviews {
+        for review in reviews {
             // find version in vector or create new
             let mut option_version: Option<&mut VersionSummary> = None;
             for version_summary in &mut crate_version_summary.version_summaries {
-                if version_summary.version == proof.package.version {
+                if version_summary.version == review.package.version {
                     option_version = Some(version_summary);
                     break;
                 }
@@ -52,9 +52,9 @@ impl CrateVersionSummary {
                 // new element
                 let mut version_to_push = VersionSummary::new();
                 version_to_push.crate_name = crate_name.to_string();
-                version_to_push.version = proof.package.version.to_string();
+                version_to_push.version = review.package.version.to_string();
                 version_to_push.version_for_sorting =
-                    unwrap!(proof.package.version_for_sorting.clone()).to_string();
+                    unwrap!(review.package.version_for_sorting.clone()).to_string();
                 crate_version_summary.version_summaries.push(version_to_push);
                 option_version = Some(unwrap!(crate_version_summary.version_summaries.last_mut()));
             }
@@ -63,7 +63,7 @@ impl CrateVersionSummary {
             crate_version_summary.crate_summary.review_number += 1;
             version_summary.review_number += 1;
 
-            if let Some(review) = &proof.review {
+            if let Some(review) = &review.review {
                 if review.rating == Rating::Strong {
                     crate_version_summary.crate_summary.rating_strong += 1;
                     version_summary.rating_strong += 1;
@@ -97,19 +97,19 @@ impl CrateVersionSummary {
                     version_summary.understanding += 1;
                 }
             }
-            if let Some(_alternative) = &proof.alternatives {
+            if let Some(_alternative) = &review.alternatives {
                 crate_version_summary.crate_summary.alternatives += 1;
                 version_summary.alternatives += 1;
             }
-            if let Some(_issue) = &proof.issues {
+            if let Some(_issue) = &review.issues {
                 crate_version_summary.crate_summary.issues += 1;
                 version_summary.issues += 1;
             }
-            if let Some(_advisory) = &proof.advisories {
+            if let Some(_advisory) = &review.advisories {
                 crate_version_summary.crate_summary.advisories += 1;
                 version_summary.advisories += 1;
             }
-            if let Some(_advisory) = &proof.advisory {
+            if let Some(_advisory) = &review.advisory {
                 crate_version_summary.crate_summary.advisories += 1;
                 version_summary.advisories += 1;
             }
