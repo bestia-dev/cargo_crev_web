@@ -333,8 +333,7 @@ async fn main() {
             let data_model =
                 author_reviews_mod::AuthorReviews::new(cached_review_index, &author_id);
             let ns_new = ns_print("new()", ns_start);
-            //let html_file = data_model.render_html_file("templates/");
-            let html_file = "we are here";
+            let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         });

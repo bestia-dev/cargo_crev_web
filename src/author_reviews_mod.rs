@@ -5,6 +5,8 @@ use crate::review_mod::*;
 use crate::data_file_scan_mod::*;
 use crate::*;
 
+use unwrap::unwrap;
+
 //use unwrap::unwrap;
 pub struct AuthorReviews {
     pub author: String,
@@ -15,6 +17,7 @@ pub struct AuthorReviews {
 
 impl AuthorReviews {
     pub fn new(cached_review_index: CachedReviewIndex, author_id: &str) -> Self {
+        let ns_start = ns_start("");
         let review_index = cached_review_index
             .lock()
             .expect("error cached_review_index.lock()");
@@ -54,56 +57,95 @@ impl AuthorReviews {
                 });
             }
         }
+        let ns_read_from_index = ns_print(&format!("read from index, file_path count: {}", many_file.vec.len()), ns_start);
         let reviews = get_vec_of_review(many_file);
-        println!("reviews.len(): {}", reviews.len());
+        ns_print(&format!("read from files reviews.len(): {}", reviews.len()), ns_read_from_index);
         //return
         AuthorReviews {
-            author: author.to_string(),
-            author_url: author_url.to_string(),
+            author: author,
+            author_url: author_url,
             author_id: author_id.to_string(),
             reviews,
         }
     }
 }
-/*
-
-pub fn prepare_reviews_for_author() -> Vec<Review> {
-    //fill ReviewIndex
-    let review_index = ReviewIndex::new();
-
-// pub fn new() -> ReviewIndex {
-
-    //get_review_pk
 
 
-    // file scan for reviews
-    //fn get_vec_of_review_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) -> Vec<Review> {
+impl HtmlServerTemplateRender for AuthorReviews {
+    /// data model name is used for eprint
+    fn data_model_name(&self) -> String {
+        //return
+        "AuthorReviews".to_string()
+    }
+    /// renders the complete html file. Not a sub-template/fragment.
+    fn render_html_file(&self, templates_folder_name: &str) -> String {
+        let template_file_name = format!("{}author/author_reviews_template.html", templates_folder_name);
+        let html = self.render_from_file(&template_file_name);
+        // return
+        html
+    }
+    /// boolean : is the next node rendered or not
+    fn retain_next_node(&self, placeholder: &str) -> bool {
+        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        match placeholder {
+            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
+        }
+    }
 
-}
-
-// from the index returns path_name and ReviewPk
-pub fn get_review_pk_for_author(review_index: &ReviewIndex, author_url: &str) -> Vec<OneFileReviewsPk> {
-    // if they are sorted by author_url, than is easy
-    let vec_one_file_reviews_pk = vec![];
-    let old_file_path = "";
-    let ret = vec![];
-    let myp;
-    for x in review_index {
-        if x.author_url == author_url {
-            if x.file_path != old_file_path {
-                //create new item and empty vector
-                myp = vec_one_file_reviews_pk {
-                    file_path: x.file_path,
-                    reviews_pk: vec![],
-                };
+    /// returns a String to replace the next text-node
+    #[allow(
+        clippy::needless_return,
+        clippy::integer_arithmetic,
+        clippy::indexing_slicing
+    )]
+    fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
+        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        match placeholder {
+            // the href for css is good for static data. For dynamic route it must be different.
+            "st_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "st_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_author"=> self.author.to_string(),
+            "st_crates_io_link" => format!("https://crates.io/{}", ""),
+            "st_lib_rs_link" => format!("https://lib.rs/{}", ""),
+            _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// returns a vector of Nodes to replace the next Node
+    #[allow(clippy::needless_return)]
+    fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
+        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        match placeholder {
+            _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// renders sub-template
+    #[allow(clippy::needless_return)]
+    fn render_sub_template(
+        &self,
+        template_name: &str,
+        sub_templates: &Vec<SubTemplate>,
+    ) -> Vec<Node> {
+        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        match template_name {
+        "stmplt_reviews" => {
+            // eprintln!("stmplt_reviews: {}", "");
+            let sub_template = unwrap!(sub_templates
+                .iter()
+                .find(|&template| template.name == template_name));
+            let mut nodes = vec![];
+            // sub-template repeatable
+            for review in &self.reviews {
+                let vec_node = unwrap!(review.render_template_raw_to_nodes(
+                    &sub_template.template,
+                    HtmlOrSvg::Html,
+                    0
+                ));
+                nodes.extend_from_slice(&vec_node);
             }
-            // push to vector
-            myp.reviews_pk.push(ReviewPk {
-                crate_name: x.crate_name,
-                author_url: x.author_url,
-                version: x.version,
-            });
+            // return
+            nodes
+        }
+            _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }
     }
 }
-*/
