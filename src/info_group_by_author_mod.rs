@@ -9,13 +9,13 @@ use chrono::Local;
 use unwrap::unwrap;
 
 #[derive(Clone, Debug)]
-pub struct InfoDataByAuthor {
+pub struct ProofIndexByAuthor {
     order_by_author: Vec<ByAuthorItem>,
 }
 #[derive(Clone, Debug)]
 pub struct ByAuthorItem {
     pub author: String,
-    pub repo: String,
+    pub author_url: String,
     pub count_of_reviews: usize,
     pub unique_crates: usize,
     pub count_of_rating_strong: usize,
@@ -28,37 +28,22 @@ pub struct ByAuthorItem {
     pub count_of_advisories: usize,
 }
 
-impl InfoDataByAuthor {
-
-    pub fn new()->InfoDataByAuthor{
-        let mut proofs_index = InfoData::prepare_proofs_index();
+impl ProofIndexByAuthor {
+    pub fn new() -> ProofIndexByAuthor {
+        let mut proof_index = ProofIndex::new();
         // sort order for group by, so I don't need to send a mutable
-        proofs_index.sort_by(|a, b| Ord::cmp(&a.author, &b.author));
-        let order_by_author = Self::group_by_author(&proofs_index);
+        proof_index.0.sort_by(|a, b| Ord::cmp(&a.author, &b.author));
+        let order_by_author = Self::group_by_author(&proof_index);
 
         //return
-        InfoDataByAuthor {
-            order_by_author,
-        }
+        ProofIndexByAuthor { order_by_author }
     }
-    /// info about reviews
-    pub fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let start = duration_mod::start_ns();
-        eprintln!("{}: info_group_by_author_mod", &Local::now().format("%Y-%m-%d %H:%M:%S"),);
-        let template_file_name = format!("{}info_group_by_author_template.html", templates_folder_name);
-        let html = self.render_from_file(&template_file_name);
-        duration_mod::eprint_duration_ns("render_html_file()", start);
-        // return
-        html
-    }
-
     /// create a new vector with data grouped by crate
-    pub fn group_by_author(proofs_index: & Vec<ProofIndexItem> ) -> Vec<ByAuthorItem> {
-
+    pub fn group_by_author(proof_index: &ProofIndex) -> Vec<ByAuthorItem> {
         let mut old_author = "".to_string();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut order_by_author: Vec<ByAuthorItem> = vec![];
-        for index_item in proofs_index {
+        for index_item in &proof_index.0 {
             //the proofs are already sorted by author
             if &index_item.author != &old_author {
                 if !old_author.is_empty() {
@@ -71,7 +56,7 @@ impl InfoDataByAuthor {
                 //a new group begins
                 let last = ByAuthorItem {
                     author: index_item.author.clone(),
-                    repo: index_item.repo.clone(),
+                    author_url: index_item.author_url.clone(),
                     unique_crates: 0,
                     count_of_reviews: 0,
                     count_of_rating_strong: 0,
@@ -105,12 +90,29 @@ impl InfoDataByAuthor {
     }
     //pub fn group_by_author() {}
 }
-impl HtmlTemplatingRender for InfoDataByAuthor {
+impl HtmlTemplatingRender for ProofIndexByAuthor {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "InfoDataByAuthor".to_string()
+        "ProofIndexByAuthor".to_string()
     }
+    /// full html
+    fn render_html_file(&self, templates_folder_name: &str) -> String {
+        let start = duration_mod::start_ns();
+        eprintln!(
+            "{}: info_group_by_author_mod",
+            &Local::now().format("%Y-%m-%d %H:%M:%S"),
+        );
+        let template_file_name = format!(
+            "{}info_group_by_author_template.html",
+            templates_folder_name
+        );
+        let html = self.render_from_file(&template_file_name);
+        duration_mod::eprint_duration_ns("render_html_file()", start);
+        // return
+        html
+    }
+
     // html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));
@@ -134,24 +136,37 @@ impl HtmlTemplatingRender for InfoDataByAuthor {
             // this is a grid with repeated rows. Use the cursor_pos
             "t_ordinal_number" => (cursor_pos + 1).to_string(),
             "t_author" => self.order_by_author[cursor_pos].author.to_string(),
-            "t_open_author" => format!("{}", self.order_by_author[cursor_pos].repo),
-            "t_count_of_reviews" => to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_reviews),
-            "t_unique_crates" => to_string_zero_to_empty(self.order_by_author[cursor_pos].unique_crates),
-            "t_count_of_rating_strong" => to_string_zero_to_empty(self.order_by_author[cursor_pos]
-                .count_of_rating_strong),
-            "t_count_of_rating_positive" => to_string_zero_to_empty(self.order_by_author[cursor_pos]
-                .count_of_rating_positive),
-            "t_count_of_rating_neutral" => to_string_zero_to_empty(self.order_by_author[cursor_pos]
-                .count_of_rating_neutral),
-            "t_count_of_rating_negative" => to_string_zero_to_empty(self.order_by_author[cursor_pos]
-                .count_of_rating_negative),
-            "t_count_of_rating_none" => to_string_zero_to_empty(self.order_by_author[cursor_pos]
-                .count_of_rating_none),
-            "t_count_of_alternatives" => to_string_zero_to_empty(self.order_by_author[cursor_pos]
-                .count_of_alternatives),
-            "t_count_of_issues" => to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_issues),
-            "t_count_of_advisories" => to_string_zero_to_empty(self.order_by_author[cursor_pos]
-                .count_of_advisories),
+            "t_author_url" => format!("{}", self.order_by_author[cursor_pos].author_url),
+            "t_count_of_reviews" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_reviews)
+            }
+            "t_unique_crates" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].unique_crates)
+            }
+            "t_count_of_rating_strong" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_strong)
+            }
+            "t_count_of_rating_positive" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_positive)
+            }
+            "t_count_of_rating_neutral" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_neutral)
+            }
+            "t_count_of_rating_negative" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_negative)
+            }
+            "t_count_of_rating_none" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_rating_none)
+            }
+            "t_count_of_alternatives" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_alternatives)
+            }
+            "t_count_of_issues" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_issues)
+            }
+            "t_count_of_advisories" => {
+                to_string_zero_to_empty(self.order_by_author[cursor_pos].count_of_advisories)
+            }
             _ => call_fn_string_match_else(&self.data_model_name(), placeholder),
         }
     }

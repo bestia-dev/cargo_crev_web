@@ -56,6 +56,8 @@ pub trait HtmlTemplatingRender {
     // plumbing between trait declaration and implementation
     // while rendering, cannot mut rrc
     fn data_model_name(&self) -> String;
+    /// renders the complete html file. Must be implemented.
+    fn render_html_file(&self, templates_folder_name: &str) -> String;
     fn call_fn_string(&self, placeholder: &str, cursor_pos: usize) -> String;
     fn call_fn_boolean(&self, placeholder: &str) -> bool;
     // this is also for sub-templates

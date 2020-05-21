@@ -10,6 +10,11 @@ impl HtmlTemplatingRender for CrevQueryData {
         //return
         "CrevQueryData".to_string()
     }
+    /// CrevQueryData is never a full html file. It is always a sub-template.
+    fn render_html_file(&self, _templates_folder_name: &str) -> String {
+        //return
+        String::new()
+    }
     // html_templating boolean id the next node is rendered or not
     fn call_fn_boolean(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("call_fn_boolean: {}", &placeholder));

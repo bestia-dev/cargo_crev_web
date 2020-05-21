@@ -1,11 +1,12 @@
 //! crev_query_mod
 
-use crate::all_summary_mod::AllSummaries;
+use crate::all_summary_mod::*;
 use crate::duration_mod;
 use crate::html_template_mod::*;
 use crate::proof_mod::*;
 use crate::utils_mod::*;
 use crate::*;
+
 use chrono::Local;
 use dirs;
 use std::fs;
@@ -37,7 +38,7 @@ pub fn html_for_crev_query(
         duration_mod::eprint_duration_ns("  after proofs_crev_query()", start);
 
     // the summary is always from all proofs. We must filter the proofs later.
-    let all_summaries = all_summary_mod::calculate_all_summary_for_proofs(crate_name, &proofs);
+    let all_summaries = AllSummaries::new(crate_name, &proofs);
     filter_proofs(&mut proofs, version, kind);
     // put all data needed for this template in one place
     let crev_query_data = CrevQueryData {
