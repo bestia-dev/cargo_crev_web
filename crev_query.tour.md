@@ -212,7 +212,7 @@ This is the recursive method. It accepts a newly created ElementNode and fills i
 ## static html template
 The template's life starts as static content. The graphic designer can copy the html file to his disk and open it with the browser. He can use a text editor to change html and css design. The template contains static sample data similar to the dynamic data. So the designer has the visual clue how all will look at the end.
 
-##### step 12 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L28)
+##### step 12 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/templates/query/crev_query_template.html#L28)
 ```html
             <div class="middle"><h2><a style="color:white" href="https://bestia.dev/cargo_crev_web" target="_blank">
                     cargo_crev_web</a></h2></div>
@@ -232,7 +232,7 @@ The template's life starts as static content. The graphic designer can copy the 
 Modifying the visuals of a web page is an eternal task. Let's separate as much as possible the work of the graphic designer and of the (data) developer.
 Once the graphic design is ready, we need to add placeholders for dynamic data. This placeholders will be replaced with dynamic data while rendering. The placeholders must not destroy the capability of the html file to be viewed statically. I choosed to use html comments, for example \<!--t_number--\> 
 
-##### step 13 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L42)
+##### step 13 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/templates/query/crev_query_template.html#L42)
 ```html
             <div class="crate_summary_cell bold" title="reviews count">c</div>
             <div class="crate_summary_cell bold greener" title="rating strong">S
@@ -252,7 +252,7 @@ Once the graphic design is ready, we need to add placeholders for dynamic data. 
 The static text "1" for this text node is used for the graphic preview. 
 To replace it with dynamic data, we add before it a comment with the special syntax \<!--t_name--\>. 
 
-##### step 14 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L48)
+##### step 14 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/templates/query/crev_query_template.html#L48)
 ```html
             <div class="crate_summary_cell"></div>
             <div class="crate_summary_cell yellow" title="alternatives">v</div>
@@ -350,7 +350,7 @@ Then this dynamic TextNode is pushed to the parent node.
 The special comment \<!--b_...--\> can result in true or false. 
 It leaves or removes the next node completely.
 
-##### step 19 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L105)
+##### step 19 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/templates/query/crev_query_template.html#L105)
 ```html
     </div>
     <!--template_all_summaries end-->

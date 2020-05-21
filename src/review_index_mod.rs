@@ -42,7 +42,7 @@ impl ReviewIndex {
         let mut review_index = ReviewIndex { vec: vec![] };
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
-        // local webfolder example "crev/cache/crev/remotes"
+        // local webfolder example "../sample_data/cache/crev/remotes"
         let path = unwrap!(dirs::home_dir());
         let path = path.join(".cache/crev/remotes");
         // eprintln!("path: {}", path.display());

@@ -167,7 +167,7 @@
       }
     },
     {
-      "file": "webfolder/templates/query/crev_query_template.html",
+      "file": "web_server_folder/templates/query/crev_query_template.html",
       "line": 28,
       "description": "## static html template\nThe template's life starts as static content. The graphic designer can copy the html file to his disk and open it with the browser. He can use a text editor to change html and css design. The template contains static sample data similar to the dynamic data. So the designer has the visual clue how all will look at the end.",
       "selection": {
@@ -182,7 +182,7 @@
       }
     },
     {
-      "file": "webfolder/templates/query/crev_query_template.html",
+      "file": "web_server_folder/templates/query/crev_query_template.html",
       "line": 42,
       "description": "## dynamic content\nModifying the visuals of a web page is an eternal task. Let's separate as much as possible the work of the graphic designer and of the (data) developer.\nOnce the graphic design is ready, we need to add placeholders for dynamic data. This placeholders will be replaced with dynamic data while rendering. The placeholders must not destroy the capability of the html file to be viewed statically. I choosed to use html comments, for example <!--t_number--> ",
       "selection": {
@@ -197,7 +197,7 @@
       }
     },
     {
-      "file": "webfolder/templates/query/crev_query_template.html",
+      "file": "web_server_folder/templates/query/crev_query_template.html",
       "line": 48,
       "description": "## replace text  \nThe static text \"1\" for this text node is used for the graphic preview. \nTo replace it with dynamic data, we add before it a comment with the special syntax <!--t_name-->. ",
       "selection": {
@@ -272,7 +272,7 @@
       }
     },
     {
-      "file": "webfolder/templates/query/crev_query_template.html",
+      "file": "web_server_folder/templates/query/crev_query_template.html",
       "line": 105,
       "description": "## boolean placeholder\nThe special comment <!--b_...--> can result in true or false. \nIt leaves or removes the next node completely.",
       "selection": {

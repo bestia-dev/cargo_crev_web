@@ -89,8 +89,8 @@ skip_core_tasks = true
 
 
     [tasks.publish_to_web]
-    description = "publish the webfolder to google vm"
-    # Firt copies the content of /cargo_crev_web/webfolder to // googlecloud/ folder and then to google vm with use of sshagent."
+    description = "publish the web_server_folder to google vm"
+    # Firt copies the content of /cargo_crev_web/web_server_folder to // googlecloud/ folder and then to google vm with use of sshagent."
     workspace = false
     clear = true
     # backslash is the escape character for all other special characters.
@@ -98,8 +98,8 @@ skip_core_tasks = true
     script = [
         "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
         "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-        "echo $ rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/webfolder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
-        "rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/webfolder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+        "echo $ rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+        "rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
         "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff $'\\\\003'",
         "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev screen -dr cargo_crev_web_8051 -X stuff 'cd\\ \\/var\\/www\\/webapps\\/cargo_crev_web\\\\n'",
@@ -260,10 +260,10 @@ clear=true
 private=true
 script = [
     "echo post_build_dev", 
-    "echo $ cp target/debug/cargo_crev_web ./webfolder",
-    "cp target/debug/cargo_crev_web ./webfolder",
-    "echo $ cd webfolder",
-    "cd webfolder",
+    "echo $ cp target/debug/cargo_crev_web ./web_server_folder",
+    "cp target/debug/cargo_crev_web ./web_server_folder",
+    "echo $ cd web_server_folder",
+    "cd web_server_folder",
     "echo $  ./cargo_crev_web",
     " ./cargo_crev_web",
 ]
@@ -273,10 +273,10 @@ clear=true
 private=true
 script = [
     "echo post_build_release",
-    "echo $ cp target/release/cargo_crev_web ./webfolder",
-    "cp target/release/cargo_crev_web ./webfolder",
-    "echo $ cd webfolder",
-    "cd webfolder",
+    "echo $ cp target/release/cargo_crev_web ./web_server_folder",
+    "cp target/release/cargo_crev_web ./web_server_folder",
+    "echo $ cd web_server_folder",
+    "cd web_server_folder",
     "echo $  ./cargo_crev_web",
     " ./cargo_crev_web",
 ]

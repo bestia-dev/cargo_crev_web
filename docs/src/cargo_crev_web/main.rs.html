@@ -636,9 +636,9 @@
         );
 
     <span class="comment">// static file server (starts at cargo_crev_web)</span>
-    <span class="comment">// route /cargo_crev_web/ get files from folder ./cargo_crev_web_root_folder/</span>
+    <span class="comment">// route /cargo_crev_web/ get files from folder ./web_content_folder/</span>
     <span class="kw">let</span> <span class="ident">fileserver</span> <span class="op">=</span>
-        <span class="ident">warp</span>::<span class="ident">path</span>(<span class="string">&quot;cargo_crev_web&quot;</span>).<span class="ident">and</span>(<span class="ident">warp</span>::<span class="ident">fs</span>::<span class="ident">dir</span>(<span class="string">&quot;./cargo_crev_web_root_folder/&quot;</span>));
+        <span class="ident">warp</span>::<span class="ident">path</span>(<span class="string">&quot;cargo_crev_web&quot;</span>).<span class="ident">and</span>(<span class="ident">warp</span>::<span class="ident">fs</span>::<span class="ident">dir</span>(<span class="string">&quot;./web_content_folder/&quot;</span>));
     <span class="comment">// endregion: prepare routes</span>
 
     <span class="comment">// combine all routes</span>

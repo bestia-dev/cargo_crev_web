@@ -113,7 +113,7 @@ impl Review {
             .from
             .url
             .replace("https://github.com/", "")
-            .replace("/crev-xxxxxs", "");
+            .replace("/crev-proofs", "");
         // return
         author
     }

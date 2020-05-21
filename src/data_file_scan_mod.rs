@@ -24,7 +24,7 @@ fn get_vec_of_review_by_review_pk(path_name: &str, review_pks: Vec<ReviewPk>) ->
     for review_pk in &review_pks {
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
-        // local webfolder example "crev/cache/crev/remotes"
+        // local webfolder example "../sample_data/cache/crev/remotes"
         let path = unwrap!(dirs::home_dir());
         let path = path.join(".cache/crev/remotes");
         let path = path.join(path_name);

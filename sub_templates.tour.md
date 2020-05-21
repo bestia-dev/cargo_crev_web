@@ -2,7 +2,7 @@
 ## sub-template
 A sub-template is needed when the data is from a different data model or when is needed to repeat a sub-template for a vector of data. The syntax is like \<!--template_all_summaries start--\>. It ends with \<!--template_all_summaries end--\>
 
-##### step 1 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/webfolder/templates/query/crev_query_template.html#L14)
+##### step 1 of 5 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/templates/query/crev_query_template.html#L14)
 ```html
 
 <head>

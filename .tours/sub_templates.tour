@@ -2,7 +2,7 @@
   "title": "sub_templates_children",
   "steps": [
     {
-      "file": "webfolder/templates/query/crev_query_template.html",
+      "file": "web_server_folder/templates/query/crev_query_template.html",
       "line": 14,
       "description": "## sub-template\nA sub-template is needed when the data is from a different data model or when is needed to repeat a sub-template for a vector of data. The syntax is like <!--template_all_summaries start-->. It ends with <!--template_all_summaries end-->",
       "selection": {

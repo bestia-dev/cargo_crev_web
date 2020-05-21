@@ -88,13 +88,13 @@
 //! On web server 2 MB
 //! It looks that it is not extremly big.
 //!
-//! ## GitHub crev-xxxxxs
+//! ## GitHub crev-proofs
 //!
 //! I followed the instructions <https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md>  
 //! I created a new GitHub user: `cargo-crev-web`. I wanted cargo_crev_web, but I couldn't. So I have inconsistent name here.  
 //! I used my second email, because my first email is used for my personal GitHub LucianoBestia.  
 //! On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.  
-//! I forked the template <https://github.com/crev-dev/crev-xxxxxs>.  
+//! I forked the template <https://github.com/crev-dev/crev-proofs>.  
 //! For fetch I will open a new screen session:  
 //! `screen -S cargo_crev_web_git`  
 //! to reconnect later: `screen -r cargo_crev_web_git`  
@@ -102,13 +102,13 @@
 //! `eval $(ssh-agent -s)`  
 //! `ssh-add ~/.ssh/bestia2_for_github`  
 //! create new crev id with my new github repo:  
-//! `cargo crev id new --url https://github.com/cargo-crev-web/crev-xxxxxs`  
+//! `cargo crev id new --url https://github.com/cargo-crev-web/crev-proofs`  
 //! add a trusted user:  
 //! `crev id trust <hash>`  
 //! example for dpc - Dawid Ciężarkiewicz, the author of cargo-crev. I trust him:  
 //! `cargo crev id trust FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE`  
 //! it is possible also to trust a repo:  
-//! `cargo crev trust <url of someone's crev-xxxxxs repo>`  
+//! `cargo crev trust <url of someone's crev-proofs repo>`  
 //! At the end of editing the local data push:  
 //! `cargo crev repo publish`  
 //!
@@ -328,9 +328,9 @@ async fn main() {
         );
 
     // static file server (starts at cargo_crev_web)
-    // route /cargo_crev_web/ get files from folder ./cargo_crev_web_root_folder/
+    // route /cargo_crev_web/ get files from folder ./web_content_folder/
     let fileserver =
-        warp::path("cargo_crev_web").and(warp::fs::dir("./cargo_crev_web_root_folder/"));
+        warp::path("cargo_crev_web").and(warp::fs::dir("./web_content_folder/"));
     // endregion: prepare routes
 
     // combine all routes
