@@ -3,7 +3,7 @@
 use crate::duration_mod;
 use crate::html_template_mod::*;
 //use crate::utils_mod::*;
-use crate::proof_index_mod::*;
+use crate::review_index_mod::*;
 
 use chrono::Local;
 use unwrap::unwrap;
@@ -31,21 +31,21 @@ pub struct ByAuthorItem {
 
 impl ReviewIndexByAuthor {
     pub fn new() -> ReviewIndexByAuthor {
-        let mut proof_index = ReviewIndex::new();
+        let mut review_index = ReviewIndex::new();
         // sort order for group by, so I don't need to send a mutable
-        proof_index
+        review_index
             .vec
             .sort_by(|a, b| Ord::cmp(&a.author, &b.author));
         let mut old_author = "".to_string();
         let mut for_unique_crates: Vec<String> = vec![];
-        let mut proof_index_by_author = ReviewIndexByAuthor{vec: vec![]};
-        for index_item in &proof_index.vec {
+        let mut review_index_by_author = ReviewIndexByAuthor{vec: vec![]};
+        for index_item in &review_index.vec {
             //the proofs are already sorted by author
             if &index_item.author != &old_author {
                 if !old_author.is_empty() {
                     //finalize the previous group
                     use itertools::Itertools;
-                    let mut last = unwrap!(proof_index_by_author.vec.last_mut());
+                    let mut last = unwrap!(review_index_by_author.vec.last_mut());
                     last.unique_crates = for_unique_crates.into_iter().unique().count();
                     for_unique_crates = vec![];
                 }
@@ -64,11 +64,11 @@ impl ReviewIndexByAuthor {
                     count_of_issues: 0,
                     count_of_advisories: 0,
                 };
-                proof_index_by_author.vec.push(last);
+                review_index_by_author.vec.push(last);
                 old_author = index_item.author.to_string();
             }
             // add to the last group
-            let mut last = unwrap!(proof_index_by_author.vec.last_mut());
+            let mut last = unwrap!(review_index_by_author.vec.last_mut());
             last.count_of_reviews += 1;
             for_unique_crates.push(index_item.author.to_string());
             last.count_of_rating_strong += index_item.rating_strong;
@@ -82,7 +82,7 @@ impl ReviewIndexByAuthor {
         }
         // println!("data_grouped: {:#?}", vec);
         //return
-        proof_index_by_author
+        review_index_by_author
     }
 }
 impl HtmlTemplatingRender for ReviewIndexByAuthor {

@@ -1,4 +1,4 @@
-//! proof_index_mod
+//! review_index_mod
 /// iterating in the original file format is not performant
 /// it is better to read the files once and make an index of all
 /// and then mostly use this index from memory.
@@ -39,7 +39,7 @@ impl ReviewIndex {
     /// prepares the data
     /// todo: this could be cached
     pub fn new() -> ReviewIndex {
-        let mut proof_index = ReviewIndex { vec: vec![] };
+        let mut review_index = ReviewIndex { vec: vec![] };
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
         // local webfolder example "crev/cache/crev/remotes"
@@ -64,7 +64,7 @@ impl ReviewIndex {
                     let start_pos = start_pos + start_delimiter.len() + 1;
                     if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                         let proof_string = &part1[start_pos..end_pos];
-                        Self::push_proof_index(proof_string, &mut proof_index, filename_crev);
+                        Self::push_review_index(proof_string, &mut review_index, filename_crev);
                     }
                 }
             }
@@ -77,21 +77,21 @@ impl ReviewIndex {
                         part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----")
                     {
                         let proof_string = &part1[start_pos..end_pos];
-                        Self::push_proof_index(proof_string, &mut proof_index, filename_crev);
+                        Self::push_review_index(proof_string, &mut review_index, filename_crev);
                     }
                 }
             }
         }
         //return
-        proof_index
+        review_index
     }
 
-    /// mutates proof_index
-    fn push_proof_index(proof_string: &str, proof_index: &mut ReviewIndex, file_path: &str) {
+    /// mutates review_index
+    fn push_review_index(proof_string: &str, review_index: &mut ReviewIndex, file_path: &str) {
         // deserialize one proof
         let proof: crate::proof_mod::Review = unwrap!(serde_yaml::from_str(proof_string));
         // use only some of the data for the index
-        let proof_index_item = ReviewIndexItem {
+        let review_index_item = ReviewIndexItem {
             crate_name: proof.package.name.to_string(),
             version: proof.package.version.to_string(),
             version_for_sorting: proof.version_for_sorting(),
@@ -126,6 +126,6 @@ impl ReviewIndex {
                 }
             },
         };
-        proof_index.vec.push(proof_index_item);
+        review_index.vec.push(review_index_item);
     }
 }

@@ -218,8 +218,8 @@ mod html_template_mod;
 mod info_group_by_author_mod;
 mod info_group_by_crate_mod;
 mod issue_mod;
-mod proof_index_mod;
-mod proof_index_summary_mod;
+mod review_index_mod;
+mod review_index_summary_mod;
 mod proof_mod;
 mod utils_mod;
 mod version_summary_mod;
@@ -281,7 +281,7 @@ async fn main() {
     // info dynamic content info
     let info = warp::path!("cargo_crev_web" / "info")
         .map(|| {
-            let data_model = proof_index_summary_mod::ReviewIndexSummary::new();
+            let data_model = review_index_summary_mod::ReviewIndexSummary::new();
             let html_file = data_model.render_html_file("templates/");
             warp::reply::html(html_file)
         })

@@ -1,11 +1,11 @@
-//! proof_index_summary_mod
+//! review_index_summary_mod
 
 //use crate::data_file_scan_mod::*;
 use crate::duration_mod;
 use crate::html_template_mod::*;
 //use crate::proof_mod::*;
 //use crate::utils_mod::*;
-use crate::proof_index_mod::*;
+use crate::review_index_mod::*;
 
 use chrono::Local;
 //use unwrap::unwrap;
@@ -27,7 +27,7 @@ pub struct ReviewIndexSummary {
 impl ReviewIndexSummary {
     /// prepares the data
     pub fn new() -> ReviewIndexSummary {
-        let proof_index = ReviewIndex::new();
+        let review_index = ReviewIndex::new();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
         let mut summary = ReviewIndexSummary {
@@ -43,7 +43,7 @@ impl ReviewIndexSummary {
             count_of_issues: 0,
             count_of_advisories: 0,
         };
-        for index_item in proof_index.vec {
+        for index_item in review_index.vec {
             for_unique_crates.push(index_item.crate_name.to_string());
             for_unique_authors.push(index_item.author.to_string());
             summary.count_of_reviews += 1;
@@ -76,7 +76,7 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
     fn render_html_file(&self, templates_folder_name: &str) -> String {
         let start = duration_mod::start_ns();
         eprintln!(
-            "{}: proof_index_mod",
+            "{}: review_index_mod",
             &Local::now().format("%Y-%m-%d %H:%M:%S"),
         );
 
@@ -84,7 +84,7 @@ impl HtmlTemplatingRender for ReviewIndexSummary {
         let before_render = duration_mod::eprint_duration_ns("  after new()", start);
 
         let template_file_name =
-            format!("{}proof_index_summary_template.html", templates_folder_name);
+            format!("{}review_index_summary_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
 
         duration_mod::eprint_duration_ns("  render", before_render);

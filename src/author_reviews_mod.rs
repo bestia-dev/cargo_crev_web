@@ -1,13 +1,13 @@
 //! author_reviews_mod
 
 //use crate::proof_mod::*;
-//use crate::proof_index_mod::*;
+//use crate::review_index_mod::*;
 //use crate::data_file_scan_mod::*;
 
 /*
 pub fn prepare_proofs_for_author() -> Vec<Review> {
     //fill ReviewIndex
-    let proof_index = ReviewIndex::new();
+    let review_index = ReviewIndex::new();
 
 // pub fn new() -> ReviewIndex {
 
@@ -20,13 +20,13 @@ pub fn prepare_proofs_for_author() -> Vec<Review> {
 }
 
 // from the index returns path_name and ReviewPk
-pub fn get_review_pk_for_author(proof_index: &ReviewIndex, author_url: &str) -> Vec<OneFileReviewsPk> {
+pub fn get_review_pk_for_author(review_index: &ReviewIndex, author_url: &str) -> Vec<OneFileReviewsPk> {
     // if they are sorted by author_url, than is easy
     let vec_one_file_reviews_pk = vec![];
     let old_file_path = "";
     let ret = vec![];
     let myp;
-    for x in proof_index {
+    for x in review_index {
         if x.author_url == author_url {
             if x.file_path != old_file_path {
                 //create new item and empty vector

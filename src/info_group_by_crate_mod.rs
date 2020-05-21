@@ -3,7 +3,7 @@
 use crate::duration_mod;
 use crate::html_template_mod::*;
 //use crate::utils_mod::*;
-use crate::proof_index_mod::*;
+use crate::review_index_mod::*;
 
 use chrono::Local;
 use unwrap::unwrap;
@@ -31,23 +31,23 @@ pub struct ByCrateItem {
 
 impl ReviewIndexByCrate {
     pub fn new() -> ReviewIndexByCrate {
-        let mut proof_index = ReviewIndex::new();
+        let mut review_index = ReviewIndex::new();
         // sort order for group by, so I don't need to send a mutable
-        proof_index
+        review_index
             .vec
             .sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
 
         let mut old_crate_name = "".to_string();
         let mut for_unique_versions: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
-        let mut proof_index_by_crate = ReviewIndexByCrate { vec: vec![] };
-        for index_item in &proof_index.vec {
+        let mut review_index_by_crate = ReviewIndexByCrate { vec: vec![] };
+        for index_item in &review_index.vec {
             //the proofs are already sorted by crate_name
             if &index_item.crate_name != &old_crate_name {
                 if !old_crate_name.is_empty() {
                     //finalize the previous group
                     use itertools::Itertools;
-                    let mut last = unwrap!(proof_index_by_crate.vec.last_mut());
+                    let mut last = unwrap!(review_index_by_crate.vec.last_mut());
                     last.unique_versions = for_unique_versions.into_iter().unique().count();
                     for_unique_versions = vec![];
                     last.unique_authors = for_unique_authors.into_iter().unique().count();
@@ -68,11 +68,11 @@ impl ReviewIndexByCrate {
                     count_of_issues: 0,
                     count_of_advisories: 0,
                 };
-                proof_index_by_crate.vec.push(last);
+                review_index_by_crate.vec.push(last);
                 old_crate_name = index_item.crate_name.to_string();
             }
             // add to the last group
-            let mut last = unwrap!(proof_index_by_crate.vec.last_mut());
+            let mut last = unwrap!(review_index_by_crate.vec.last_mut());
             last.count_of_reviews += 1;
             for_unique_versions.push(index_item.version.to_string());
             for_unique_authors.push(index_item.author.to_string());
@@ -85,9 +85,9 @@ impl ReviewIndexByCrate {
             last.count_of_issues += index_item.issues;
             last.count_of_advisories += index_item.advisories;
         }
-        // println!("data_grouped: {:#?}", proof_index_by_crate);
+        // println!("data_grouped: {:#?}", review_index_by_crate);
         //return
-        proof_index_by_crate
+        review_index_by_crate
     }
 }
 impl HtmlTemplatingRender for ReviewIndexByCrate {
