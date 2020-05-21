@@ -8,11 +8,7 @@ use unwrap::unwrap;
 // endregion: use
 
 #[derive(Clone, Debug)]
-pub struct Node {
-    pub node_enum: NodeEnum,
-}
-#[derive(Clone, Debug)]
-pub enum NodeEnum {
+pub enum Node {
     // A text node.
     Text(String),
     // An element potentially with attributes and children.
@@ -84,8 +80,8 @@ pub trait HtmlTemplatingRender {
             unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, 0));
         // because this is the root template it must return one ElementNode
         let mut html = "".to_string();
-        match &nodes[0].node_enum {
-            NodeEnum::Element(temp_element_node) => {
+        match &nodes[0] {
+            Node::Element(temp_element_node) => {
                 html = unwrap!(root_element_node_to_string(temp_element_node));
             }
             _ => eprintln!(
@@ -225,9 +221,7 @@ pub trait HtmlTemplatingRender {
                             }
                             replace_vec_nodes = None;
                         } else {
-                            element.children.push(Node {
-                                node_enum: NodeEnum::Element(child_element),
-                            });
+                            element.children.push(Node::Element(child_element));
                         }
                     }
                     if replace_boolean.is_some() {
@@ -267,9 +261,7 @@ pub trait HtmlTemplatingRender {
                     };
                     // here accepts only utf-8.
                     // only minimum html entities are decoded
-                    element.children.push(Node {
-                        node_enum: NodeEnum::Text(txt),
-                    });
+                    element.children.push(Node::Text(txt));
                 }
                 Event::Comment(txt) => {
                     // the main goal of comments is to change the value of the next text node
@@ -293,9 +285,7 @@ pub trait HtmlTemplatingRender {
                         replace_vec_nodes = Some(repl_vec_nodes);
                     } else {
                         // it is really a comment
-                        element.children.push(Node {
-                            node_enum: NodeEnum::Comment(txt.to_string()),
-                        });
+                        element.children.push(Node::Comment(txt.to_string()));
                     }
                 }
                 Event::EndElement(name) => {
@@ -435,16 +425,12 @@ pub fn replace_with_nodes_match_else(data_model_name: &str, placeholder: &str) -
         data_model_name, placeholder
     );
     eprintln!("{}", &err_msg);
-    let node = Node {
-        node_enum: NodeEnum::Element(ElementNode {
+    let node = Node::Element(ElementNode {
             tag_name: "h2".to_string(),
             attributes: vec![],
-            children: vec![Node {
-                node_enum: NodeEnum::Text(err_msg),
-            }],
+            children: vec![Node::Text(err_msg)],
             namespace: None,
-        }),
-    };
+        });
     return vec![node];
 }
 ///boilerplate
@@ -454,16 +440,12 @@ pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str
         data_model_name, template_name
     );
     eprintln!("{}", &err_msg);
-    let node = Node {
-        node_enum: NodeEnum::Element(ElementNode {
+    let node = Node::Element(ElementNode {
             tag_name: "h2".to_string(),
             attributes: vec![],
-            children: vec![Node {
-                node_enum: NodeEnum::Text(err_msg),
-            }],
+            children: vec![Node::Text(err_msg)],
             namespace: None,
-        }),
-    };
+        });
     return vec![node];
 }
 /// convert element node to string
@@ -481,13 +463,13 @@ pub fn root_element_node_to_string(element_node: &ElementNode) -> Result<String,
         }
         html.push_str(">");
         for sub_elem in &element_node.children {
-            match &sub_elem.node_enum {
-                NodeEnum::Element(sub_element) => {
+            match &sub_elem {
+                Node::Element(sub_element) => {
                     // recursion
                     sub_element_node_mut_html(html, sub_element);
                 }
-                NodeEnum::Text(text) => html.push_str(&text),
-                NodeEnum::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
+                Node::Text(text) => html.push_str(&text),
+                Node::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
             }
         }
         // end tag
