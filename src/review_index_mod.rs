@@ -1,4 +1,5 @@
 //! review_index_mod
+use crate::duration_mod::*;
 /// iterating in the original file format is not performant
 /// it is better to read the files once and make an index of all
 /// and then mostly use this index from memory.
@@ -7,7 +8,6 @@
 //use crate::duration_mod;
 use crate::review_mod::*;
 use crate::utils_mod::*;
-
 //use chrono::Local;
 use std::fs;
 use unwrap::unwrap;
@@ -38,7 +38,8 @@ pub struct ReviewIndex {
 impl ReviewIndex {
     /// prepares the data
     /// todo: this could be cached
-    pub fn new() -> ReviewIndex {
+    pub fn new() -> Self {
+        let ns_start = ns_start("ReviewIndex::new()");
         let mut review_index = ReviewIndex { vec: vec![] };
         // original cache crev folder: /home/luciano/.cache/crev/remotes
         // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
@@ -82,6 +83,7 @@ impl ReviewIndex {
                 }
             }
         }
+        ns_print("ReviewIndex::new()", ns_start);
         //return
         review_index
     }

@@ -1,6 +1,6 @@
 //! info_group_by_author_mod
 
-use crate::duration_mod;
+use crate::duration_mod::*;
 use crate::html_server_template_mod::*;
 //use crate::utils_mod::*;
 use crate::review_index_mod::*;
@@ -30,7 +30,8 @@ pub struct ByAuthorItem {
 }
 
 impl ReviewIndexByAuthor {
-    pub fn new() -> ReviewIndexByAuthor {
+    pub fn new() -> Self {
+        let ns_start = ns_start("ReviewIndexByAuthor::new()");
         let mut review_index = ReviewIndex::new();
         // sort order for group by, so I don't need to send a mutable
         review_index
@@ -81,6 +82,7 @@ impl ReviewIndexByAuthor {
             last.count_of_advisories += index_item.advisories;
         }
         // println!("data_grouped: {:#?}", vec);
+        ns_print("ReviewIndexByAuthor::new()", ns_start);
         //return
         review_index_by_author
     }
@@ -93,7 +95,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let start = duration_mod::start_ns();
+        let ns_start = ns_start("");
         eprintln!(
             "{}: info_group_by_author_mod",
             &Local::now().format("%Y-%m-%d %H:%M:%S"),
@@ -103,7 +105,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
-        duration_mod::eprint_duration_ns("render_html_file()", start);
+        ns_print("render_html_file()", ns_start);
         // return
         html
     }

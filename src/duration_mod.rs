@@ -4,14 +4,21 @@
 use ansi_term::Colour::{Blue, Green, Red, Yellow};
 use chrono::prelude::*;
 
-pub fn start_ns() -> i64 {
+pub fn ns_start(text: &str) -> i64 {
     let now = Utc::now();
+    if !text.is_empty() {
+        eprintln!(
+            "{}: {}",
+            Green.paint(Local::now().format("%Y-%m-%d %H:%M:%S").to_string()),
+            Green.paint(text)
+        );
+    }
     now.timestamp_nanos()
 }
 
-pub fn eprint_duration_ns(name: &str, start_ns: i64) -> i64 {
+pub fn ns_print(name: &str, ns_start: i64) -> i64 {
     let now_ns = Utc::now().timestamp_nanos();
-    let duration_ns = now_ns - start_ns;
+    let duration_ns = now_ns - ns_start;
     let duration_ns = duration_ns.to_string();
     let duration_ns = if duration_ns.len() == 4 {
         format!("          {}.{}", &duration_ns[0..1], &duration_ns[1..4])

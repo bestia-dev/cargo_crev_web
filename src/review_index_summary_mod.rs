@@ -1,13 +1,11 @@
 //! review_index_summary_mod
 
 //use crate::data_file_scan_mod::*;
-use crate::duration_mod;
+use crate::duration_mod::*;
 use crate::html_server_template_mod::*;
 //use crate::review_mod::*;
 //use crate::utils_mod::*;
 use crate::review_index_mod::*;
-
-use chrono::Local;
 //use unwrap::unwrap;
 #[derive(Clone, Debug)]
 pub struct ReviewIndexSummary {
@@ -26,7 +24,8 @@ pub struct ReviewIndexSummary {
 
 impl ReviewIndexSummary {
     /// prepares the data
-    pub fn new() -> ReviewIndexSummary {
+    pub fn new() -> Self {
+        let ns_start = ns_start("ReviewIndexSummary::new()");
         let review_index = ReviewIndex::new();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
@@ -60,7 +59,7 @@ impl ReviewIndexSummary {
         use itertools::Itertools;
         summary.unique_crates = for_unique_crates.into_iter().unique().count();
         summary.unique_authors = for_unique_authors.into_iter().unique().count();
-
+        ns_print("ReviewIndexSummary::new()", ns_start);
         // return
         summary
     }
@@ -74,23 +73,13 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let start = duration_mod::start_ns();
-        eprintln!(
-            "{}: review_index_mod",
-            &Local::now().format("%Y-%m-%d %H:%M:%S"),
-        );
-
-        // count the reviews and their numeric values
-        let before_render = duration_mod::eprint_duration_ns("  after new()", start);
-
+        let start = ns_start("");
         let template_file_name = format!(
             "{}review_index_summary_template.html",
             templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
-
-        duration_mod::eprint_duration_ns("  render", before_render);
-        duration_mod::eprint_duration_ns("render_html_file()", start);
+        ns_print("render_html_file()", start);
         // return
         html
     }
