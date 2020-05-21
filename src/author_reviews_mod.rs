@@ -66,6 +66,8 @@ impl AuthorReviews {
             &format!("read from files reviews.len(): {}", reviews.len()),
             ns_read_from_index,
         );
+        // sort reviews
+        reviews.sort_by(|a, b| {a.crate_name.cmp(&b.crate_name)});
         //return
         AuthorReviews {
             author: author,
