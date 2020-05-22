@@ -120,3 +120,18 @@ pub fn conditional_usize(expr: bool, result_if_true: usize, result_if_false: usi
         result_if_false
     }
 }
+
+/// url encode
+pub fn url_encode(data: &str) -> String {
+    let mut escaped = String::new();
+    for b in data.as_bytes().iter() {
+        match *b as char {
+            // Accepted characters
+            'A'..='Z' | 'a'..='z' | '0'..='9' | '-' | '_' | '.' | '~' => escaped.push(*b as char),
+
+            // Everything else is percent-encoded
+            b => escaped.push_str(format!("%{:02X}", b as u32).as_str()),
+        };
+    }
+    return escaped;
+}

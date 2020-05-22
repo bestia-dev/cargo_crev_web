@@ -287,9 +287,22 @@ async fn main() {
     // if they have this route not taken.
 
     // region: prepare routes
+    
+    // static files and folders:
+    // /cargo_crev_web/  - static index.html file
+    // /cargo_crev_web/css/*  - static css file
 
-    // info dynamic content info
-    let info = warp::path!("cargo_crev_web" / "info")
+    // dynamic content:
+    // /cargo_crev_web/info/
+    // /cargo_crev_web/info/group_by_crate/
+    // /cargo_crev_web/info/group_by_author/
+    // /cargo_crev_web/author/{author_id}/
+    // /cargo_crev_web/crate/{crate_name}/
+    // /cargo_crev_web/crate/{crate_name}/{version}/
+    // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
+
+
+    let info_route = warp::path!("cargo_crev_web" / "info")
         .and(cached_review_index.clone())
         .map(|cached_review_index| {
             let ns_start = ns_start("ReviewIndexSummary");
@@ -322,8 +335,7 @@ async fn main() {
                 warp::reply::html(html_file)
             }));
 
-    // query_crate dynamic content query
-    let author = warp::path!("cargo_crev_web" / "author" / String)
+    let author_route = warp::path!("cargo_crev_web" / "author" / String)
         .and(cached_review_index.clone())
         .map(|author_id: String, cached_review_index| {
             let ns_start = ns_start(&format!(
@@ -338,8 +350,21 @@ async fn main() {
             warp::reply::html(html_file)
         });
 
-    // query_crate dynamic content query
-    let query_crate = warp::path!("cargo_crev_web" / "query" / String)
+    let crate_route = warp::path!("cargo_crev_web" / "crate" / String)
+    .and(cached_review_index.clone())
+    .map(|crate_name: String, _cached_review_index| {
+        let ns_start = ns_start(&format!(
+            "CrateReviews crate_name: '{}'",
+            Yellow.paint(&crate_name),
+        ));
+        let data_model = crate_reviews_mod::CrateReviews::new(&crate_name, "", "");
+        let ns_new = ns_print("new()", ns_start);
+        let html_file = data_model.render_html_file("templates/");
+        ns_print("render_html_file()", ns_new);
+        warp::reply::html(html_file)
+    });
+
+    let query_crate_route = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
             let ns_start = ns_start(&format!(
                 "CrateReviews crate_name: '{}'",
@@ -392,7 +417,7 @@ async fn main() {
     let fileserver = warp::path("cargo_crev_web").and(warp::fs::dir("./web_content_folder/"));
     // endregion: prepare routes
 
-    // combine all routes
-    let routes = author.or(info.or(query_crate.or(fileserver)));
+    // combine all routes with or
+    let routes = crate_route.or(author_route).or(info_route).or(query_crate_route).or(fileserver);
     warp::serve(routes).run(local_addr).await;
 }

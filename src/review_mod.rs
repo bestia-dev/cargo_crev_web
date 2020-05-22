@@ -3,6 +3,7 @@
 use crate::html_server_template_mod::*;
 use crate::issue_mod::Issue;
 use crate::utils_mod::*;
+
 use serde_derive::{Deserialize, Serialize};
 use strum_macros;
 use unwrap::unwrap;
@@ -113,6 +114,7 @@ impl Review {
             .from
             .url
             .replace("https://github.com/", "")
+            .replace("https://gitlab.com/", "")
             .replace("/crev-proofs", "");
         // return
         author
@@ -174,6 +176,7 @@ impl HtmlServerTemplateRender for Review {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             "st_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
+            "st_crate_route" => format!("/cargo_crev_web/crate/{}/", url_encode(&self.package.name)),
             "st_review_rating" => {
                 if let Some(review) = &self.review {
                     review.rating.to_string()
@@ -194,7 +197,8 @@ impl HtmlServerTemplateRender for Review {
                 // naive method to extract author
                 self.get_author()
             }
-            "st_review_author_url" => self.from.url.to_string(),
+            "st_author_url" => self.from.url.to_string(),
+            "st_author_route" => format!("/cargo_crev_web/author/{}/", url_encode(&self.from.id)),
             "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
                     format!(

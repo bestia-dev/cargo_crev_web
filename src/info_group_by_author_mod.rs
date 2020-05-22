@@ -1,7 +1,7 @@
 //! info_group_by_author_mod
 
 use crate::html_server_template_mod::*;
-//use crate::utils_mod::*;
+use crate::utils_mod::*;
 use crate::*;
 
 use unwrap::unwrap;
@@ -122,14 +122,14 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
             // this is a grid with repeated rows. Use the cursor_pos
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
             "st_author" => self.vec[cursor_pos].author.to_string(),
             "st_author_url" => format!("{}", self.vec[cursor_pos].author_url),
-            "st_author_review_url" => {
-                format!("/cargo_crev_web/author/{}/", self.vec[cursor_pos].author_id)
+            "st_author_route" => {
+                format!("/cargo_crev_web/author/{}/", url_encode( &self.vec[cursor_pos].author_id))
             }
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
             "st_unique_crates" => to_string_zero_to_empty(self.vec[cursor_pos].unique_crates),

@@ -66,7 +66,8 @@ impl AuthorReviews {
             &format!("read from files reviews.len(): {}", reviews.len()),
             ns_read_from_index,
         );
-        // sort reviews
+        // sort reviews by crate and version
+        reviews.sort_by(|a, b| {b.package.version_for_sorting.cmp(&a.package.version_for_sorting)});
         reviews.sort_by(|a, b| {a.package.name.cmp(&b.package.name)});
         //return
         AuthorReviews {
@@ -112,11 +113,10 @@ impl HtmlServerTemplateRender for AuthorReviews {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
             "st_author" => self.author.to_string(),
-            "st_crates_io_link" => format!("https://crates.io/{}", ""),
-            "st_lib_rs_link" => format!("https://lib.rs/{}", ""),
+            "st_author_url" => self.author_url.to_string(),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

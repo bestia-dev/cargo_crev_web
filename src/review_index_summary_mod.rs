@@ -99,8 +99,8 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_href" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_href" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
+            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
             "st_unique_crates" => self.unique_crates.to_string(),
             "st_unique_authors" => self.unique_authors.to_string(),
             "st_count_of_reviews" => self.count_of_reviews.to_string(),

@@ -150,8 +150,8 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             "st_crate_name" => self.crate_name.to_string(),
-            "st_crates_io_link" => format!("https://crates.io/crates/{}", self.crate_name),
-            "st_lib_rs_link" => format!("https://lib.rs/crates/{}", self.crate_name),
+            "st_crates_io_url" => format!("https://crates.io/crates/{}", self.crate_name),
+            "st_lib_rs_url" => format!("https://lib.rs/crates/{}", self.crate_name),
             "st_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
             "st_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
             "st_crate_rating_positive" => {
