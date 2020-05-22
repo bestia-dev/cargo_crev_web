@@ -1,8 +1,8 @@
 //! reserved_folder_mod
 
 use crate::html_server_template_mod::*;
-use crate::CachedReviewIndex;
 use crate::utils_mod::*;
+use crate::CachedReviewIndex;
 
 use unwrap::unwrap;
 
@@ -37,12 +37,10 @@ impl ReservedFolder {
             .vec
             .iter()
             .unique_by(|rev| &rev.author)
-            .map(|rev| {
-                OnlyAuthor {
-                    author: rev.author.clone(),
-                    author_id: rev.author_id.clone(),
-                    author_url: rev.author_url.clone(),
-                }
+            .map(|rev| OnlyAuthor {
+                author: rev.author.clone(),
+                author_id: rev.author_id.clone(),
+                author_url: rev.author_url.clone(),
             })
             .collect();
         only_author.sort_by(|a, b| a.author.cmp(&b.author));
@@ -89,7 +87,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
     )]
     fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
-        let item_at_cursor = & unwrap!(self.list_trusted_author_id.as_ref())[cursor_pos];
+        let item_at_cursor = &unwrap!(self.list_trusted_author_id.as_ref())[cursor_pos];
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
