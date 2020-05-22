@@ -17,7 +17,7 @@ pub struct CrateReviews {
 impl CrateReviews {
     pub fn new(crate_name: &str, version: &str, kind: &str) -> CrateReviews {
         // first fill a vector with reviews, because I need to filter and sort them
-        let mut reviews = query_reviews(crate_name);
+        let mut reviews = get_crate_reviews(crate_name);
 
         // the summary is always from all reviews. We must filter the reviews later.
         let crate_version_summary = CrateVersionSummary::new(crate_name, &reviews);
@@ -31,8 +31,8 @@ impl CrateReviews {
     }
 }
 
-/// crev query returns html
-fn query_reviews(crate_name: &str) -> Vec<Review> {
+/// crev crate returns html
+fn get_crate_reviews(crate_name: &str) -> Vec<Review> {
     // first fill a vector with reviews, because I need to filter and sort them
     let mut reviews = vec![];
     // this part can be cached: last 10 queried crates
@@ -147,7 +147,7 @@ impl HtmlServerTemplateRender for CrateReviews {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!("{}query/crev_query_template.html", templates_folder_name);
+        let template_file_name = format!("{}crate/crate_reviews_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
 
         // return

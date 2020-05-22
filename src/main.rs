@@ -2,7 +2,7 @@
 //! # cargo_crev_web
 //!
 //! version: 2020.515.2307  date: 2020-05-15 authors: Luciano Bestia  
-//! **web server to query reviews from cargo-crev**
+//! **web server to view reviews from cargo-crev**
 //!
 //!
 //! ## cargo-crev
@@ -10,7 +10,7 @@
 //! Cargo-crev is a system of review for rust crates in crates.io.  
 //! <https://github.com/crev-dev/cargo-crev>  
 //! Originally it is a CLI that programmers use on their local machines while developing.  
-//! I would like to make a public cargo-crev web app to query reviews globally.  
+//! I would like to make a public cargo-crev web app to view reviews globally.  
 //! The installation of cargo-crev is complicated and involving.  
 //! Having a web app will be very good for promoting the system.  
 //! The basis of cargo-crev is a list of trusted individuals.  
@@ -125,10 +125,10 @@
 //! ## testing .cache/crev
 //!
 //! Not all data is required in every review, so I need to test examples that contains different data.  
-//! <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
-//! <https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
-//! <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory old  
-//! <https://bestia.dev/cargo_crev_web/query/inventory>   advisories
+//! <https://bestia.dev/cargo_crev_web/crate/btoi>  alternatives  
+//! <https://bestia.dev/cargo_crev_web/crate/num-traits>  issues  
+//! <https://bestia.dev/cargo_crev_web/crate/protobuf>  advisory old  
+//! <https://bestia.dev/cargo_crev_web/crate/inventory>   advisories
 //!
 //! Locally in development is the same, just the server is 127.0.0.1:8051/.  
 //!
@@ -138,7 +138,7 @@
 //! to verify the trustworthiness of each of your dependencies.  
 //! Please, spread this info.  
 //! On the web use this url to read crate reviews. Example:  
-//! <https://bestia.dev/cargo_crev_web/query/num-traits>  
+//! <https://bestia.dev/cargo_crev_web/crate/num-traits>  
 //!
 //! ## html templating
 //!
@@ -281,8 +281,8 @@ async fn main() {
     // websites are mostly always made of more separate web-apps
     // it is good for web-apps to NOT start from the website root
     // this webapp starts with the route website_url/cargo_crev_web/
-    // example: bestia.dev/cargo_crev_web/query/num-traits
-    //   or : 127.0.0.1:8051/cargo_crev_web/query/num-traits
+    // example: bestia.dev/cargo_crev_web/crate/num-traits
+    //   or : 127.0.0.1:8051/cargo_crev_web/crate/num-traits
     // that way is easy to publish it on different websites.
     // if they have this route not taken.
 
@@ -362,8 +362,48 @@ async fn main() {
         let html_file = data_model.render_html_file("templates/");
         ns_print("render_html_file()", ns_new);
         warp::reply::html(html_file)
-    });
+    })
+    .or(
+        warp::path!("cargo_crev_web" / "crate" / String / String)
+        .and(cached_review_index.clone())
+        .map(
+            |crate_name: String, version: String, _cached_review_index| {
+                let ns_start = ns_start(&format!(
+                    "CrateReviews crate_name: '{}', version '{}'",
+                    Yellow.paint(&crate_name),
+                    Yellow.paint(&version),
+                ));
+                let data_model =
+                    crate_reviews_mod::CrateReviews::new(&crate_name, &version, "");
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            },
+        ),
+    )
+    .or(
+        warp::path!("cargo_crev_web" / "crate" / String / String / String)
+        .and(cached_review_index.clone())
+        .map(
+            |crate_name: String, version: String, kind: String, _cached_review_index| {
+                let ns_start = ns_start(&format!(
+                    "CrateReviews crate_name: '{}', version '{}', kind '{}'",
+                    Yellow.paint(&crate_name),
+                    Yellow.paint(&version),
+                    Yellow.paint(&kind)
+                ));
+                let data_model =
+                    crate_reviews_mod::CrateReviews::new(&crate_name, &version, &kind);
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            },
+        ),
+    );
 
+    //OBSOLETE
     let query_crate_route = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
             let ns_start = ns_start(&format!(

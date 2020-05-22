@@ -86,34 +86,34 @@ impl HtmlServerTemplateRender for VersionSummary {
             "st_understanding" => to_string_zero_to_empty(self.understanding),
 
             "st_filter_version" => {
-                format!("/cargo_crev_web/query/{}/{}", self.crate_name, self.version)
+                format!("/cargo_crev_web/crate/{}/{}", self.crate_name, self.version)
             }
             "st_filter_strong" => format!(
-                "/cargo_crev_web/query/{}/{}/S",
+                "/cargo_crev_web/crate/{}/{}/S",
                 self.crate_name, self.version
             ),
             "st_filter_positive" => format!(
-                "/cargo_crev_web/query/{}/{}/P",
+                "/cargo_crev_web/crate/{}/{}/P",
                 self.crate_name, self.version
             ),
             "st_filter_neutral" => format!(
-                "/cargo_crev_web/query/{}/{}/E",
+                "/cargo_crev_web/crate/{}/{}/E",
                 self.crate_name, self.version
             ),
             "st_filter_negative" => format!(
-                "/cargo_crev_web/query/{}/{}/N",
+                "/cargo_crev_web/crate/{}/{}/N",
                 self.crate_name, self.version
             ),
             "st_filter_alternatives" => format!(
-                "/cargo_crev_web/query/{}/{}/v",
+                "/cargo_crev_web/crate/{}/{}/v",
                 self.crate_name, self.version
             ),
             "st_filter_issues" => format!(
-                "/cargo_crev_web/query/{}/{}/i",
+                "/cargo_crev_web/crate/{}/{}/i",
                 self.crate_name, self.version
             ),
             "st_filter_advisories" => format!(
-                "/cargo_crev_web/query/{}/{}/a",
+                "/cargo_crev_web/crate/{}/{}/a",
                 self.crate_name, self.version
             ),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),

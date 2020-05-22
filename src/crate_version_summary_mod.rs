@@ -167,16 +167,16 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             "st_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
             "st_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
 
-            "st_filter_crate" => format!("/cargo_crev_web/query/{}", self.crate_name),
-            "st_filter_strong" => format!("/cargo_crev_web/query/{}/crate/S", self.crate_name),
-            "st_filter_positive" => format!("/cargo_crev_web/query/{}/crate/P", self.crate_name),
-            "st_filter_neutral" => format!("/cargo_crev_web/query/{}/crate/E", self.crate_name),
-            "st_filter_negative" => format!("/cargo_crev_web/query/{}/crate/N", self.crate_name),
+            "st_filter_crate" => format!("/cargo_crev_web/crate/{}", self.crate_name),
+            "st_filter_strong" => format!("/cargo_crev_web/crate/{}/crate/S", self.crate_name),
+            "st_filter_positive" => format!("/cargo_crev_web/crate/{}/crate/P", self.crate_name),
+            "st_filter_neutral" => format!("/cargo_crev_web/crate/{}/crate/E", self.crate_name),
+            "st_filter_negative" => format!("/cargo_crev_web/crate/{}/crate/N", self.crate_name),
             "st_filter_alternatives" => {
-                format!("/cargo_crev_web/query/{}/crate/v", self.crate_name)
+                format!("/cargo_crev_web/crate/{}/crate/v", self.crate_name)
             }
-            "st_filter_issues" => format!("/cargo_crev_web/query/{}/crate/i", self.crate_name),
-            "st_filter_advisories" => format!("/cargo_crev_web/query/{}/crate/a", self.crate_name),
+            "st_filter_issues" => format!("/cargo_crev_web/crate/{}/crate/i", self.crate_name),
+            "st_filter_advisories" => format!("/cargo_crev_web/crate/{}/crate/a", self.crate_name),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
