@@ -34,7 +34,7 @@ pub struct Stat {
 }
 
 pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
-    println!("review_pks: {:#?}",review_pks);
+    println!("review_pks: {:#?}", review_pks);
     let mut reviews = vec![];
     let mut stat = Stat {
         files_count: 0,

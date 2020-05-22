@@ -36,12 +36,12 @@ impl AuthorReviews {
         for index_item in review_index.vec.iter() {
             if index_item.author_id == author_id {
                 if index_item.file_path != old_file_path {
-                    old_file_path=index_item.file_path.clone();
-                    if one_file.file_path == "don't push the first row" {
+                    old_file_path = index_item.file_path.clone();
+                    if &one_file.file_path == "don't push the first row" {
                         //only once read the author
                         author = index_item.author.clone();
                         author_url = index_item.author_url.clone();
-                    }else{
+                    } else {
                         // push the old one before creating the new one
                         many_file.vec.push(one_file);
                     }
@@ -58,6 +58,11 @@ impl AuthorReviews {
                     version: index_item.version.clone(),
                 });
             }
+        }
+        // save the last file in the loop
+        if &one_file.file_path != "don't push the first row" {
+            // push the old one before creating the new one
+            many_file.vec.push(one_file.clone());
         }
         let ns_read_from_index = ns_print(
             &format!("read from index, file_path count: {}", many_file.vec.len()),
