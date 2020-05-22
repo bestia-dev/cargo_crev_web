@@ -128,9 +128,10 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
             "st_author" => self.vec[cursor_pos].author.to_string(),
             "st_author_url" => format!("{}", self.vec[cursor_pos].author_url),
-            "st_author_route" => {
-                format!("/cargo_crev_web/author/{}/", url_encode( &self.vec[cursor_pos].author_id))
-            }
+            "st_author_route" => format!(
+                "/cargo_crev_web/author/{}/",
+                url_encode(&self.vec[cursor_pos].author_id)
+            ),
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
             "st_unique_crates" => to_string_zero_to_empty(self.vec[cursor_pos].unique_crates),
             "st_count_of_rating_strong" => {

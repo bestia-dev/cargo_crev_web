@@ -147,7 +147,8 @@ impl HtmlServerTemplateRender for CrateReviews {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!("{}crate/crate_reviews_template.html", templates_folder_name);
+        let template_file_name =
+            format!("{}crate/crate_reviews_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
 
         // return

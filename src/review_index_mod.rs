@@ -5,7 +5,6 @@
 /// and then mostly use this index from memory.
 /// this index is created every time the web app is initialized
 /// or manually when the new and updated files are fetched
-
 use crate::review_mod::*;
 use crate::utils_mod::*;
 use std::fs;

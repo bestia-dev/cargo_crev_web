@@ -1,0 +1,114 @@
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-04-29T23:07:30.983614857+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: num-traits
+  version: 0.2.11
+  revision: 93ff6dc382f35d292830515156693f008bc61c6d
+  digest: siy7zPODay7BbSHKjbT0WA6uNQwRSal0t6V_5HT5kps
+package-diff-base:
+  source: "https://crates.io"
+  name: num-traits
+  version: 0.2.8
+  revision: 84e14d4f361dd7e374a3b5e1ffa186ed7c6d9835
+  digest: UzQZjEMehrOwuSUqjNwuKe3pNEx08EYUFKxsxfX5OQw
+review:
+  thoroughness: medium
+  understanding: high
+  rating: positive
+comment: |-
+  With a prior parsing bug fixed and Rust soon stabilizing floating point to
+  integer conversion without UB the previous reservations no longer hold. It
+  looks stable as is and doesn't attempt anything far fetched.
+----- SIGN CREV PROOF -----
+kXdwWygCCouumqLWoRJe1rEkKMmx30zR4eyj7gSiVagWRFQHkYz8eFITIKuAZIswTCddo_EoxoBX1Y1Uj_HSDw
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-04-29T23:23:32.020813636+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: num-traits
+  version: 0.2.9
+  revision: 8eb83e242a54af1da0f968266dab79fb4e5c6921
+  digest: aqjbiigaJLqZkk-tuao02mk6piC7NaNa6CoC8DsnDek
+advisories:
+  - ids:
+      - "https://github.com/rust-num/num-traits/issues/125"
+    severity: medium
+    range: major
+    comment: "Potential denial of service, panic"
+comment: |-
+  Fixed panic when parsing floating point literals
+----- SIGN CREV PROOF -----
+Twra_y0aqTy61eOGC5IIKHn5lGgsqeo3Cg1zdau2eEOjA7JOb2srVYip0CN_rdVHa5MNwa6Pa43hG1pLV2DHDQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-04-29T23:36:53.771857747+02:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: scopeguard
+  version: 1.1.0
+  revision: c1ae9969f7c9bc9013602b4bf29bb789e6e7eb16
+  digest: Piua8u2UuIRct6VPg7ncUhOUtM2r09wXA19Za6bMY9U
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: positive
+comment: |-
+  Small, stable, and highly useful.
+  
+  Most of the code is straightforward but to increase usability there are three
+  `unsafe` blocks. It seems feasible to write a completely safe version of the
+  API without hurting the main use case too much. The benefit, however, would
+  be slim except for those focussed on purging even well-reviewed local
+  `unsafe`. Let's explain how we agree with all reasoning, and documentation.
+  
+  src/lib.rs:351:`ScopeGuard::into_inner`: Here it performs a manual move from
+  a to-be-forgotten value that can't be destructured due to the rules around
+  Drop types. It's slightly awkward to use `mem::forget` _after_ the copy
+  instead of wrapping the value in a `ManuallyDrop` at the start but the
+  comment correctly explains why the order is equivalent and still sound. It
+  also seems odd that this pseudo-destructuring does not return the function
+  instance but only the value and thus always drops the functor which
+  potentially also drops any contained captured value and thus might panic.
+  That seems more ergonomic in the common case or when a pure function is used,
+  so it isn't critical.
+  
+  src/lib.rs:422:`impl Sync`: This is likely the most involved here but the
+  comment explains it well enough. It might have been/be beneficial to create a
+  very small newtype wrapper that enforces that no such access by reference can
+  take place in future versions of the crate also. This would also reduce the
+  mental load, as this impl with all its type bounds would not be explicitly
+  required. It would nevertheless not reduce the amount of necessary soundness
+  reasoning so this is just polish.
+  
+  src/lib.rs:455:`Drop::drop for ScopeGuard`: Same as `into_inner` but since
+  this is within the Drop impl there is no need (and possibility) to forget
+  `self` so this is self-explanatory. This could share a common core with the
+  `into_inner` method, a private inherent method that `ptr::read`'s the stored
+  values. Avoiding duplication here would be more important if different ways
+  of destructuring existed.
+----- SIGN CREV PROOF -----
+RAZVS8aTl3TQ3uy1R22FwP2GtFBML2t0wmSaWOpWPRQu4KrAmjYpbGB-GEGU6dnFPoEI8iN_Fn3CDLVtEzLYDA
+----- END CREV PROOF -----
+

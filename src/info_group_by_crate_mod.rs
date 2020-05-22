@@ -1,8 +1,8 @@
 //! info_group_by_crate_mod
 
 use crate::html_server_template_mod::*;
-use crate::CachedReviewIndex;
 use crate::utils_mod::*;
+use crate::CachedReviewIndex;
 
 use unwrap::unwrap;
 
@@ -130,7 +130,10 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
             // this is a grid with repeated rows. Use the cursor_pos
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
             "st_crate_name" => self.vec[cursor_pos].crate_name.to_string(),
-            "st_crate_route" => format!("/cargo_crev_web/crate/{}/", url_encode( &self.vec[cursor_pos].crate_name)),
+            "st_crate_route" => format!(
+                "/cargo_crev_web/crate/{}/",
+                url_encode(&self.vec[cursor_pos].crate_name)
+            ),
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
             "st_unique_versions" => to_string_zero_to_empty(self.vec[cursor_pos].unique_versions),
             "st_unique_authors" => to_string_zero_to_empty(self.vec[cursor_pos].unique_authors),

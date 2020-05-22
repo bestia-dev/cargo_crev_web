@@ -39,3 +39,55 @@ comment: |-
 vaPbChDPr1_b5gxW58z4bLZ-43S6wyxyKIoH2l0wwa99HIyVpfnAwFyGXRflQIXrxrejjApquLYI1g_L0-tqCQ
 ----- END CREV PROOF -----
 
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-26T22:44:09.753175176+01:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazy-bytes-cast
+  version: 3.0.0
+  revision: 684d300a610856cfe3c522c2c3deb838588b9f01
+  digest: Uylk7lCrspiFho6RwohJ19-SCda5DX9XYOLKZc6vTDs
+review:
+  thoroughness: low
+  understanding: medium
+  rating: negative
+comment: |-
+  Version 4.0 fixes UB from casting byte slice to integer reference without
+  any alignment checks.
+----- SIGN CREV PROOF -----
+5ylnS7zL5rrov0Q63EVyHq4WzVnRTxtDnoLpL752VZP06wqTocKD3r9FRBsoD7iZo_63BS4zfVl-k9f8m5pdDg
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: package review
+version: -1
+date: "2020-02-26T22:50:28.503936066+01:00"
+from:
+  id-type: crev
+  id: "-sApEowWcAS9J0R7aO18cghvhLBpuMhyeUuWQq_fits"
+  url: "https://github.com/HeroicKatora/crev-proofs"
+package:
+  source: "https://crates.io"
+  name: lazy-bytes-cast
+  version: 4.0.0
+  revision: bc090e88bc75d310509cc42f7e4de53ab443b592
+  digest: xQVEyNuD7mUVPJ4Zrgf6_s4Ve1ZcoogoHf_nuIXXn6s
+review:
+  thoroughness: medium
+  understanding: medium
+  rating: negative
+comment: |-
+  Trait `FromByteSlice` relies on associated item `FromByteArray::Array` being
+  a proper byte array. However, this latter trait and associated type are safe
+  to implement with an almost arbitrary other type (a few trait std bounds
+  don't stop any implementation).
+----- SIGN CREV PROOF -----
+_Z_zLLcYEUzbHHldkUnCHzvEogM96Yl_8kY3A4Wawja3WvzrviCyM82Ox5mfsorJm_v6lSIDBMHvStIyuy2cDQ
+----- END CREV PROOF -----
+

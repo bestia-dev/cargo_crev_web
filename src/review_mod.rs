@@ -176,7 +176,9 @@ impl HtmlServerTemplateRender for Review {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             "st_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
-            "st_crate_route" => format!("/cargo_crev_web/crate/{}/", url_encode(&self.package.name)),
+            "st_crate_route" => {
+                format!("/cargo_crev_web/crate/{}/", url_encode(&self.package.name))
+            }
             "st_review_rating" => {
                 if let Some(review) = &self.review {
                     review.rating.to_string()

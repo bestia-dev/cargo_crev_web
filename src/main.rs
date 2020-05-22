@@ -224,8 +224,8 @@ mod utils_mod;
 mod version_summary_mod;
 
 // I must put the trait in scope
-use crate::utils_mod::*;
 use crate::html_server_template_mod::*;
+use crate::utils_mod::*;
 
 use clap::App;
 use env_logger::Env;
@@ -286,7 +286,7 @@ async fn main() {
     // if they have this route not taken.
 
     // region: prepare routes
-    
+
     // static files and folders:
     // /cargo_crev_web/  - static index.html file
     // /cargo_crev_web/css/*  - static css file
@@ -299,7 +299,6 @@ async fn main() {
     // /cargo_crev_web/crate/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
-
 
     let info_route = warp::path!("cargo_crev_web" / "info")
         .and(cached_review_index.clone())
@@ -350,57 +349,55 @@ async fn main() {
         });
 
     let crate_route = warp::path!("cargo_crev_web" / "crate" / String)
-    .and(cached_review_index.clone())
-    .map(|crate_name: String, _cached_review_index| {
-        let ns_start = ns_start(&format!(
-            "CrateReviews crate_name: '{}'",
-            Yellow.paint(&crate_name),
-        ));
-        let data_model = crate_reviews_mod::CrateReviews::new(&crate_name, "", "");
-        let ns_new = ns_print("new()", ns_start);
-        let html_file = data_model.render_html_file("templates/");
-        ns_print("render_html_file()", ns_new);
-        warp::reply::html(html_file)
-    })
-    .or(
-        warp::path!("cargo_crev_web" / "crate" / String / String)
         .and(cached_review_index.clone())
-        .map(
-            |crate_name: String, version: String, _cached_review_index| {
-                let ns_start = ns_start(&format!(
-                    "CrateReviews crate_name: '{}', version '{}'",
-                    Yellow.paint(&crate_name),
-                    Yellow.paint(&version),
-                ));
-                let data_model =
-                    crate_reviews_mod::CrateReviews::new(&crate_name, &version, "");
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                warp::reply::html(html_file)
-            },
-        ),
-    )
-    .or(
-        warp::path!("cargo_crev_web" / "crate" / String / String / String)
-        .and(cached_review_index.clone())
-        .map(
-            |crate_name: String, version: String, kind: String, _cached_review_index| {
-                let ns_start = ns_start(&format!(
-                    "CrateReviews crate_name: '{}', version '{}', kind '{}'",
-                    Yellow.paint(&crate_name),
-                    Yellow.paint(&version),
-                    Yellow.paint(&kind)
-                ));
-                let data_model =
-                    crate_reviews_mod::CrateReviews::new(&crate_name, &version, &kind);
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                warp::reply::html(html_file)
-            },
-        ),
-    );
+        .map(|crate_name: String, _cached_review_index| {
+            let ns_start = ns_start(&format!(
+                "CrateReviews crate_name: '{}'",
+                Yellow.paint(&crate_name),
+            ));
+            let data_model = crate_reviews_mod::CrateReviews::new(&crate_name, "", "");
+            let ns_new = ns_print("new()", ns_start);
+            let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
+            warp::reply::html(html_file)
+        })
+        .or(warp::path!("cargo_crev_web" / "crate" / String / String)
+            .and(cached_review_index.clone())
+            .map(
+                |crate_name: String, version: String, _cached_review_index| {
+                    let ns_start = ns_start(&format!(
+                        "CrateReviews crate_name: '{}', version '{}'",
+                        Yellow.paint(&crate_name),
+                        Yellow.paint(&version),
+                    ));
+                    let data_model =
+                        crate_reviews_mod::CrateReviews::new(&crate_name, &version, "");
+                    let ns_new = ns_print("new()", ns_start);
+                    let html_file = data_model.render_html_file("templates/");
+                    ns_print("render_html_file()", ns_new);
+                    warp::reply::html(html_file)
+                },
+            ))
+        .or(
+            warp::path!("cargo_crev_web" / "crate" / String / String / String)
+                .and(cached_review_index.clone())
+                .map(
+                    |crate_name: String, version: String, kind: String, _cached_review_index| {
+                        let ns_start = ns_start(&format!(
+                            "CrateReviews crate_name: '{}', version '{}', kind '{}'",
+                            Yellow.paint(&crate_name),
+                            Yellow.paint(&version),
+                            Yellow.paint(&kind)
+                        ));
+                        let data_model =
+                            crate_reviews_mod::CrateReviews::new(&crate_name, &version, &kind);
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        warp::reply::html(html_file)
+                    },
+                ),
+        );
 
     //OBSOLETE
     let query_crate_route = warp::path!("cargo_crev_web" / "query" / String)
@@ -457,6 +454,10 @@ async fn main() {
     // endregion: prepare routes
 
     // combine all routes with or
-    let routes = crate_route.or(author_route).or(info_route).or(query_crate_route).or(fileserver);
+    let routes = crate_route
+        .or(author_route)
+        .or(info_route)
+        .or(query_crate_route)
+        .or(fileserver);
     warp::serve(routes).run(local_addr).await;
 }

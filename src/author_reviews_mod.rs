@@ -26,7 +26,7 @@ impl AuthorReviews {
         // nobody else should sort the data
         // search data in the index
         let mut many_file = ManyFileReviewsPk { vec: vec![] };
-        let old_file_path = "".to_string();
+        let mut old_file_path = "".to_string();
         let mut one_file = OneFileReviewsPk {
             file_path: "don't push the first row".to_string(),
             reviews_pk: vec![],
@@ -36,10 +36,12 @@ impl AuthorReviews {
         for index_item in review_index.vec.iter() {
             if index_item.author_id == author_id {
                 if index_item.file_path != old_file_path {
-                    if one_file.file_path != "don't push the first row" {
+                    old_file_path=index_item.file_path.clone();
+                    if one_file.file_path == "don't push the first row" {
                         //only once read the author
                         author = index_item.author.clone();
                         author_url = index_item.author_url.clone();
+                    }else{
                         // push the old one before creating the new one
                         many_file.vec.push(one_file);
                     }
@@ -67,8 +69,12 @@ impl AuthorReviews {
             ns_read_from_index,
         );
         // sort reviews by crate and version
-        reviews.sort_by(|a, b| {b.package.version_for_sorting.cmp(&a.package.version_for_sorting)});
-        reviews.sort_by(|a, b| {a.package.name.cmp(&b.package.name)});
+        reviews.sort_by(|a, b| {
+            b.package
+                .version_for_sorting
+                .cmp(&a.package.version_for_sorting)
+        });
+        reviews.sort_by(|a, b| a.package.name.cmp(&b.package.name));
         //return
         AuthorReviews {
             author: author,
