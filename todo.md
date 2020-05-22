@@ -1,13 +1,16 @@
 
 # TODO
 
-- read the files once and create index
-- store it in a cache Probably a Mutex
-- find the reviews first inside the index
-- there is the path_name of the file containing the review
-- group them by path_name, so we open/parse the file once
-- open the file, read all reviews and find the wanted.
-- break;
+crate review repeat the scan of authors
 
-- i could analyze if the last version needs to be reviews.
-and notify the author
+- i could find the current version of every crate on crates.io
+
+- with github api search for all crev-proof.
+- there find the authorid.
+- than add this id to trusted reviewers
+
+
+the fetch review could open an url, that re-creates the index.
+it is a vector of dos attack, but for now dont know what to do. Maybe authentication.
+an admin page, and then links to different actions
+

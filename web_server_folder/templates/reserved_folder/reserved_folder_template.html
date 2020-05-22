@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>reserved folder</title>
+    <meta name="Description" content="web app for viewing reviews from cargo-crev" />
+    <link rel="stylesheet" data-st-href="st_css_route" href="../web_content_folder/css/cargo_crev_web.css" />
+    <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
+    <link rel="shortcut icon" type="image/x-icon" data-st-href="st_favicon_route" href="favicon.png" />
+</head>
+
+<body>
+    <div class="header_container">
+        <div style="padding: 20px;">
+            <div style="display: grid;grid-template-columns: 40% 60% ;">
+                <div class="middle">
+                    <h2><a style="color:white" href="/cargo_crev_web/" target="_blank">
+                            cargo_crev_web</a></h2>
+                </div>
+                <div class="middle right">
+                    <h3>reviews from <a style="color:white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
+                </div>
+            </div>
+            <div style="display: grid;grid-template-columns: 70% 15% 15%;">
+                <div>
+                    <h3 class="yellow">reserved_folder</h3>
+                </div>
+                <div class="right"><a style="color:white" href="https://lib.rs/" target="_blank">lib.rs</a></div>
+                <div class="right"><a style="color:white" href="https://crates.io/" target="_blank">crates.io</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="header_container">
+        <div><a style="color:white" href="list_trusted_author_id" target="_blank">list_trusted_author_id</a></div>
+        <div><a style="color:white" href="list_new_author_id" target="_blank">list_new_author_id</a></div>
+    </div>
+    <!--sb_is_trusted-->
+    <div class="crate_summary" style="display: grid;grid-template-columns: auto auto auto auto ;">
+        <div class="crate_summary_cell bold" title="ordinal number">o</div>
+        <div class="crate_summary_cell bold">author</div>
+        <div class="crate_summary_cell bold">author_id</div>
+        <div class="crate_summary_cell bold">author_url</div>
+
+        <!--stmplt_authors start-->
+        <div class="version_summary_cell" title="ordinal_number">
+            <!--st_ordinal_number-->1</div>
+        <div class="version_summary_cell bold white">
+            <a data-st-href="st_author_route" href="">
+                <!--st_author-->author</a>
+        </div>
+        <div class="version_summary_cell">
+            <!--st_author_id-->author_id
+        </div>
+        <div class="version_summary_cell">
+            <!--st_author_url-->author_url
+        </div>
+        <!--stmplt_authors end-->
+    </div>
+</body>
+
+</html>

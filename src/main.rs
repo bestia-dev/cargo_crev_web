@@ -217,6 +217,7 @@ mod html_server_template_mod;
 mod info_group_by_author_mod;
 mod info_group_by_crate_mod;
 mod issue_mod;
+mod reserved_folder_mod;
 mod review_index_mod;
 mod review_index_summary_mod;
 mod review_mod;
@@ -299,6 +300,31 @@ async fn main() {
     // /cargo_crev_web/crate/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
+
+    let reserved_folder_route = warp::path!("cargo_crev_web" / "reserved_folder")
+        .and(cached_review_index.clone())
+        .map(|cached_review_index| {
+            let ns_start = ns_start("reserved_folder");
+            let data_model = reserved_folder_mod::ReservedFolder::new(cached_review_index);
+            let ns_new = ns_print("new()", ns_start);
+            let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
+            warp::reply::html(html_file)
+        })
+        .or(
+            warp::path!("cargo_crev_web" / "reserved_folder" / "list_trusted_author_id")
+                .and(cached_review_index.clone())
+                .map(|cached_review_index| {
+                    let ns_start = ns_start("list_trusted_author_id");
+                    let data_model = reserved_folder_mod::ReservedFolder::list_trusted_author_id(
+                        cached_review_index,
+                    );
+                    let ns_new = ns_print("new()", ns_start);
+                    let html_file = data_model.render_html_file("templates/");
+                    ns_print("render_html_file()", ns_new);
+                    warp::reply::html(html_file)
+                }),
+        );
 
     let info_route = warp::path!("cargo_crev_web" / "info")
         .and(cached_review_index.clone())
@@ -458,6 +484,7 @@ async fn main() {
         .or(author_route)
         .or(info_route)
         .or(query_crate_route)
+        .or(reserved_folder_route)
         .or(fileserver);
     warp::serve(routes).run(local_addr).await;
 }

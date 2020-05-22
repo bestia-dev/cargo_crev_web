@@ -9,6 +9,7 @@ html {
     overflow-y: auto;
     overflow-x: hidden;
     word-wrap: break-word;
+    word-break: break-all;
     overflow-wrap: break-word;
     box-sizing: border-box;
     background-color: #24292E;
@@ -118,7 +119,7 @@ a:active {
     text-decoration: none;
 }
 
-.summary_container {
+.header_container {
     display: grid;
     background-color: #333842;
     border: 1px solid #181A1F;
@@ -143,14 +144,6 @@ a:active {
     padding: 0px;
     border: 1px solid #000;
     text-align: center;
-}
-
-.review_container {
-    display: grid;
-    background-color: #333842;
-    border: 1px solid #181A1F;
-    border-radius: 5px;
-    margin: 5px;
 }
 
 .review_header {
@@ -196,6 +189,7 @@ a:active {
     font-family: sans-serif;
     font-size: 20px;
     word-wrap: break-word;
+    word-break: break-all;
     overflow-wrap: break-word;
     white-space: pre-line;
     overflow: hidden;
