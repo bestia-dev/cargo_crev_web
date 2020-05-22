@@ -213,7 +213,6 @@ mod author_reviews_mod;
 mod crate_reviews_mod;
 mod crate_version_summary_mod;
 mod data_file_scan_mod;
-mod durex_mod;
 mod html_server_template_mod;
 mod info_group_by_author_mod;
 mod info_group_by_crate_mod;
@@ -225,7 +224,7 @@ mod utils_mod;
 mod version_summary_mod;
 
 // I must put the trait in scope
-use crate::durex_mod::*;
+use crate::utils_mod::*;
 use crate::html_server_template_mod::*;
 
 use clap::App;

@@ -25,17 +25,17 @@ pub struct ManyFileReviewsPk {
 pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
     let mut reviews = vec![];
     for one_file in &review_pks.vec {
-        reviews.extend_from_slice(&get_vec_of_review_by_review_pk(&one_file));
+        get_vec_of_review_by_review_pk(&mut reviews, &one_file);
     }
     // return
     reviews
 }
 /// find one or more reviews from one file
 /// the review PK crate_name, author_id, version
-fn get_vec_of_review_by_review_pk(one_file_review_pk: &OneFileReviewsPk) -> Vec<Review> {
+fn get_vec_of_review_by_review_pk(reviews: &mut Vec<Review>,  one_file_review_pk: &OneFileReviewsPk) {
+    let ns_start = ns_start("get_vec_of_review_by_review_pk");
     let file_path = &one_file_review_pk.file_path;
     // first fill a vector with reviews, because I need to filter and sort them
-    let mut reviews = vec![];
     // original cache crev folder: /home/luciano/.cache/crev/remotes
     // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
     // local webfolder example "../sample_data/cache/crev/remotes"
@@ -45,16 +45,18 @@ fn get_vec_of_review_by_review_pk(one_file_review_pk: &OneFileReviewsPk) -> Vec<
     // eprintln!("path: {}", path.display());
     // read crev file
     let crev_text = unwrap!(fs::read_to_string(path));
+    let ns_new = ns_print("read_to_string()", ns_start);
     for part1 in crev_text.split("----- END CREV PROOF -----") {
         let start_delimiter = "----- BEGIN CREV PROOF -----";
         if let Some(start_pos) = part1.find(start_delimiter) {
             let start_pos = start_pos + start_delimiter.len() + 1;
             if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                 let review_string = &part1[start_pos..end_pos];
-                push_review(review_string, &mut reviews, &one_file_review_pk.reviews_pk);
+                push_review(review_string, reviews, &one_file_review_pk.reviews_pk);
             }
         }
     }
+    let ns_proof = ns_print("find all proofs()", ns_new);
     // older review has different delimiter. Everything else is the same.
     for part1 in crev_text.split("-----END CREV PACKAGE REVIEW-----") {
         let start_delimiter = "-----BEGIN CREV PACKAGE REVIEW-----";
@@ -62,36 +64,42 @@ fn get_vec_of_review_by_review_pk(one_file_review_pk: &OneFileReviewsPk) -> Vec<
             let start_pos = start_pos + start_delimiter.len() + 1;
             if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
                 let review_string = &part1[start_pos..end_pos];
-                push_review(review_string, &mut reviews, &one_file_review_pk.reviews_pk);
+                push_review(review_string, reviews, &one_file_review_pk.reviews_pk);
             }
         }
     }
-    // return
-    reviews
+    let _ns_review = ns_print("find all review()", ns_proof);
 }
 
 fn push_review(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<ReviewPk>) {
-    let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
+    let ns_start = ns_start("push_review()");
+    use serde_derive::{Deserialize, Serialize};
+    #[derive(Serialize, Deserialize, Clone)]
+    struct ReviewShort{
+            pub from: ReviewFrom,
+            pub package: ReviewPackage,
+        }
+    let review_short: ReviewShort = unwrap!(serde_yaml::from_str(review_string));
 
+    let ns_new = ns_print("serde_yaml()", ns_start);
+
+    // to do if yaml takes long. First yaml only 3 data.
     for review_pk in review_pks {
         // filter: only the one equal to review_pk
-        if review.package.name == review_pk.crate_name
-            && review.from.id == review_pk.author_id
-            && review.package.version == review_pk.version
+        if review_short.package.name == review_pk.crate_name
+            && review_short.from.id == review_pk.author_id
+            && review_short.package.version == review_pk.version
         {
-            // reviews without review are not important
             // version for sorting
+            let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
             let (major, minor, patch) = parse_semver(&review.package.version);
-            review.package.version_for_sorting = Some(review.version_for_sorting());
-            Some(format!(
+            review.package.version_for_sorting = Some(format!(
                 "{:09}.{:09}.{:09}-{}",
-                major,
-                minor,
-                patch,
-                review.get_author()
+                major,minor,patch,review.get_author()
             ));
             reviews.push(review);
             break;
         }
     }
+    ns_print("find and push", ns_new);
 }
