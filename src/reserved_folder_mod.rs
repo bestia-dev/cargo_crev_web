@@ -87,7 +87,20 @@ impl HtmlServerTemplateRender for ReservedFolder {
     )]
     fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
-        let item_at_cursor = &unwrap!(self.list_trusted_author_id.as_ref())[cursor_pos];
+        // list_trusted_author_id is Option and can be None or Some
+        let only_author;
+        let item_at_cursor = if let Some(list)=&self.list_trusted_author_id{
+            &list[cursor_pos]
+        }else{
+            only_author =
+            OnlyAuthor{
+                author:String::new(),
+                author_id:String::new(),
+                author_url:String::new(),
+            };
+            //return
+            &only_author
+        };
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
