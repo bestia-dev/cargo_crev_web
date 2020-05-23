@@ -243,6 +243,15 @@ type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
 
 // region: (collapsed) use statements
 
+/// short macro `s!` for String::from(&str).
+/// because that is so common. Equivalents: x.to_string(), x.to_owned(),...
+#[macro_export]
+macro_rules! s {
+    ($my_str: expr) => {
+        String::from($my_str)
+    }
+}
+
 /// main function of the binary
 #[tokio::main]
 async fn main() {

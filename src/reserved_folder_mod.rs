@@ -5,6 +5,7 @@
 //! There are different "new" functions for different actions, to prepare adequate data.
 //! If field is is_some(), then render the html part dedicated to this action.
 
+use crate::*;
 use crate::html_server_template_mod::*;
 use crate::utils_mod::*;
 use crate::CachedReviewIndex;
@@ -31,9 +32,8 @@ impl ReservedFolder {
         //let review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
         // return
         ReservedFolder {
-            list_trusted_author_id: None,
+            ..Default::default() 
         }
-        { foo: 42, ..Default::default() }
     }
     pub fn list_trusted_author_id(cached_review_index: CachedReviewIndex) -> Self {
         // fills the field list_trusted_author_id
@@ -67,7 +67,7 @@ impl ReservedFolder {
         *review_index = review_index_mod::ReviewIndex::new();
         // return
         ReservedFolder {
-            reindex_after_fetch_new_reviews: Some("Reindex finished."),
+            reindex_after_fetch_new_reviews: Some(s!("Reindex finished.")),
             ..Default::default() 
         }
     }
@@ -77,7 +77,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "ReservedFolder".to_string()
+        s!("ReservedFolder")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -122,16 +122,16 @@ impl HtmlServerTemplateRender for ReservedFolder {
         };
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
+            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
-            "st_author" => item_at_cursor.author.to_string(),
+            "st_author" => s!(&item_at_cursor.author),
             "st_author_route" => format!(
                 "/cargo_crev_web/author/{}/",
                 url_encode(&item_at_cursor.author_id)
             ),
-            "st_author_id" => item_at_cursor.author_id.to_string(),
-            "st_author_url" => item_at_cursor.author_url.to_string(),
+            "st_author_id" => s!(&item_at_cursor.author_id),
+            "st_author_url" => s!(&item_at_cursor.author_url),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

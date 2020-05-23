@@ -3,6 +3,7 @@
 //! should be compatible also with svg, because of namespaces
 
 // region: use
+use crate::*;
 use crate::utils_mod::*;
 use reader_for_microxml::*;
 use std::fs;
@@ -87,7 +88,7 @@ pub trait HtmlServerTemplateRender {
         let nodes =
             unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, 0));
         // because this is the root template it must return one ElementNode
-        let mut html = "".to_string();
+        let mut html = s!("");
         match &nodes[0] {
             Node::Element(temp_element_node) => {
                 html = unwrap!(Self::root_element_node_to_html_string(temp_element_node));
@@ -124,9 +125,9 @@ pub trait HtmlServerTemplateRender {
         // the root element must be only one
         match reader_for_microxml.read_event() {
             Event::StartElement(tag_name) => {
-                dom_path.push(tag_name.to_string());
+                dom_path.push(s!(tag_name));
                 root_element = ElementNode {
-                    tag_name: tag_name.to_string(),
+                    tag_name: s!(tag_name),
                     attributes: vec![],
                     children: vec![],
                     namespace: None,
@@ -136,7 +137,7 @@ pub trait HtmlServerTemplateRender {
                 }
                 if let HtmlOrSvg::Svg = html_or_svg_local {
                     // svg elements have this namespace
-                    root_element.namespace = Some(String::from("http://www.w3.org/2000/svg"));
+                    root_element.namespace = Some(s!("http://www.w3.org/2000/svg"));
                 }
                 // recursive function can return error
 
@@ -156,7 +157,7 @@ pub trait HtmlServerTemplateRender {
             }
             _ => {
                 // return error
-                return Err("Error: no root element".to_owned());
+                return Err(s!("Error: no root element"));
             }
         }
         // remove the added root <template>
@@ -187,10 +188,10 @@ pub trait HtmlServerTemplateRender {
             html_or_svg_local = html_or_svg_parent;
             match reader_for_microxml.read_event() {
                 Event::StartElement(tag_name) => {
-                    dom_path.push(tag_name.to_owned());
+                    dom_path.push(s!(tag_name));
                     // construct a child element and fill it (recursive)
                     let mut child_element = ElementNode {
-                        tag_name: String::from(tag_name),
+                        tag_name: s!(tag_name),
                         attributes: vec![],
                         children: vec![],
                         namespace: None,
@@ -202,7 +203,7 @@ pub trait HtmlServerTemplateRender {
                     if let HtmlOrSvg::Svg = html_or_svg_local {
                         // this is the
                         // svg elements have this namespace
-                        child_element.namespace = Some("http://www.w3.org/2000/svg".to_string());
+                        child_element.namespace = Some(s!("http://www.w3.org/2000/svg"));
                     }
                     if tag_name == "foreignObject" {
                         // this tagname changes to html for children, not for this element
@@ -253,7 +254,7 @@ pub trait HtmlServerTemplateRender {
                             decode_5_xml_control_characters(value)
                         };
                         element.attributes.push(Attribute {
-                            name: name.to_string(),
+                            name: s!(name),
                             value: value,
                         });
                     }
@@ -292,7 +293,7 @@ pub trait HtmlServerTemplateRender {
                         replace_vec_nodes = Some(repl_vec_nodes);
                     } else {
                         // it is really a comment, retain it.
-                        element.children.push(Node::Comment(txt.to_string()));
+                        element.children.push(Node::Comment(s!(txt)));
                     }
                 }
                 Event::EndElement(name) => {
@@ -308,7 +309,7 @@ pub trait HtmlServerTemplateRender {
                     }
                 }
                 Event::Error(error_msg) => {
-                    return Err(error_msg.to_string());
+                    return Err(s!(error_msg));
                 }
                 Event::Eof => {
                     return Ok(element);
@@ -339,8 +340,8 @@ pub trait HtmlServerTemplateRender {
         // the sub_templates[0] is the main_template
         // the main template will change with draining sub-templates
         let mut sub_templates = vec![SubTemplate {
-            name: "main_template".to_string(),
-            template: template_raw.to_string(),
+            name: s!("main_template"),
+            template: s!(template_raw),
             placeholder: String::new(),
         }];
 
@@ -356,7 +357,7 @@ pub trait HtmlServerTemplateRender {
                     find_pos_before_delimiter(&sub_templates[0].template, pos_start, " start-->")
                 {
                     let sub_template_name =
-                        sub_templates[0].template[pos_start + 4..pos_end_name].to_string();
+                    s!(&sub_templates[0].template[pos_start + 4..pos_end_name]);
                     // eprintln!("sub_template_name: {}", sub_template_name);
                     let pos_start_after_tag = pos_end_name + 9;
                     let end_tag = format!("<!--{} end-->", sub_template_name);
@@ -374,9 +375,9 @@ pub trait HtmlServerTemplateRender {
                                 .template
                                 .drain(pos_start..pos_end_after_tag);
                         } else {
-                            let sub_template_placeholder = sub_templates[0].template
+                            let sub_template_placeholder = s!(&sub_templates[0].template
                                 [pos_start..pos_start_after_tag]
-                                .to_string();
+                                );
                             pos_for_loop = pos_start_after_tag;
 
                             // drain - extract a substring and remove it from the original
@@ -389,9 +390,9 @@ pub trait HtmlServerTemplateRender {
                             // remove the end tag
                             let sub_template = sub_template.trim_end_matches(&end_tag);
                             sub_templates.push(SubTemplate {
-                                name: sub_template_name.to_string(),
-                                placeholder: sub_template_placeholder.to_string(),
-                                template: sub_template.to_string(),
+                                name: s!(sub_template_name),
+                                placeholder: s!(sub_template_placeholder),
+                                template: s!(sub_template),
                             });
                             // eprintln!("{}",sub_template);
                         }
@@ -470,7 +471,7 @@ pub fn replace_with_nodes_match_else(data_model_name: &str, placeholder: &str) -
     );
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
-        tag_name: "h2".to_string(),
+        tag_name: s!("h2"),
         attributes: vec![],
         children: vec![Node::Text(err_msg)],
         namespace: None,
@@ -485,7 +486,7 @@ pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str
     );
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
-        tag_name: "h2".to_string(),
+        tag_name: s!("h2"),
         attributes: vec![],
         children: vec![Node::Text(err_msg)],
         namespace: None,
@@ -495,7 +496,7 @@ pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str
 /// to string, but zero converts to empty
 pub fn to_string_zero_to_empty(number: usize) -> String {
     if number == 0 {
-        "".to_string()
+        s!("")
     } else {
         number.to_string()
     }

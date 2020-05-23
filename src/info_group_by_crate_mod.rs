@@ -1,5 +1,6 @@
 //! info_group_by_crate_mod
 
+use crate::*;
 use crate::html_server_template_mod::*;
 use crate::utils_mod::*;
 use crate::CachedReviewIndex;
@@ -38,7 +39,7 @@ impl ReviewIndexByCrate {
             .vec
             .sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
 
-        let mut old_crate_name = "".to_string();
+        let mut old_crate_name = s!("");
         let mut for_unique_versions: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
         let mut review_index_by_crate = ReviewIndexByCrate { vec: vec![] };
@@ -70,13 +71,13 @@ impl ReviewIndexByCrate {
                     count_of_advisories: 0,
                 };
                 review_index_by_crate.vec.push(last);
-                old_crate_name = index_item.crate_name.to_string();
+                old_crate_name = s!(&index_item.crate_name);
             }
             // add to the last group
             let mut last = unwrap!(review_index_by_crate.vec.last_mut());
             last.count_of_reviews += 1;
-            for_unique_versions.push(index_item.version.to_string());
-            for_unique_authors.push(index_item.author.to_string());
+            for_unique_versions.push(s!(&index_item.version));
+            for_unique_authors.push(s!(&index_item.author));
             last.count_of_rating_strong += index_item.rating_strong;
             last.count_of_rating_positive += index_item.rating_positive;
             last.count_of_rating_neutral += index_item.rating_neutral;
@@ -95,7 +96,7 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "ReviewIndexByCrate".to_string()
+        s!("ReviewIndexByCrate")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -125,11 +126,11 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
+            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             // this is a grid with repeated rows. Use the cursor_pos
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
-            "st_crate_name" => self.vec[cursor_pos].crate_name.to_string(),
+            "st_crate_name" => s!(&self.vec[cursor_pos].crate_name),
             "st_crate_route" => format!(
                 "/cargo_crev_web/crate/{}/",
                 url_encode(&self.vec[cursor_pos].crate_name)

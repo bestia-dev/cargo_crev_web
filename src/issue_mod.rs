@@ -1,5 +1,6 @@
 //! issue_mod
 
+use crate::*;
 use crate::html_server_template_mod::*;
 use crate::review_mod::Level;
 //use unwrap::unwrap;
@@ -17,7 +18,7 @@ impl HtmlServerTemplateRender for Issue {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "Issue".to_string()
+        s!("Issue")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
@@ -42,9 +43,9 @@ impl HtmlServerTemplateRender for Issue {
     fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
-            "st_issue_id" => self.id.to_string(),
+            "st_issue_id" => s!(&self.id),
             "st_issue_severity" => self.severity.to_string(),
-            "st_issue_comment" => self.comment.to_string(),
+            "st_issue_comment" => s!(&self.comment),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

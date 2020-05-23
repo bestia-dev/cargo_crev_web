@@ -1,5 +1,5 @@
 //! crate_reviews_mod
-
+use crate::*;
 use crate::crate_version_summary_mod::*;
 use crate::html_server_template_mod::*;
 use crate::review_mod::*;
@@ -48,7 +48,7 @@ fn get_crate_reviews(crate_name: &str) -> Vec<Review> {
         &path,
         "/*.crev",
         // avoid big folders and other folders with *.crev
-        &vec!["/.git".to_string(), "/trust".to_string()]
+        &vec![s!("/.git"), s!("/trust")]
     )) {
         //count_files += 1;
         // eprintln!("filename_crev: {}", filename_crev);
@@ -143,7 +143,7 @@ impl HtmlServerTemplateRender for CrateReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "CrateReviews".to_string()
+        s!("CrateReviews")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -172,8 +172,8 @@ impl HtmlServerTemplateRender for CrateReviews {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
+            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

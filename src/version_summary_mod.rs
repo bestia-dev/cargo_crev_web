@@ -28,9 +28,9 @@ pub struct VersionSummary {
 impl VersionSummary {
     pub fn new() -> Self {
         VersionSummary {
-            crate_name: "".to_string(),
-            version: "".to_string(),
-            version_for_sorting: "".to_string(),
+            crate_name: s!(""),
+            version: s!(""),
+            version_for_sorting: s!(""),
             review_number: 0,
             rating_strong: 0,
             rating_positive: 0,
@@ -49,7 +49,7 @@ impl HtmlServerTemplateRender for VersionSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "VersionSummary".to_string()
+        s!("VersionSummary")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
@@ -73,7 +73,7 @@ impl HtmlServerTemplateRender for VersionSummary {
     fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
-            "st_version" => self.version.to_string(),
+            "st_version" => s!(&self.version),
             "st_review_number" => to_string_zero_to_empty(self.review_number),
             "st_rating_strong" => to_string_zero_to_empty(self.rating_strong),
             "st_rating_positive" => to_string_zero_to_empty(self.rating_positive),

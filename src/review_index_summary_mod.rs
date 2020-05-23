@@ -42,8 +42,8 @@ impl ReviewIndexSummary {
             count_of_advisories: 0,
         };
         for index_item in &review_index.vec {
-            for_unique_crates.push(index_item.crate_name.to_string());
-            for_unique_authors.push(index_item.author.to_string());
+            for_unique_crates.push(s!(&index_item.crate_name));
+            for_unique_authors.push(s!(&index_item.author));
             summary.count_of_reviews += 1;
             summary.count_of_rating_strong += index_item.rating_strong;
             summary.count_of_rating_positive += index_item.rating_positive;
@@ -68,7 +68,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "ReviewIndexSummary".to_string()
+        s!("ReviewIndexSummary")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -99,8 +99,8 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
+            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             "st_unique_crates" => self.unique_crates.to_string(),
             "st_unique_authors" => self.unique_authors.to_string(),
             "st_count_of_reviews" => self.count_of_reviews.to_string(),

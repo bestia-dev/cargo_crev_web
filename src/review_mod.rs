@@ -1,5 +1,6 @@
 //! review_mod
 
+use crate::*;
 use crate::html_server_template_mod::*;
 use crate::issue_mod::Issue;
 use crate::utils_mod::*;
@@ -146,7 +147,7 @@ impl HtmlServerTemplateRender for Review {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "Review".to_string()
+        s!("Review")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
@@ -183,7 +184,7 @@ impl HtmlServerTemplateRender for Review {
                 if let Some(review) = &self.review {
                     review.rating.to_string()
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_rating_class_color" => format!(
@@ -194,12 +195,12 @@ impl HtmlServerTemplateRender for Review {
                     None
                 })
             ),
-            "st_review_date" => self.date[..10].to_string(),
+            "st_review_date" => s!(&self.date[..10]),
             "st_review_author" => {
                 // naive method to extract author
                 self.get_author()
             }
-            "st_author_url" => self.from.url.to_string(),
+            "st_author_url" => s!(&self.from.url),
             "st_author_route" => format!("/cargo_crev_web/author/{}/", url_encode(&self.from.id)),
             "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
@@ -209,88 +210,88 @@ impl HtmlServerTemplateRender for Review {
                         review.understanding.to_string()
                     )
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_review_comment" => {
                 if let Some(comment) = &self.comment {
                     comment.clone()
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_alternative_source" => {
                 if let Some(alternatives) = &self.alternatives {
-                    alternatives[0].source.to_string()
+                    s!(&alternatives[0].source)
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_alternative_name" => {
                 if let Some(alternatives) = &self.alternatives {
-                    alternatives[0].name.to_string()
+                    s!(&alternatives[0].name)
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_issue_id" => {
                 if let Some(issues) = &self.issues {
-                    issues[0].id.to_string()
+                    s!(&issues[0].id)
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_issue_severity" => {
                 if let Some(issues) = &self.issues {
                     issues[0].severity.to_string()
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_issue_comment" => {
                 if let Some(issues) = &self.issues {
-                    issues[0].comment.to_string()
+                    s!(&issues[0].comment)
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_advisories_ids" => {
                 if let Some(advisories) = &self.advisories {
-                    advisories[0].ids[0].to_string()
+                    s!(&advisories[0].ids[0])
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_advisories_severity" => {
                 if let Some(advisories) = &self.advisories {
                     advisories[0].severity.to_string()
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_advisories_range" => {
                 if let Some(advisories) = &self.advisories {
-                    advisories[0]
-                        .range
-                        .as_ref()
-                        .unwrap_or(&String::new())
-                        .to_string()
+                    if let Some(range)=&advisories[0].range{
+                        s!(range)
+                    }else{
+                        s!("")
+                    }
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_advisory_affected" => {
                 if let Some(advisory) = &self.advisory {
-                    advisory.affected.to_string()
+                    s!(&advisory.affected)
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             "st_advisory_critical" => {
                 if let Some(advisory) = &self.advisory {
-                    advisory.critical.to_string()
+                    s!(&advisory.critical)
                 } else {
-                    "".to_string()
+                    s!("")
                 }
             }
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
@@ -341,13 +342,13 @@ impl HtmlServerTemplateRender for Review {
 pub fn color_from_rating(rating: Option<&Rating>) -> String {
     if let Some(rating) = rating {
         match rating {
-            Rating::Strong => "greener".to_string(),
-            Rating::Positive => "green".to_string(),
-            Rating::Neutral => "".to_string(),
-            Rating::Negative => "red".to_string(),
-            Rating::None => "".to_string(),
+            Rating::Strong => s!("greener"),
+            Rating::Positive => s!("green"),
+            Rating::Neutral => s!(""),
+            Rating::Negative => s!("red"),
+            Rating::None => s!(""),
         }
     } else {
-        "".to_string()
+        s!("")
     }
 }

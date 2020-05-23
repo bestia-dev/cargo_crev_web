@@ -26,13 +26,13 @@ impl AuthorReviews {
         // nobody else should sort the data
         // search data in the index
         let mut many_file = ManyFileReviewsPk { vec: vec![] };
-        let mut old_file_path = "".to_string();
+        let mut old_file_path = s!("");
         let mut one_file = OneFileReviewsPk {
-            file_path: "don't push the first row".to_string(),
+            file_path: s!("don't push the first row"),
             reviews_pk: vec![],
         };
-        let mut author = "".to_string();
-        let mut author_url = "".to_string();
+        let mut author = s!("");
+        let mut author_url = s!("");
         for index_item in review_index.vec.iter() {
             if index_item.author_id == author_id {
                 if index_item.file_path != old_file_path {
@@ -84,7 +84,7 @@ impl AuthorReviews {
         AuthorReviews {
             author: author,
             author_url: author_url,
-            author_id: author_id.to_string(),
+            author_id: s!(author_id),
             reviews,
         }
     }
@@ -94,7 +94,7 @@ impl HtmlServerTemplateRender for AuthorReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "AuthorReviews".to_string()
+        s!("AuthorReviews")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -124,10 +124,10 @@ impl HtmlServerTemplateRender for AuthorReviews {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
-            "st_author" => self.author.to_string(),
-            "st_author_url" => self.author_url.to_string(),
+            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
+            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
+            "st_author" => s!(&self.author),
+            "st_author_url" => s!(&self.author_url),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

@@ -98,7 +98,7 @@ pub fn parse_semver(text: &str) -> (usize, usize, usize) {
 /// parse next characters until is numeric or end
 fn parse_next_number(text: &str, pos: usize) -> (usize, usize) {
     let mut pos = pos;
-    let mut number = "".to_string();
+    let mut number = s!("");
     let mut one_char = text[pos..pos + 1].chars().next().unwrap();
     while one_char.is_numeric() {
         number.push(one_char);
@@ -145,7 +145,7 @@ pub fn ns_start(text: &str) -> i64 {
     if !text.is_empty() {
         eprintln!(
             "{}: {}",
-            Green.paint(Local::now().format("%Y-%m-%d %H:%M:%S").to_string()),
+            Green.paint(s!(&Local::now().format("%Y-%m-%d %H:%M:%S"))),
             Green.paint(text)
         );
     }

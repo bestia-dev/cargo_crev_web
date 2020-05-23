@@ -20,10 +20,10 @@ impl CrateVersionSummary {
     pub fn new(crate_name: &str, reviews: &Vec<Review>) -> Self {
         // the first version empty_string is for "all_versions" or crate_summary
         let mut crate_version_summary = CrateVersionSummary {
-            crate_name: crate_name.to_string(),
+            crate_name: s!(crate_name),
             version_summaries: vec![],
             crate_summary: VersionSummary {
-                crate_name: crate_name.to_string(),
+                crate_name: s!(crate_name),
                 version: String::new(),
                 version_for_sorting: String::new(),
                 review_number: 0,
@@ -51,10 +51,10 @@ impl CrateVersionSummary {
             if option_version.is_none() {
                 // new element
                 let mut version_to_push = VersionSummary::new();
-                version_to_push.crate_name = crate_name.to_string();
-                version_to_push.version = review.package.version.to_string();
+                version_to_push.crate_name = s!(crate_name);
+                version_to_push.version = s!(&review.package.version);
                 version_to_push.version_for_sorting =
-                    unwrap!(review.package.version_for_sorting.clone()).to_string();
+                s!(unwrap!(review.package.version_for_sorting.clone()));
                 crate_version_summary
                     .version_summaries
                     .push(version_to_push);
@@ -125,7 +125,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "CrateVersionSummary".to_string()
+        s!("CrateVersionSummary")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
@@ -149,7 +149,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
     fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
-            "st_crate_name" => self.crate_name.to_string(),
+            "st_crate_name" => s!(&self.crate_name),
             "st_crates_io_url" => format!("https://crates.io/crates/{}", self.crate_name),
             "st_lib_rs_url" => format!("https://lib.rs/crates/{}", self.crate_name),
             "st_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),

@@ -5,6 +5,7 @@
 /// and then mostly use this index from memory.
 /// this index is created every time the web app is initialized
 /// or manually when the new and updated files are fetched
+use crate::*;
 use crate::review_mod::*;
 use crate::utils_mod::*;
 use std::fs;
@@ -51,7 +52,7 @@ impl ReviewIndex {
             &path,
             "/*.crev",
             // avoid big folders and other folders with *.crev
-            &vec!["/.git".to_string(), "/trust".to_string()]
+            &vec![s!("/.git"), s!("/trust")]
         )) {
             //count_files += 1;
             // eprintln!("filename_crev: {}", filename_crev);
@@ -97,12 +98,12 @@ impl ReviewIndex {
         let review: crate::review_mod::Review = unwrap!(serde_yaml::from_str(review_string));
         // use only some of the data for the index
         let review_index_item = ReviewIndexItem {
-            crate_name: review.package.name.to_string(),
-            version: review.package.version.to_string(),
+            crate_name: s!(&review.package.name),
+            version: s!(&review.package.version),
             version_for_sorting: review.version_for_sorting(),
             author: review.get_author(),
-            author_url: review.from.url.to_string(),
-            author_id: review.from.id.to_string(),
+            author_url: s!(&review.from.url),
+            author_id: s!(&review.from.id),
             file_path: file_path.to_string(),
             rating_strong: conditional_usize(review.get_rating() == Rating::Strong, 1, 0),
             rating_positive: conditional_usize(review.get_rating() == Rating::Positive, 1, 0),

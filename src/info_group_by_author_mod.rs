@@ -37,7 +37,7 @@ impl ReviewIndexByAuthor {
         review_index
             .vec
             .sort_by(|a, b| Ord::cmp(&a.author, &b.author));
-        let mut old_author = "".to_string();
+        let mut old_author = s!("");
         let mut for_unique_crates: Vec<String> = vec![];
         let mut review_index_by_author = ReviewIndexByAuthor { vec: vec![] };
         for index_item in &review_index.vec {
@@ -67,12 +67,12 @@ impl ReviewIndexByAuthor {
                     count_of_advisories: 0,
                 };
                 review_index_by_author.vec.push(last);
-                old_author = index_item.author.to_string();
+                old_author = s!(&index_item.author);
             }
             // add to the last group
             let mut last = unwrap!(review_index_by_author.vec.last_mut());
             last.count_of_reviews += 1;
-            for_unique_crates.push(index_item.author.to_string());
+            for_unique_crates.push(s!(&index_item.author));
             last.count_of_rating_strong += index_item.rating_strong;
             last.count_of_rating_positive += index_item.rating_positive;
             last.count_of_rating_neutral += index_item.rating_neutral;
@@ -91,7 +91,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         //return
-        "ReviewIndexByAuthor".to_string()
+        s!("ReviewIndexByAuthor")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -122,11 +122,11 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => "/cargo_crev_web/css/cargo_crev_web.css".to_string(),
-            "st_favicon_route" => "/cargo_crev_web/favicon.png".to_string(),
+            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
+            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             // this is a grid with repeated rows. Use the cursor_pos
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
-            "st_author" => self.vec[cursor_pos].author.to_string(),
+            "st_author" => s!(&self.vec[cursor_pos].author),
             "st_author_url" => format!("{}", self.vec[cursor_pos].author_url),
             "st_author_route" => format!(
                 "/cargo_crev_web/author/{}/",
