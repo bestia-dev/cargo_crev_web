@@ -12,6 +12,7 @@ use crate::CachedReviewIndex;
 use crate::*;
 
 use unwrap::unwrap;
+use std::fs;
 
 #[derive(Debug)]
 pub struct OnlyAuthor {
@@ -84,16 +85,22 @@ impl ReservedFolder {
         .map(|rev| rev.author_url.clone())
         .collect();
         vec_of_author_url.sort_by(|a, b| a.cmp(&b));
-        println!("vec_of_author_url: {:#?}", vec_of_author_url);
-        
+        println!("vec_of_author_url {}: {:#?}", vec_of_author_url.len(), vec_of_author_url);
+
         use tokio::task;
         task::spawn(async move {
+        // pagination. It returns 30 items in one page
+        let mut page_number=0;
+        let mut vec_of_new = vec![];
+        loop{
+            page_number += 1;
             let json = unwrap!(
-                surf::get("https://api.github.com/search/repositories?q=crev-proofs")
+                surf::get(&format!("https://api.github.com/search/repositories?q=crev-proofs&page={}",page_number))
                     .recv_string()
                     .await
             );
-            //this is json vector, find url:
+            //unwrap!(fs::write("github_search.json",&json));
+            //this is very big json vector, but I am interested in one single field: contents_url:
             let mut vec_of_urls: Vec<String> = vec![];
             let mut cursor_pos = 0;
 
@@ -103,30 +110,35 @@ impl ReservedFolder {
             // https://api.github.com/repos/leo-lb/crev-proofs/contents",
             // i will transform it with replace()
 
+            // some are crev_proofs, others are rust-reviews
             while let Some(pos_start) =
-                find_pos_after_delimiter(&json, cursor_pos, r#""contents_url": ""#)
+                find_pos_after_delimiter(&json, cursor_pos, r#""contents_url": "https://api.github.com/repos/"#)
             {
                 if let Some(pos_end) =
-                    find_pos_before_delimiter(&json, pos_start, r#"content/{+path}""#)
+                    find_pos_before_delimiter(&json, pos_start, r#"/contents/{+path}""#)
                 {
-                    vec_of_urls.push(format!("{}/", &json[pos_start..pos_end]));
+                    vec_of_urls.push(s!(&json[pos_start..pos_end]));
                     cursor_pos = pos_end;
                 } else {
                     break;
                 }
             }
-
-            let mut vec_of_new = vec![];
+            println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
+            if vec_of_urls.is_empty(){
+                break;
+            }
+            
             for url in vec_of_urls.iter() {
                 //if exists in index, I don't need it
-                let author_url = url.replace("/api.github.com/repos/", "/github.com/");
+                let author_url = format!("https://github.com/{}/crev-proofs", url);
                 println!("author_url: {:#?}", author_url);
                 if !vec_of_author_url.iter().any(|v| v == &author_url) {
-                    vec_of_new.push(author_url);
+                    vec_of_new.push(url);
                 }
             }
-            println!("vec_of_new: {:#?}", vec_of_new);
-        });
+        }
+        println!("vec_of_new {}: {:#?}", vec_of_new.len(), vec_of_new);
+    });
         // return
         ReservedFolder {
             ..Default::default()

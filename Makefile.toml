@@ -13,32 +13,47 @@ skip_core_tasks = true
         "help_command_order"
     ]
 
-	[tasks.check]
+    [tasks.check]
     description = "cargo check --release"
     clear = true
     command = "cargo"
     args = ["check","--release"]
-	
+    
     [tasks.dev]
     description = "cargo build development"
     clear = true
      dependencies = [
-	"build_dev",
-	"post_build_dev",
-	]
+    "build_dev",
+    "post_build_dev",
+    ]
 
+    [tasks.test]
+    description = "cargo test"
+    clear = true
+    script = [
+        "echo $ cargo test",
+        "cargo test",
+    ]                
     [tasks.release]
     description = "cargo build release"
     clear = true
     dependencies = [
-		# Binaries version is date
+        # Binaries version is date
          "lmake_version_from_date",
         # Library version is semver
         # "semver_increment_patch",
         "build_release",
-		"post_build_release",
+        "post_build_release",
     ]
 
+    [tasks.run_rel0]
+    description = "run target/release/${CARGO_MAKE_CRATE_NAME}"
+    clear = true
+    script = [
+        "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
+        "target/release/${CARGO_MAKE_CRATE_NAME} ",
+    ]
+    
     [tasks.run_rel1]
     description = "run target/release/${CARGO_MAKE_CRATE_NAME}"
     clear = true
@@ -46,7 +61,6 @@ skip_core_tasks = true
         "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
         "target/release/${CARGO_MAKE_CRATE_NAME} ",
     ]
-	
     [tasks.fmt]
     description = "format code and git commit before"
     clear = true
@@ -59,14 +73,14 @@ skip_core_tasks = true
     description = "cargo audit - for warning dependencies"
     clear = true
     dependencies = [ "cargo_audit",]
-	
+    
     [tasks.doc]
     description = "cargo doc - create docs from doc comments"
     clear = true
     dependencies = [
-		"include_readme",
+        "include_readme",
         "cargo_doc",
-		"doc_copy",
+        "doc_copy",
     ]
     
     [tasks.sshadd]
@@ -120,6 +134,14 @@ skip_core_tasks = true
         "lmake_semver --increment=minor",
     ]
 
+    [tasks.loc]
+    description = "Lines Of Rust Code with tokei"
+    workspace = false
+    clear = true
+    script = [
+        "tokei  -t 'Rust'",
+    ]
+    
 # endregion
 
 [tasks.help_command_order]
@@ -161,10 +183,10 @@ script= [
 [tasks.build_dev]
 clear = true
 private = true
-description = "build in dev mode"
+description = "build in dev/debug mode"
 command = "cargo"
 args = ["build"]
-		  
+          
 # Libraries version are semver, but binaries are dates.
 [tasks.semver_increment_patch]
 clear = true
@@ -214,7 +236,7 @@ script = [
     "echo $ cargo fmt",
     "cargo fmt",
     "echo after successful fmt and git commit, run $ cargo make gitpush",
-    "echo if the fmt makes changes, just run the same command again."		 
+    "echo if the fmt makes changes, just run the same command again."         
 ]
 
 [tasks.include_readme]
@@ -249,11 +271,9 @@ clear = true
 private = true
 description = "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
 script = [
-	"echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+    "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
     "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
-]		  
-
-
+]
 
 [tasks.post_build_dev]
 clear=true
