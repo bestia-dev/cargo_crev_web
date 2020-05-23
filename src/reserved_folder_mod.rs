@@ -1,8 +1,14 @@
 //! reserved_folder_mod
+//! This is only one module/html page, but can execute different actions.
+//! The data model must have fields for every action as Option<>.
+//! Because only this data can influence the html render.
+//! There are different "new" functions for different actions, to prepare adequate data.
+//! If field is is_some(), then render the html part dedicated to this action.
 
 use crate::html_server_template_mod::*;
 use crate::utils_mod::*;
 use crate::CachedReviewIndex;
+use crate::review_index_mod;
 
 use unwrap::unwrap;
 
@@ -13,9 +19,10 @@ pub struct OnlyAuthor {
     pub author_url: String,
 }
 //use unwrap::unwrap;
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct ReservedFolder {
     pub list_trusted_author_id: Option<Vec<OnlyAuthor>>,
+    pub reindex_after_fetch_new_reviews:Option<String>,
 }
 
 impl ReservedFolder {
@@ -26,6 +33,7 @@ impl ReservedFolder {
         ReservedFolder {
             list_trusted_author_id: None,
         }
+        { foo: 42, ..Default::default() }
     }
     pub fn list_trusted_author_id(cached_review_index: CachedReviewIndex) -> Self {
         // fills the field list_trusted_author_id
@@ -49,12 +57,18 @@ impl ReservedFolder {
         // return
         ReservedFolder {
             list_trusted_author_id: Some(only_author),
+            ..Default::default() 
         }
     }
-    pub fn reindex_after_fetch_new_reviews(_cached_review_index: CachedReviewIndex) -> Self {
+    pub fn reindex_after_fetch_new_reviews(cached_review_index: CachedReviewIndex) -> Self {
+        let mut review_index = cached_review_index
+        .lock()
+        .expect("error cached_review_index.lock()");
+        *review_index = review_index_mod::ReviewIndex::new();
         // return
         ReservedFolder {
-            list_trusted_author_id: None,
+            reindex_after_fetch_new_reviews: Some("Reindex finished."),
+            ..Default::default() 
         }
     }
 }
