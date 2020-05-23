@@ -27,37 +27,3 @@ github api: search repos
 
 this command does not exist. I must find the id.
 cargo crev trust <https://github.com/otavio/crev-proofs>
-
-
-vec_of_urls 30: [
-    "crev-dev/crev-proofs",
-    "BurntSushi/crev-proofs",
-    "MaulingMonkey/crev-proofs",
-    "huitseeker/crev-proofs",
-    "MaulingMonkey/rust-reviews",
-    "Alxandr/crev-proofs",
-    "lo48576/crev-proofs",
-    "alaric/crev-proofs",
-    "Flakebi/crev-proofs",
-    "dmerejkowsky/crev-proofs",
-    "roblabla/crev-proofs",
-    "LaurenceGA/crev-proofs",
-    "thorhs/crev-proofs",
-    "Canop/crev-proofs",
-    "sphinxc0re/crev-proofs",
-    "oherrala/crev-proofs",
-    "flodiebold/crev-proofs",
-    "scott-wilson/crev-proofs",
-    "JamesHinshelwood/crev-proofs",
-    "maccam912/crev-proofs",
-    "Thinkofname/crev-proofs",
-    "pimotte/crev-proofs",
-    "cyplo/crev-proofs",
-    "jonas-schievink/crev-proofs",
-    "confio/crev-proofs",
-    "ivanceras/crev-proofs",
-    "Gaelan/crev-proofs",
-    "HeroicKatora/crev-proofs",
-    "hgzimmerman/crev-proofs",
-    "niklasf/crev-proofs",
-]

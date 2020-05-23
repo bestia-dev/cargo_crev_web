@@ -327,15 +327,21 @@ async fn main() {
             .or(
                 warp::path!("cargo_crev_web" / "reserved_folder" / "list_new_author_id")
                     .and(cached_review_index.clone())
-                    .map(|cached_review_index| {
+                    .and_then(|cached_review_index| async move {
                         let ns_start = ns_start("list_new_author_id");
                         let data_model = reserved_folder_mod::ReservedFolder::list_new_author_id(
                             cached_review_index,
-                        );
+                        )
+                        .await;
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);
-                        warp::reply::html(html_file)
+                        //return
+                        //let res:Box<dyn warp::Reply> = Box<dyn warp::Reply>::from(warp::reply::html(html_file));
+                        //let res2:Result<Box<dyn warp::Reply>, warp::Rejection> = Ok(res);
+                        //res2
+                        let res:Result<Box<dyn warp::Reply>, warp::Rejection> = Ok(Box::new(html_file) as Box<dyn warp::Reply>);
+                        res
                     }),
             )
             .or(

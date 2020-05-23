@@ -11,8 +11,8 @@ use crate::utils_mod::*;
 use crate::CachedReviewIndex;
 use crate::*;
 
+//use std::fs;
 use unwrap::unwrap;
-use std::fs;
 
 #[derive(Debug)]
 pub struct OnlyAuthor {
@@ -20,11 +20,16 @@ pub struct OnlyAuthor {
     pub author_id: String,
     pub author_url: String,
 }
+#[derive(Debug, Clone)]
+pub struct AuthorNew {
+    pub author_url: String,
+}
 //use unwrap::unwrap;
 #[derive(Debug, Default)]
 pub struct ReservedFolder {
     pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
+    pub list_new_author_id: Option<Vec<AuthorNew>>,
 }
 
 impl ReservedFolder {
@@ -72,35 +77,25 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
-    pub fn list_new_author_id(cached_review_index: CachedReviewIndex) -> Self {
-        // first I need the list of fetched authors
-        let review_index = cached_review_index
-        .lock()
-        .expect("error cached_review_index.lock()");
-    use itertools::Itertools;
-    let mut vec_of_author_url: Vec<String> = review_index
-        .vec
-        .iter()
-        .unique_by(|rev| &rev.author_url)
-        .map(|rev| rev.author_url.clone())
-        .collect();
-        vec_of_author_url.sort_by(|a, b| a.cmp(&b));
-        println!("vec_of_author_url {}: {:#?}", vec_of_author_url.len(), vec_of_author_url);
-
-        use tokio::task;
-        task::spawn(async move {
-        // pagination. It returns 30 items in one page
-        let mut page_number=0;
-        let mut vec_of_new = vec![];
-        loop{
+    pub async fn list_new_author_id(cached_review_index: CachedReviewIndex) -> Self {
+        // println!("vec_of_author_url {}: {:#?}",vec_of_author_url.len(),vec_of_author_url);
+        // pagination. It returns 30 items in one page.
+        // the public api allows 10 request per minute. Enough for now.
+        let mut page_number: usize = 0;
+        let mut vec_of_new = Vec::<AuthorNew>::new();
+        loop {
             page_number += 1;
             let json = unwrap!(
-                surf::get(&format!("https://api.github.com/search/repositories?q=crev-proofs&page={}",page_number))
-                    .recv_string()
-                    .await
+                surf::get(&format!(
+                    "https://api.github.com/search/repositories?q=crev-proofs&page={}",
+                    page_number
+                ))
+                .recv_string()
+                .await
             );
             //unwrap!(fs::write("github_search.json",&json));
             //this is very big json vector, but I am interested in one single field: contents_url:
+            // REST api is so terribly wasteful. GraphQl is theoretically much better.
             let mut vec_of_urls: Vec<String> = vec![];
             let mut cursor_pos = 0;
 
@@ -109,11 +104,13 @@ impl ReservedFolder {
             // the contents_url return this format
             // https://api.github.com/repos/leo-lb/crev-proofs/contents",
             // i will transform it with replace()
+            // some end with /crev_proofs/, others with /rust-reviews/
 
-            // some are crev_proofs, others are rust-reviews
-            while let Some(pos_start) =
-                find_pos_after_delimiter(&json, cursor_pos, r#""contents_url": "https://api.github.com/repos/"#)
-            {
+            while let Some(pos_start) = find_pos_after_delimiter(
+                &json,
+                cursor_pos,
+                r#""contents_url": "https://api.github.com/repos/"#,
+            ) {
                 if let Some(pos_end) =
                     find_pos_before_delimiter(&json, pos_start, r#"/contents/{+path}""#)
                 {
@@ -123,24 +120,40 @@ impl ReservedFolder {
                     break;
                 }
             }
-            println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
-            if vec_of_urls.is_empty(){
+            //println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
+            if vec_of_urls.is_empty() {
                 break;
             }
-            
+
+            // first I need the list of fetched authors
+            let review_index = cached_review_index
+                .lock()
+                .expect("error cached_review_index.lock()");
+            use itertools::Itertools;
+            let mut vec_of_author_url: Vec<String> = review_index
+                .vec
+                .iter()
+                .unique_by(|rev| &rev.author_url)
+                .map(|rev| rev.author_url.clone())
+                .collect();
+            vec_of_author_url.sort_by(|a, b| a.cmp(&b));
+
             for url in vec_of_urls.iter() {
                 //if exists in index, I don't need it
-                let author_url = format!("https://github.com/{}/crev-proofs", url);
-                println!("author_url: {:#?}", author_url);
+                let author_url = format!("https://github.com/{}", url);
+                //println!("author_url: {:#?}", author_url);
                 if !vec_of_author_url.iter().any(|v| v == &author_url) {
-                    vec_of_new.push(url);
+                    vec_of_new.push(AuthorNew {
+                        author_url: s!(url),
+                    });
                 }
             }
         }
-        println!("vec_of_new {}: {:#?}", vec_of_new.len(), vec_of_new);
-    });
+        //println!("vec_of_new: {}: {:#?}", vec_of_new.len(), &vec_of_new);
+
         // return
         ReservedFolder {
+            list_new_author_id: Some(vec_of_new),
             ..Default::default()
         }
     }
@@ -175,6 +188,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 );
                 self.reindex_after_fetch_new_reviews.is_some()
             }
+            "sb_list_new_author_id" => self.list_new_author_id.is_some(),
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -239,6 +253,26 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 // eprintln!("stmplt_authors: {}", "");
                 let mut nodes = vec![];
                 if let Some(list) = &self.list_fetched_author_id {
+                    let sub_template = unwrap!(sub_templates
+                        .iter()
+                        .find(|&template| template.name == template_name));
+                    // sub-template repeatable
+                    for cursor_for_vec in 0..list.len() {
+                        let vec_node = unwrap!(self.render_template_raw_to_nodes(
+                            &sub_template.template,
+                            HtmlOrSvg::Html,
+                            cursor_for_vec
+                        ));
+                        nodes.extend_from_slice(&vec_node);
+                    }
+                }
+                // return
+                nodes
+            }
+            "stmplt_authors_new" => {
+                // eprintln!("stmplt_authors_new: {}", "");
+                let mut nodes = vec![];
+                if let Some(list) = &self.list_new_author_id {
                     let sub_template = unwrap!(sub_templates
                         .iter()
                         .find(|&template| template.name == template_name));
