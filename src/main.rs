@@ -302,11 +302,11 @@ async fn main() {
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
 
     let reserved_folder_route = 
-    warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_new_reviews")
+    warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_fetch_new_reviews")
     .and(cached_review_index.clone())
     .map(|cached_review_index| {
-        let ns_start = ns_start("reindex_after_new_reviews");
-        let data_model = reserved_folder_mod::ReservedFolder::reindex_after_new_reviews(
+        let ns_start = ns_start("reindex_after_fetch_new_reviews");
+        let data_model = reserved_folder_mod::ReservedFolder::reindex_after_fetch_new_reviews(
             cached_review_index,
         );
         let ns_new = ns_print("new()", ns_start);
