@@ -71,6 +71,67 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
+    pub fn list_new_author_id(cached_review_index: CachedReviewIndex) -> Self {
+        // first I need the list of fetched authors
+        let review_index = cached_review_index
+        .lock()
+        .expect("error cached_review_index.lock()");
+    use itertools::Itertools;
+    let mut vec_of_author_url: Vec<String> = review_index
+        .vec
+        .iter()
+        .unique_by(|rev| &rev.author_url)
+        .map(|rev| rev.author_url.clone())
+        .collect();
+        vec_of_author_url.sort_by(|a, b| a.cmp(&b));
+        println!("vec_of_author_url: {:#?}", vec_of_author_url);
+        
+        use tokio::task;
+        task::spawn(async move {
+            let json = unwrap!(
+                surf::get("https://api.github.com/search/repositories?q=crev-proofs")
+                    .recv_string()
+                    .await
+            );
+            //this is json vector, find url:
+            let mut vec_of_urls: Vec<String> = vec![];
+            let mut cursor_pos = 0;
+
+            // I need this format for author_url:
+            // https://github.com/BurntSushi/crev-proofs
+            // the contents_url return this format
+            // https://api.github.com/repos/leo-lb/crev-proofs/contents",
+            // i will transform it with replace()
+
+            while let Some(pos_start) =
+                find_pos_after_delimiter(&json, cursor_pos, r#""contents_url": ""#)
+            {
+                if let Some(pos_end) =
+                    find_pos_before_delimiter(&json, pos_start, r#"content/{+path}""#)
+                {
+                    vec_of_urls.push(format!("{}/", &json[pos_start..pos_end]));
+                    cursor_pos = pos_end;
+                } else {
+                    break;
+                }
+            }
+
+            let mut vec_of_new = vec![];
+            for url in vec_of_urls.iter() {
+                //if exists in index, I don't need it
+                let author_url = url.replace("/api.github.com/repos/", "/github.com/");
+                println!("author_url: {:#?}", author_url);
+                if !vec_of_author_url.iter().any(|v| v == &author_url) {
+                    vec_of_new.push(author_url);
+                }
+            }
+            println!("vec_of_new: {:#?}", vec_of_new);
+        });
+        // return
+        ReservedFolder {
+            ..Default::default()
+        }
+    }
 }
 
 impl HtmlServerTemplateRender for ReservedFolder {
@@ -96,9 +157,12 @@ impl HtmlServerTemplateRender for ReservedFolder {
         match placeholder {
             "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
             "sb_is_reindex_after_fetch_new_reviews" => {
-                println!("reindex_after_fetch_new_reviews {:?}", self.reindex_after_fetch_new_reviews.is_some());
+                println!(
+                    "reindex_after_fetch_new_reviews {:?}",
+                    self.reindex_after_fetch_new_reviews.is_some()
+                );
                 self.reindex_after_fetch_new_reviews.is_some()
-            },
+            }
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -136,7 +200,9 @@ impl HtmlServerTemplateRender for ReservedFolder {
             ),
             "st_author_id" => s!(&item_at_cursor.author_id),
             "st_author_url" => s!(&item_at_cursor.author_url),
-            "st_reindex_after_fetch_new_reviews" => s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref())),
+            "st_reindex_after_fetch_new_reviews" => {
+                s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
+            }
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

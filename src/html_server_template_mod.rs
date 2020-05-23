@@ -178,7 +178,7 @@ pub trait HtmlServerTemplateRender {
         dom_path: &mut Vec<String>,
         sub_templates: &Vec<SubTemplate>,
         cursor_pos: usize,
-        retain_this_node:bool,
+        retain_this_node: bool,
     ) -> Result<ElementNode, String> {
         let mut replace_string: Option<String> = None;
         let mut replace_vec_nodes: Option<Vec<Node>> = None;
@@ -219,11 +219,11 @@ pub trait HtmlServerTemplateRender {
                         dom_path,
                         sub_templates,
                         cursor_pos,
-                        retain_next_node
+                        retain_next_node,
                     )?;
                     // ignore this node dynamic content, and don't push to result
                     // but traverse all template nodes.
-                    if retain_next_node==true {
+                    if retain_next_node == true {
                         if let Some(repl_vec_nodes) = replace_vec_nodes {
                             for repl_node in repl_vec_nodes {
                                 element.children.push(repl_node);
@@ -233,11 +233,11 @@ pub trait HtmlServerTemplateRender {
                             element.children.push(Node::Element(child_element));
                         }
                         // the siblings get the parents retain, until sb_
-                        retain_next_node=retain_this_node;
+                        retain_next_node = retain_this_node;
                     }
                 }
                 Event::Attribute(name, value) => {
-                    if retain_this_node==true {
+                    if retain_this_node == true {
                         if name.starts_with("data-st-") {
                             // placeholder is in the attribute value.
                             // the attribute name is informative and should be similar to the next attribute
@@ -262,7 +262,7 @@ pub trait HtmlServerTemplateRender {
                     }
                 }
                 Event::TextNode(txt) => {
-                    if retain_this_node==true {
+                    if retain_this_node == true {
                         let txt = if let Some(repl) = replace_string {
                             // empty the replace_string for the next node
                             replace_string = None;
@@ -276,7 +276,7 @@ pub trait HtmlServerTemplateRender {
                     }
                 }
                 Event::Comment(txt) => {
-                    if retain_this_node==true {
+                    if retain_this_node == true {
                         // the main goal of comments is to change the value of the next text node
                         // with the result of a function
                         // it must look like <!--st_get_text-->
@@ -290,7 +290,8 @@ pub trait HtmlServerTemplateRender {
                         } else if txt.starts_with("stmplt_") {
                             // replace exactly this placeholder for a sub-template
                             let template_name = txt.trim_end_matches(" start");
-                            let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
+                            let repl_vec_nodes =
+                                self.render_sub_template(template_name, sub_templates);
                             element.children.extend_from_slice(&repl_vec_nodes);
                         } else if txt.starts_with("sn_") {
                             // nodes  (in a vector)

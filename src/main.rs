@@ -325,6 +325,20 @@ async fn main() {
                 warp::reply::html(html_file)
             })
             .or(
+                warp::path!("cargo_crev_web" / "reserved_folder" / "list_new_author_id")
+                    .and(cached_review_index.clone())
+                    .map(|cached_review_index| {
+                        let ns_start = ns_start("list_new_author_id");
+                        let data_model = reserved_folder_mod::ReservedFolder::list_new_author_id(
+                            cached_review_index,
+                        );
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        warp::reply::html(html_file)
+                    }),
+            )
+            .or(
                 warp::path!("cargo_crev_web" / "reserved_folder" / "list_fetched_author_id")
                     .and(cached_review_index.clone())
                     .map(|cached_review_index| {
@@ -344,7 +358,7 @@ async fn main() {
                 .map(|cached_review_index| {
                     let ns_start = ns_start("reserved_folder");
                     let data_model = reserved_folder_mod::ReservedFolder::new(cached_review_index);
-                    println!("data_model: {:#?}",data_model);
+                    println!("data_model: {:#?}", data_model);
                     let ns_new = ns_print("new()", ns_start);
                     let html_file = data_model.render_html_file("templates/");
                     ns_print("render_html_file()", ns_new);

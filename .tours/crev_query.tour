@@ -48,7 +48,7 @@
         {
             "file": "src/html_template_mod.rs",
             "line": 77,
-            "description": "## render_template_raw_to_nodes  \nThis default trait method for rendering has no special knowledge about the data. Only about html templates. The templateing works with Nodes.",
+            "description": "## render_template_raw_to_nodes  \nThis default trait method for rendering has no special knowledge about the data. Only about html templates. The templating works with Nodes.",
             "selection": {
                 "start": {
                     "line": 73,
@@ -93,7 +93,7 @@
         {
             "file": "src/html_template_mod.rs",
             "line": 153,
-            "description": "## read template events\nThe reader_for_microxml moves event by event sequentialy. For different types of events there is different code. Here we transform the input String into a Vec<Node> for easy manipulation.",
+            "description": "## read template events\nThe reader_for_microxml moves event by event sequentially. For different types of events there is different code. Here we transform the input String into a Vec<Node> for easy manipulation.",
             "selection": {
                 "start": {
                     "line": 148,
@@ -183,7 +183,7 @@
         {
             "file": "web_server_folder/templates/query/crev_query_template.html",
             "line": 42,
-            "description": "## dynamic content\nModifying the visuals of a web page is an eternal task. Let's separate as much as possible the work of the graphic designer and of the (data) developer.\nOnce the graphic design is ready, we need to add placeholders for dynamic data. This placeholders will be replaced with dynamic data while rendering. The placeholders must not destroy the capability of the html file to be viewed statically. I choosed to use html comments, for example <!--t_number--> ",
+            "description": "## dynamic content\nModifying the visuals of a web page is an eternal task. Let's separate as much as possible the work of the graphic designer and of the (data) developer.\nOnce the graphic design is ready, we need to add placeholders for dynamic data. This placeholders will be replaced with dynamic data while rendering. The placeholders must not destroy the capability of the html file to be viewed statically. I chose to use html comments, for example <!--t_number--> ",
             "selection": {
                 "start": {
                     "line": 40,
