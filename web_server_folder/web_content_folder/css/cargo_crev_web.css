@@ -1,3 +1,5 @@
+/* region: basics */
+
 html {
     font-family: sans-serif;
     max-width: 800px;
@@ -9,7 +11,6 @@ html {
     overflow-y: auto;
     overflow-x: hidden;
     word-wrap: break-word;
-    word-break: break-all;
     overflow-wrap: break-word;
     box-sizing: border-box;
     background-color: #24292E;
@@ -119,68 +120,89 @@ a:active {
     text-decoration: none;
 }
 
-.header_container {
+h1,
+h2,
+h3,
+h4 {
+    margin-bottom: 16px;
+}
+
+code {
+    padding: .1em .4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: #1B1D23;
+    color: #78C379;
+    border-radius: 3px;
+    font-family: Consolas, Liberation Mono, Courier, monospace;
+}
+
+
+/* endregion: basics */
+
+
+/* region: css classes */
+
+
+/* When concatenating names that makes it hard to refactor later.
+example if both `grid` and `grid_cell` start with the same word `grid`.
+So I mandatory add a number. 
+But to make them different to the searcher, 
+the first one have underscore+number:               container0_content_grid_0
+and the second one only number without underscore:  grid0_c
+A small difference to help search and replace refactoring.
+*/
+
+.container0_content_grid_0 {
+    width: 100%;
+    display: grid;
+    border-radius: 5px;
+    border: 0.2px solid #000;
+}
+
+.grid0_h_c {
+    /* grid0 header cell */
+    background-color: #181A1F;
+    border: 0.2px solid #000;
+    text-align: center;
+}
+
+.grid0_c {
+    /* grid0 cell */
+    border: 0.2px solid #000;
+    text-align: center;
+}
+
+.container_0 {
     display: grid;
     background-color: #333842;
     border: 1px solid #181A1F;
     border-radius: 5px;
-    margin: 5px;
+    margin: 2%;
 }
 
-.crate_summary {
-    width: 100%;
+.container0_content_not_grid {
+    padding: 20px;
+}
+
+.review_header_0 {
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;
-}
-
-.crate_summary_cell {
-    background-color: #181A1F;
-    padding: 0px;
-    border: 1px solid #000;
-    text-align: center;
-}
-
-.version_summary_cell {
-    padding: 0px;
-    border: 1px solid #000;
-    text-align: center;
-}
-
-.review_header {
-    display: flex;
     justify-content: space-around;
     background-color: #181A1F;
     padding: 10px;
 }
 
-.review_header_cell {
+.review_header0_cell {
     padding: 0px;
     /*border: 1px solid #000;*/
     text-align: center;
 }
 
-.review_alternative {
+.review_info_header {
     display: flex;
     justify-content: space-around;
     background-color: #1B1D23;
     padding: 10px;
-    color: yellow;
-}
-
-.review_issue {
-    display: flex;
-    justify-content: space-around;
-    background-color: #1B1D23;
-    padding: 10px;
-    color: orange;
-}
-
-.review_advisory {
-    display: flex;
-    justify-content: space-around;
-    background-color: #1B1D23;
-    padding: 10px;
-    color: red;
 }
 
 .review_comment {
@@ -189,10 +211,31 @@ a:active {
     font-family: sans-serif;
     font-size: 20px;
     word-wrap: break-word;
-    word-break: break-all;
     overflow-wrap: break-word;
     white-space: pre-line;
     overflow: hidden;
+}
+
+.h3y {
+    /*h3 yellow ?/
+    /*The .class_name is repeated in css to take different properties.*/
+    background: transparent;
+}
+
+.h2u {
+    /*h2 underline */
+    /*The .class_name is repeated in css to take different properties.*/
+    background: transparent;
+}
+
+
+/* endregion: css classes */
+
+
+/* region: colors and attributes */
+
+.break-all {
+    word-break: break-all;
 }
 
 .bold {
@@ -203,7 +246,17 @@ a:active {
     color: white;
 }
 
-.dark_white {
+a:link.white,
+a:visited.white {
+    color: white;
+}
+
+a:hover.white,
+a:active.white {
+    color: white;
+}
+
+.dark_white .h2u {
     color: rgb(194, 193, 193);
 }
 
@@ -219,15 +272,19 @@ a:active {
     color: green;
 }
 
-.yellow {
+.yellow,
+.alternative,
+.h3y {
     color: yellow;
 }
 
-.orange {
+.orange,
+.color_issue {
     color: orange;
 }
 
-.red {
+.red,
+.color_advisory {
     color: red;
 }
 
@@ -240,27 +297,14 @@ div.right {
     text-align: right;
 }
 
-code {
-    padding: .1em .4em;
-    margin: 0;
-    font-size: 85%;
-    background-color: #1B1D23;
-    color: #78C379;
-    border-radius: 3px;
-    font-family: Consolas, Liberation Mono, Courier, monospace;
-}
-
-h1,
-h2,
-h3,
-h4 {
-    margin-bottom: 16px;
-}
-
-.under_line {
+.under_line,
+.h2u {
     border-bottom: 1px solid #eaecef;
 }
 
 .big {
     font-size: 140%;
 }
+
+
+/* endregion: colors and attributes */

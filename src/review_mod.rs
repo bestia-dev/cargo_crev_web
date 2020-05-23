@@ -187,7 +187,7 @@ impl HtmlServerTemplateRender for Review {
                 }
             }
             "st_rating_class_color" => format!(
-                "review_header_cell {} bold",
+                "review_header0_cell {} bold",
                 color_from_rating(if let Some(review) = &self.review {
                     Some(&review.rating)
                 } else {

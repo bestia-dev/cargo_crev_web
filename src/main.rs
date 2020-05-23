@@ -302,7 +302,19 @@ async fn main() {
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
 
     let reserved_folder_route = 
-    warp::path!("cargo_crev_web" / "reserved_folder" / "list_trusted_author_id")
+    warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_new_reviews")
+    .and(cached_review_index.clone())
+    .map(|cached_review_index| {
+        let ns_start = ns_start("reindex_after_new_reviews");
+        let data_model = reserved_folder_mod::ReservedFolder::reindex_after_new_reviews(
+            cached_review_index,
+        );
+        let ns_new = ns_print("new()", ns_start);
+        let html_file = data_model.render_html_file("templates/");
+        ns_print("render_html_file()", ns_new);
+        warp::reply::html(html_file)
+    })
+    .or(warp::path!("cargo_crev_web" / "reserved_folder" / "list_trusted_author_id")
     .and(cached_review_index.clone())
     .map(|cached_review_index| {
         let ns_start = ns_start("list_trusted_author_id");
@@ -313,7 +325,7 @@ async fn main() {
         let html_file = data_model.render_html_file("templates/");
         ns_print("render_html_file()", ns_new);
         warp::reply::html(html_file)
-    })
+    }))
     .or(
         warp::path!("cargo_crev_web" / "reserved_folder")
         .and(cached_review_index.clone())

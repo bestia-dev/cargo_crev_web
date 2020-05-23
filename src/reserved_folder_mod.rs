@@ -74,7 +74,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
-            "sb_is_trusted" => self.list_trusted_author_id.is_some(),
+            "sb_is_list_trusted_author_id" => self.list_trusted_author_id.is_some(),
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
