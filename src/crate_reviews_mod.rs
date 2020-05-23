@@ -1,9 +1,9 @@
 //! crate_reviews_mod
-use crate::*;
 use crate::crate_version_summary_mod::*;
 use crate::html_server_template_mod::*;
 use crate::review_mod::*;
 use crate::utils_mod::*;
+use crate::*;
 
 use dirs;
 use std::fs;

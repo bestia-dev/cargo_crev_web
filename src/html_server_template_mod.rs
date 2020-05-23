@@ -3,8 +3,8 @@
 //! should be compatible also with svg, because of namespaces
 
 // region: use
-use crate::*;
 use crate::utils_mod::*;
+use crate::*;
 use reader_for_microxml::*;
 use std::fs;
 use unwrap::unwrap;
@@ -357,7 +357,7 @@ pub trait HtmlServerTemplateRender {
                     find_pos_before_delimiter(&sub_templates[0].template, pos_start, " start-->")
                 {
                     let sub_template_name =
-                    s!(&sub_templates[0].template[pos_start + 4..pos_end_name]);
+                        s!(&sub_templates[0].template[pos_start + 4..pos_end_name]);
                     // eprintln!("sub_template_name: {}", sub_template_name);
                     let pos_start_after_tag = pos_end_name + 9;
                     let end_tag = format!("<!--{} end-->", sub_template_name);
@@ -375,9 +375,8 @@ pub trait HtmlServerTemplateRender {
                                 .template
                                 .drain(pos_start..pos_end_after_tag);
                         } else {
-                            let sub_template_placeholder = s!(&sub_templates[0].template
-                                [pos_start..pos_start_after_tag]
-                                );
+                            let sub_template_placeholder =
+                                s!(&sub_templates[0].template[pos_start..pos_start_after_tag]);
                             pos_for_loop = pos_start_after_tag;
 
                             // drain - extract a substring and remove it from the original

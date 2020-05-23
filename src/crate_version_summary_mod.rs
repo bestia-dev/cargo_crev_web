@@ -54,7 +54,7 @@ impl CrateVersionSummary {
                 version_to_push.crate_name = s!(crate_name);
                 version_to_push.version = s!(&review.package.version);
                 version_to_push.version_for_sorting =
-                s!(unwrap!(review.package.version_for_sorting.clone()));
+                    s!(unwrap!(review.package.version_for_sorting.clone()));
                 crate_version_summary
                     .version_summaries
                     .push(version_to_push);

@@ -1,5 +1,5 @@
 //! utils_mod.rs
-
+use crate::*;
 use unwrap::unwrap;
 
 /// return the position after the delimiter
@@ -145,7 +145,7 @@ pub fn ns_start(text: &str) -> i64 {
     if !text.is_empty() {
         eprintln!(
             "{}: {}",
-            Green.paint(s!(&Local::now().format("%Y-%m-%d %H:%M:%S"))),
+            Green.paint(&Local::now().format("%Y-%m-%d %H:%M:%S").to_string()),
             Green.paint(text)
         );
     }

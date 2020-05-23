@@ -249,7 +249,7 @@ type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
 macro_rules! s {
     ($my_str: expr) => {
         String::from($my_str)
-    }
+    };
 }
 
 /// main function of the binary

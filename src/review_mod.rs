@@ -1,9 +1,9 @@
 //! review_mod
 
-use crate::*;
 use crate::html_server_template_mod::*;
 use crate::issue_mod::Issue;
 use crate::utils_mod::*;
+use crate::*;
 
 use serde_derive::{Deserialize, Serialize};
 use strum_macros;
@@ -271,9 +271,9 @@ impl HtmlServerTemplateRender for Review {
             }
             "st_advisories_range" => {
                 if let Some(advisories) = &self.advisories {
-                    if let Some(range)=&advisories[0].range{
+                    if let Some(range) = &advisories[0].range {
                         s!(range)
-                    }else{
+                    } else {
                         s!("")
                     }
                 } else {
