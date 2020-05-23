@@ -148,6 +148,8 @@ pub trait HtmlServerTemplateRender {
                     &mut dom_path,
                     &sub_templates,
                     cursor_pos,
+                    // retain_next_node
+                    true,
                 ) {
                     Ok(new_root_element) => root_element = new_root_element,
                     Err(err) => {
@@ -176,11 +178,11 @@ pub trait HtmlServerTemplateRender {
         dom_path: &mut Vec<String>,
         sub_templates: &Vec<SubTemplate>,
         cursor_pos: usize,
+        retain_this_node:bool,
     ) -> Result<ElementNode, String> {
         let mut replace_string: Option<String> = None;
-        let mut replace_node: Option<Node> = None;
         let mut replace_vec_nodes: Option<Vec<Node>> = None;
-        let mut replace_boolean: Option<bool> = None;
+        let mut retain_next_node = retain_this_node;
         let mut html_or_svg_local;
         // loop through all the siblings in this iteration
         loop {
@@ -217,13 +219,12 @@ pub trait HtmlServerTemplateRender {
                         dom_path,
                         sub_templates,
                         cursor_pos,
+                        retain_next_node
                     )?;
-                    // if the boolean is empty or true then render the next node
-                    if replace_boolean.unwrap_or(true) {
-                        if let Some(repl_node) = replace_node {
-                            element.children.push(repl_node);
-                            replace_node = None;
-                        } else if let Some(repl_vec_nodes) = replace_vec_nodes {
+                    // ignore this node dynamic content, and don't push to result
+                    // but traverse all template nodes.
+                    if retain_next_node==true {
+                        if let Some(repl_vec_nodes) = replace_vec_nodes {
                             for repl_node in repl_vec_nodes {
                                 element.children.push(repl_node);
                             }
@@ -231,69 +232,74 @@ pub trait HtmlServerTemplateRender {
                         } else {
                             element.children.push(Node::Element(child_element));
                         }
-                    }
-                    if replace_boolean.is_some() {
-                        replace_boolean = None;
+                        // the siblings get the parents retain, until sb_
+                        retain_next_node=retain_this_node;
                     }
                 }
                 Event::Attribute(name, value) => {
-                    if name.starts_with("data-st-") {
-                        // placeholder is in the attribute value.
-                        // the attribute name is informative and should be similar to the next attribute
-                        // example: data-st-href="st_placeholder" href="x"
-                        // The replace_string will always be applied to the next attribute. No matter the name.
-                        let placeholder = &value;
-                        let repl_txt = self.replace_with_string(placeholder, cursor_pos);
-                        replace_string = Some(repl_txt);
-                    } else {
-                        let value = if let Some(repl) = replace_string {
+                    if retain_this_node==true {
+                        if name.starts_with("data-st-") {
+                            // placeholder is in the attribute value.
+                            // the attribute name is informative and should be similar to the next attribute
+                            // example: data-st-href="st_placeholder" href="x"
+                            // The replace_string will always be applied to the next attribute. No matter the name.
+                            let placeholder = &value;
+                            let repl_txt = self.replace_with_string(placeholder, cursor_pos);
+                            replace_string = Some(repl_txt);
+                        } else {
+                            let value = if let Some(repl) = replace_string {
+                                // empty the replace_string for the next node
+                                replace_string = None;
+                                decode_5_xml_control_characters(&repl)
+                            } else {
+                                decode_5_xml_control_characters(value)
+                            };
+                            element.attributes.push(Attribute {
+                                name: s!(name),
+                                value: value,
+                            });
+                        }
+                    }
+                }
+                Event::TextNode(txt) => {
+                    if retain_this_node==true {
+                        let txt = if let Some(repl) = replace_string {
                             // empty the replace_string for the next node
                             replace_string = None;
                             decode_5_xml_control_characters(&repl)
                         } else {
-                            decode_5_xml_control_characters(value)
+                            decode_5_xml_control_characters(txt)
                         };
-                        element.attributes.push(Attribute {
-                            name: s!(name),
-                            value: value,
-                        });
+                        // here accepts only utf-8.
+                        // only minimum html entities are decoded
+                        element.children.push(Node::Text(txt));
                     }
                 }
-                Event::TextNode(txt) => {
-                    let txt = if let Some(repl) = replace_string {
-                        // empty the replace_string for the next node
-                        replace_string = None;
-                        decode_5_xml_control_characters(&repl)
-                    } else {
-                        decode_5_xml_control_characters(txt)
-                    };
-                    // here accepts only utf-8.
-                    // only minimum html entities are decoded
-                    element.children.push(Node::Text(txt));
-                }
                 Event::Comment(txt) => {
-                    // the main goal of comments is to change the value of the next text node
-                    // with the result of a function
-                    // it must look like <!--st_get_text-->
+                    if retain_this_node==true {
+                        // the main goal of comments is to change the value of the next text node
+                        // with the result of a function
+                        // it must look like <!--st_get_text-->
 
-                    if txt.starts_with("st_") {
-                        let repl_txt = self.replace_with_string(txt, cursor_pos);
-                        replace_string = Some(repl_txt);
-                    } else if txt.starts_with("sb_") {
-                        // boolean if this is true than render the next node, else don't render
-                        replace_boolean = Some(self.retain_next_node(txt));
-                    } else if txt.starts_with("stmplt_") {
-                        // replace exactly this placeholder for a sub-template
-                        let template_name = txt.trim_end_matches(" start");
-                        let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
-                        element.children.extend_from_slice(&repl_vec_nodes);
-                    } else if txt.starts_with("sn_") {
-                        // nodes  (in a vector)
-                        let repl_vec_nodes = self.replace_with_nodes(txt);
-                        replace_vec_nodes = Some(repl_vec_nodes);
-                    } else {
-                        // it is really a comment, retain it.
-                        element.children.push(Node::Comment(s!(txt)));
+                        if txt.starts_with("st_") {
+                            let repl_txt = self.replace_with_string(txt, cursor_pos);
+                            replace_string = Some(repl_txt);
+                        } else if txt.starts_with("sb_") {
+                            // boolean if this is true than render the next node, else don't render
+                            retain_next_node = self.retain_next_node(txt);
+                        } else if txt.starts_with("stmplt_") {
+                            // replace exactly this placeholder for a sub-template
+                            let template_name = txt.trim_end_matches(" start");
+                            let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
+                            element.children.extend_from_slice(&repl_vec_nodes);
+                        } else if txt.starts_with("sn_") {
+                            // nodes  (in a vector)
+                            let repl_vec_nodes = self.replace_with_nodes(txt);
+                            replace_vec_nodes = Some(repl_vec_nodes);
+                        } else {
+                            // it is really a comment, retain it.
+                            element.children.push(Node::Comment(s!(txt)));
+                        }
                     }
                 }
                 Event::EndElement(name) => {

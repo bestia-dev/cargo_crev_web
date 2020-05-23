@@ -22,7 +22,7 @@ pub struct OnlyAuthor {
 //use unwrap::unwrap;
 #[derive(Debug, Default)]
 pub struct ReservedFolder {
-    pub list_trusted_author_id: Option<Vec<OnlyAuthor>>,
+    pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
 }
 
@@ -35,8 +35,8 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
-    pub fn list_trusted_author_id(cached_review_index: CachedReviewIndex) -> Self {
-        // fills the field list_trusted_author_id
+    pub fn list_fetched_author_id(cached_review_index: CachedReviewIndex) -> Self {
+        // fills the field list_fetched_author_id
         let review_index = cached_review_index
             .lock()
             .expect("error cached_review_index.lock()");
@@ -56,7 +56,7 @@ impl ReservedFolder {
 
         // return
         ReservedFolder {
-            list_trusted_author_id: Some(only_author),
+            list_fetched_author_id: Some(only_author),
             ..Default::default()
         }
     }
@@ -94,7 +94,11 @@ impl HtmlServerTemplateRender for ReservedFolder {
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
-            "sb_is_list_trusted_author_id" => self.list_trusted_author_id.is_some(),
+            "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
+            "sb_is_reindex_after_fetch_new_reviews" => {
+                println!("reindex_after_fetch_new_reviews {:?}", self.reindex_after_fetch_new_reviews.is_some());
+                self.reindex_after_fetch_new_reviews.is_some()
+            },
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -107,9 +111,9 @@ impl HtmlServerTemplateRender for ReservedFolder {
     )]
     fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
-        // list_trusted_author_id is Option and can be None or Some
+        // list_fetched_author_id is Option and can be None or Some
         let only_author;
-        let item_at_cursor = if let Some(list) = &self.list_trusted_author_id {
+        let item_at_cursor = if let Some(list) = &self.list_fetched_author_id {
             &list[cursor_pos]
         } else {
             only_author = OnlyAuthor {
@@ -132,6 +136,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             ),
             "st_author_id" => s!(&item_at_cursor.author_id),
             "st_author_url" => s!(&item_at_cursor.author_url),
+            "st_reindex_after_fetch_new_reviews" => s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref())),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -155,7 +160,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "stmplt_authors" => {
                 // eprintln!("stmplt_authors: {}", "");
                 let mut nodes = vec![];
-                if let Some(list) = &self.list_trusted_author_id {
+                if let Some(list) = &self.list_fetched_author_id {
                     let sub_template = unwrap!(sub_templates
                         .iter()
                         .find(|&template| template.name == template_name));
