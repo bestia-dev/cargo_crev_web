@@ -122,7 +122,7 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String {
+    fn replace_with_string(&self, placeholder: &str,_subtemplate:&str, cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -191,6 +191,7 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
                     let vec_node = unwrap!(self.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,
+                        template_name,
                         cursor_for_order_by_crate
                     ));
                     nodes.extend_from_slice(&vec_node);

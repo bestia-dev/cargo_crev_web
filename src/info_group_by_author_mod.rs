@@ -118,7 +118,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String {
+    fn replace_with_string(&self, placeholder: &str,_subtemplate:&str, cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -187,6 +187,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
                     let vec_node = unwrap!(self.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,
+                        "stmplt_author_summary",
                         cursor_for_vec
                     ));
                     nodes.extend_from_slice(&vec_node);

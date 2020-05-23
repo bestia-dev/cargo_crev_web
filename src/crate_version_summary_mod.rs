@@ -146,7 +146,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn replace_with_string(&self, placeholder: &str, _cursor_pos: usize) -> String {
+    fn replace_with_string(&self, placeholder: &str,_subtemplate:&str, _cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             "st_crate_name" => s!(&self.crate_name),
@@ -207,6 +207,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
                     let vec_node = unwrap!(version_summary.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,
+                        "",
                         0
                     ));
                     nodes.extend_from_slice(&vec_node);

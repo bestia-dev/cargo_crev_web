@@ -85,6 +85,8 @@ impl ReservedFolder {
         let mut vec_of_new = Vec::<AuthorNew>::new();
         loop {
             page_number += 1;
+
+            // todo: make 4 requests immediately
             let json = unwrap!(
                 surf::get(&format!(
                     "https://api.github.com/search/repositories?q=crev-proofs&page={}",
@@ -93,6 +95,7 @@ impl ReservedFolder {
                 .recv_string()
                 .await
             );
+
             //unwrap!(fs::write("github_search.json",&json));
             //this is very big json vector, but I am interested in one single field: contents_url:
             // REST api is so terribly wasteful. GraphQl is theoretically much better.
@@ -199,33 +202,41 @@ impl HtmlServerTemplateRender for ReservedFolder {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String {
+    fn replace_with_string(&self, placeholder: &str, subtemplate: &str, cursor_pos: usize) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         // list_fetched_author_id is Option and can be None or Some
-        let only_author;
-        let item_at_cursor = if let Some(list) = &self.list_fetched_author_id {
-            &list[cursor_pos]
-        } else {
-            only_author = OnlyAuthor {
-                author: String::new(),
-                author_id: String::new(),
-                author_url: String::new(),
-            };
-            //return
-            &only_author
+        let mut item_at_cursor_1 = &OnlyAuthor {
+            author: String::new(),
+            author_id: String::new(),
+            author_url: String::new(),
         };
+        if subtemplate == "stmplt_authors" {
+            if let Some(list) = &self.list_fetched_author_id {
+                item_at_cursor_1 = &list[cursor_pos];
+            }
+        }
+        let mut item_at_cursor_2 = &AuthorNew {
+            author_url: String::new(),
+        };
+        if subtemplate == "stmplt_authors_new" {
+            if let Some(list) = &self.list_new_author_id {
+                item_at_cursor_2 = &list[cursor_pos];
+            }
+        }
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             "st_ordinal_number" => (cursor_pos + 1).to_string(),
-            "st_author" => s!(&item_at_cursor.author),
+            "st_author" => s!(&item_at_cursor_1.author),
             "st_author_route" => format!(
                 "/cargo_crev_web/author/{}/",
-                url_encode(&item_at_cursor.author_id)
+                url_encode(&item_at_cursor_1.author_id)
             ),
-            "st_author_id" => s!(&item_at_cursor.author_id),
-            "st_author_url" => s!(&item_at_cursor.author_url),
+            "st_author_id" => s!(&item_at_cursor_1.author_id),
+            // same name from different data model is not allowed
+            "st_author_url" => s!(&item_at_cursor_1.author_url),
+            "st_author_url_2" => s!(&item_at_cursor_2.author_url),
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
             }
@@ -261,7 +272,8 @@ impl HtmlServerTemplateRender for ReservedFolder {
                         let vec_node = unwrap!(self.render_template_raw_to_nodes(
                             &sub_template.template,
                             HtmlOrSvg::Html,
-                            cursor_for_vec
+                            "list_fetched_author_id",
+                            cursor_for_vec,
                         ));
                         nodes.extend_from_slice(&vec_node);
                     }
@@ -281,6 +293,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
                         let vec_node = unwrap!(self.render_template_raw_to_nodes(
                             &sub_template.template,
                             HtmlOrSvg::Html,
+                            template_name,
                             cursor_for_vec
                         ));
                         nodes.extend_from_slice(&vec_node);

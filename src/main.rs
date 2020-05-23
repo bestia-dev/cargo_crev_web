@@ -336,12 +336,10 @@ async fn main() {
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);
-                        //return
-                        //let res:Box<dyn warp::Reply> = Box<dyn warp::Reply>::from(warp::reply::html(html_file));
-                        //let res2:Result<Box<dyn warp::Reply>, warp::Rejection> = Ok(res);
-                        //res2
-                        let res:Result<Box<dyn warp::Reply>, warp::Rejection> = Ok(Box::new(html_file) as Box<dyn warp::Reply>);
-                        res
+                        //return crazy types
+                        let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
+                            Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
+                        result
                     }),
             )
             .or(

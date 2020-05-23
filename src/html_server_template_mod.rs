@@ -57,7 +57,7 @@ pub trait HtmlServerTemplateRender {
     /// name of data model for debugging
     fn data_model_name(&self) -> String;
     /// returns a String to replace the next text-node
-    fn replace_with_string(&self, placeholder: &str, cursor_pos: usize) -> String;
+    fn replace_with_string(&self, placeholder: &str, subtemplate:&str, cursor_pos: usize) -> String;
     //// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool;
     /// returns a vector of Nodes to replace the next Node
@@ -86,7 +86,7 @@ pub trait HtmlServerTemplateRender {
     /// render for root template (not subtemplates) from string
     fn render(&self, html_template_raw: &str) -> String {
         let nodes =
-            unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, 0));
+            unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, "",0));
         // because this is the root template it must return one ElementNode
         let mut html = s!("");
         match &nodes[0] {
@@ -109,6 +109,7 @@ pub trait HtmlServerTemplateRender {
         &self,
         html_template_raw: &str,
         html_or_svg_parent: HtmlOrSvg,
+        subtemplate:&str,
         cursor_pos: usize,
     ) -> Result<Vec<Node>, String> {
         // html_template_raw can be a fragment. I add the root, that will later be removed.
@@ -147,6 +148,7 @@ pub trait HtmlServerTemplateRender {
                     html_or_svg_local,
                     &mut dom_path,
                     &sub_templates,
+                    subtemplate,
                     cursor_pos,
                     // retain_next_node
                     true,
@@ -177,6 +179,7 @@ pub trait HtmlServerTemplateRender {
         html_or_svg_parent: HtmlOrSvg,
         dom_path: &mut Vec<String>,
         sub_templates: &Vec<SubTemplate>,
+        subtemplate:&str,
         cursor_pos: usize,
         retain_this_node: bool,
     ) -> Result<ElementNode, String> {
@@ -218,6 +221,7 @@ pub trait HtmlServerTemplateRender {
                         html_or_svg_local,
                         dom_path,
                         sub_templates,
+                        subtemplate,
                         cursor_pos,
                         retain_next_node,
                     )?;
@@ -244,7 +248,7 @@ pub trait HtmlServerTemplateRender {
                             // example: data-st-href="st_placeholder" href="x"
                             // The replace_string will always be applied to the next attribute. No matter the name.
                             let placeholder = &value;
-                            let repl_txt = self.replace_with_string(placeholder, cursor_pos);
+                            let repl_txt = self.replace_with_string(placeholder, subtemplate , cursor_pos);
                             replace_string = Some(repl_txt);
                         } else {
                             let value = if let Some(repl) = replace_string {
@@ -282,7 +286,7 @@ pub trait HtmlServerTemplateRender {
                         // it must look like <!--st_get_text-->
 
                         if txt.starts_with("st_") {
-                            let repl_txt = self.replace_with_string(txt, cursor_pos);
+                            let repl_txt = self.replace_with_string(txt, subtemplate,cursor_pos);
                             replace_string = Some(repl_txt);
                         } else if txt.starts_with("sb_") {
                             // boolean if this is true than render the next node, else don't render
