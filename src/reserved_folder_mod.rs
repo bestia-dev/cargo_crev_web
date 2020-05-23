@@ -51,6 +51,12 @@ impl ReservedFolder {
             list_trusted_author_id: Some(only_author),
         }
     }
+    pub fn reindex_after_fetch_new_reviews(_cached_review_index: CachedReviewIndex) -> Self {
+        // return
+        ReservedFolder {
+            list_trusted_author_id: None,
+        }
+    }
 }
 
 impl HtmlServerTemplateRender for ReservedFolder {
@@ -89,14 +95,13 @@ impl HtmlServerTemplateRender for ReservedFolder {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         // list_trusted_author_id is Option and can be None or Some
         let only_author;
-        let item_at_cursor = if let Some(list)=&self.list_trusted_author_id{
+        let item_at_cursor = if let Some(list) = &self.list_trusted_author_id {
             &list[cursor_pos]
-        }else{
-            only_author =
-            OnlyAuthor{
-                author:String::new(),
-                author_id:String::new(),
-                author_url:String::new(),
+        } else {
+            only_author = OnlyAuthor {
+                author: String::new(),
+                author_id: String::new(),
+                author_url: String::new(),
             };
             //return
             &only_author

@@ -87,7 +87,7 @@ For this I need to create a crev Id and for that I need to have a GitHub repo.
 Size of .cache/crev
 On my local machine is 7 MB
 On web server 2 MB
-It looks that it is not extremly big.
+It looks that it is not extremely big.
 
 ## GitHub crev-proofs
 
@@ -146,7 +146,7 @@ On the web use this url to read crate reviews. Example:
 Like many developers I also suffer from "graphical designitis".  
 It is very hard for me to find the exact color variations and shape proportions and subtle font differences to make a web page beautiful. It is not lack of knowledge of html and css. It is lack of style and taste.  
 Simply unrepairable!  
-So I created a simple html templating system to separate the graphical desiner work from the developer work. As much as possible.  
+So I created a simple html templating system to separate the graphical designer work from the developer work. As much as possible.  
 First the graphical designer prepares a nice html+css with static data, that looks awesome.  
 The 2 files are on his local disk and don't need any server or configuration. The static data must be as realistic as possible.  
 Then I add comments that are commands where to insert the dynamic data. This comments don't destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.  
@@ -174,9 +174,8 @@ I am terrible in VIM, I confess.
 - cached results  - cached templates?  
 - filtered by version, rating,... from cached  
 - summary per author, because there will be a lot of duplicates
-- change css file name on every release to avoid cacheing
+- change css file name on every release to avoid caching
 I am already manipulating css names in the dynamic content because of the folders.
-
 
 ## References
 

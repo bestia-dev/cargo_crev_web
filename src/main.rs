@@ -86,7 +86,7 @@
 //! Size of .cache/crev
 //! On my local machine is 7 MB
 //! On web server 2 MB
-//! It looks that it is not extremly big.
+//! It looks that it is not extremely big.
 //!
 //! ## GitHub crev-proofs
 //!
@@ -145,7 +145,7 @@
 //! Like many developers I also suffer from "graphical designitis".  
 //! It is very hard for me to find the exact color variations and shape proportions and subtle font differences to make a web page beautiful. It is not lack of knowledge of html and css. It is lack of style and taste.  
 //! Simply unrepairable!  
-//! So I created a simple html templating system to separate the graphical desiner work from the developer work. As much as possible.  
+//! So I created a simple html templating system to separate the graphical designer work from the developer work. As much as possible.  
 //! First the graphical designer prepares a nice html+css with static data, that looks awesome.  
 //! The 2 files are on his local disk and don't need any server or configuration. The static data must be as realistic as possible.  
 //! Then I add comments that are commands where to insert the dynamic data. This comments don't destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.  
@@ -201,7 +201,7 @@
     // I have private function inside a function. Self does not work there.
     // clippy::use_self,
     // Cannot add #[inline] to the start function with #[wasm_bindgen(start)]
-    // because then wasm-pack build --st_arget no-modules returns an error: export `run` not found 
+    // because then wasm-pack build --target no-modules returns an error: export `run` not found 
     // clippy::missing_inline_in_public_items
     // Why is this bad : Doc is good. rustc has a MISSING_DOCS allowed-by-default lint for public members, but has no way to enforce documentation of private items. This lint fixes that.
     clippy::doc_markdown,
@@ -301,42 +301,45 @@ async fn main() {
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
 
-    let reserved_folder_route = 
-    warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_fetch_new_reviews")
-    .and(cached_review_index.clone())
-    .map(|cached_review_index| {
-        let ns_start = ns_start("reindex_after_fetch_new_reviews");
-        let data_model = reserved_folder_mod::ReservedFolder::reindex_after_fetch_new_reviews(
-            cached_review_index,
-        );
-        let ns_new = ns_print("new()", ns_start);
-        let html_file = data_model.render_html_file("templates/");
-        ns_print("render_html_file()", ns_new);
-        warp::reply::html(html_file)
-    })
-    .or(warp::path!("cargo_crev_web" / "reserved_folder" / "list_trusted_author_id")
-    .and(cached_review_index.clone())
-    .map(|cached_review_index| {
-        let ns_start = ns_start("list_trusted_author_id");
-        let data_model = reserved_folder_mod::ReservedFolder::list_trusted_author_id(
-            cached_review_index,
-        );
-        let ns_new = ns_print("new()", ns_start);
-        let html_file = data_model.render_html_file("templates/");
-        ns_print("render_html_file()", ns_new);
-        warp::reply::html(html_file)
-    }))
-    .or(
-        warp::path!("cargo_crev_web" / "reserved_folder")
-        .and(cached_review_index.clone())
-        .map(|cached_review_index| {
-            let ns_start = ns_start("reserved_folder");
-            let data_model = reserved_folder_mod::ReservedFolder::new(cached_review_index);
-            let ns_new = ns_print("new()", ns_start);
-            let html_file = data_model.render_html_file("templates/");
-            ns_print("render_html_file()", ns_new);
-            warp::reply::html(html_file)
-        }));
+    let reserved_folder_route =
+        warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_fetch_new_reviews")
+            .and(cached_review_index.clone())
+            .map(|cached_review_index| {
+                let ns_start = ns_start("reindex_after_fetch_new_reviews");
+                let data_model =
+                    reserved_folder_mod::ReservedFolder::reindex_after_fetch_new_reviews(
+                        cached_review_index,
+                    );
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            })
+            .or(
+                warp::path!("cargo_crev_web" / "reserved_folder" / "list_trusted_author_id")
+                    .and(cached_review_index.clone())
+                    .map(|cached_review_index| {
+                        let ns_start = ns_start("list_trusted_author_id");
+                        let data_model =
+                            reserved_folder_mod::ReservedFolder::list_trusted_author_id(
+                                cached_review_index,
+                            );
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        warp::reply::html(html_file)
+                    }),
+            )
+            .or(warp::path!("cargo_crev_web" / "reserved_folder")
+                .and(cached_review_index.clone())
+                .map(|cached_review_index| {
+                    let ns_start = ns_start("reserved_folder");
+                    let data_model = reserved_folder_mod::ReservedFolder::new(cached_review_index);
+                    let ns_new = ns_print("new()", ns_start);
+                    let html_file = data_model.render_html_file("templates/");
+                    ns_print("render_html_file()", ns_new);
+                    warp::reply::html(html_file)
+                }));
 
     let info_route = warp::path!("cargo_crev_web" / "info")
         .and(cached_review_index.clone())
