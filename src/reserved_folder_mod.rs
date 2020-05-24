@@ -23,7 +23,6 @@ pub struct OnlyAuthor {
 #[derive(Debug, Clone, Default)]
 pub struct AuthorNew {
     pub author_url_author_name: String,
-    pub author_url_repo_name: String,
 }
 
 //use unwrap::unwrap;
@@ -155,7 +154,7 @@ impl ReservedFolder {
                 // the contents_url return this format
                 // https://api.github.com/repos/leo-lb/crev-proofs/contents",
                 // the url must end with /crev_proofs/ else discard
-                // the only valuable info is author_url_author_name and author_url_repo_name
+                // the only valuable info is author_url_author_name 
 
                 while let Some(pos_start) = find_pos_after_delimiter(
                     &resp_body,
@@ -182,14 +181,13 @@ impl ReservedFolder {
                     for u in vec_of_urls.iter() {
                         //if already exists in index, I don't need it
                         let author_url = format!(
-                            "https://github.com/{}/{}",
-                            u.author_url_author_name, u.author_url_repo_name
+                            "https://github.com/{}/crev-proofs/",
+                            u.author_url_author_name
                         );
                         //println!("author_url: {:#?}", author_url);
                         if !vec_of_author_url.iter().any(|v| v == &author_url) {
                             vec_of_new.push(AuthorNew {
                                 author_url_author_name: s!(&u.author_url_author_name),
-                                author_url_repo_name: s!(&u.author_url_repo_name),
                             });
                         }
                     }
@@ -205,7 +203,7 @@ impl ReservedFolder {
     }
     pub async fn add_author_url(
         author_url_fragment: String,
-        cached_review_index: CachedReviewIndex,
+        _cached_review_index: CachedReviewIndex,
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
@@ -213,12 +211,11 @@ impl ReservedFolder {
         let mut split_iterator = author_url_fragment.split('/');
         let author_new = AuthorNew {
             author_url_author_name: s!(unwrap!(split_iterator.next())),
-            author_url_repo_name: s!(unwrap!(split_iterator.next())),
         };
         // find github content
         let gh_content_url = format!(
-            "https://api.github.com/repos/{}/{}/contents",
-            author_new.author_url_author_name, author_new.author_url_repo_name
+            "https://api.github.com/repos/{}/crev_proofs/contents",
+            author_new.author_url_author_name
         );
         println!("gh_content_url: {}", &gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
@@ -361,17 +358,12 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "st_author_url" => s!(&item_at_cursor_1.author_url),
             "st_author_name" => s!(&item_at_cursor_2.author_url_author_name),
             "st_author_url_2" => format!(
-                "https://github.com/{}/{}",
-                &item_at_cursor_2.author_url_author_name, &item_at_cursor_2.author_url_repo_name
+                "https://github.com/{}/crev-proofs/",
+                &item_at_cursor_2.author_url_author_name,
             ),
             "st_add_author_url_route" => format!(
                 "/cargo_crev_web/reserved_folder/add_author_url/{}/",
-                url_encode(&format!(
-                    "{}/{}",
-                    &item_at_cursor_2.author_url_author_name,
-                    &item_at_cursor_2.author_url_repo_name
-                ))
-            ),
+                url_encode(&item_at_cursor_2.author_url_author_name)),
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
             }
