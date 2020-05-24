@@ -343,6 +343,24 @@ async fn main() {
                     }),
             )
             .or(
+                warp::path!("cargo_crev_web" / "reserved_folder" / "add_author_url" / String)
+                    .and(cached_review_index.clone())
+                    .and_then(|author_url, cached_review_index| async move {
+                        let ns_start = ns_start("add_author_url");
+                        let data_model = reserved_folder_mod::ReservedFolder::add_author_url(author_url,
+                            cached_review_index,
+                        )
+                        .await;
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        //return crazy types
+                        let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
+                            Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
+                        result
+                    }),
+            )
+            .or(
                 warp::path!("cargo_crev_web" / "reserved_folder" / "list_fetched_author_id")
                     .and(cached_review_index.clone())
                     .map(|cached_review_index| {

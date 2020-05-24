@@ -30,6 +30,7 @@ pub struct ReservedFolder {
     pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
     pub list_new_author_id: Option<Vec<AuthorNew>>,
+    pub add_author_url:Option<String>,
 }
 
 impl ReservedFolder {
@@ -78,74 +79,50 @@ impl ReservedFolder {
         }
     }
     pub async fn list_new_author_id(cached_review_index: CachedReviewIndex) -> Self {
-        // println!("vec_of_author_url {}: {:#?}",vec_of_author_url.len(),vec_of_author_url);
-        // pagination. It returns 30 items in one page.
-        // the public api allows 10 request per minute. Enough for now.
-        let mut page_number: usize = 1;
         let mut vec_of_new = Vec::<AuthorNew>::new();
-        //loop {
-            use futures::future;
-            let surf_get =|page_number:usize|{
-                surf::get(&format!(
-                    "https://api.github.com/search/repositories?q=crev-proofs&page={}",
-                    page_number
-                )).recv_string()
-            };
-            // make 4 requests concurrently
-            let fut_1 = surf_get(1);
-            let fut_2 = surf_get(2);
-            /*
-            let fut_1 = surf::get(&format!(
+        use futures::future;
+        // closure don't need the definition of the crazy return type. woohoo.
+        let surf_get = |page_number: usize| {
+            surf::get(&format!(
                 "https://api.github.com/search/repositories?q=crev-proofs&page={}",
                 page_number
-            )).recv_string();
+            ))
+            .recv_string()
+        };
+        // The github api response has pagination. It returns 30 items in one page.
+        // The public api allows 10 request per minute. Enough for now.
+        let mut is_last_page_empty = false;
+        let mut page_number: usize = 1;
+        // I will read the "total_count": 78, in the beginning of the first json
+        // and be very exact about how many pages to fetch
+        let mut total_count: usize = 999999999;
+        while !is_last_page_empty && (page_number - 1) * 30 * 3 < total_count {
+            // first make 3 requests concurrently
+            let fut_1 = surf_get(page_number);
             page_number += 1;
-            let fut_2 =  surf::get(&format!(
-                "https://api.github.com/search/repositories?q=crev-proofs&page={}",
-                page_number
-            )).recv_string();
+            let fut_2 = surf_get(page_number);
             page_number += 1;
-*/
-            let vec_of_str =  future::join_all(vec![fut_1,fut_2]).await;
+            let fut_3 = surf_get(page_number);
+            page_number += 1;
+            // await all 3 concurrently
+            let vec_of_str = future::join_all(vec![fut_1, fut_2, fut_3]).await;
 
-            println!("vec_of_str[0].len(): {}",&unwrap!(vec_of_str[0].as_ref()).len());
-            println!("vec_of_str[1].len(): {}",&unwrap!(vec_of_str[1].as_ref()).len());
-            
-            for json in vec_of_str.iter(){
-                let json = unwrap!(json.as_ref());
-            //unwrap!(fs::write("github_search.json",&json));
-            //this is very big json vector, but I am interested in one single field: contents_url:
-            // REST api is so terribly wasteful. GraphQl is theoretically much better.
-            let mut vec_of_urls: Vec<String> = vec![];
-            let mut cursor_pos = 0;
-
-            // I need this format for author_url:
-            // https://github.com/BurntSushi/crev-proofs
-            // the contents_url return this format
-            // https://api.github.com/repos/leo-lb/crev-proofs/contents",
-            // i will transform it with replace()
-            // some end with /crev_proofs/, others with /rust-reviews/
-
-            while let Some(pos_start) = find_pos_after_delimiter(
-                &json,
-                cursor_pos,
-                r#""contents_url": "https://api.github.com/repos/"#,
-            ) {
-                if let Some(pos_end) =
-                    find_pos_before_delimiter(&json, pos_start, r#"/contents/{+path}""#)
-                {
-                    vec_of_urls.push(s!(&json[pos_start..pos_end]));
-                    cursor_pos = pos_end;
-                } else {
-                    break;
-                }
-            }
-            //println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
-            if vec_of_urls.is_empty() {
-                break;
-            }
+            println!(
+                "vec_of_str[0].len(): {}",
+                &unwrap!(vec_of_str[0].as_ref()).len()
+            );
+            println!(
+                "vec_of_str[1].len(): {}",
+                &unwrap!(vec_of_str[1].as_ref()).len()
+            );
+            println!(
+                "vec_of_str[2].len(): {}",
+                &unwrap!(vec_of_str[2].as_ref()).len()
+            );
 
             // first I need the list of fetched authors
+            // I cannot construct this before await, because await can take a lot of time ?
+            // so I must do it after await.
             let review_index = cached_review_index
                 .lock()
                 .expect("error cached_review_index.lock()");
@@ -158,23 +135,85 @@ impl ReservedFolder {
                 .collect();
             vec_of_author_url.sort_by(|a, b| a.cmp(&b));
 
-            for url in vec_of_urls.iter() {
-                //if exists in index, I don't need it
-                let author_url = format!("https://github.com/{}", url);
-                //println!("author_url: {:#?}", author_url);
-                if !vec_of_author_url.iter().any(|v| v == &author_url) {
-                    vec_of_new.push(AuthorNew {
-                        author_url: s!(url),
-                    });
+            // the first time we go around let's find the "total_count": 78,
+            if page_number == 4 {
+                let cursor_pos = 0;
+                let resp_body = unwrap!(vec_of_str[0].as_ref());
+                if let Some(pos_start) =
+                    find_pos_after_delimiter(resp_body, cursor_pos, r#""total_count": "#)
+                {
+                    if let Some(pos_end) = find_pos_before_delimiter(resp_body, pos_start, r#","#) {
+                        total_count = unwrap!(resp_body[pos_start..pos_end].parse());
+                        println!("total_count: {}",total_count);
+                    }
                 }
             }
-        //}
-        }
-        //println!("vec_of_new: {}: {:#?}", vec_of_new.len(), &vec_of_new);
 
+            for resp_body in vec_of_str.iter() {
+                let resp_body = unwrap!(resp_body.as_ref());
+                // unwrap!(fs::write("github_search.resp_body",&resp_body));
+                // this is very big json vector, but I am interested in one single field: contents_url:
+                // REST api is so terribly wasteful. GraphQl is theoretically much better.
+                // I will also avoid the use of serde. Just to practice coding.
+                let mut vec_of_urls: Vec<String> = vec![];
+                let mut cursor_pos = 0;
+
+                // I need this format for author_url:
+                // https://github.com/BurntSushi/crev-proofs
+                // the contents_url return this format
+                // https://api.github.com/repos/leo-lb/crev-proofs/contents",
+                // i will transform it with replace()
+                // some url end with /crev_proofs/, others with /rust-reviews/
+
+                while let Some(pos_start) = find_pos_after_delimiter(
+                    &resp_body,
+                    cursor_pos,
+                    r#""contents_url": "https://api.github.com/repos/"#,
+                ) {
+                    if let Some(pos_end) =
+                        find_pos_before_delimiter(&resp_body, pos_start, r#"/contents/{+path}""#)
+                    {
+                        vec_of_urls.push(s!(&resp_body[pos_start..pos_end]));
+                        cursor_pos = pos_end;
+                    } else {
+                        break;
+                    }
+                }
+                //println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
+                if vec_of_urls.is_empty() {
+                    is_last_page_empty = true;
+                // this will end the while loop
+                } else {
+                    for url in vec_of_urls.iter() {
+                        //if already exists in index, I don't need it
+                        let author_url = format!("https://github.com/{}", url);
+                        //println!("author_url: {:#?}", author_url);
+                        if !vec_of_author_url.iter().any(|v| v == &author_url) {
+                            vec_of_new.push(AuthorNew {
+                                author_url: s!(url),
+                            });
+                        }
+                    }
+                }
+            } // for resp_body
+        } // loop
+        //println!("vec_of_new: {}: {:#?}", vec_of_new.len(), &vec_of_new);
         // return
         ReservedFolder {
             list_new_author_id: Some(vec_of_new),
+            ..Default::default()
+        }
+    }
+    pub async fn add_author_url(author_url:String,cached_review_index: CachedReviewIndex) -> Self {
+        // find github content
+        let gh_content=format!("https://api.github.com/repos/{}/contents", author_url);
+        println!("gh_content: {}", &gh_content);
+        let resp_body = unwrap!(surf::get(&gh_content).recv_string().await);
+        // the name of the folder is the author_id, the folder size=0
+        println!("resp_body: {}", &resp_body);
+        // return
+        ReservedFolder {
+            add_author_url: Some(s!("Add author finished.")),
             ..Default::default()
         }
     }
@@ -202,14 +241,9 @@ impl HtmlServerTemplateRender for ReservedFolder {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
             "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
-            "sb_is_reindex_after_fetch_new_reviews" => {
-                println!(
-                    "reindex_after_fetch_new_reviews {:?}",
-                    self.reindex_after_fetch_new_reviews.is_some()
-                );
-                self.reindex_after_fetch_new_reviews.is_some()
-            }
+            "sb_is_reindex_after_fetch_new_reviews" => self.reindex_after_fetch_new_reviews.is_some(),
             "sb_list_new_author_id" => self.list_new_author_id.is_some(),
+            "sb_add_author_url" => self.add_author_url.is_some(),
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -260,9 +294,12 @@ impl HtmlServerTemplateRender for ReservedFolder {
             // same name from different data model is not allowed
             "st_author_url" => s!(&item_at_cursor_1.author_url),
             "st_author_url_2" => s!(&item_at_cursor_2.author_url),
-            "st_reindex_after_fetch_new_reviews" => {
-                s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
-            }
+            "st_add_author_url_route"=> format!(
+                "/cargo_crev_web/reserved_folder/add_author_url/{}/",
+                url_encode(&item_at_cursor_2.author_url)
+            ),
+            "st_reindex_after_fetch_new_reviews" => s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref())),
+            "st_add_author_url" => s!(unwrap!(self.add_author_url.as_ref())),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
