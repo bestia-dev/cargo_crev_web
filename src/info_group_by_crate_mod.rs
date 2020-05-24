@@ -99,9 +99,9 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
         s!("ReviewIndexByCrate")
     }
     /// renders the complete html file. Not a sub-template/fragment.
-    fn render_html_file(&self, templates_folder_name: &str) -> String {
+    fn render_html_file(&self, templates_folderange_name: &str) -> String {
         let template_file_name =
-            format!("{}info_group_by_crate_template.html", templates_folder_name);
+            format!("{}info_group_by_crate_template.html", templates_folderange_name);
         let html = self.render_from_file(&template_file_name);
 
         // return

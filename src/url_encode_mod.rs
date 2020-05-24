@@ -88,8 +88,13 @@ pub fn url_decode(string: &str) -> Result<String, FromUrlEncodingError> {
 #[derive(Debug)]
 pub enum FromUrlEncodingError {
     #[allow(dead_code)]
-    UriCharacterError { character: char, index: usize },
-    Utf8CharacterError { error: FromUtf8Error },
+    UriCharacterError {
+        character: char,
+        index: usize,
+    },
+    Utf8CharacterError {
+        error: FromUtf8Error,
+    },
 }
 
 impl Error for FromUrlEncodingError {

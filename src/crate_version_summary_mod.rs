@@ -128,7 +128,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         s!("CrateVersionSummary")
     }
     /// renders the complete html file. Not a sub-template/fragment.
-    fn render_html_file(&self, _templates_folder_name: &str) -> String {
+    fn render_html_file(&self, _templates_folderange_name: &str) -> String {
         //return
         String::new()
     }

@@ -35,7 +35,8 @@ pub fn find_pos_before_delimiter(
 /// find and return the range of the first occurrence between start and end delimiters
 /// Success: mutates also the cursor position, so the next find will continue from there
 /// Fail: return None if not found and don't mutate pos_cursor
-/// I use type Range to avoid references &str and lifetimes.
+/// I use type Range to avoid references &str and lifetimes. But the programmer can make
+/// the error to apply the range to the wrong vector. 
 pub fn find_range_between_delimiters(
     source_str: &str,
     pos_cursor: &mut usize,

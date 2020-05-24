@@ -154,7 +154,7 @@ impl ReservedFolder {
                 // https://github.com/BurntSushi/crev-proofs
                 // the contents_url return this format
                 // https://api.github.com/repos/leo-lb/crev-proofs/contents",
-                // some url end with /crev_proofs/, others with /rust-reviews/
+                // the url must end with /crev_proofs/ else discard
                 // the only valuable info is author_url_author_name and author_url_repo_name
 
                 while let Some(pos_start) = find_pos_after_delimiter(
@@ -163,12 +163,11 @@ impl ReservedFolder {
                     r#""contents_url": "https://api.github.com/repos/"#,
                 ) {
                     if let Some(pos_end) =
-                        find_pos_before_delimiter(&resp_body, pos_start, r#"/contents/{+path}""#)
+                        find_pos_before_delimiter(&resp_body, pos_start, r#"/crev_proofs/contents/{+path}""#)
                     {
                         let mut split_iterator = resp_body[pos_start..pos_end].split('/');
                         vec_of_urls.push(AuthorNew {
                             author_url_author_name: s!(unwrap!(split_iterator.next())),
-                            author_url_repo_name: s!(unwrap!(split_iterator.next())),
                         });
                         pos_cursor = pos_end;
                     } else {
@@ -210,7 +209,7 @@ impl ReservedFolder {
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
-        println!("author_url_fragment: {}",author_url_fragment);
+        println!("author_url_fragment: {}", author_url_fragment);
         let mut split_iterator = author_url_fragment.split('/');
         let author_new = AuthorNew {
             author_url_author_name: s!(unwrap!(split_iterator.next())),
@@ -223,9 +222,60 @@ impl ReservedFolder {
         );
         println!("gh_content_url: {}", &gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
+        // the new format of proof
         // "name": "5XSQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHaxcuhjM",
         // "size": 0,
-        //println!("resp_body: {}", &resp_body);
+        let mut author_id = s!("");
+        let mut pos_cursor: usize = 0;
+        println!("resp_body: {}", &resp_body);
+        loop {
+            let range_name =
+                find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
+            if let Some(range_name) = range_name {
+                println!("range_name: {:?}", &range_name);
+                let range_size =
+                    find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""size": ""#, r#","#);
+                if let Some(range_size) = range_size {
+                    println!("range_size: {:?}", &range_size);
+                    if &resp_body[range_size] == "0" {
+                        author_id = s!(&resp_body[range_name]);
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        println!("author_id: {}", &author_id);
+        // the old format of review
+        // "name": "5XSQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHaxcuhjM",
+        // "size": 0,
+        let mut author_id = s!("");
+        let mut pos_cursor: usize = 0;
+        println!("resp_body: {}", &resp_body);
+        loop {
+            let range_name =
+                find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
+            if let Some(range_name) = range_name {
+                println!("range_name: {:?}", &range_name);
+                let range_size =
+                    find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""size": ""#, r#","#);
+                if let Some(range_size) = range_size {
+                    println!("range_size: {:?}", &range_size);
+                    if &resp_body[range_size] == "0" {
+                        author_id = s!(&resp_body[range_name]);
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        println!("author_id: {}", &author_id);
 
         // return
         ReservedFolder {
@@ -242,10 +292,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
         s!("ReservedFolder")
     }
     /// renders the complete html file. Not a sub-template/fragment.
-    fn render_html_file(&self, templates_folder_name: &str) -> String {
+    fn render_html_file(&self, templates_folderange_name: &str) -> String {
         let template_file_name = format!(
             "{}reserved_folder/reserved_folder_template.html",
-            templates_folder_name
+            templates_folderange_name
         );
         let html = self.render_from_file(&template_file_name);
 
