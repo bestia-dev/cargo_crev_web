@@ -61,7 +61,7 @@ pub trait HtmlServerTemplateRender {
         &self,
         placeholder: &str,
         subtemplate: &str,
-        cursor_pos: usize,
+        pos_cursor: usize,
     ) -> String;
     //// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool;
@@ -115,7 +115,7 @@ pub trait HtmlServerTemplateRender {
         html_template_raw: &str,
         html_or_svg_parent: HtmlOrSvg,
         subtemplate: &str,
-        cursor_pos: usize,
+        pos_cursor: usize,
     ) -> Result<Vec<Node>, String> {
         // html_template_raw can be a fragment. I add the root, that will later be removed.
         let html_template_raw = &format!("<template>{}</template>", html_template_raw);
@@ -154,7 +154,7 @@ pub trait HtmlServerTemplateRender {
                     &mut dom_path,
                     &sub_templates,
                     subtemplate,
-                    cursor_pos,
+                    pos_cursor,
                     // retain_next_node
                     true,
                 ) {
@@ -185,7 +185,7 @@ pub trait HtmlServerTemplateRender {
         dom_path: &mut Vec<String>,
         sub_templates: &Vec<SubTemplate>,
         subtemplate: &str,
-        cursor_pos: usize,
+        pos_cursor: usize,
         retain_this_node: bool,
     ) -> Result<ElementNode, String> {
         let mut replace_string: Option<String> = None;
@@ -227,7 +227,7 @@ pub trait HtmlServerTemplateRender {
                         dom_path,
                         sub_templates,
                         subtemplate,
-                        cursor_pos,
+                        pos_cursor,
                         retain_next_node,
                     )?;
                     // ignore this node dynamic content, and don't push to result
@@ -254,7 +254,7 @@ pub trait HtmlServerTemplateRender {
                             // The replace_string will always be applied to the next attribute. No matter the name.
                             let placeholder = &value;
                             let repl_txt =
-                                self.replace_with_string(placeholder, subtemplate, cursor_pos);
+                                self.replace_with_string(placeholder, subtemplate, pos_cursor);
                             replace_string = Some(repl_txt);
                         } else {
                             let value = if let Some(repl) = replace_string {
@@ -292,7 +292,7 @@ pub trait HtmlServerTemplateRender {
                         // it must look like <!--st_get_text-->
 
                         if txt.starts_with("st_") {
-                            let repl_txt = self.replace_with_string(txt, subtemplate, cursor_pos);
+                            let repl_txt = self.replace_with_string(txt, subtemplate, pos_cursor);
                             replace_string = Some(repl_txt);
                         } else if txt.starts_with("sb_") {
                             // boolean if this is true than render the next node, else don't render

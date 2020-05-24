@@ -1,9 +1,9 @@
-use std::str;
-use std::string::FromUtf8Error;
 use std::error::Error;
 use std::fmt::{self, Display};
-use std::io::Write;
 use std::io;
+use std::io::Write;
+use std::str;
+use std::string::FromUtf8Error;
 
 // from https://github.com/kornelski/rust_urlencoding/blob/optimize/src/lib.rs
 
@@ -11,21 +11,19 @@ pub fn url_encode(data: &str) -> String {
     let mut escaped = Vec::with_capacity(data.len());
     encode_into(data, &mut escaped).unwrap();
     // Encoded string is guaranteed to be ASCII
-    unsafe {
-        String::from_utf8_unchecked(escaped)
-    }
+    unsafe { String::from_utf8_unchecked(escaped) }
 }
 
 #[inline]
 fn encode_into<W: Write>(data: &str, mut escaped: W) -> io::Result<()> {
     for byte in data.as_bytes().iter() {
         match *byte {
-            b'0'..=b'9' | b'A'..=b'Z' | b'a'..=b'z' |  b'-' | b'.' | b'_' | b'~' => {
+            b'0'..=b'9' | b'A'..=b'Z' | b'a'..=b'z' | b'-' | b'.' | b'_' | b'~' => {
                 escaped.write(std::slice::from_ref(byte))?;
-            },
+            }
             other => {
                 escaped.write(&[b'%', to_hex_digit(other >> 4), to_hex_digit(other & 15)])?;
-            },
+            }
         }
     }
     Ok(())
@@ -61,34 +59,35 @@ pub fn url_decode(string: &str) -> Result<String, FromUrlEncodingError> {
                             Some(second) => match from_hex_digit(second) {
                                 Some(second_val) => {
                                     out.push((first_val << 4) | second_val);
-                                },
+                                }
                                 None => {
                                     out.push(b'%');
                                     out.push(first);
                                     out.push(second);
-                                },
+                                }
                             },
                             None => {
                                 out.push(b'%');
                                 out.push(first);
-                            },
+                            }
                         },
                         None => {
                             out.push(b'%');
                             out.push(first);
-                        },
+                        }
                     },
                     None => out.push(b'%'),
                 };
-            },
+            }
             other => out.push(other),
         }
     }
-    String::from_utf8(out).map_err(|error| FromUrlEncodingError::Utf8CharacterError {error})
+    String::from_utf8(out).map_err(|error| FromUrlEncodingError::Utf8CharacterError { error })
 }
 
 #[derive(Debug)]
 pub enum FromUrlEncodingError {
+    #[allow(dead_code)]
     UriCharacterError { character: char, index: usize },
     Utf8CharacterError { error: FromUtf8Error },
 }
@@ -96,8 +95,11 @@ pub enum FromUrlEncodingError {
 impl Error for FromUrlEncodingError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         match self {
-            &FromUrlEncodingError::UriCharacterError {character: _, index: _} => None,
-            &FromUrlEncodingError::Utf8CharacterError {ref error} => Some(error)
+            &FromUrlEncodingError::UriCharacterError {
+                character: _,
+                index: _,
+            } => None,
+            &FromUrlEncodingError::Utf8CharacterError { ref error } => Some(error),
         }
     }
 }
@@ -105,18 +107,20 @@ impl Error for FromUrlEncodingError {
 impl Display for FromUrlEncodingError {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         match self {
-            &FromUrlEncodingError::UriCharacterError {character, index} =>
-                write!(f, "invalid URI char [{}] at [{}]", character, index),
-            &FromUrlEncodingError::Utf8CharacterError {ref error} =>
+            &FromUrlEncodingError::UriCharacterError { character, index } => {
+                write!(f, "invalid URI char [{}] at [{}]", character, index)
+            }
+            &FromUrlEncodingError::Utf8CharacterError { ref error } => {
                 write!(f, "invalid utf8 char: {}", error)
+            }
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::encode;
     use super::decode;
+    use super::encode;
     use super::from_hex_digit;
 
     #[test]
@@ -152,7 +156,6 @@ mod tests {
 
         assert_eq!(bad_encoded_string, decode(bad_encoded_string).unwrap());
     }
-
 
     #[test]
     fn misc() {

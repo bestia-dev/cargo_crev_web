@@ -126,44 +126,44 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
         &self,
         placeholder: &str,
         _subtemplate: &str,
-        cursor_pos: usize,
+        pos_cursor: usize,
     ) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
-            // this is a grid with repeated rows. Use the cursor_pos
-            "st_ordinal_number" => (cursor_pos + 1).to_string(),
-            "st_crate_name" => s!(&self.vec[cursor_pos].crate_name),
+            // this is a grid with repeated rows. Use the pos_cursor
+            "st_ordinal_number" => (pos_cursor + 1).to_string(),
+            "st_crate_name" => s!(&self.vec[pos_cursor].crate_name),
             "st_crate_route" => format!(
                 "/cargo_crev_web/crate/{}/",
-                url_encode(&self.vec[cursor_pos].crate_name)
+                url_encode(&self.vec[pos_cursor].crate_name)
             ),
-            "st_count_of_reviews" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_reviews),
-            "st_unique_versions" => to_string_zero_to_empty(self.vec[cursor_pos].unique_versions),
-            "st_unique_authors" => to_string_zero_to_empty(self.vec[cursor_pos].unique_authors),
+            "st_count_of_reviews" => to_string_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
+            "st_unique_versions" => to_string_zero_to_empty(self.vec[pos_cursor].unique_versions),
+            "st_unique_authors" => to_string_zero_to_empty(self.vec[pos_cursor].unique_authors),
             "st_count_of_rating_strong" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_strong)
+                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong)
             }
             "st_count_of_rating_positive" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_positive)
+                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_positive)
             }
             "st_count_of_rating_neutral" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_neutral)
+                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_neutral)
             }
             "st_count_of_rating_negative" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_negative)
+                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_negative)
             }
             "st_count_of_rating_none" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_rating_none)
+                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_none)
             }
             "st_count_of_alternatives" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_alternatives)
+                to_string_zero_to_empty(self.vec[pos_cursor].count_of_alternatives)
             }
-            "st_count_of_issues" => to_string_zero_to_empty(self.vec[cursor_pos].count_of_issues),
+            "st_count_of_issues" => to_string_zero_to_empty(self.vec[pos_cursor].count_of_issues),
             "st_count_of_advisories" => {
-                to_string_zero_to_empty(self.vec[cursor_pos].count_of_advisories)
+                to_string_zero_to_empty(self.vec[pos_cursor].count_of_advisories)
             }
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }

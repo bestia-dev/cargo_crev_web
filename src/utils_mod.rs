@@ -2,41 +2,64 @@
 use crate::*;
 use unwrap::unwrap;
 
-/// return the position after the delimiter
+/// return the position after the delimiter or None
+/// Does NOT mutate the pos_cursor, because that is for a higher level logic to decide.
 pub fn find_pos_after_delimiter(
-    md_text_content: &str,
-    pos: usize,
+    source_str: &str,
+    pos_cursor: usize,
     delimiter: &str,
 ) -> Option<usize> {
-    if let Some(pos_start_data) = find_from(md_text_content, pos, delimiter) {
-        let pos_start_data = pos_start_data + delimiter.len();
-        return Some(pos_start_data);
+    //
+    if let Some(pos) = find_from(source_str, pos_cursor, delimiter) {
+        let pos = pos + delimiter.len();
+        return Some(pos);
     }
     // return
     None
 }
 
-/// return the position before the delimiter
+/// return the position before the delimiter or None
+/// Does NOT mutate the pos_cursor, because that is for a higher level logic to decide.
 pub fn find_pos_before_delimiter(
-    md_text_content: &str,
-    pos: usize,
+    source_str: &str,
+    pos_cursor: usize,
     delimiter: &str,
 ) -> Option<usize> {
-    if let Some(pos_end_data) = find_from(md_text_content, pos, delimiter) {
-        return Some(pos_end_data);
+    if let Some(pos) = find_from(source_str, pos_cursor, delimiter) {
+        return Some(pos);
     }
     // return
+    None
+}
+
+/// find and return the range of the first occurrence between start and end delimiters
+/// Success: mutates also the cursor position, so the next find will continue from there
+/// Fail: return None if not found and don't mutate pos_cursor
+/// I use type Range to avoid references &str and lifetimes.
+pub fn find_range_between_delimiters(
+    source_str: &str,
+    pos_cursor: &mut usize,
+    start_delimiter: &str,
+    end_delimiter: &str,
+) -> Option<std::ops::Range<usize>> {
+    if let Some(pos_start) = find_pos_after_delimiter(source_str, *pos_cursor, start_delimiter) {
+        if let Some(pos_end) = find_pos_before_delimiter(source_str, pos_start, end_delimiter) {
+            *pos_cursor = pos_end + end_delimiter.len();
+            return Some(pos_start..pos_end);
+        }
+    }
+    //return
     None
 }
 
 #[allow(clippy::integer_arithmetic)]
-/// find from_pos
-pub fn find_from(text: &str, from_pos: usize, find: &str) -> Option<usize> {
-    let slice01 = text.get(from_pos..).unwrap();
-    let option_location = slice01.find(find);
-    if let Some(location) = option_location {
+/// find str from pos_cursor low level
+pub fn find_from(source_str: &str, pos_cursor: usize, find_str: &str) -> Option<usize> {
+    let slice01 = source_str.get(pos_cursor..).unwrap();
+    let option_pos_found = slice01.find(find_str);
+    if let Some(pos_found) = option_pos_found {
         // return Option with usize
-        Some(from_pos + location)
+        Some(pos_cursor + pos_found)
     } else {
         // return
         None

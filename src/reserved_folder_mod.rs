@@ -20,7 +20,7 @@ pub struct OnlyAuthor {
     pub author_id: String,
     pub author_url: String,
 }
-#[derive(Debug, Clone,Default)]
+#[derive(Debug, Clone, Default)]
 pub struct AuthorNew {
     pub author_url_author_name: String,
     pub author_url_repo_name: String,
@@ -32,7 +32,7 @@ pub struct ReservedFolder {
     pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
     pub list_new_author_id: Option<Vec<AuthorNew>>,
-    pub add_author_url:Option<String>,
+    pub add_author_url: Option<String>,
 }
 
 impl ReservedFolder {
@@ -110,7 +110,7 @@ impl ReservedFolder {
             let vec_of_str = future::join_all(vec![fut_1, fut_2, fut_3]).await;
 
             // first I need the list of fetched authors
-            // I cannot construct this before await, because await can take a lot of time 
+            // I cannot construct this before await, because await can take a lot of time
             // and reference lifetime is in question?
             // so I must do it after await.
             // probably the Mutex is available everywhere, anytime ?
@@ -129,16 +129,16 @@ impl ReservedFolder {
             // the first time we loop around let's find the "total_count": 78,
             // so we can be precise to end the loop with no additional requests
             if page_number == 4 {
-                let cursor_pos = 0;
+                let mut pos_cursor = 0;
                 let resp_body = unwrap!(vec_of_str[0].as_ref());
-                if let Some(pos_start) =
-                    find_pos_after_delimiter(resp_body, cursor_pos, r#""total_count": "#)
-                {
-                    if let Some(pos_end) = find_pos_before_delimiter(resp_body, pos_start, r#","#) {
-                        total_count = unwrap!(resp_body[pos_start..pos_end].parse());
-                        println!("total_count: {}",total_count);
-                    }
-                }
+                let range = unwrap!(find_range_between_delimiters(
+                    resp_body,
+                    &mut pos_cursor,
+                    r#""total_count": "#,
+                    r#","#
+                ));
+                total_count = unwrap!(resp_body[range].parse());
+                // println!("total_count: {}", total_count);
             }
 
             for resp_body in vec_of_str.iter() {
@@ -148,7 +148,7 @@ impl ReservedFolder {
                 // REST api is so terribly wasteful. GraphQl is theoretically much better.
                 // I will also avoid the use of serde. Just to practice coding.
                 let mut vec_of_urls: Vec<AuthorNew> = vec![];
-                let mut cursor_pos = 0;
+                let mut pos_cursor = 0;
 
                 // I need this format for author_url:
                 // https://github.com/BurntSushi/crev-proofs
@@ -156,61 +156,80 @@ impl ReservedFolder {
                 // https://api.github.com/repos/leo-lb/crev-proofs/contents",
                 // some url end with /crev_proofs/, others with /rust-reviews/
                 // the only valuable info is author_url_author_name and author_url_repo_name
-                
+
                 while let Some(pos_start) = find_pos_after_delimiter(
                     &resp_body,
-                    cursor_pos,
+                    pos_cursor,
                     r#""contents_url": "https://api.github.com/repos/"#,
                 ) {
                     if let Some(pos_end) =
                         find_pos_before_delimiter(&resp_body, pos_start, r#"/contents/{+path}""#)
                     {
                         let mut split_iterator = resp_body[pos_start..pos_end].split('/');
-                        vec_of_urls.push( AuthorNew{
+                        vec_of_urls.push(AuthorNew {
                             author_url_author_name: s!(unwrap!(split_iterator.next())),
-                            author_url_repo_name: s!(unwrap!( split_iterator.next())),
+                            author_url_repo_name: s!(unwrap!(split_iterator.next())),
                         });
-                        cursor_pos = pos_end;
+                        pos_cursor = pos_end;
                     } else {
                         break;
                     }
                 }
-                println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
+                // println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
                 if vec_of_urls.is_empty() {
                     is_last_page_empty = true;
                 // this will end the while loop
                 } else {
                     for u in vec_of_urls.iter() {
                         //if already exists in index, I don't need it
-                        let author_url = format!("https://github.com/{}/{}", u.author_url_author_name,  u.author_url_repo_name);
+                        let author_url = format!(
+                            "https://github.com/{}/{}",
+                            u.author_url_author_name, u.author_url_repo_name
+                        );
                         //println!("author_url: {:#?}", author_url);
                         if !vec_of_author_url.iter().any(|v| v == &author_url) {
                             vec_of_new.push(AuthorNew {
                                 author_url_author_name: s!(&u.author_url_author_name),
-                                author_url_repo_name:  s!(&u.author_url_repo_name),
+                                author_url_repo_name: s!(&u.author_url_repo_name),
                             });
                         }
                     }
                 }
             } // for resp_body
         } // loop
-        //println!("vec_of_new: {}: {:#?}", vec_of_new.len(), &vec_of_new);
-        // return
+          //println!("vec_of_new: {}: {:#?}", vec_of_new.len(), &vec_of_new);
+          // return
         ReservedFolder {
             list_new_author_id: Some(vec_of_new),
             ..Default::default()
         }
     }
-    pub async fn add_author_url(author_url:String,cached_review_index: CachedReviewIndex) -> Self {
+    pub async fn add_author_url(
+        author_url_fragment: String,
+        cached_review_index: CachedReviewIndex,
+    ) -> Self {
+        // in this fragment are 2 parts delimited with /
+        // let split it and use parts one by one
+        println!("author_url_fragment: {}",author_url_fragment);
+        let mut split_iterator = author_url_fragment.split('/');
+        let author_new = AuthorNew {
+            author_url_author_name: s!(unwrap!(split_iterator.next())),
+            author_url_repo_name: s!(unwrap!(split_iterator.next())),
+        };
         // find github content
-        let gh_content=format!("https://api.github.com/repos/{}/contents", author_url);
-        println!("gh_content: {}", &gh_content);
-        let resp_body = unwrap!(surf::get(&gh_content).recv_string().await);
-        // the name of the folder is the author_id, the folder size=0
-        println!("resp_body: {}", &resp_body);
+        let gh_content_url = format!(
+            "https://api.github.com/repos/{}/{}/contents",
+            author_new.author_url_author_name, author_new.author_url_repo_name
+        );
+        println!("gh_content_url: {}", &gh_content_url);
+        let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
+        // "name": "5XSQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHaxcuhjM",
+        // "size": 0,
+        //println!("resp_body: {}", &resp_body);
+
         // return
         ReservedFolder {
-            add_author_url: Some(s!("Add author finished.")),
+            add_author_url: Some(format!("Add author finished. {}", &gh_content_url)),
             ..Default::default()
         }
     }
@@ -238,7 +257,9 @@ impl HtmlServerTemplateRender for ReservedFolder {
         // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
         match placeholder {
             "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
-            "sb_is_reindex_after_fetch_new_reviews" => self.reindex_after_fetch_new_reviews.is_some(),
+            "sb_is_reindex_after_fetch_new_reviews" => {
+                self.reindex_after_fetch_new_reviews.is_some()
+            }
             "sb_list_new_author_id" => self.list_new_author_id.is_some(),
             "sb_add_author_url" => self.add_author_url.is_some(),
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
@@ -255,7 +276,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
         &self,
         placeholder: &str,
         subtemplate: &str,
-        cursor_pos: usize,
+        pos_cursor: usize,
     ) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         // list_fetched_author_id is Option and can be None or Some
@@ -266,20 +287,20 @@ impl HtmlServerTemplateRender for ReservedFolder {
         };
         if subtemplate == "stmplt_authors" {
             if let Some(list) = &self.list_fetched_author_id {
-                item_at_cursor_1 = &list[cursor_pos];
+                item_at_cursor_1 = &list[pos_cursor];
             }
         }
         let mut item_at_cursor_2 = &AuthorNew::default();
         if subtemplate == "stmplt_authors_new" {
             if let Some(list) = &self.list_new_author_id {
-                item_at_cursor_2 = &list[cursor_pos];
+                item_at_cursor_2 = &list[pos_cursor];
             }
         }
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
-            "st_ordinal_number" => (cursor_pos + 1).to_string(),
+            "st_ordinal_number" => (pos_cursor + 1).to_string(),
             "st_author" => s!(&item_at_cursor_1.author),
             "st_author_route" => format!(
                 "/cargo_crev_web/author/{}/",
@@ -289,12 +310,21 @@ impl HtmlServerTemplateRender for ReservedFolder {
             // same name from different data model is not allowed
             "st_author_url" => s!(&item_at_cursor_1.author_url),
             "st_author_name" => s!(&item_at_cursor_2.author_url_author_name),
-            "st_author_url_2" => format!("https://github.com/{}/{}",&item_at_cursor_2.author_url_author_name,&item_at_cursor_2.author_url_repo_name),
-            "st_add_author_url_route"=> format!(
-                "/cargo_crev_web/reserved_folder/add_author_url/{}/",
-                url_encode(&format!("{}/{}",  &item_at_cursor_2.author_url_author_name, &item_at_cursor_2.author_url_repo_name))
+            "st_author_url_2" => format!(
+                "https://github.com/{}/{}",
+                &item_at_cursor_2.author_url_author_name, &item_at_cursor_2.author_url_repo_name
             ),
-            "st_reindex_after_fetch_new_reviews" => s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref())),
+            "st_add_author_url_route" => format!(
+                "/cargo_crev_web/reserved_folder/add_author_url/{}/",
+                url_encode(&format!(
+                    "{}/{}",
+                    &item_at_cursor_2.author_url_author_name,
+                    &item_at_cursor_2.author_url_repo_name
+                ))
+            ),
+            "st_reindex_after_fetch_new_reviews" => {
+                s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
+            }
             "st_add_author_url" => s!(unwrap!(self.add_author_url.as_ref())),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }

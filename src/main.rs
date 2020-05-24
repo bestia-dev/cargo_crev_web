@@ -221,14 +221,14 @@ mod reserved_folder_mod;
 mod review_index_mod;
 mod review_index_summary_mod;
 mod review_mod;
+mod url_encode_mod;
 mod utils_mod;
 mod version_summary_mod;
-mod url_encode_mod;
 
 // I must put the trait in scope
 use crate::html_server_template_mod::*;
-use crate::utils_mod::*;
 use crate::url_encode_mod::*;
+use crate::utils_mod::*;
 
 use clap::App;
 use env_logger::Env;
@@ -237,8 +237,8 @@ use env_logger::Env;
 use ansi_term::Colour::{Blue, Green, Red, Yellow};
 use log::info;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
-use unwrap::unwrap;
 use std::sync::{Arc, Mutex};
+use unwrap::unwrap;
 use warp::Filter;
 
 type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
@@ -347,21 +347,26 @@ async fn main() {
             .or(
                 warp::path!("cargo_crev_web" / "reserved_folder" / "add_author_url" / String)
                     .and(cached_review_index.clone())
-                    .and_then(|author_url:String, cached_review_index| async move {
-                        let author_url = unwrap!(url_decode(&author_url));
-                        let ns_start = ns_start("add_author_url");
-                        let data_model = reserved_folder_mod::ReservedFolder::add_author_url(author_url,
-                            cached_review_index,
-                        )
-                        .await;
-                        let ns_new = ns_print("new()", ns_start);
-                        let html_file = data_model.render_html_file("templates/");
-                        ns_print("render_html_file()", ns_new);
-                        //return crazy types
-                        let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
-                            Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
-                        result
-                    }),
+                    .and_then(
+                        |author_url_fragment: String, cached_review_index| async move {
+                            let ns_start = ns_start("add_author_url");
+                            // in this fragment are 2 parts delimited with /, that is encoded
+                            let author_url_fragment = unwrap!(url_decode(&author_url_fragment));
+                            // after decoding looks like "scott-wilson/crev-proofs"
+                            let data_model = reserved_folder_mod::ReservedFolder::add_author_url(
+                                author_url_fragment,
+                                cached_review_index,
+                            )
+                            .await;
+                            let ns_new = ns_print("new()", ns_start);
+                            let html_file = data_model.render_html_file("templates/");
+                            ns_print("render_html_file()", ns_new);
+                            //return crazy types
+                            let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
+                                Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
+                            result
+                        },
+                    ),
             )
             .or(
                 warp::path!("cargo_crev_web" / "reserved_folder" / "list_fetched_author_id")

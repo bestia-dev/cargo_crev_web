@@ -124,7 +124,7 @@ impl HtmlServerTemplateRender for AuthorReviews {
         &self,
         placeholder: &str,
         _subtemplate: &str,
-        _cursor_pos: usize,
+        _pos_cursor: usize,
     ) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
