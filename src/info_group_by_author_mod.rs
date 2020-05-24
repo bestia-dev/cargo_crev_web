@@ -13,7 +13,7 @@ pub struct ReviewIndexByAuthor {
 }
 #[derive(Clone, Debug)]
 pub struct ByAuthorItem {
-    pub author: String,
+    pub author_name: String,
     pub author_url: String,
     pub author_id: String,
     pub count_of_reviews: usize,
@@ -36,14 +36,14 @@ impl ReviewIndexByAuthor {
         // sort order for group by, so I don't need to send a mutable
         review_index
             .vec
-            .sort_by(|a, b| Ord::cmp(&a.author, &b.author));
-        let mut old_author = s!("");
+            .sort_by(|a, b| Ord::cmp(&a.author_name, &b.author_name));
+        let mut old_author_name = s!("");
         let mut for_unique_crates: Vec<String> = vec![];
         let mut review_index_by_author = ReviewIndexByAuthor { vec: vec![] };
         for index_item in &review_index.vec {
-            //the reviews are already sorted by author
-            if &index_item.author != &old_author {
-                if !old_author.is_empty() {
+            //the reviews are already sorted by author_name
+            if &index_item.author_name != &old_author_name {
+                if !old_author_name.is_empty() {
                     //finalize the previous group
                     use itertools::Itertools;
                     let mut last = unwrap!(review_index_by_author.vec.last_mut());
@@ -52,7 +52,7 @@ impl ReviewIndexByAuthor {
                 }
                 //a new group begins
                 let last = ByAuthorItem {
-                    author: index_item.author.clone(),
+                    author_name: index_item.author_name.clone(),
                     author_url: index_item.author_url.clone(),
                     author_id: index_item.author_id.clone(),
                     unique_crates: 0,
@@ -67,12 +67,12 @@ impl ReviewIndexByAuthor {
                     count_of_advisories: 0,
                 };
                 review_index_by_author.vec.push(last);
-                old_author = s!(&index_item.author);
+                old_author_name = s!(&index_item.author_name);
             }
             // add to the last group
             let mut last = unwrap!(review_index_by_author.vec.last_mut());
             last.count_of_reviews += 1;
-            for_unique_crates.push(s!(&index_item.author));
+            for_unique_crates.push(s!(&index_item.author_name));
             last.count_of_rating_strong += index_item.rating_strong;
             last.count_of_rating_positive += index_item.rating_positive;
             last.count_of_rating_neutral += index_item.rating_neutral;
@@ -131,7 +131,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             // this is a grid with repeated rows. Use the pos_cursor
             "st_ordinal_number" => (pos_cursor + 1).to_string(),
-            "st_author" => s!(&self.vec[pos_cursor].author),
+            "st_author_name" => s!(&self.vec[pos_cursor].author_name),
             "st_author_url" => format!("{}", self.vec[pos_cursor].author_url),
             "st_author_route" => format!(
                 "/cargo_crev_web/author/{}/",

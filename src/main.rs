@@ -105,7 +105,7 @@
 //! `cargo crev id new --url https://github.com/cargo-crev-web/crev-proofs`  
 //! add a trusted user:  
 //! `crev id trust <hash>`  
-//! example for dpc - Dawid Ciężarkiewicz, the author of cargo-crev. I trust him:  
+//! example for dpc - Dawid Ciężarkiewicz, the author_name of cargo-crev. I trust him:  
 //! `cargo crev id trust FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE`  
 //! it is possible also to trust a repo:  
 //! `cargo crev trust <url of someone's crev-proofs repo>`  
@@ -348,13 +348,13 @@ async fn main() {
                 warp::path!("cargo_crev_web" / "reserved_folder" / "add_author_url" / String)
                     .and(cached_review_index.clone())
                     .and_then(
-                        |author_url_fragment: String, cached_review_index| async move {
+                        |author_name: String, cached_review_index| async move {
                             let ns_start = ns_start("add_author_url");
                             // in this fragment are 2 parts delimited with /, that is encoded
-                            let author_url_fragment = unwrap!(url_decode(&author_url_fragment));
+                            let author_name = unwrap!(url_decode(&author_name));
                             // after decoding looks like "scott-wilson/crev-proofs"
                             let data_model = reserved_folder_mod::ReservedFolder::add_author_url(
-                                author_url_fragment,
+                                author_name,
                                 cached_review_index,
                             )
                             .await;
@@ -428,11 +428,11 @@ async fn main() {
                 warp::reply::html(html_file)
             }));
 
-    let author_route = warp::path!("cargo_crev_web" / "author" / String)
+    let author_route = warp::path!("cargo_crev_web" / "author_name" / String)
         .and(cached_review_index.clone())
         .map(|author_id: String, cached_review_index| {
             let ns_start = ns_start(&format!(
-                "AuthorReviews author: '{}'",
+                "AuthorReviews author_name: '{}'",
                 Yellow.paint(&author_id),
             ));
             let data_model =

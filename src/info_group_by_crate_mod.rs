@@ -77,7 +77,7 @@ impl ReviewIndexByCrate {
             let mut last = unwrap!(review_index_by_crate.vec.last_mut());
             last.count_of_reviews += 1;
             for_unique_versions.push(s!(&index_item.version));
-            for_unique_authors.push(s!(&index_item.author));
+            for_unique_authors.push(s!(&index_item.author_name));
             last.count_of_rating_strong += index_item.rating_strong;
             last.count_of_rating_positive += index_item.rating_positive;
             last.count_of_rating_neutral += index_item.rating_neutral;

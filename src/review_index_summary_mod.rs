@@ -43,7 +43,7 @@ impl ReviewIndexSummary {
         };
         for index_item in &review_index.vec {
             for_unique_crates.push(s!(&index_item.crate_name));
-            for_unique_authors.push(s!(&index_item.author));
+            for_unique_authors.push(s!(&index_item.author_name));
             summary.count_of_reviews += 1;
             summary.count_of_rating_strong += index_item.rating_strong;
             summary.count_of_rating_positive += index_item.rating_positive;

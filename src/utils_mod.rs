@@ -44,7 +44,9 @@ pub fn find_range_between_delimiters(
     end_delimiter: &str,
 ) -> Option<std::ops::Range<usize>> {
     if let Some(pos_start) = find_pos_after_delimiter(source_str, *pos_cursor, start_delimiter) {
+        println!("pos_start {}", &pos_start);
         if let Some(pos_end) = find_pos_before_delimiter(source_str, pos_start, end_delimiter) {
+            println!("pos_end {}", &pos_end);
             *pos_cursor = pos_end + end_delimiter.len();
             return Some(pos_start..pos_end);
         }

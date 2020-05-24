@@ -133,7 +133,7 @@ fn push_review(review_string: &str, reviews: &mut Vec<Review>, crate_name: &str)
             major,
             minor,
             patch,
-            review.get_author()
+            review.get_author_name()
         ));
         reviews.push(review);
     }

@@ -109,16 +109,16 @@ pub enum Level {
 }
 
 impl Review {
-    /// naive method to extract author
-    pub fn get_author(&self) -> String {
-        let author = self
+    /// naive method to extract author_name
+    pub fn get_author_name(&self) -> String {
+        let author_name = self
             .from
             .url
             .replace("https://github.com/", "")
             .replace("https://gitlab.com/", "")
             .replace("/crev-proofs", "");
         // return
-        author
+        author_name
     }
     /// version for sorting
     pub fn version_for_sorting(&self) -> String {
@@ -128,7 +128,7 @@ impl Review {
             major,
             minor,
             patch,
-            self.get_author(),
+            self.get_author_name(),
         );
         //return
         version_for_sorting
@@ -202,8 +202,8 @@ impl HtmlServerTemplateRender for Review {
             ),
             "st_review_date" => s!(&self.date[..10]),
             "st_review_author" => {
-                // naive method to extract author
-                self.get_author()
+                // naive method to extract author_name
+                self.get_author_name()
             }
             "st_author_url" => s!(&self.from.url),
             "st_author_route" => format!("/cargo_crev_web/author/{}/", url_encode(&self.from.id)),

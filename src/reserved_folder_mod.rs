@@ -16,7 +16,7 @@ use unwrap::unwrap;
 
 #[derive(Debug)]
 pub struct OnlyAuthor {
-    pub author: String,
+    pub author_name: String,
     pub author_id: String,
     pub author_url: String,
 }
@@ -52,15 +52,15 @@ impl ReservedFolder {
         let mut only_author: Vec<OnlyAuthor> = review_index
             .vec
             .iter()
-            .unique_by(|rev| &rev.author)
+            .unique_by(|rev| &rev.author_name)
             .map(|rev| OnlyAuthor {
-                author: rev.author.clone(),
+                author_name: rev.author_name.clone(),
                 author_id: rev.author_id.clone(),
                 author_url: rev.author_url.clone(),
             })
             .collect();
-        only_author.sort_by(|a, b| a.author.cmp(&b.author));
-        //println!("only author: {:#?}", only_author);
+        only_author.sort_by(|a, b| a.author_name.cmp(&b.author_name));
+        //println!("only author_name: {:#?}", only_author);
 
         // return
         ReservedFolder {
@@ -182,10 +182,11 @@ impl ReservedFolder {
                     for u in vec_of_urls.iter() {
                         //if already exists in index, I don't need it
                         let author_url = format!(
-                            "https://github.com/{}/crev-proofs/",
+                            "https://github.com/{}/crev-proofs",
                             u.author_url_author_name
                         );
                         //println!("author_url: {:#?}", author_url);
+                        
                         if !vec_of_author_url.iter().any(|v| v == &author_url) {
                             vec_of_new.push(AuthorNew {
                                 author_url_author_name: s!(&u.author_url_author_name),
@@ -203,15 +204,14 @@ impl ReservedFolder {
         }
     }
     pub async fn add_author_url(
-        author_url_fragment: String,
+        author_name: String,
         _cached_review_index: CachedReviewIndex,
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
-        println!("author_url_fragment: {}", author_url_fragment);
-        let mut split_iterator = author_url_fragment.split('/');
+        println!("author_name: {}", author_name);
         let author_new = AuthorNew {
-            author_url_author_name: s!(unwrap!(split_iterator.next())),
+            author_url_author_name: s!(author_name),
         };
         // find github content
         let gh_content_url = format!(
@@ -221,18 +221,19 @@ impl ReservedFolder {
         println!("gh_content_url: {}", &gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
         // the new format of proof
-        // "name": "5XSQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHaxcuhjM",
+        // "name": "5X5SQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHax5cu3hjM",
         // "size": 0,
         let mut author_id = s!("");
         let mut pos_cursor: usize = 0;
-        println!("resp_body: {}", &resp_body);
+        //println!("resp_body: {}", &resp_body);
         loop {
+            //first get the name, then get the size
             let range_name =
                 find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
             if let Some(range_name) = range_name {
                 println!("range_name: {:?}", &range_name);
                 let range_size =
-                    find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""size": ""#, r#","#);
+                    find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""size": "#, r#","#);
                 if let Some(range_size) = range_size {
                     println!("range_size: {:?}", &range_size);
                     if &resp_body[range_size] == "0" {
@@ -246,11 +247,17 @@ impl ReservedFolder {
                 break;
             }
         }
-        println!("author_id: {}", &author_id);
-
+        
+        if ! author_id.is_empty(){
+            //we have the id, we can trust him
+            // call an external process cargo crev trust id 
+            println!("cargo crev id trust {}", &author_id);
+        } else{
+            println!("This repo is incomplete.{}", "");
+        }
         // return
         ReservedFolder {
-            add_author_url: Some(format!("Add author finished. {}", &gh_content_url)),
+            add_author_url: Some(format!("Add author_name finished. {}", &gh_content_url)),
             ..Default::default()
         }
     }
@@ -302,7 +309,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         // list_fetched_author_id is Option and can be None or Some
         let mut item_at_cursor_1 = &OnlyAuthor {
-            author: String::new(),
+            author_name: String::new(),
             author_id: String::new(),
             author_url: String::new(),
         };
@@ -322,7 +329,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             "st_ordinal_number" => (pos_cursor + 1).to_string(),
-            "st_author" => s!(&item_at_cursor_1.author),
+            "st_author_name_1" => s!(&item_at_cursor_1.author_name),
             "st_author_route" => format!(
                 "/cargo_crev_web/author/{}/",
                 url_encode(&item_at_cursor_1.author_id)
@@ -330,7 +337,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "st_author_id" => item_at_cursor_1.author_id.clone(),
             // same name from different data model is not allowed
             "st_author_url" => item_at_cursor_1.author_url.clone(),
-            "st_author_name" => item_at_cursor_2.author_url_author_name.clone(),
+            "st_author_name_2" => item_at_cursor_2.author_url_author_name.clone(),
             "st_author_url_2" => format!(
                 "https://github.com/{}/crev-proofs/",
                 &item_at_cursor_2.author_url_author_name,

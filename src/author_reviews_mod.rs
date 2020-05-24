@@ -9,7 +9,7 @@ use unwrap::unwrap;
 
 //use unwrap::unwrap;
 pub struct AuthorReviews {
-    pub author: String,
+    pub author_name: String,
     pub author_url: String,
     pub author_id: String,
     pub reviews: Vec<Review>,
@@ -31,15 +31,15 @@ impl AuthorReviews {
             file_path: s!("don't push the first row"),
             reviews_pk: vec![],
         };
-        let mut author = s!("");
+        let mut author_name = s!("");
         let mut author_url = s!("");
         for index_item in review_index.vec.iter() {
             if index_item.author_id == author_id {
                 if index_item.file_path != old_file_path {
                     old_file_path = index_item.file_path.clone();
                     if &one_file.file_path == "don't push the first row" {
-                        //only once read the author
-                        author = index_item.author.clone();
+                        //only once read the author_name
+                        author_name = index_item.author_name.clone();
                         author_url = index_item.author_url.clone();
                     } else {
                         // push the old one before creating the new one
@@ -82,7 +82,7 @@ impl AuthorReviews {
         reviews.sort_by(|a, b| a.package.name.cmp(&b.package.name));
         //return
         AuthorReviews {
-            author: author,
+            author_name: author_name,
             author_url: author_url,
             author_id: s!(author_id),
             reviews,
@@ -131,7 +131,7 @@ impl HtmlServerTemplateRender for AuthorReviews {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
-            "st_author" => s!(&self.author),
+            "st_author_name" => s!(&self.author_name),
             "st_author_url" => s!(&self.author_url),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }

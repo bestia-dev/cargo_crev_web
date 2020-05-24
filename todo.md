@@ -27,3 +27,6 @@ github api: search repos
 
 this command does not exist. I must find the id.
 cargo crev trust <https://github.com/otavio/crev-proofs>
+
+
+- try to make smaller crates. Maybe the compiler will be faster.
