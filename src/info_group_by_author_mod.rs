@@ -94,10 +94,10 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
         s!("ReviewIndexByAuthor")
     }
     /// renders the complete html file. Not a sub-template/fragment.
-    fn render_html_file(&self, templates_folderange_name: &str) -> String {
+    fn render_html_file(&self, templates_folder_name: &str) -> String {
         let template_file_name = format!(
             "{}info_group_by_author_template.html",
-            templates_folderange_name
+            templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
         // return

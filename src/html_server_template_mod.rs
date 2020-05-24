@@ -53,7 +53,7 @@ pub trait HtmlServerTemplateRender {
 
     /// The code for templating starts here.
     /// renders the complete html file. Not a sub-template/fragment.
-    fn render_html_file(&self, templates_folderange_name: &str) -> String;
+    fn render_html_file(&self, templates_folder_name: &str) -> String;
     /// name of data model for debugging
     fn data_model_name(&self) -> String;
     /// returns a String to replace the next text-node

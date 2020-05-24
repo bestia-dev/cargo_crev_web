@@ -60,7 +60,7 @@ impl ReservedFolder {
             })
             .collect();
         only_author.sort_by(|a, b| a.author.cmp(&b.author));
-        println!("only author: {:#?}", only_author);
+        //println!("only author: {:#?}", only_author);
 
         // return
         ReservedFolder {
@@ -107,6 +107,7 @@ impl ReservedFolder {
             page_number += 1;
             // await all 3 concurrently
             let vec_of_str = future::join_all(vec![fut_1, fut_2, fut_3]).await;
+            //println!("vec_of_str: {}", &vec_of_str);
 
             // first I need the list of fetched authors
             // I cannot construct this before await, because await can take a lot of time
@@ -137,7 +138,7 @@ impl ReservedFolder {
                     r#","#
                 ));
                 total_count = unwrap!(resp_body[range].parse());
-                // println!("total_count: {}", total_count);
+                //println!("total_count: {}", total_count);
             }
 
             for resp_body in vec_of_str.iter() {
@@ -153,7 +154,7 @@ impl ReservedFolder {
                 // https://github.com/BurntSushi/crev-proofs
                 // the contents_url return this format
                 // https://api.github.com/repos/leo-lb/crev-proofs/contents",
-                // the url must end with /crev_proofs/ else discard
+                // the url must end with /crev-proofs/ else discard
                 // the only valuable info is author_url_author_name 
 
                 while let Some(pos_start) = find_pos_after_delimiter(
@@ -162,7 +163,7 @@ impl ReservedFolder {
                     r#""contents_url": "https://api.github.com/repos/"#,
                 ) {
                     if let Some(pos_end) =
-                        find_pos_before_delimiter(&resp_body, pos_start, r#"/crev_proofs/contents/{+path}""#)
+                        find_pos_before_delimiter(&resp_body, pos_start, r#"/crev-proofs/contents/{+path}""#)
                     {
                         let mut split_iterator = resp_body[pos_start..pos_end].split('/');
                         vec_of_urls.push(AuthorNew {
@@ -214,39 +215,12 @@ impl ReservedFolder {
         };
         // find github content
         let gh_content_url = format!(
-            "https://api.github.com/repos/{}/crev_proofs/contents",
+            "https://api.github.com/repos/{}/crev-proofs/contents",
             author_new.author_url_author_name
         );
         println!("gh_content_url: {}", &gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
         // the new format of proof
-        // "name": "5XSQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHaxcuhjM",
-        // "size": 0,
-        let mut author_id = s!("");
-        let mut pos_cursor: usize = 0;
-        println!("resp_body: {}", &resp_body);
-        loop {
-            let range_name =
-                find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
-            if let Some(range_name) = range_name {
-                println!("range_name: {:?}", &range_name);
-                let range_size =
-                    find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""size": ""#, r#","#);
-                if let Some(range_size) = range_size {
-                    println!("range_size: {:?}", &range_size);
-                    if &resp_body[range_size] == "0" {
-                        author_id = s!(&resp_body[range_name]);
-                        break;
-                    }
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-        println!("author_id: {}", &author_id);
-        // the old format of review
         // "name": "5XSQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHaxcuhjM",
         // "size": 0,
         let mut author_id = s!("");
@@ -289,10 +263,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
         s!("ReservedFolder")
     }
     /// renders the complete html file. Not a sub-template/fragment.
-    fn render_html_file(&self, templates_folderange_name: &str) -> String {
+    fn render_html_file(&self, templates_folder_name: &str) -> String {
         let template_file_name = format!(
             "{}reserved_folder/reserved_folder_template.html",
-            templates_folderange_name
+            templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
 
@@ -353,10 +327,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 "/cargo_crev_web/author/{}/",
                 url_encode(&item_at_cursor_1.author_id)
             ),
-            "st_author_id" => s!(&item_at_cursor_1.author_id),
+            "st_author_id" => item_at_cursor_1.author_id.clone(),
             // same name from different data model is not allowed
-            "st_author_url" => s!(&item_at_cursor_1.author_url),
-            "st_author_name" => s!(&item_at_cursor_2.author_url_author_name),
+            "st_author_url" => item_at_cursor_1.author_url.clone(),
+            "st_author_name" => item_at_cursor_2.author_url_author_name.clone(),
             "st_author_url_2" => format!(
                 "https://github.com/{}/crev-proofs/",
                 &item_at_cursor_2.author_url_author_name,
@@ -400,7 +374,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
                         let vec_node = unwrap!(self.render_template_raw_to_nodes(
                             &sub_template.template,
                             HtmlOrSvg::Html,
-                            "list_fetched_author_id",
+                            template_name,
                             cursor_for_vec,
                         ));
                         nodes.extend_from_slice(&vec_node);
