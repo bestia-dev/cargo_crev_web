@@ -81,21 +81,38 @@ impl ReservedFolder {
         // println!("vec_of_author_url {}: {:#?}",vec_of_author_url.len(),vec_of_author_url);
         // pagination. It returns 30 items in one page.
         // the public api allows 10 request per minute. Enough for now.
-        let mut page_number: usize = 0;
+        let mut page_number: usize = 1;
         let mut vec_of_new = Vec::<AuthorNew>::new();
-        loop {
-            page_number += 1;
-
-            // todo: make 4 requests immediately
-            let json = unwrap!(
+        //loop {
+            use futures::future;
+            let surf_get =|page_number:usize|{
                 surf::get(&format!(
                     "https://api.github.com/search/repositories?q=crev-proofs&page={}",
                     page_number
-                ))
-                .recv_string()
-                .await
-            );
+                )).recv_string()
+            };
+            // make 4 requests concurrently
+            let fut_1 = surf_get(1);
+            let fut_2 = surf_get(2);
+            /*
+            let fut_1 = surf::get(&format!(
+                "https://api.github.com/search/repositories?q=crev-proofs&page={}",
+                page_number
+            )).recv_string();
+            page_number += 1;
+            let fut_2 =  surf::get(&format!(
+                "https://api.github.com/search/repositories?q=crev-proofs&page={}",
+                page_number
+            )).recv_string();
+            page_number += 1;
+*/
+            let vec_of_str =  future::join_all(vec![fut_1,fut_2]).await;
 
+            println!("vec_of_str[0].len(): {}",&unwrap!(vec_of_str[0].as_ref()).len());
+            println!("vec_of_str[1].len(): {}",&unwrap!(vec_of_str[1].as_ref()).len());
+            
+            for json in vec_of_str.iter(){
+                let json = unwrap!(json.as_ref());
             //unwrap!(fs::write("github_search.json",&json));
             //this is very big json vector, but I am interested in one single field: contents_url:
             // REST api is so terribly wasteful. GraphQl is theoretically much better.
@@ -151,6 +168,7 @@ impl ReservedFolder {
                     });
                 }
             }
+        //}
         }
         //println!("vec_of_new: {}: {:#?}", vec_of_new.len(), &vec_of_new);
 
@@ -202,7 +220,12 @@ impl HtmlServerTemplateRender for ReservedFolder {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn replace_with_string(&self, placeholder: &str, subtemplate: &str, cursor_pos: usize) -> String {
+    fn replace_with_string(
+        &self,
+        placeholder: &str,
+        subtemplate: &str,
+        cursor_pos: usize,
+    ) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         // list_fetched_author_id is Option and can be None or Some
         let mut item_at_cursor_1 = &OnlyAuthor {

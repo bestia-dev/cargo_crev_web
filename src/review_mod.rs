@@ -173,7 +173,12 @@ impl HtmlServerTemplateRender for Review {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn replace_with_string(&self, placeholder: &str,_subtemplate:&str, _cursor_pos: usize) -> String {
+    fn replace_with_string(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _cursor_pos: usize,
+    ) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             "st_crate_name_version" => format!("{} {}", self.package.name, self.package.version),

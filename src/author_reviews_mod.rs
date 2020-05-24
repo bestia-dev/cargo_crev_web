@@ -120,7 +120,12 @@ impl HtmlServerTemplateRender for AuthorReviews {
         clippy::integer_arithmetic,
         clippy::indexing_slicing
     )]
-    fn replace_with_string(&self, placeholder: &str,_subtemplate:&str, _cursor_pos: usize) -> String {
+    fn replace_with_string(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _cursor_pos: usize,
+    ) -> String {
         // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
