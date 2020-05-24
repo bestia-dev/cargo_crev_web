@@ -1,7 +1,7 @@
 //! info_group_by_crate_mod
 
 use crate::html_server_template_mod::*;
-use crate::utils_mod::*;
+use crate::url_encode_mod::*;
 use crate::CachedReviewIndex;
 use crate::*;
 
