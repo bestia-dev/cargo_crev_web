@@ -155,28 +155,32 @@ impl ReservedFolder {
                 // the contents_url return this format
                 // https://api.github.com/repos/leo-lb/crev-proofs/contents",
                 // the url must end with /crev-proofs/ else discard
-                // the only valuable info is author_url_author_name 
+                // the only valuable info is author_url_author_name
 
                 while let Some(pos_start) = find_pos_after_delimiter(
                     &resp_body,
                     pos_cursor,
                     r#""contents_url": "https://api.github.com/repos/"#,
                 ) {
-                    if let Some(pos_end) =
-                        find_pos_before_delimiter(&resp_body, pos_start, r#"/crev-proofs/contents/{+path}""#)
-                    {
-                        if pos_end - pos_start >20{
+                    if let Some(pos_end) = find_pos_before_delimiter(
+                        &resp_body,
+                        pos_start,
+                        r#"/crev-proofs/contents/{+path}""#,
+                    ) {
+                        if pos_end - pos_start > 20 {
                             // to long for author name. Continue after pos_start.
                             pos_cursor = pos_start;
                         } else {
                             vec_of_urls.push(AuthorNew {
                                 author_url_author_name: s!(&resp_body[pos_start..pos_end]),
                             });
+                            /*
                             let author_url = format!(
                                 "https://github.com/{}/crev-proofs",
                                 &resp_body[pos_start..pos_end]
                             );
-                            dbg!(&author_url);
+                            */
+                            //dbg!(&author_url);
                             pos_cursor = pos_end;
                         }
                     } else {
@@ -189,15 +193,22 @@ impl ReservedFolder {
                     is_last_page_empty = true;
                 // this will end the while loop
                 } else {
+                    let vec_author_incomplete_repo = vec!["pimotte", "Alexendoo"];
+
                     for u in vec_of_urls.iter() {
-                        //if already exists in index, I don't need it
                         let author_url = format!(
                             "https://github.com/{}/crev-proofs",
                             u.author_url_author_name
                         );
                         //dbg!(author_url);
-                        
-                        if !vec_of_author_url.iter().any(|v| v == &author_url) {
+
+                        //if author already exists in index, I don't need it.
+                        //if author repo is in the "incomplete" list, I don't need it
+                        if !vec_of_author_url.iter().any(|v| v == &author_url)
+                            && !vec_author_incomplete_repo
+                                .iter()
+                                .any(|v| v == &u.author_url_author_name)
+                        {
                             vec_of_new.push(AuthorNew {
                                 author_url_author_name: s!(&u.author_url_author_name),
                             });
@@ -220,7 +231,7 @@ impl ReservedFolder {
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
-        dbg!(author_name);
+        dbg!(&author_name);
         let author_new = AuthorNew {
             author_url_author_name: s!(author_name),
         };
@@ -247,8 +258,12 @@ impl ReservedFolder {
                 find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
             if let Some(range_name) = range_name {
                 // dbg!(&range_name);
-                let range_size =
-                    find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""size": "#, r#","#);
+                let range_size = find_range_between_delimiters(
+                    &resp_body,
+                    &mut pos_cursor,
+                    r#""size": "#,
+                    r#","#,
+                );
                 if let Some(range_size) = range_size {
                     // dbg!(&range_size);
                     if &resp_body[range_size] == "0" {
@@ -262,18 +277,19 @@ impl ReservedFolder {
                 break;
             }
         }
-        
-        if ! author_id.is_empty(){
-            eprintln!("cargo crev repo fetch url {}", &author_url);
-            //we have the id, we can trust him
-            // call an external process cargo crev trust id 
-            eprintln!("cargo crev id trust {}", &author_id);
-        } else{
-            eprintln!("This repo is incomplete.{}", "");
-        }
+        let add_author_url = if !author_id.is_empty() {
+            format!(
+                "add author with these commands:<br/>
+            cargo crev repo fetch url {}<br/>
+            cargo crev id trust {}<br/>",
+                &author_url, &author_id
+            )
+        } else {
+            s!("This repo is incomplete.")
+        };
         // return
         ReservedFolder {
-            add_author_url: Some(format!("Add author_name finished. {}", &gh_content_url)),
+            add_author_url: Some(add_author_url),
             ..Default::default()
         }
     }
@@ -360,7 +376,8 @@ impl HtmlServerTemplateRender for ReservedFolder {
             ),
             "st_add_author_url_route" => format!(
                 "/cargo_crev_web/reserved_folder/add_author_url/{}/",
-                url_encode(&item_at_cursor_2.author_url_author_name)),
+                url_encode(&item_at_cursor_2.author_url_author_name)
+            ),
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
             }

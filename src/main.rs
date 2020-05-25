@@ -347,26 +347,24 @@ async fn main() {
             .or(
                 warp::path!("cargo_crev_web" / "reserved_folder" / "add_author_url" / String)
                     .and(cached_review_index.clone())
-                    .and_then(
-                        |author_name: String, cached_review_index| async move {
-                            let ns_start = ns_start("add_author_url");
-                            // in this fragment are 2 parts delimited with /, that is encoded
-                            let author_name = unwrap!(url_decode(&author_name));
-                            // after decoding looks like "scott-wilson/crev-proofs"
-                            let data_model = reserved_folder_mod::ReservedFolder::add_author_url(
-                                author_name,
-                                cached_review_index,
-                            )
-                            .await;
-                            let ns_new = ns_print("new()", ns_start);
-                            let html_file = data_model.render_html_file("templates/");
-                            ns_print("render_html_file()", ns_new);
-                            //return crazy types
-                            let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
-                                Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
-                            result
-                        },
-                    ),
+                    .and_then(|author_name: String, cached_review_index| async move {
+                        let ns_start = ns_start("add_author_url");
+                        // in this fragment are 2 parts delimited with /, that is encoded
+                        let author_name = unwrap!(url_decode(&author_name));
+                        // after decoding looks like "scott-wilson/crev-proofs"
+                        let data_model = reserved_folder_mod::ReservedFolder::add_author_url(
+                            author_name,
+                            cached_review_index,
+                        )
+                        .await;
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        //return crazy types
+                        let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
+                            Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
+                        result
+                    }),
             )
             .or(
                 warp::path!("cargo_crev_web" / "reserved_folder" / "list_fetched_author_id")

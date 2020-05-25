@@ -98,7 +98,9 @@ pub trait HtmlServerTemplateRender {
             Node::Element(temp_element_node) => {
                 html = unwrap!(Self::root_element_node_to_html_string(temp_element_node));
             }
-            _ => eprintln!("Error: render_template_raw_to_nodes() does not return one ElementNode."),
+            _ => {
+                eprintln!("Error: render_template_raw_to_nodes() does not return one ElementNode.")
+            }
         }
         //return
         html
@@ -462,7 +464,8 @@ pub trait HtmlServerTemplateRender {
 // region: utility fn
 /// boilerplate
 pub fn retain_next_node_match_else(data_model_name: &str, placeholder: &str) -> bool {
-    eprintln!("Error: Unrecognized {} retain_next_node: \"{}\"",
+    eprintln!(
+        "Error: Unrecognized {} retain_next_node: \"{}\"",
         data_model_name, placeholder
     );
     true

@@ -36,7 +36,7 @@ pub fn find_pos_before_delimiter(
 /// Success: mutates also the cursor position, so the next find will continue from there
 /// Fail: return None if not found and don't mutate pos_cursor
 /// I use type Range to avoid references &str and lifetimes. But the programmer can make
-/// the error to apply the range to the wrong vector. 
+/// the error to apply the range to the wrong vector.
 pub fn find_range_between_delimiters(
     source_str: &str,
     pos_cursor: &mut usize,
@@ -154,7 +154,8 @@ use chrono::prelude::*;
 pub fn ns_start(text: &str) -> i64 {
     let now = Utc::now();
     if !text.is_empty() {
-        eprintln!("{}: {}",
+        eprintln!(
+            "{}: {}",
             Green.paint(&Local::now().format("%Y-%m-%d %H:%M:%S").to_string()),
             Green.paint(text)
         );
