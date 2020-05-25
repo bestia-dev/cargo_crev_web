@@ -42,7 +42,7 @@ fn get_crate_reviews(crate_name: &str) -> Vec<Review> {
     // local webfolder example "../sample_data/cache/crev/remotes"
     let path = unwrap!(dirs::home_dir());
     let path = path.join(".cache/crev/remotes");
-    // eprintln!("path: {}", path.display());
+    // dbg!(path);
     // let mut count_files = 0;
     for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
         &path,
@@ -51,7 +51,7 @@ fn get_crate_reviews(crate_name: &str) -> Vec<Review> {
         &vec![s!("/.git"), s!("/trust")]
     )) {
         //count_files += 1;
-        // eprintln!("filename_crev: {}", filename_crev);
+        // dbg!(filename_crev);
         // for filename_result in unwrap!(glob("/reviews/*.crev")) {
         // read crev file
         let crev_text = unwrap!(fs::read_to_string(filename_crev));
@@ -77,7 +77,7 @@ fn get_crate_reviews(crate_name: &str) -> Vec<Review> {
             }
         }
     }
-    // eprintln!("files queried: {}", count_files);
+    // dbg!(count_files);
     // sort first by version desc, but semver version and then by date
     reviews.sort_by(|a, b| {
         b.package
@@ -156,7 +156,7 @@ impl HtmlServerTemplateRender for CrateReviews {
     }
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        // dbg!(&placeholder));
         match placeholder {
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
@@ -174,7 +174,7 @@ impl HtmlServerTemplateRender for CrateReviews {
         _subtemplate: &str,
         _pos_cursor: usize,
     ) -> String {
-        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
@@ -185,7 +185,7 @@ impl HtmlServerTemplateRender for CrateReviews {
     /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
@@ -197,10 +197,9 @@ impl HtmlServerTemplateRender for CrateReviews {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        // dbg!(&placeholder);
         match template_name {
             "stmplt_crate_version_summary" => {
-                // eprintln!("stmplt_crate_version_summary: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));
@@ -217,7 +216,6 @@ impl HtmlServerTemplateRender for CrateReviews {
                 nodes
             }
             "stmplt_reviews" => {
-                // eprintln!("stmplt_reviews: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

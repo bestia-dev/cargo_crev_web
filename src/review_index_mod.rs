@@ -46,7 +46,7 @@ impl ReviewIndex {
         // local webfolder example "../sample_data/cache/crev/remotes"
         let path = unwrap!(dirs::home_dir());
         let path = path.join(".cache/crev/remotes");
-        // eprintln!("path: {}", path.display());
+        // dbg!(path);
         // let mut count_files = 0;
         for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
             &path,
@@ -55,7 +55,7 @@ impl ReviewIndex {
             &vec![s!("/.git"), s!("/trust")]
         )) {
             //count_files += 1;
-            // eprintln!("filename_crev: {}", filename_crev);
+            // dbg!(filename_crev);
             // for filename_result in unwrap!(glob("/reviews/*.crev")) {
             // read crev file
             let crev_text = unwrap!(fs::read_to_string(filename_crev));

@@ -58,7 +58,7 @@ impl HtmlServerTemplateRender for VersionSummary {
     }
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
@@ -76,7 +76,7 @@ impl HtmlServerTemplateRender for VersionSummary {
         _subtemplate: &str,
         _pos_cursor: usize,
     ) -> String {
-        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        // dbg!( &placeholder);
         match placeholder {
             "st_version" => s!(&self.version),
             "st_review_number" => to_string_zero_to_empty(self.review_number),
@@ -127,7 +127,7 @@ impl HtmlServerTemplateRender for VersionSummary {
     /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        // dbg!( &placeholder);
         match placeholder {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
@@ -139,7 +139,7 @@ impl HtmlServerTemplateRender for VersionSummary {
         template_name: &str,
         _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        // dbg!( &placeholder);
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }

@@ -60,7 +60,7 @@ impl ReservedFolder {
             })
             .collect();
         only_author.sort_by(|a, b| a.author_name.cmp(&b.author_name));
-        //println!("only author_name: {:#?}", only_author);
+        //dbg!(only_author);
 
         // return
         ReservedFolder {
@@ -107,7 +107,7 @@ impl ReservedFolder {
             page_number += 1;
             // await all 3 concurrently
             let vec_of_str = future::join_all(vec![fut_1, fut_2, fut_3]).await;
-            //println!("vec_of_str: {}", &vec_of_str);
+            //dbg!(&vec_of_str);
 
             // first I need the list of fetched authors
             // I cannot construct this before await, because await can take a lot of time
@@ -138,7 +138,7 @@ impl ReservedFolder {
                     r#","#
                 ));
                 total_count = unwrap!(resp_body[range].parse());
-                //println!("total_count: {}", total_count);
+                //dbg!(total_count);
             }
 
             for resp_body in vec_of_str.iter() {
@@ -165,16 +165,26 @@ impl ReservedFolder {
                     if let Some(pos_end) =
                         find_pos_before_delimiter(&resp_body, pos_start, r#"/crev-proofs/contents/{+path}""#)
                     {
-                        let mut split_iterator = resp_body[pos_start..pos_end].split('/');
-                        vec_of_urls.push(AuthorNew {
-                            author_url_author_name: s!(unwrap!(split_iterator.next())),
-                        });
-                        pos_cursor = pos_end;
+                        if pos_end - pos_start >20{
+                            // to long for author name. Continue after pos_start.
+                            pos_cursor = pos_start;
+                        } else {
+                            vec_of_urls.push(AuthorNew {
+                                author_url_author_name: s!(&resp_body[pos_start..pos_end]),
+                            });
+                            let author_url = format!(
+                                "https://github.com/{}/crev-proofs",
+                                &resp_body[pos_start..pos_end]
+                            );
+                            dbg!(&author_url);
+                            pos_cursor = pos_end;
+                        }
                     } else {
                         break;
                     }
                 }
-                // println!("vec_of_urls {}: {:#?}", vec_of_urls.len(), vec_of_urls);
+                // dbg!(vec_of_urls.len());
+                // dbg!( vec_of_urls);
                 if vec_of_urls.is_empty() {
                     is_last_page_empty = true;
                 // this will end the while loop
@@ -185,7 +195,7 @@ impl ReservedFolder {
                             "https://github.com/{}/crev-proofs",
                             u.author_url_author_name
                         );
-                        //println!("author_url: {:#?}", author_url);
+                        //dbg!(author_url);
                         
                         if !vec_of_author_url.iter().any(|v| v == &author_url) {
                             vec_of_new.push(AuthorNew {
@@ -196,7 +206,8 @@ impl ReservedFolder {
                 }
             } // for resp_body
         } // loop
-          //println!("vec_of_new: {}: {:#?}", vec_of_new.len(), &vec_of_new);
+          //dbg!(vec_of_new.len());
+          //dbg!( &vec_of_new);
           // return
         ReservedFolder {
             list_new_author_id: Some(vec_of_new),
@@ -209,33 +220,37 @@ impl ReservedFolder {
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
-        println!("author_name: {}", author_name);
+        dbg!(author_name);
         let author_new = AuthorNew {
             author_url_author_name: s!(author_name),
         };
+        let author_url = format!(
+            "https://github.com/{}/crev-proofs",
+            author_new.author_url_author_name
+        );
         // find github content
         let gh_content_url = format!(
             "https://api.github.com/repos/{}/crev-proofs/contents",
             author_new.author_url_author_name
         );
-        println!("gh_content_url: {}", &gh_content_url);
+        dbg!(&gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
         // the new format of proof
         // "name": "5X5SQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHax5cu3hjM",
         // "size": 0,
         let mut author_id = s!("");
         let mut pos_cursor: usize = 0;
-        //println!("resp_body: {}", &resp_body);
+        //dbg!(&resp_body);
         loop {
             //first get the name, then get the size
             let range_name =
                 find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
             if let Some(range_name) = range_name {
-                println!("range_name: {:?}", &range_name);
+                // dbg!(&range_name);
                 let range_size =
                     find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""size": "#, r#","#);
                 if let Some(range_size) = range_size {
-                    println!("range_size: {:?}", &range_size);
+                    // dbg!(&range_size);
                     if &resp_body[range_size] == "0" {
                         author_id = s!(&resp_body[range_name]);
                         break;
@@ -249,11 +264,12 @@ impl ReservedFolder {
         }
         
         if ! author_id.is_empty(){
+            eprintln!("cargo crev repo fetch url {}", &author_url);
             //we have the id, we can trust him
             // call an external process cargo crev trust id 
-            println!("cargo crev id trust {}", &author_id);
+            eprintln!("cargo crev id trust {}", &author_id);
         } else{
-            println!("This repo is incomplete.{}", "");
+            eprintln!("This repo is incomplete.{}", "");
         }
         // return
         ReservedFolder {
@@ -282,7 +298,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
     }
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
             "sb_is_reindex_after_fetch_new_reviews" => {
@@ -306,7 +322,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
         subtemplate: &str,
         pos_cursor: usize,
     ) -> String {
-        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        // dbg!(&placeholder);
         // list_fetched_author_id is Option and can be None or Some
         let mut item_at_cursor_1 = &OnlyAuthor {
             author_name: String::new(),
@@ -355,7 +371,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
     /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
@@ -367,10 +383,9 @@ impl HtmlServerTemplateRender for ReservedFolder {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        // dbg!( &placeholder);
         match template_name {
             "stmplt_authors" => {
-                // eprintln!("stmplt_authors: {}", "");
                 let mut nodes = vec![];
                 if let Some(list) = &self.list_fetched_author_id {
                     let sub_template = unwrap!(sub_templates
@@ -391,7 +406,6 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 nodes
             }
             "stmplt_authors_new" => {
-                // eprintln!("stmplt_authors_new: {}", "");
                 let mut nodes = vec![];
                 if let Some(list) = &self.list_new_author_id {
                     let sub_template = unwrap!(sub_templates

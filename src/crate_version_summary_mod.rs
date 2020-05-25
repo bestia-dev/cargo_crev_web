@@ -134,7 +134,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
     }
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
@@ -152,7 +152,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         _subtemplate: &str,
         _pos_cursor: usize,
     ) -> String {
-        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             "st_crate_name" => s!(&self.crate_name),
             "st_crates_io_url" => format!("https://crates.io/crates/{}", self.crate_name),
@@ -188,7 +188,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
     /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
@@ -200,7 +200,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // eprintln!("{}",&format!("&sub_templates.len(): {}", &sub_templates.len()));
+        // dbg!( &sub_templates.len());
 
         match template_name {
             "stmplt_summary_version" => {

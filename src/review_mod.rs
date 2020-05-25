@@ -156,7 +156,7 @@ impl HtmlServerTemplateRender for Review {
     }
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             "sb_not_for_render" => false,
             "sb_has_alternatives" => self.alternatives.is_some(),
@@ -179,7 +179,7 @@ impl HtmlServerTemplateRender for Review {
         _subtemplate: &str,
         _pos_cursor: usize,
     ) -> String {
-        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        // dbg!( &placeholder);
         match placeholder {
             "st_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
             "st_crate_route" => {
@@ -305,7 +305,7 @@ impl HtmlServerTemplateRender for Review {
     /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        // dbg!( &placeholder);
         match placeholder {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
@@ -317,10 +317,9 @@ impl HtmlServerTemplateRender for Review {
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        // dbf!( &placeholder);
         match template_name {
             "stmplt_issues" => {
-                // eprintln!("stmplt_issues: {}", "");
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));

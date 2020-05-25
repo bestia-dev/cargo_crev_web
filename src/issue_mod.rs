@@ -28,7 +28,7 @@ impl HtmlServerTemplateRender for Issue {
     }
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        // dbg!(&placeholder));
         match placeholder {
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
@@ -46,7 +46,7 @@ impl HtmlServerTemplateRender for Issue {
         _subtemplate: &str,
         _pos_cursor: usize,
     ) -> String {
-        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        // dbg&placeholder));
         match placeholder {
             "st_issue_id" => s!(&self.id),
             "st_issue_severity" => self.severity.to_string(),
@@ -57,7 +57,7 @@ impl HtmlServerTemplateRender for Issue {
     /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        // dbg!( &placeholder);
         match placeholder {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
@@ -69,7 +69,7 @@ impl HtmlServerTemplateRender for Issue {
         template_name: &str,
         _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        // dbg!(&placeholder);
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }

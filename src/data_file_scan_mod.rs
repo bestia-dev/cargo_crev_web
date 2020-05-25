@@ -23,7 +23,7 @@ pub struct ManyFileReviewsPk {
 }
 
 pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
-    //println!("review_pks: {:#?}", review_pks);
+    //dbg!(review_pks);
     let mut reviews = vec![];
 
     for one_file in &review_pks.vec {
@@ -46,7 +46,7 @@ fn get_vec_of_review_by_review_pk(
     let path = unwrap!(dirs::home_dir());
     let path = path.join(".cache/crev/remotes");
     let path = path.join(file_path);
-    // eprintln!("path: {}", path.display());
+    // dbg!(path.display());
     // read crev file
     let crev_text = unwrap!(fs::read_to_string(path));
 
@@ -80,9 +80,9 @@ fn push_review(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<
         pub from: ReviewFrom,
         pub package: ReviewPackage,
     }
+    // if yaml takes long. First yaml only 2 data.
     let review_short: ReviewShort = unwrap!(serde_yaml::from_str(review_string));
 
-    // to do if yaml takes long. First yaml only 3 data.
     for review_pk in review_pks {
         // filter: only the one equal to review_pk
         if review_short.package.name == review_pk.crate_name

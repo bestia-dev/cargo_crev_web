@@ -54,7 +54,7 @@ impl ReviewIndexSummary {
             summary.count_of_issues += index_item.issues;
             summary.count_of_advisories += index_item.advisories;
         }
-        // println!("data_grouped: {:#?}", order_by_crate);
+        // dbg!( order_by_crate);
         use itertools::Itertools;
         summary.unique_crates = for_unique_crates.into_iter().unique().count();
         summary.unique_authors = for_unique_authors.into_iter().unique().count();
@@ -83,7 +83,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     }
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // eprintln!("{}",&format!("retain_next_node: {}", &placeholder));
+        // dbg!( &placeholder);
         match placeholder {
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
@@ -101,7 +101,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         _subtemplate: &str,
         _pos_cursor: usize,
     ) -> String {
-        // eprintln!("{}",&format!("replace_with_string: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
@@ -123,7 +123,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     /// returns a vector of Nodes to replace the next Node
     #[allow(clippy::needless_return)]
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
-        // eprintln!("{}",&format!("replace_with_nodes: {}", &placeholder));
+        // dbg!(&placeholder);
         match placeholder {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
@@ -135,7 +135,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         template_name: &str,
         _sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // eprintln!("{}",&format!("render_sub_template: {}", &placeholder));
+        // dbg!(&placeholder);
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),
         }

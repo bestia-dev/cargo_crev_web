@@ -98,10 +98,7 @@ pub trait HtmlServerTemplateRender {
             Node::Element(temp_element_node) => {
                 html = unwrap!(Self::root_element_node_to_html_string(temp_element_node));
             }
-            _ => eprintln!(
-                "Error: render_template_raw_to_nodes() does not return one ElementNode.{}",
-                ""
-            ),
+            _ => eprintln!("Error: render_template_raw_to_nodes() does not return one ElementNode."),
         }
         //return
         html
@@ -375,7 +372,7 @@ pub trait HtmlServerTemplateRender {
                 {
                     let sub_template_name =
                         s!(&sub_templates[0].template[pos_start + 4..pos_end_name]);
-                    // eprintln!("sub_template_name: {}", sub_template_name);
+                    // dbg!(sub_template_name);
                     let pos_start_after_tag = pos_end_name + 9;
                     let end_tag = format!("<!--{} end-->", sub_template_name);
                     if let Some(pos_end_after_tag) =
@@ -386,7 +383,8 @@ pub trait HtmlServerTemplateRender {
                         // this happens when the graphic designer need more repetition of the
                         // same sub-template only for visual effect while editing.
                         if sub_template_name == "stmplt_not_for_render" {
-                            // eprintln!("stmplt_not_for_render {} {}",pos_start, pos_end_after_tag);
+                            // dbg!(pos_start);
+                            // dbg!(pos_end_after_tag);
                             // remove all the template
                             sub_templates[0]
                                 .template
@@ -410,7 +408,7 @@ pub trait HtmlServerTemplateRender {
                                 placeholder: s!(sub_template_placeholder),
                                 template: s!(sub_template),
                             });
-                            // eprintln!("{}",sub_template);
+                            // dbg!(sub_template);
                         }
                     }
                 }
@@ -419,7 +417,7 @@ pub trait HtmlServerTemplateRender {
                 break;
             }
         }
-        // eprintln!("sub_templates.len(): {}", sub_templates.len());
+        // dbg!(sub_templates.len());
         // return
         sub_templates
     }
@@ -464,8 +462,7 @@ pub trait HtmlServerTemplateRender {
 // region: utility fn
 /// boilerplate
 pub fn retain_next_node_match_else(data_model_name: &str, placeholder: &str) -> bool {
-    eprintln!(
-        "Error: Unrecognized {} retain_next_node: \"{}\"",
+    eprintln!("Error: Unrecognized {} retain_next_node: \"{}\"",
         data_model_name, placeholder
     );
     true
