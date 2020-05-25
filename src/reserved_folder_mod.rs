@@ -11,7 +11,7 @@ use crate::utils_mod::*;
 use crate::CachedReviewIndex;
 use crate::*;
 
-//use std::fs;
+use std::fs;
 use unwrap::unwrap;
 
 #[derive(Debug)]
@@ -193,7 +193,9 @@ impl ReservedFolder {
                     is_last_page_empty = true;
                 // this will end the while loop
                 } else {
-                    let vec_author_incomplete_repo = vec!["pimotte", "Alexendoo"];
+                    // read blacklist_author_url from json file
+                    let blacklist_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
+                    let vec_author_incomplete_repo: Vec<String> = unwrap!(serde_json::from_str(&blacklist_author_url));
 
                     for u in vec_of_urls.iter() {
                         let author_url = format!(
