@@ -59,7 +59,7 @@ impl ReservedFolder {
                 author_url: rev.author_url.clone(),
             })
             .collect();
-        only_author.sort_by(|a, b| a.author_name.cmp(&b.author_name));
+        only_author.sort_by(|a, b| a.author_name.to_lowercase().cmp(&b.author_name.to_lowercase()));
         //dbg!(only_author);
 
         // return
@@ -197,6 +197,8 @@ impl ReservedFolder {
                     let blacklist_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
                     let vec_author_incomplete_repo: Vec<String> = unwrap!(serde_json::from_str(&blacklist_author_url));
 
+                    vec_of_urls.sort_by(|a, b| a.author_url_author_name.to_lowercase().cmp(&b.author_url_author_name.to_lowercase()));
+
                     for u in vec_of_urls.iter() {
                         let author_url = format!(
                             "https://github.com/{}/crev-proofs",
@@ -209,7 +211,7 @@ impl ReservedFolder {
                         if !vec_of_author_url.iter().any(|v| v == &author_url)
                             && !vec_author_incomplete_repo
                                 .iter()
-                                .any(|v| v == &u.author_url_author_name)
+                                .any(|v| v == &author_url)
                         {
                             vec_of_new.push(AuthorNew {
                                 author_url_author_name: s!(&u.author_url_author_name),
