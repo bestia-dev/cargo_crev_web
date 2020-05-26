@@ -1,6 +1,8 @@
 
 # TODO
 
+make blacklist editable from web
+
 crate review repeat the scan of authors
 
 - i could find the current version of every crate on crates.io

@@ -201,7 +201,7 @@
     // I have private function inside a function. Self does not work there.
     // clippy::use_self,
     // Cannot add #[inline] to the start function with #[wasm_bindgen(start)]
-    // because then wasm-pack build --target no-modules returns an error: export `run` not found 
+    // because then wasm-pack build --st_arget no-modules returns an error: export `run` not found 
     // clippy::missing_inline_in_public_items
     // Why is this bad : Doc is good. rustc has a MISSING_DOCS allowed-by-default lint for public members, but has no way to enforce documentation of private items. This lint fixes that.
     clippy::doc_markdown,
