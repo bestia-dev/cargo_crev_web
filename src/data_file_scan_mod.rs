@@ -23,7 +23,7 @@ pub struct ManyFileReviewsPk {
 }
 
 pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
-    //dbg!(review_pks);
+     // dbg!(review_pks);
     let mut reviews = vec![];
 
     for one_file in &review_pks.vec {
@@ -75,10 +75,20 @@ fn get_vec_of_review_by_review_pk(
 
 fn push_review(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<ReviewPk>) {
     use serde_derive::{Deserialize, Serialize};
+    
+    #[derive(Serialize, Deserialize, Clone)]
+    struct ReviewPackageShort {
+        pub name: String ,
+        pub version: String,
+    }
+    #[derive(Serialize, Deserialize, Clone)]
+    struct ReviewFromShort {
+        pub id: String ,
+    }
     #[derive(Serialize, Deserialize, Clone)]
     struct ReviewShort {
-        pub from: ReviewFrom,
-        pub package: ReviewPackage,
+        pub from: ReviewFromShort,
+        pub package: ReviewPackageShort,
     }
     // if yaml takes long. First yaml only 2 data.
     let review_short: ReviewShort = unwrap!(serde_yaml::from_str(review_string));
@@ -103,4 +113,5 @@ fn push_review(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<
             break;
         }
     }
+     // dbg!(&reviews[0].comment);
 }

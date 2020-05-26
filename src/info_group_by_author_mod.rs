@@ -41,16 +41,16 @@ impl ReviewIndexByAuthor {
         let mut for_unique_crates: Vec<String> = vec![];
         let mut review_index_by_author = ReviewIndexByAuthor { vec: vec![] };
         for index_item in &review_index.vec {
-            //the reviews are already sorted by author_name
+             // the reviews are already sorted by author_name
             if &index_item.author_name != &old_author_name {
                 if !old_author_name.is_empty() {
-                    //finalize the previous group
+                     // finalize the previous group
                     use itertools::Itertools;
                     let mut last = unwrap!(review_index_by_author.vec.last_mut());
                     last.unique_crates = for_unique_crates.into_iter().unique().count();
                     for_unique_crates = vec![];
                 }
-                //a new group begins
+                 // a new group begins
                 let last = ByAuthorItem {
                     author_name: index_item.author_name.clone(),
                     author_url: index_item.author_url.clone(),
@@ -83,14 +83,14 @@ impl ReviewIndexByAuthor {
             last.count_of_advisories += index_item.advisories;
         }
 
-        //return
+         // return
         review_index_by_author
     }
 }
 impl HtmlServerTemplateRender for ReviewIndexByAuthor {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-        //return
+         // return
         s!("ReviewIndexByAuthor")
     }
     /// renders the complete html file. Not a sub-template/fragment.

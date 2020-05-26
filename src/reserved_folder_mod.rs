@@ -37,7 +37,7 @@ pub struct ReservedFolder {
 impl ReservedFolder {
     /// prepares the data
     pub fn new(_cached_review_index: CachedReviewIndex) -> Self {
-        //let review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
+         // let review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
         // return
         ReservedFolder {
             ..Default::default()
@@ -60,7 +60,7 @@ impl ReservedFolder {
             })
             .collect();
         only_author.sort_by(|a, b| a.author_name.to_lowercase().cmp(&b.author_name.to_lowercase()));
-        //dbg!(only_author);
+         // dbg!(only_author);
 
         // return
         ReservedFolder {
@@ -107,7 +107,7 @@ impl ReservedFolder {
             page_number += 1;
             // await all 3 concurrently
             let vec_of_str = future::join_all(vec![fut_1, fut_2, fut_3]).await;
-            //dbg!(&vec_of_str);
+             // dbg!(&vec_of_str);
 
             // first I need the list of fetched authors
             // I cannot construct this before await, because await can take a lot of time
@@ -138,7 +138,7 @@ impl ReservedFolder {
                     r#","#
                 ));
                 total_count = unwrap!(resp_body[range].parse());
-                //dbg!(total_count);
+                 // dbg!(total_count);
             }
 
             for resp_body in vec_of_str.iter() {
@@ -180,7 +180,7 @@ impl ReservedFolder {
                                 &resp_body[pos_start..pos_end]
                             );
                             */
-                            //dbg!(&author_url);
+                             // dbg!(&author_url);
                             pos_cursor = pos_end;
                         }
                     } else {
@@ -204,10 +204,10 @@ impl ReservedFolder {
                             "https://github.com/{}/crev-proofs",
                             u.author_url_author_name
                         );
-                        //dbg!(author_url);
+                         // dbg!(author_url);
 
-                        //if author already exists in index, I don't need it.
-                        //if author repo is in the "incomplete" list, I don't need it
+                         // if author already exists in index, I don't need it.
+                         // if author repo is in the "incomplete" list, I don't need it
                         if !vec_of_author_url.iter().any(|v| v == &author_url)
                             && !vec_author_incomplete_repo
                                 .iter()
@@ -221,8 +221,8 @@ impl ReservedFolder {
                 }
             } // for resp_body
         } // loop
-          //dbg!(vec_of_new.len());
-          //dbg!( &vec_of_new);
+           // dbg!(vec_of_new.len());
+           // dbg!( &vec_of_new);
           // return
         ReservedFolder {
             list_new_author_id: Some(vec_of_new),
@@ -235,7 +235,7 @@ impl ReservedFolder {
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
-        dbg!(&author_name);
+         // dbg!(&author_name);
         let author_new = AuthorNew {
             author_url_author_name: s!(author_name),
         };
@@ -248,16 +248,16 @@ impl ReservedFolder {
             "https://api.github.com/repos/{}/crev-proofs/contents",
             author_new.author_url_author_name
         );
-        dbg!(&gh_content_url);
+         // dbg!(&gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
         // the new format of proof
         // "name": "5X5SQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHax5cu3hjM",
         // "size": 0,
         let mut author_id = s!("");
         let mut pos_cursor: usize = 0;
-        //dbg!(&resp_body);
+         // dbg!(&resp_body);
         loop {
-            //first get the name, then get the size
+             // first get the name, then get the size
             let range_name =
                 find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
             if let Some(range_name) = range_name {
@@ -302,7 +302,7 @@ impl ReservedFolder {
 impl HtmlServerTemplateRender for ReservedFolder {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-        //return
+         // return
         s!("ReservedFolder")
     }
     /// renders the complete html file. Not a sub-template/fragment.

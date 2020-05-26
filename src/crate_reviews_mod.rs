@@ -23,7 +23,7 @@ impl CrateReviews {
         let crate_version_summary = CrateVersionSummary::new(crate_name, &reviews);
         filter_reviews(&mut reviews, version, kind);
 
-        //return
+         // return
         CrateReviews {
             crate_version_summary,
             reviews,
@@ -50,7 +50,7 @@ fn get_crate_reviews(crate_name: &str) -> Vec<Review> {
         // avoid big folders and other folders with *.crev
         &vec![s!("/.git"), s!("/trust")]
     )) {
-        //count_files += 1;
+         // count_files += 1;
         // dbg!(filename_crev);
         // for filename_result in unwrap!(glob("/reviews/*.crev")) {
         // read crev file
@@ -142,7 +142,7 @@ fn push_review(review_string: &str, reviews: &mut Vec<Review>, crate_name: &str)
 impl HtmlServerTemplateRender for CrateReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-        //return
+         // return
         s!("CrateReviews")
     }
     /// renders the complete html file. Not a sub-template/fragment.

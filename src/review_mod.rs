@@ -130,7 +130,7 @@ impl Review {
             patch,
             self.get_author_name(),
         );
-        //return
+         // return
         version_for_sorting
     }
     /// get rating even when review in none
@@ -146,12 +146,12 @@ impl Review {
 impl HtmlServerTemplateRender for Review {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-        //return
+         // return
         s!("Review")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
-        //return
+         // return
         String::new()
     }
     /// boolean : is the next node rendered or not
@@ -219,6 +219,7 @@ impl HtmlServerTemplateRender for Review {
                 }
             }
             "st_review_comment" => {
+                 // dbg!(&self.comment);
                 if let Some(comment) = &self.comment {
                     comment.clone()
                 } else {

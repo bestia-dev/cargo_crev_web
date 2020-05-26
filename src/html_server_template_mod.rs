@@ -102,7 +102,7 @@ pub trait HtmlServerTemplateRender {
                 eprintln!("Error: render_template_raw_to_nodes() does not return one ElementNode.")
             }
         }
-        //return
+         // return
         html
     }
 
@@ -154,7 +154,7 @@ pub trait HtmlServerTemplateRender {
                     &sub_templates,
                     subtemplate,
                     pos_cursor,
-                    // retain_next_node
+                    // retain_next_node:
                     true,
                 ) {
                     Ok(new_root_element) => root_element = new_root_element,
@@ -240,9 +240,9 @@ pub trait HtmlServerTemplateRender {
                         } else {
                             element.children.push(Node::Element(child_element));
                         }
-                        // the siblings get the parents retain, until sb_
-                        retain_next_node = retain_this_node;
-                    }
+                    } 
+                    // the siblings get the parents retain, until sb_
+                    retain_next_node = retain_this_node;
                 }
                 Event::Attribute(name, value) => {
                     if retain_this_node == true {
