@@ -133,6 +133,7 @@ impl HtmlServerTemplateRender for AuthorReviews {
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             "st_author_name" => s!(&self.author_name),
             "st_author_url" => s!(&self.author_url),
+            "st_author_id" => s!(&self.author_id),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
