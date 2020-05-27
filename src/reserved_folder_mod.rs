@@ -110,7 +110,7 @@ impl ReservedFolder {
         let mut vec_of_new = Vec::<OnlyAuthor>::new();
         let path = unwrap!(dirs::home_dir());
         let path = path.join(".cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
-
+        let mut vec_of_auto_crev = Vec::<OnlyAuthor>::new();
         for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
             &path,
             "/*.crev",
@@ -130,7 +130,7 @@ impl ReservedFolder {
                         let review_short: ReviewShort =
                             unwrap!(serde_yaml::from_str(review_string));
 
-                        vec_of_new.push(OnlyAuthor {
+                            vec_of_auto_crev.push(OnlyAuthor {
                             author_name: if let Some(url) = &review_short.ids[0].url {
                                 author_name_from_url(&url)
                             } else {
@@ -160,44 +160,38 @@ impl ReservedFolder {
             .lock()
             .expect("error cached_review_index.lock()");
         use itertools::Itertools;
-        let mut vec_of_author_url: Vec<String> = review_index
+        let mut fetched_author_url: Vec<String> = review_index
             .vec
             .iter()
             .unique_by(|rev| &rev.author_url)
             .map(|rev| rev.author_url.clone())
             .collect();
-        vec_of_author_url.sort_by(|a, b| a.cmp(&b));
+        fetched_author_url.sort_by(|a, b| a.cmp(&b));
         // endregion: first I need the list of fetched authors
 
         // read blacklist_author_url from json file
         // TODO: make this editable from web UI
-        /*
-            let blacklist_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
-            let vec_author_incomplete_repo: Vec<String> = unwrap!(serde_json::from_str(&blacklist_author_url));
 
-            vec_of_urls.sort_by(|a, b| a.author_name.to_lowercase().cmp(&b.author_name.to_lowercase()));
+        let blacklisted_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
+        let mut blacklisted_author_url: Vec<String> =
+            unwrap!(serde_json::from_str(&blacklisted_author_url));
 
-            for u in vec_of_urls.iter() {
-                let author_url = format!(
-                    "https://github.com/{}/crev-proofs",
-                    u.author_name
-                );
-                 // dbg!(author_url);
+            blacklisted_author_url.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
 
-                 // if author already exists in index, I don't need it.
-                 // if author repo is in the "incomplete" list, I don't need it
-                if !vec_of_author_url.iter().any(|v| v == &author_url)
-                    && !vec_author_incomplete_repo
-                        .iter()
-                        .any(|v| v == &author_url)
-                {
-                    vec_of_new.push(AuthorNew {
-                        author_name: s!(&u.author_name),
-                    });
-                }
+        for auto_crev in vec_of_auto_crev.iter() {
+            // if author already exists in index, I don't need it.
+            // if author repo is in the "incomplete" list, I don't need it
+            if !fetched_author_url.iter().any(|v| v == &auto_crev.author_url)
+                && !blacklisted_author_url.iter().any(|v| v == &auto_crev.author_url)
+            {
+                vec_of_new.push(OnlyAuthor {
+                    author_name: auto_crev.author_name.clone(),
+                    author_id: auto_crev.author_id.clone(),
+                    author_url: auto_crev.author_url.clone(),
+                });
             }
         }
-        */
+
         // dbg!(vec_of_new.len());
         // dbg!( &vec_of_new);
         // return
