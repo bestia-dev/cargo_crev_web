@@ -191,12 +191,12 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
-                for cursor_for_order_by_crate in 0..self.vec.len() {
+                for cursor_for_group_by_crate in 0..self.vec.len() {
                     let vec_node = unwrap!(self.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,
                         template_name,
-                        cursor_for_order_by_crate
+                        cursor_for_group_by_crate
                     ));
                     nodes.extend_from_slice(&vec_node);
                 }
