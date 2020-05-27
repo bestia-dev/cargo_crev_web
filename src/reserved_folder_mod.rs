@@ -11,18 +11,15 @@ use crate::utils_mod::*;
 use crate::CachedReviewIndex;
 use crate::*;
 
-use std::fs;
+use std::{fs, path::Path};
 use unwrap::unwrap;
+use serde_derive::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug,Default)]
 pub struct OnlyAuthor {
     pub author_name: String,
     pub author_id: String,
     pub author_url: String,
-}
-#[derive(Debug, Clone, Default)]
-pub struct AuthorNew {
-    pub author_url_author_name: String,
 }
 
 //use unwrap::unwrap;
@@ -30,9 +27,10 @@ pub struct AuthorNew {
 pub struct ReservedFolder {
     pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
-    pub list_new_author_id: Option<Vec<AuthorNew>>,
+    pub list_new_author_id: Option<Vec<OnlyAuthor>>,
     pub add_author_url: Option<String>,
 }
+
 
 impl ReservedFolder {
     /// prepares the data
@@ -80,129 +78,105 @@ impl ReservedFolder {
         }
     }
     pub async fn list_new_author_id(cached_review_index: CachedReviewIndex) -> Self {
-        let mut vec_of_new = Vec::<AuthorNew>::new();
-        use futures::future;
-        // closure don't need the definition of the crazy return type. woohoo.
-        let surf_get = |page_number: usize| {
-            surf::get(&format!(
-                "https://api.github.com/search/repositories?q=crev-proofs&page={}",
-                page_number
-            ))
-            .recv_string()
-        };
-        // The github api response has pagination. It returns 30 items in one page.
-        // The public api allows 10 request per minute. Enough for now.
-        let mut is_last_page_empty = false;
-        let mut page_number: usize = 1;
-        // I will read the "total_count": 78, in the beginning of the first json
-        // and be very exact about how many pages to fetch
-        let mut total_count: usize = 999999999;
-        while !is_last_page_empty && (page_number - 1) * 30 * 3 < total_count {
-            // first make 3 requests concurrently
-            let fut_1 = surf_get(page_number);
-            page_number += 1;
-            let fut_2 = surf_get(page_number);
-            page_number += 1;
-            let fut_3 = surf_get(page_number);
-            page_number += 1;
-            // await all 3 concurrently
-            let vec_of_str = future::join_all(vec![fut_1, fut_2, fut_3]).await;
-             // dbg!(&vec_of_str);
+        // The repo https://gitlab.com/crev-dev/auto-crev-proofs.git
+        // is automated to have all the crev repos it can find. It is also
+        // possible to add repos manually.
+        // I will clone and fetch that repo periodically 
+        // I will extract the data for adding new repos to cargo_crev_web.
 
-            // first I need the list of fetched authors
-            // I cannot construct this before await, because await can take a lot of time
-            // and reference lifetime is in question?
-            // so I must do it after await.
-            // probably the Mutex is available everywhere, anytime ?
-            let review_index = cached_review_index
-                .lock()
-                .expect("error cached_review_index.lock()");
-            use itertools::Itertools;
-            let mut vec_of_author_url: Vec<String> = review_index
-                .vec
-                .iter()
-                .unique_by(|rev| &rev.author_url)
-                .map(|rev| rev.author_url.clone())
-                .collect();
-            vec_of_author_url.sort_by(|a, b| a.cmp(&b));
+        /*
+ids:
+  - id-type: crev
+    id: 24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw
+    url: "https://github.com/LucianoBestia/crev-proofs"
+*/
+#[derive(Serialize, Deserialize, Clone, Debug)]
+struct ReviewIdsShort {
+    pub id: String ,
+    pub url: Option<String>,
+}
+#[derive(Serialize, Deserialize, Clone,Debug)]
+struct ReviewShort {
+    pub ids: Vec<ReviewIdsShort>,
+}
 
-            // the first time we loop around let's find the "total_count": 78,
-            // so we can be precise to end the loop with no additional requests
-            if page_number == 4 {
-                let mut pos_cursor = 0;
-                let resp_body = unwrap!(vec_of_str[0].as_ref());
-                let range = unwrap!(find_range_between_delimiters(
-                    resp_body,
-                    &mut pos_cursor,
-                    r#""total_count": "#,
-                    r#","#
-                ));
-                total_count = unwrap!(resp_body[range].parse());
-                 // dbg!(total_count);
-            }
 
-            for resp_body in vec_of_str.iter() {
-                let resp_body = unwrap!(resp_body.as_ref());
-                // unwrap!(fs::write("github_search.resp_body",&resp_body));
-                // this is very big json vector, but I am interested in one single field: contents_url:
-                // REST api is so terribly wasteful. GraphQl is theoretically much better.
-                // I will also avoid the use of serde. Just to practice coding.
-                let mut vec_of_urls: Vec<AuthorNew> = vec![];
-                let mut pos_cursor = 0;
+        let mut vec_of_new = Vec::<OnlyAuthor>::new();
+        let auto_crev_proof_folder_name = Path::new( "/mnt/c/Users/Luciano/rust_forked_crates/auto-crev-proofs/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
 
-                // I need this format for author_url:
-                // https://github.com/BurntSushi/crev-proofs
-                // the contents_url return this format
-                // https://api.github.com/repos/leo-lb/crev-proofs/contents",
-                // the url must end with /crev-proofs/ else discard
-                // the only valuable info is author_url_author_name
-
-                while let Some(pos_start) = find_pos_after_delimiter(
-                    &resp_body,
-                    pos_cursor,
-                    r#""contents_url": "https://api.github.com/repos/"#,
-                ) {
-                    if let Some(pos_end) = find_pos_before_delimiter(
-                        &resp_body,
-                        pos_start,
-                        r#"/crev-proofs/contents/{+path}""#,
-                    ) {
-                        if pos_end - pos_start > 20 {
-                            // to long for author name. Continue after pos_start.
-                            pos_cursor = pos_start;
-                        } else {
-                            vec_of_urls.push(AuthorNew {
-                                author_url_author_name: s!(&resp_body[pos_start..pos_end]),
-                            });
-                            /*
-                            let author_url = format!(
-                                "https://github.com/{}/crev-proofs",
-                                &resp_body[pos_start..pos_end]
+        for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
+            &auto_crev_proof_folder_name,
+            "/*.crev",
+            // avoid big folders 
+            &vec![]
+        )) {
+            let crev_text = unwrap!(fs::read_to_string(filename_crev));
+            dbg!(filename_crev);
+            for part1 in crev_text.split("----- END CREV PROOF -----") {
+                let start_delimiter = "----- BEGIN CREV PROOF -----";
+                if let Some(start_pos) = part1.find(start_delimiter) {
+                    let start_pos = start_pos + start_delimiter.len() + 1;
+                    if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
+                        let review_string = &part1[start_pos..end_pos];
+                        dbg!(review_string);
+                        //fn push_author(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
+                            let review_short: ReviewShort = unwrap!(serde_yaml::from_str(review_string));
+                            
+                            vec_of_new.push(
+                                 OnlyAuthor {
+                                    author_name: 
+                                    if let Some(url) = &review_short.ids[0].url{
+                                        author_name_from_url(&url)
+                                    }else{
+                                        s!("")
+                                    },
+                                    author_id: review_short.ids[0].id.clone(),
+                                    author_url: if let Some(url) = &review_short.ids[0].url{
+                                        url.clone()
+                                    }else{
+                                        s!("")
+                                    },
+                                }
                             );
-                            */
-                             // dbg!(&author_url);
-                            pos_cursor = pos_end;
-                        }
-                    } else {
-                        break;
+                            dbg!(&vec_of_new);
+                        //}
                     }
                 }
-                // dbg!(vec_of_urls.len());
-                // dbg!( vec_of_urls);
-                if vec_of_urls.is_empty() {
-                    is_last_page_empty = true;
-                // this will end the while loop
-                } else {
-                    // read blacklist_author_url from json file
+            }
+        }
+        dbg!(&vec_of_new);
+
+
+        // region: first I need the list of fetched authors
+        // I cannot construct this before await, because await can take a lot of time
+        // and reference lifetime is in question?
+        // so I must do it after await.
+        // probably the Mutex is available everywhere, anytime ?
+        let review_index = cached_review_index
+            .lock()
+            .expect("error cached_review_index.lock()");
+        use itertools::Itertools;
+        let mut vec_of_author_url: Vec<String> = review_index
+            .vec
+            .iter()
+            .unique_by(|rev| &rev.author_url)
+            .map(|rev| rev.author_url.clone())
+            .collect();
+        vec_of_author_url.sort_by(|a, b| a.cmp(&b));
+        // endregion: first I need the list of fetched authors
+
+                // read blacklist_author_url from json file
+                // TODO: make this editable from web UI
+                /*
                     let blacklist_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
                     let vec_author_incomplete_repo: Vec<String> = unwrap!(serde_json::from_str(&blacklist_author_url));
 
-                    vec_of_urls.sort_by(|a, b| a.author_url_author_name.to_lowercase().cmp(&b.author_url_author_name.to_lowercase()));
+                    vec_of_urls.sort_by(|a, b| a.author_name.to_lowercase().cmp(&b.author_name.to_lowercase()));
 
                     for u in vec_of_urls.iter() {
                         let author_url = format!(
                             "https://github.com/{}/crev-proofs",
-                            u.author_url_author_name
+                            u.author_name
                         );
                          // dbg!(author_url);
 
@@ -214,21 +188,22 @@ impl ReservedFolder {
                                 .any(|v| v == &author_url)
                         {
                             vec_of_new.push(AuthorNew {
-                                author_url_author_name: s!(&u.author_url_author_name),
+                                author_name: s!(&u.author_name),
                             });
                         }
                     }
                 }
-            } // for resp_body
-        } // loop
+                */
            // dbg!(vec_of_new.len());
            // dbg!( &vec_of_new);
           // return
         ReservedFolder {
             list_new_author_id: Some(vec_of_new),
             ..Default::default()
-        }
     }
+}
+
+
     pub async fn add_author_url(
         author_name: String,
         _cached_review_index: CachedReviewIndex,
@@ -236,17 +211,18 @@ impl ReservedFolder {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
          // dbg!(&author_name);
-        let author_new = AuthorNew {
-            author_url_author_name: s!(author_name),
+        let author_new = OnlyAuthor {
+            author_name: s!(author_name),
+            ..OnlyAuthor::default()
         };
         let author_url = format!(
             "https://github.com/{}/crev-proofs",
-            author_new.author_url_author_name
+            author_new.author_name
         );
         // find github content
         let gh_content_url = format!(
             "https://api.github.com/repos/{}/crev-proofs/contents",
-            author_new.author_url_author_name
+            author_new.author_name
         );
          // dbg!(&gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
@@ -354,7 +330,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 item_at_cursor_1 = &list[pos_cursor];
             }
         }
-        let mut item_at_cursor_2 = &AuthorNew::default();
+        let mut item_at_cursor_2 = &OnlyAuthor::default();
         if subtemplate == "stmplt_authors_new" {
             if let Some(list) = &self.list_new_author_id {
                 item_at_cursor_2 = &list[pos_cursor];
@@ -373,14 +349,14 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "st_author_id" => item_at_cursor_1.author_id.clone(),
             // same name from different data model is not allowed
             "st_author_url" => item_at_cursor_1.author_url.clone(),
-            "st_author_name_2" => item_at_cursor_2.author_url_author_name.clone(),
+            "st_author_name_2" => item_at_cursor_2.author_name.clone(),
             "st_author_url_2" => format!(
                 "https://github.com/{}/crev-proofs/",
-                &item_at_cursor_2.author_url_author_name,
+                &item_at_cursor_2.author_name,
             ),
             "st_add_author_url_route" => format!(
                 "/cargo_crev_web/reserved_folder/add_author_url/{}/",
-                url_encode(&item_at_cursor_2.author_url_author_name)
+                url_encode(&item_at_cursor_2.author_name)
             ),
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))

@@ -233,3 +233,12 @@ pub fn ns_print(name: &str, ns_start: i64) -> i64 {
     // return new now_ns
     Utc::now().timestamp_nanos()
 }
+
+pub fn author_name_from_url(url:&str) -> String {
+    let author_name = url
+        .replace("https://github.com/", "")
+        .replace("https://gitlab.com/", "")
+        .replace("/crev-proofs", "");
+    // return
+    author_name
+}

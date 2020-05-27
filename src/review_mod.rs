@@ -111,12 +111,8 @@ pub enum Level {
 impl Review {
     /// naive method to extract author_name
     pub fn get_author_name(&self) -> String {
-        let author_name = self
-            .from
-            .url
-            .replace("https://github.com/", "")
-            .replace("https://gitlab.com/", "")
-            .replace("/crev-proofs", "");
+        let author_name =  author_name_from_url(&self.from.url);
+
         // return
         author_name
     }
