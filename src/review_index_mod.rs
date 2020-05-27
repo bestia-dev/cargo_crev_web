@@ -54,7 +54,7 @@ impl ReviewIndex {
             // avoid big folders and other folders with *.crev
             &vec![s!("/.git"), s!("/trust")]
         )) {
-             // count_files += 1;
+            // count_files += 1;
             // dbg!(filename_crev);
             // for filename_result in unwrap!(glob("/reviews/*.crev")) {
             // read crev file
@@ -88,7 +88,7 @@ impl ReviewIndex {
             .vec
             .sort_by(|a, b| b.file_path.cmp(&a.file_path));
         ns_print("ReviewIndex.new()", ns_start);
-         // return
+        // return
         review_index
     }
 

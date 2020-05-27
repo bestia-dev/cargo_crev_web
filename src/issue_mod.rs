@@ -17,13 +17,13 @@ pub struct Issue {
 impl HtmlServerTemplateRender for Issue {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-         // return
+        // return
         s!("Issue")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, _templates_folder_name: &str) -> String {
         // not needed for Issue
-         // return
+        // return
         String::new()
     }
     /// boolean : is the next node rendered or not

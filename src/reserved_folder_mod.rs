@@ -11,11 +11,11 @@ use crate::utils_mod::*;
 use crate::CachedReviewIndex;
 use crate::*;
 
-use std::{fs, path::Path};
-use unwrap::unwrap;
 use serde_derive::{Deserialize, Serialize};
+use std::fs;
+use unwrap::unwrap;
 
-#[derive(Debug,Default)]
+#[derive(Debug, Default)]
 pub struct OnlyAuthor {
     pub author_name: String,
     pub author_id: String,
@@ -31,11 +31,10 @@ pub struct ReservedFolder {
     pub add_author_url: Option<String>,
 }
 
-
 impl ReservedFolder {
     /// prepares the data
     pub fn new(_cached_review_index: CachedReviewIndex) -> Self {
-         // let review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
+        // let review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
         // return
         ReservedFolder {
             ..Default::default()
@@ -57,8 +56,12 @@ impl ReservedFolder {
                 author_url: rev.author_url.clone(),
             })
             .collect();
-        only_author.sort_by(|a, b| a.author_name.to_lowercase().cmp(&b.author_name.to_lowercase()));
-         // dbg!(only_author);
+        only_author.sort_by(|a, b| {
+            a.author_name
+                .to_lowercase()
+                .cmp(&b.author_name.to_lowercase())
+        });
+        // dbg!(only_author);
 
         // return
         ReservedFolder {
@@ -81,37 +84,37 @@ impl ReservedFolder {
         // The repo https://gitlab.com/crev-dev/auto-crev-proofs.git
         // is automated to have all the crev repos it can find. It is also
         // possible to add repos manually.
-        // I will clone and fetch that repo periodically 
+        // I will clone and fetch that repo periodically
         // I will extract the data for adding new repos to cargo_crev_web.
 
         /*
-ids:
-  - id-type: crev
-    id: 24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw
-    url: "https://github.com/LucianoBestia/crev-proofs"
-*/
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct ReviewIdsShort {
-    pub id: String ,
-    pub url: Option<String>,
-}
-#[derive(Serialize, Deserialize, Clone,Debug)]
-struct ReviewShort {
-    pub ids: Vec<ReviewIdsShort>,
-}
-
+        ids:
+          - id-type: crev
+            id: 24YKeuThJDN_FSlJy_xcl5diSZcKcRbh-0zXM0YxTOFJw
+            url: "https://github.com/LucianoBestia/crev-proofs"
+        */
+        #[derive(Serialize, Deserialize, Clone, Debug)]
+        struct ReviewIdsShort {
+            pub id: String,
+            pub url: Option<String>,
+        }
+        #[derive(Serialize, Deserialize, Clone, Debug)]
+        struct ReviewShort {
+            pub ids: Vec<ReviewIdsShort>,
+        }
 
         let mut vec_of_new = Vec::<OnlyAuthor>::new();
-        let auto_crev_proof_folder_name = Path::new( "/mnt/c/Users/Luciano/rust_forked_crates/auto-crev-proofs/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
+        let path = unwrap!(dirs::home_dir());
+        let path = path.join("auto-crev-proofs/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
 
         for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
-            &auto_crev_proof_folder_name,
+            &path,
             "/*.crev",
-            // avoid big folders 
+            // avoid big folders
             &vec![]
         )) {
             let crev_text = unwrap!(fs::read_to_string(filename_crev));
-            dbg!(filename_crev);
+            // dbg!(filename_crev);
             for part1 in crev_text.split("----- END CREV PROOF -----") {
                 let start_delimiter = "----- BEGIN CREV PROOF -----";
                 if let Some(start_pos) = part1.find(start_delimiter) {
@@ -120,32 +123,29 @@ struct ReviewShort {
                         let review_string = &part1[start_pos..end_pos];
                         dbg!(review_string);
                         //fn push_author(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
-                            let review_short: ReviewShort = unwrap!(serde_yaml::from_str(review_string));
-                            
-                            vec_of_new.push(
-                                 OnlyAuthor {
-                                    author_name: 
-                                    if let Some(url) = &review_short.ids[0].url{
-                                        author_name_from_url(&url)
-                                    }else{
-                                        s!("")
-                                    },
-                                    author_id: review_short.ids[0].id.clone(),
-                                    author_url: if let Some(url) = &review_short.ids[0].url{
-                                        url.clone()
-                                    }else{
-                                        s!("")
-                                    },
-                                }
-                            );
-                            dbg!(&vec_of_new);
+                        let review_short: ReviewShort =
+                            unwrap!(serde_yaml::from_str(review_string));
+
+                        vec_of_new.push(OnlyAuthor {
+                            author_name: if let Some(url) = &review_short.ids[0].url {
+                                author_name_from_url(&url)
+                            } else {
+                                s!("")
+                            },
+                            author_id: review_short.ids[0].id.clone(),
+                            author_url: if let Some(url) = &review_short.ids[0].url {
+                                url.clone()
+                            } else {
+                                s!("")
+                            },
+                        });
+                        dbg!(&vec_of_new);
                         //}
                     }
                 }
             }
         }
-        dbg!(&vec_of_new);
-
+        //dbg!(&vec_of_new);
 
         // region: first I need the list of fetched authors
         // I cannot construct this before await, because await can take a lot of time
@@ -165,44 +165,43 @@ struct ReviewShort {
         vec_of_author_url.sort_by(|a, b| a.cmp(&b));
         // endregion: first I need the list of fetched authors
 
-                // read blacklist_author_url from json file
-                // TODO: make this editable from web UI
-                /*
-                    let blacklist_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
-                    let vec_author_incomplete_repo: Vec<String> = unwrap!(serde_json::from_str(&blacklist_author_url));
+        // read blacklist_author_url from json file
+        // TODO: make this editable from web UI
+        /*
+            let blacklist_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
+            let vec_author_incomplete_repo: Vec<String> = unwrap!(serde_json::from_str(&blacklist_author_url));
 
-                    vec_of_urls.sort_by(|a, b| a.author_name.to_lowercase().cmp(&b.author_name.to_lowercase()));
+            vec_of_urls.sort_by(|a, b| a.author_name.to_lowercase().cmp(&b.author_name.to_lowercase()));
 
-                    for u in vec_of_urls.iter() {
-                        let author_url = format!(
-                            "https://github.com/{}/crev-proofs",
-                            u.author_name
-                        );
-                         // dbg!(author_url);
+            for u in vec_of_urls.iter() {
+                let author_url = format!(
+                    "https://github.com/{}/crev-proofs",
+                    u.author_name
+                );
+                 // dbg!(author_url);
 
-                         // if author already exists in index, I don't need it.
-                         // if author repo is in the "incomplete" list, I don't need it
-                        if !vec_of_author_url.iter().any(|v| v == &author_url)
-                            && !vec_author_incomplete_repo
-                                .iter()
-                                .any(|v| v == &author_url)
-                        {
-                            vec_of_new.push(AuthorNew {
-                                author_name: s!(&u.author_name),
-                            });
-                        }
-                    }
+                 // if author already exists in index, I don't need it.
+                 // if author repo is in the "incomplete" list, I don't need it
+                if !vec_of_author_url.iter().any(|v| v == &author_url)
+                    && !vec_author_incomplete_repo
+                        .iter()
+                        .any(|v| v == &author_url)
+                {
+                    vec_of_new.push(AuthorNew {
+                        author_name: s!(&u.author_name),
+                    });
                 }
-                */
-           // dbg!(vec_of_new.len());
-           // dbg!( &vec_of_new);
-          // return
+            }
+        }
+        */
+        // dbg!(vec_of_new.len());
+        // dbg!( &vec_of_new);
+        // return
         ReservedFolder {
             list_new_author_id: Some(vec_of_new),
             ..Default::default()
+        }
     }
-}
-
 
     pub async fn add_author_url(
         author_name: String,
@@ -210,30 +209,27 @@ struct ReviewShort {
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
-         // dbg!(&author_name);
+        // dbg!(&author_name);
         let author_new = OnlyAuthor {
             author_name: s!(author_name),
             ..OnlyAuthor::default()
         };
-        let author_url = format!(
-            "https://github.com/{}/crev-proofs",
-            author_new.author_name
-        );
+        let author_url = format!("https://github.com/{}/crev-proofs", author_new.author_name);
         // find github content
         let gh_content_url = format!(
             "https://api.github.com/repos/{}/crev-proofs/contents",
             author_new.author_name
         );
-         // dbg!(&gh_content_url);
+        // dbg!(&gh_content_url);
         let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
         // the new format of proof
         // "name": "5X5SQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHax5cu3hjM",
         // "size": 0,
         let mut author_id = s!("");
         let mut pos_cursor: usize = 0;
-         // dbg!(&resp_body);
+        // dbg!(&resp_body);
         loop {
-             // first get the name, then get the size
+            // first get the name, then get the size
             let range_name =
                 find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
             if let Some(range_name) = range_name {
@@ -278,7 +274,7 @@ struct ReviewShort {
 impl HtmlServerTemplateRender for ReservedFolder {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-         // return
+        // return
         s!("ReservedFolder")
     }
     /// renders the complete html file. Not a sub-template/fragment.

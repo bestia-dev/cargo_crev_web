@@ -338,7 +338,7 @@ async fn main() {
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);
-                         // return crazy types
+                        // return crazy types
                         let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
                             Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
                         result
@@ -360,7 +360,7 @@ async fn main() {
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);
-                         // return crazy types
+                        // return crazy types
                         let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
                             Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
                         result
@@ -492,7 +492,7 @@ async fn main() {
                 ),
         );
 
-     // OBSOLETE
+    // OBSOLETE
     let query_crate_route = warp::path!("cargo_crev_web" / "query" / String)
         .map(|crate_name: String| {
             let ns_start = ns_start(&format!(

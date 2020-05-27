@@ -67,7 +67,7 @@ impl ReviewIndexSummary {
 impl HtmlServerTemplateRender for ReviewIndexSummary {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-         // return
+        // return
         s!("ReviewIndexSummary")
     }
     /// renders the complete html file. Not a sub-template/fragment.

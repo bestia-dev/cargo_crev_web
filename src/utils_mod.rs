@@ -51,7 +51,7 @@ pub fn find_range_between_delimiters(
             return Some(pos_start..pos_end);
         }
     }
-     // return
+    // return
     None
 }
 
@@ -166,7 +166,7 @@ pub fn ns_start(text: &str) -> i64 {
 pub fn ns_elapsed(ns_start: i64) -> i64 {
     let now_ns = Utc::now().timestamp_nanos();
     let duration_ns = now_ns - ns_start;
-     // return
+    // return
     duration_ns
 }
 
@@ -234,7 +234,7 @@ pub fn ns_print(name: &str, ns_start: i64) -> i64 {
     Utc::now().timestamp_nanos()
 }
 
-pub fn author_name_from_url(url:&str) -> String {
+pub fn author_name_from_url(url: &str) -> String {
     let author_name = url
         .replace("https://github.com/", "")
         .replace("https://gitlab.com/", "")

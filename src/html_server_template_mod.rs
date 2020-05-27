@@ -102,7 +102,7 @@ pub trait HtmlServerTemplateRender {
                 eprintln!("Error: render_template_raw_to_nodes() does not return one ElementNode.")
             }
         }
-         // return
+        // return
         html
     }
 
@@ -240,7 +240,7 @@ pub trait HtmlServerTemplateRender {
                         } else {
                             element.children.push(Node::Element(child_element));
                         }
-                    } 
+                    }
                     // the siblings get the parents retain, until sb_
                     retain_next_node = retain_this_node;
                 }

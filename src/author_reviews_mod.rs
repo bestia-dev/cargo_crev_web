@@ -38,7 +38,7 @@ impl AuthorReviews {
                 if index_item.file_path != old_file_path {
                     old_file_path = index_item.file_path.clone();
                     if &one_file.file_path == "don't push the first row" {
-                         // only once read the author_name
+                        // only once read the author_name
                         author_name = index_item.author_name.clone();
                         author_url = index_item.author_url.clone();
                     } else {
@@ -80,7 +80,7 @@ impl AuthorReviews {
                 .cmp(&a.package.version_for_sorting)
         });
         reviews.sort_by(|a, b| a.package.name.cmp(&b.package.name));
-         // return
+        // return
         AuthorReviews {
             author_name: author_name,
             author_url: author_url,
@@ -93,7 +93,7 @@ impl AuthorReviews {
 impl HtmlServerTemplateRender for AuthorReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
-         // return
+        // return
         s!("AuthorReviews")
     }
     /// renders the complete html file. Not a sub-template/fragment.
