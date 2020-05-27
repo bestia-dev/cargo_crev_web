@@ -121,7 +121,7 @@ impl ReservedFolder {
                     let start_pos = start_pos + start_delimiter.len() + 1;
                     if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                         let review_string = &part1[start_pos..end_pos];
-                        dbg!(review_string);
+                        //dbg!(review_string);
                         //fn push_author(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
                         let review_short: ReviewShort =
                             unwrap!(serde_yaml::from_str(review_string));
@@ -139,7 +139,7 @@ impl ReservedFolder {
                                 s!("")
                             },
                         });
-                        dbg!(&vec_of_new);
+                        //dbg!(&vec_of_new);
                         //}
                     }
                 }
