@@ -113,6 +113,15 @@ it is possible also to trust a repo:
 At the end of editing the local data push:  
 `cargo crev repo publish`  
 
+## trusted authors
+
+For the purpose of showing most existing reviews, the cargo_rev_web will "trust" anybody.  
+It is not really trusting, it is just showing their reviews.  
+The repo <https://gitlab.com/crev-dev/auto-crev-proofs> contains all of the proof repos.  
+It is automated and maintained by @chrysn.  
+<https://github.com/crev-dev/cargo-crev/issues/336>  
+For incomplete, obsolete or otherwise unwanted repos I will have an editable blacklist.  
+
 ## Linux scheduler
 
 I need to call every hour:  
@@ -171,12 +180,9 @@ I am terrible in VIM, I confess.
 
 ## TODO
 
-- cached results  - cached templates?  
-- filtered by version, rating,... from cached  
-- summary per author, because there will be a lot of duplicates
-- change css file name on every release to avoid caching
-I am already manipulating css names in the dynamic content because of the folders.
+- more authors, more reviews
 
 ## References
 
 <https://github.com/rustomax/rust-iterators>  
+

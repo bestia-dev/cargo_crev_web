@@ -86,6 +86,10 @@ impl ReservedFolder {
         // possible to add repos manually.
         // I will clone and fetch that repo periodically
         // I will extract the data for adding new repos to cargo_crev_web.
+        // on my local disk it is cached as:
+        // .cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust/
+        // in the sample folder it is:
+        // sample_data/cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust/
 
         /*
         ids:
@@ -105,7 +109,7 @@ impl ReservedFolder {
 
         let mut vec_of_new = Vec::<OnlyAuthor>::new();
         let path = unwrap!(dirs::home_dir());
-        let path = path.join("auto-crev-proofs/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
+        let path = path.join(".cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
 
         for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
             &path,
