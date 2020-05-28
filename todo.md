@@ -1,10 +1,15 @@
 
 # TODO
 
-@chrysn has made a gitlab repo to add all the crev repos
-git clone https://gitlab.com/crev-dev/auto-crev-proofs.git
+filter on author review
 
-I could pull this with git and use it as base for cargo_crev_web.
+if I have cargo installed
+then I have the index and I can search in the index
+to find the Last version of the crate.
+maybe the date ?
+
+new review
+
 
 
 - try to make more smaller crates. Like libraries.

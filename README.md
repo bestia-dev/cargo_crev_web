@@ -182,6 +182,8 @@ I am terrible in VIM, I confess.
 
 - more authors, more reviews
 
+2020-05-27 authors:55 crates: 514, reviews: 886
+
 ## References
 
 <https://github.com/rustomax/rust-iterators>  
