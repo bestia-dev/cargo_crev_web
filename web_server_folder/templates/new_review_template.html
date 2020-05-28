@@ -35,8 +35,8 @@
         <div class="container0_content_not_grid">
             <pre>
 review:
-    thoroughness: <input type="radio" name="thoroughness" value="none">none     </input><input type="radio" name="thoroughness" value="low">low     </input><input type="radio" name="thoroughness" value="medium">medium     </input><input type="radio" name="thoroughness"value="high">high     </input>
-    understanding: <input type="radio" name="understanding" value="none">none     </input><input type="radio" name="understanding" value="low">low     </input><input type="radio" name="understanding" value="medium">medium     </input><input type="radio" name="understanding"value="high">high     </input>
+    thoroughness: <input type="radio" name="thoroughness" value="none">none     </input><input type="radio" name="thoroughness" value="low"><span class="c_low">low     </span></input><input type="radio" name="thoroughness" value="medium"><span class="c_medium">medium     </span></input><input type="radio" name="thoroughness"value="high"><span class="c_high">high     </span></input>
+    understanding: <input type="radio" name="understanding" value="none">none     </input><input type="radio" name="understanding" value="low"><span class="c_low">low     </span></input><input type="radio" name="understanding" value="medium"><span class="c_medium">medium     </span></input><input type="radio" name="understanding"value="high"><span class="c_high">high     </span></input>
     rating: <input type="radio" name="rating" value="none"><span class="c_none">none     </span></input><input type="radio" name="rating" value="negative"><span class="c_negative">negative     </span></input><input type="radio" name="rating" value="neutral"><span class="c_neutral">neutral     </span></input><input type="radio" name="rating"value="positive"><span class="c_positive">positive     </span></input><input type="radio" name="rating"value="strong"><span class="c_strong">strong     </span></input>
     comment: <textarea><!--st_review_comment-->Comment</textarea>
 
@@ -66,12 +66,11 @@ alternatives:
             <pre>
 issues:
 - id: <input type="text" data-t-value="st_issues_id_0" value="RUSTSEC-2019-0006" />
-    severity: <input type="radio" name="iss_severity_0" value="none">none     </input><input type="radio" name="iss_severity_0" value="low">low     </input><input type="radio" name="iss_severity_0" value="medium">medium     </input><input type="radio" name="iss_severity_0"value="high">high     </input>
+    severity: <input type="radio" name="iss_severity_0" value="none">none     </input><input type="radio" name="iss_severity_0" value="low"><span class="sc_low">low     </span></input><input type="radio" name="iss_severity_0" value="medium"><span class="sc_medium">medium     </span></input><input type="radio" name="iss_severity_0"value="high"><span class="sc_high">high     </span></input>
     comment: <textarea><!--st_issues_comment_0-->Comment</textarea>
             </pre>
         </div>
     </div>
-
 
     <!--sb_has_advisories-->
     <div class="container_0">
@@ -80,7 +79,7 @@ issues:
 advisories:
 - ids:
     - <input type="text" data-t-value="st_advisories_id_0" value="RUSTSEC-2019-0017" />
-    severity: <input type="radio" name="adv_severity_0_0" value="none">none     </input><input type="radio" name="adv_severity_0_0" value="low">low     </input><input type="radio" name="adv_severity_0_0" value="medium">medium     </input><input type="radio" name="adv_severity_0_0"value="high">high     </input>
+    severity: <input type="radio" name="adv_severity_0_0" value="none">none     </input><input type="radio" name="adv_severity_0_0" value="low"><span class="sc_low">low     </span></input><input type="radio" name="adv_severity_0_0" value="medium"><span class="sc_medium">medium     </span></input><input type="radio" name="adv_severity_0_0"value="high"><span class="sc_high">high     </span></input>
     comment: <textarea><!--st_advisories_comment_0_0-->comment</textarea>
             </pre>
         </div>

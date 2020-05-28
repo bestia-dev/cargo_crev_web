@@ -289,7 +289,9 @@ a:active.white {
 }
 
 .greener,
-.c_strong {
+.c_strong,
+.c_high,
+.sc_low {
     color: Chartreuse;
 }
 
@@ -300,18 +302,22 @@ a:active.white {
 
 .yellow,
 .alternative,
-.c_medium,
+.sc_medium,
 .h3y {
     color: yellow;
 }
 
 .orange,
+.c_medium,
+.c_neutral,
 .color_issue {
     color: orange;
 }
 
 .red,
 .c_negative,
+.c_low,
+.sc_high,
 .color_advisory {
     color: red;
 }
