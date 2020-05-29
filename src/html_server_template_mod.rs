@@ -115,7 +115,7 @@ pub trait HtmlServerTemplateRender {
         html_or_svg_parent: HtmlOrSvg,
         subtemplate: &str,
         pos_cursor: usize,
-    ) -> Result<Vec<Node>, String> {
+    ) -> Result<Vec<Node>, &'static str> {
         // html_template_raw can be a fragment. I add the root, that will later be removed.
         let html_template_raw = &format!("<template>{}</template>", html_template_raw);
         // extract sub_templates. Only one level deep.
@@ -128,45 +128,55 @@ pub trait HtmlServerTemplateRender {
 
         #[allow(clippy::single_match_else, clippy::wildcard_enum_match_arm)]
         // the root element must be only one
-        match reader_for_microxml.read_event() {
-            Event::StartElement(tag_name) => {
-                dom_path.push(s!(tag_name));
-                root_element = ElementNode {
-                    tag_name: s!(tag_name),
-                    attributes: vec![],
-                    children: vec![],
-                    namespace: None,
-                };
-                if &tag_name == &"svg" {
-                    html_or_svg_local = HtmlOrSvg::Svg;
-                }
-                if let HtmlOrSvg::Svg = html_or_svg_local {
-                    // svg elements have this namespace
-                    root_element.namespace = Some(s!("http://www.w3.org/2000/svg"));
-                }
-                // recursive function can return error
+        if let Some(result_token) = reader_for_microxml.next(){
+            match result_token{
+                Ok(token)=>{
+                    match token {
+                        Token::StartElement(tag_name) => {
+                            dom_path.push(s!(tag_name));
+                            root_element = ElementNode {
+                                tag_name: s!(tag_name),
+                                attributes: vec![],
+                                children: vec![],
+                                namespace: None,
+                            };
+                            if &tag_name == &"svg" {
+                                html_or_svg_local = HtmlOrSvg::Svg;
+                            }
+                            if let HtmlOrSvg::Svg = html_or_svg_local {
+                                // svg elements have this namespace
+                                root_element.namespace = Some(s!("http://www.w3.org/2000/svg"));
+                            }
+                            // recursive function can return error
 
-                match self.fill_element_node(
-                    &mut reader_for_microxml,
-                    root_element,
-                    html_or_svg_local,
-                    &mut dom_path,
-                    &sub_templates,
-                    subtemplate,
-                    pos_cursor,
-                    // retain_next_node:
-                    true,
-                ) {
-                    Ok(new_root_element) => root_element = new_root_element,
-                    Err(err) => {
-                        return Err(err);
+                            match unwrap!(self.fill_element_node(
+                                &mut reader_for_microxml,
+                                root_element,
+                                html_or_svg_local,
+                                &mut dom_path,
+                                &sub_templates,
+                                subtemplate,
+                                pos_cursor,
+                                // retain_next_node:
+                                true,
+                            )) {
+                                Ok(new_root_element) => root_element = new_root_element,
+                                Err(err) => {
+                                    return Err(&err);
+                                }
+                            }
+                        }
+                        _ => {
+                            // return error
+                            return Err("Error: no root element");
+                        }
                     }
                 }
+                Err(err_msg) => return Err(err_msg),
             }
-            _ => {
-                // return error
-                return Err(s!("Error: no root element"));
-            }
+        }
+        else{
+            return Err("Error: Not found root element.");
         }
         // remove the added root <template>
         // return its children
@@ -186,152 +196,7 @@ pub trait HtmlServerTemplateRender {
         subtemplate: &str,
         pos_cursor: usize,
         retain_this_node: bool,
-    ) -> Result<ElementNode, String> {
-        let mut replace_string: Option<String> = None;
-        let mut replace_vec_nodes: Option<Vec<Node>> = None;
-        let mut retain_next_node = retain_this_node;
-        let mut html_or_svg_local;
-        // loop through all the siblings in this iteration
-        loop {
-            // the children inherits html_or_svg from the parent, but cannot change the parent
-            html_or_svg_local = html_or_svg_parent;
-            match reader_for_microxml.read_event() {
-                Event::StartElement(tag_name) => {
-                    dom_path.push(s!(tag_name));
-                    // construct a child element and fill it (recursive)
-                    let mut child_element = ElementNode {
-                        tag_name: s!(tag_name),
-                        attributes: vec![],
-                        children: vec![],
-                        namespace: None,
-                    };
-                    if tag_name == "svg" {
-                        // this tagname changes to svg now
-                        html_or_svg_local = HtmlOrSvg::Svg;
-                    }
-                    if let HtmlOrSvg::Svg = html_or_svg_local {
-                        // this is the
-                        // svg elements have this namespace
-                        child_element.namespace = Some(s!("http://www.w3.org/2000/svg"));
-                    }
-                    if tag_name == "foreignObject" {
-                        // this tagname changes to html for children, not for this element
-                        html_or_svg_local = HtmlOrSvg::Html;
-                    }
-                    // recursion
-                    child_element = self.fill_element_node(
-                        reader_for_microxml,
-                        child_element,
-                        html_or_svg_local,
-                        dom_path,
-                        sub_templates,
-                        subtemplate,
-                        pos_cursor,
-                        retain_next_node,
-                    )?;
-                    // ignore this node dynamic content, and don't push to result
-                    // but traverse all template nodes.
-                    if retain_next_node == true {
-                        if let Some(repl_vec_nodes) = replace_vec_nodes {
-                            for repl_node in repl_vec_nodes {
-                                element.children.push(repl_node);
-                            }
-                            replace_vec_nodes = None;
-                        } else {
-                            element.children.push(Node::Element(child_element));
-                        }
-                    }
-                    // the siblings get the parents retain, until sb_
-                    retain_next_node = retain_this_node;
-                }
-                Event::Attribute(name, value) => {
-                    if retain_this_node == true {
-                        if name.starts_with("data-st-") {
-                            // placeholder is in the attribute value.
-                            // the attribute name is informative and should be similar to the next attribute
-                            // example: data-st-href="st_placeholder" href="x"
-                            // The replace_string will always be applied to the next attribute. No matter the name.
-                            let placeholder = &value;
-                            let repl_txt =
-                                self.replace_with_string(placeholder, subtemplate, pos_cursor);
-                            replace_string = Some(repl_txt);
-                        } else {
-                            let value = if let Some(repl) = replace_string {
-                                // empty the replace_string for the next node
-                                replace_string = None;
-                                decode_5_xml_control_characters(&repl)
-                            } else {
-                                decode_5_xml_control_characters(value)
-                            };
-                            element.attributes.push(Attribute {
-                                name: s!(name),
-                                value: value,
-                            });
-                        }
-                    }
-                }
-                Event::TextNode(txt) => {
-                    if retain_this_node == true {
-                        let txt = if let Some(repl) = replace_string {
-                            // empty the replace_string for the next node
-                            replace_string = None;
-                            decode_5_xml_control_characters(&repl)
-                        } else {
-                            decode_5_xml_control_characters(txt)
-                        };
-                        // here accepts only utf-8.
-                        // only minimum html entities are decoded
-                        element.children.push(Node::Text(txt));
-                    }
-                }
-                Event::Comment(txt) => {
-                    if retain_this_node == true {
-                        // the main goal of comments is to change the value of the next text node
-                        // with the result of a function
-                        // it must look like <!--st_get_text-->
-
-                        if txt.starts_with("st_") {
-                            let repl_txt = self.replace_with_string(txt, subtemplate, pos_cursor);
-                            replace_string = Some(repl_txt);
-                        } else if txt.starts_with("sb_") {
-                            // boolean if this is true than render the next node, else don't render
-                            retain_next_node = self.retain_next_node(txt);
-                        } else if txt.starts_with("stmplt_") {
-                            // replace exactly this placeholder for a sub-template
-                            let template_name = txt.trim_end_matches(" start");
-                            let repl_vec_nodes =
-                                self.render_sub_template(template_name, sub_templates);
-                            element.children.extend_from_slice(&repl_vec_nodes);
-                        } else if txt.starts_with("sn_") {
-                            // nodes  (in a vector)
-                            let repl_vec_nodes = self.replace_with_nodes(txt);
-                            replace_vec_nodes = Some(repl_vec_nodes);
-                        } else {
-                            // it is really a comment, retain it.
-                            element.children.push(Node::Comment(s!(txt)));
-                        }
-                    }
-                }
-                Event::EndElement(name) => {
-                    let last_name = unwrap!(dom_path.pop());
-                    // it can be also auto-closing element
-                    if last_name == name || name == "" {
-                        return Ok(element);
-                    } else {
-                        return Err(format!(
-                            "End element not correct: starts <{}> ends </{}>",
-                            last_name, name
-                        ));
-                    }
-                }
-                Event::Error(error_msg) => {
-                    return Err(s!(error_msg));
-                }
-                Event::Eof => {
-                    return Ok(element);
-                }
-            }
-        }
+    ) -> Option<Result<ElementNode, &'static str>> {
         /// private fn - decode 5 xml control characters : " ' & < >
         /// https://www.liquid-technologies.com/XML/EscapingData.aspx
         /// I will ignore all html entities, to keep things simple,
@@ -348,6 +213,151 @@ pub trait HtmlServerTemplateRender {
                 .replace("&lt;", "<")
                 .replace("&gt;", ">")
         }
+
+        let mut replace_string: Option<String> = None;
+        let mut replace_vec_nodes: Option<Vec<Node>> = None;
+        let mut retain_next_node = retain_this_node;
+        let mut html_or_svg_local;
+        // loop through all the siblings in this iteration
+        while let Some(result_token) = reader_for_microxml.next(){
+            // the children inherits html_or_svg from the parent, but cannot change the parent
+            html_or_svg_local = html_or_svg_parent;
+            match result_token{
+                Ok(token)=>{
+                    match token {
+                        Token::StartElement(tag_name) => {
+                            dom_path.push(s!(tag_name));
+                            // construct a child element and fill it (recursive)
+                            let mut child_element = ElementNode {
+                                tag_name: s!(tag_name),
+                                attributes: vec![],
+                                children: vec![],
+                                namespace: None,
+                            };
+                            if tag_name == "svg" {
+                                // this tagname changes to svg now
+                                html_or_svg_local = HtmlOrSvg::Svg;
+                            }
+                            if let HtmlOrSvg::Svg = html_or_svg_local {
+                                // this is the
+                                // svg elements have this namespace
+                                child_element.namespace = Some(s!("http://www.w3.org/2000/svg"));
+                            }
+                            if tag_name == "foreignObject" {
+                                // this tagname changes to html for children, not for this element
+                                html_or_svg_local = HtmlOrSvg::Html;
+                            }
+                            // recursion
+                            child_element = unwrap!( unwrap!(self.fill_element_node(
+                                reader_for_microxml,
+                                child_element,
+                                html_or_svg_local,
+                                dom_path,
+                                sub_templates,
+                                subtemplate,
+                                pos_cursor,
+                                retain_next_node,
+                            )));
+                            // ignore this node dynamic content, and don't push to result
+                            // but traverse all template nodes.
+                            if retain_next_node == true {
+                                if let Some(repl_vec_nodes) = replace_vec_nodes {
+                                    for repl_node in repl_vec_nodes {
+                                        element.children.push(repl_node);
+                                    }
+                                    replace_vec_nodes = None;
+                                } else {
+                                    element.children.push(Node::Element(child_element));
+                                }
+                            }
+                            // the siblings get the parents retain, until sb_
+                            retain_next_node = retain_this_node;
+                        }
+                        Token::Attribute(name, value) => {
+                            if retain_this_node == true {
+                                if name.starts_with("data-st-") {
+                                    // placeholder is in the attribute value.
+                                    // the attribute name is informative and should be similar to the next attribute
+                                    // example: data-st-href="st_placeholder" href="x"
+                                    // The replace_string will always be applied to the next attribute. No matter the name.
+                                    let placeholder = &value;
+                                    let repl_txt =
+                                        self.replace_with_string(placeholder, subtemplate, pos_cursor);
+                                    replace_string = Some(repl_txt);
+                                } else {
+                                    let value = if let Some(repl) = replace_string {
+                                        // empty the replace_string for the next node
+                                        replace_string = None;
+                                        decode_5_xml_control_characters(&repl)
+                                    } else {
+                                        decode_5_xml_control_characters(value)
+                                    };
+                                    element.attributes.push(Attribute {
+                                        name: s!(name),
+                                        value: value,
+                                    });
+                                }
+                            }
+                        }
+                        Token::TextNode(txt) => {
+                            if retain_this_node == true {
+                                let txt = if let Some(repl) = replace_string {
+                                    // empty the replace_string for the next node
+                                    replace_string = None;
+                                    decode_5_xml_control_characters(&repl)
+                                } else {
+                                    //dbg!(txt);
+                                    decode_5_xml_control_characters(txt)
+                                };
+                                // here accepts only utf-8.
+                                // only minimum html entities are decoded
+                                element.children.push(Node::Text(txt));
+                            }
+                        }
+                        Token::Comment(txt) => {
+                            if retain_this_node == true {
+                                // the main goal of comments is to change the value of the next text node
+                                // with the result of a function
+                                // it must look like <!--st_get_text-->
+
+                                if txt.starts_with("st_") {
+                                    let repl_txt = self.replace_with_string(txt, subtemplate, pos_cursor);
+                                    replace_string = Some(repl_txt);
+                                } else if txt.starts_with("sb_") {
+                                    // boolean if this is true than render the next node, else don't render
+                                    retain_next_node = self.retain_next_node(txt);
+                                } else if txt.starts_with("stmplt_") {
+                                    // replace exactly this placeholder for a sub-template
+                                    let template_name = txt.trim_end_matches(" start");
+                                    let repl_vec_nodes =
+                                        self.render_sub_template(template_name, sub_templates);
+                                    element.children.extend_from_slice(&repl_vec_nodes);
+                                } else if txt.starts_with("sn_") {
+                                    // nodes  (in a vector)
+                                    let repl_vec_nodes = self.replace_with_nodes(txt);
+                                    replace_vec_nodes = Some(repl_vec_nodes);
+                                } else {
+                                    // it is really a comment, retain it.
+                                    element.children.push(Node::Comment(s!(txt)));
+                                }
+                            }
+                        }
+                        Token::EndElement(name) => {
+                            let last_name = unwrap!(dom_path.pop());
+                            // it can be also auto-closing element
+                            if last_name == name || name == "" {
+                                return Some(Ok(element));
+                            } else {
+                                return Some(Err("End element not correct: "));
+                            }
+                        }
+                    }
+                }
+                Err(err_msg) => return Some(Err("End element not correct: ")),
+            }
+        }
+        //return
+        None
     }
 
     /// extracts and saves sub_templates only one level deep: children

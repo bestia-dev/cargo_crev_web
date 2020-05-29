@@ -8,16 +8,22 @@ use serde_derive::{Deserialize, Serialize};
 use std::fs;
 use unwrap::unwrap;
 
-impl Review {
+pub struct ReviewNew{
+    pub review:Review,
+}
+
+impl ReviewNew {
     /// prepares the data
     pub fn new() -> Self {
-        Review {
+        ReviewNew{
+        review: Review {
             ..Default::default()
         }
     }
+    }
 }
 
-impl HtmlServerTemplateRender for Review {
+impl HtmlServerTemplateRender for ReviewNew {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         // return
@@ -26,7 +32,7 @@ impl HtmlServerTemplateRender for Review {
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
         let template_file_name = format!(
-            "{}reserved_folder/new_review_template.html",
+            "{}review_new_template.html",
             templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
@@ -38,7 +44,7 @@ impl HtmlServerTemplateRender for Review {
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
-            "sb_has_issue" => self.issues.is_some(),
+            "sb_has_issue" => self.review.issues.is_some(),
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }

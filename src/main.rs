@@ -224,6 +224,7 @@ mod review_mod;
 mod url_encode_mod;
 mod utils_mod;
 mod version_summary_mod;
+mod review_new_mod;
 
 // I must put the trait in scope
 use crate::html_server_template_mod::*;
@@ -304,6 +305,7 @@ async fn main() {
     // /cargo_crev_web/css/*  - static css file
 
     // dynamic content:
+    // /cargo_crev_web/review_new/
     // /cargo_crev_web/info/
     // /cargo_crev_web/info/group_by_crate/
     // /cargo_crev_web/info/group_by_author/
@@ -311,6 +313,17 @@ async fn main() {
     // /cargo_crev_web/crate/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
+
+    let review_new_route =
+    warp::path!("cargo_crev_web" / "review_new" )
+        .map(|| {
+            let ns_start = ns_start("review_new");
+            let data_model =review_new_mod::ReviewNew::new();
+            let ns_new = ns_print("new()", ns_start);
+            let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
+            warp::reply::html(html_file)
+        });
 
     let reserved_folder_route =
         warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_fetch_new_reviews")
@@ -552,6 +565,7 @@ async fn main() {
         .or(info_route)
         .or(query_crate_route)
         .or(reserved_folder_route)
+        .or(review_new_route)
         .or(fileserver);
     warp::serve(routes).run(local_addr).await;
 }

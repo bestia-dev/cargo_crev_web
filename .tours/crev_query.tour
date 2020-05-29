@@ -93,7 +93,7 @@
         {
             "file": "src/html_template_mod.rs",
             "line": 153,
-            "description": "## read template events\nThe reader_for_microxml moves event by event sequentially. For different types of events there is different code. Here we transform the input String into a Vec<Node> for easy manipulation.",
+            "description": "## read template Tokens\nThe reader_for_microxml moves Token by Token sequentially. For different types of Tokens there is different code. Here we transform the input String into a Vec<Node> for easy manipulation.",
             "selection": {
                 "start": {
                     "line": 148,
