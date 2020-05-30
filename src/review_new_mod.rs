@@ -1,6 +1,6 @@
 //! review_mod
-use crate::review_mod::*;
 use crate::html_server_template_mod::*;
+use crate::review_mod::*;
 //use crate::utils_mod::*;
 use crate::*;
 
@@ -8,18 +8,18 @@ use crate::*;
 //use std::fs;
 //use unwrap::unwrap;
 
-pub struct ReviewNew{
-    pub review:Review,
+pub struct ReviewNew {
+    pub review: Review,
 }
 
 impl ReviewNew {
     /// prepares the data
     pub fn new() -> Self {
-        ReviewNew{
-        review: Review {
-            ..Default::default()
+        ReviewNew {
+            review: Review {
+                ..Default::default()
+            },
         }
-    }
     }
 }
 
@@ -31,10 +31,7 @@ impl HtmlServerTemplateRender for ReviewNew {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!(
-            "{}review_new_template.html",
-            templates_folder_name
-        );
+        let template_file_name = format!("{}review_new_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
 
         // return
@@ -63,12 +60,12 @@ impl HtmlServerTemplateRender for ReviewNew {
     ) -> String {
         // dbg!(&placeholder);
         // list_fetched_author_id is Option and can be None or Some
-        
+
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
-            
+
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

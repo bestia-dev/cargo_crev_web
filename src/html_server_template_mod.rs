@@ -83,7 +83,7 @@ pub trait HtmlServerTemplateRender {
         let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
         // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
         // I will add <!DOCTYPE html> when the rendering ends, before returning the html.
-        if let Some(pos_html) = template_raw.find("<html"){
+        if let Some(pos_html) = template_raw.find("<html") {
             template_raw.drain(..pos_html);
         }
 
@@ -128,9 +128,9 @@ pub trait HtmlServerTemplateRender {
         let mut html_or_svg_local = html_or_svg_parent;
 
         // the root element must be only one
-        if let Some(result_token) = reader_for_microxml.next(){
-            match result_token{
-                Ok(token)=>{
+        if let Some(result_token) = reader_for_microxml.next() {
+            match result_token {
+                Ok(token) => {
                     match token {
                         Token::StartElement(tag_name) => {
                             dom_path.push(s!(tag_name));
@@ -174,8 +174,7 @@ pub trait HtmlServerTemplateRender {
                 }
                 Err(err_msg) => return Err(err_msg),
             }
-        }
-        else{
+        } else {
             return Err("Error: Not found root element.");
         }
         // remove the added root <template>
@@ -219,11 +218,11 @@ pub trait HtmlServerTemplateRender {
         let mut retain_next_node = retain_this_node;
         let mut html_or_svg_local;
         // loop through all the siblings in this iteration
-        while let Some(result_token) = reader_for_microxml.next(){
+        while let Some(result_token) = reader_for_microxml.next() {
             // the children inherits html_or_svg from the parent, but cannot change the parent
             html_or_svg_local = html_or_svg_parent;
-            match result_token{
-                Ok(token)=>{
+            match result_token {
+                Ok(token) => {
                     match token {
                         Token::StartElement(tag_name) => {
                             dom_path.push(s!(tag_name));
@@ -248,7 +247,7 @@ pub trait HtmlServerTemplateRender {
                                 html_or_svg_local = HtmlOrSvg::Html;
                             }
                             // recursion
-                            child_element = unwrap!( unwrap!(self.fill_element_node(
+                            child_element = unwrap!(unwrap!(self.fill_element_node(
                                 reader_for_microxml,
                                 child_element,
                                 html_or_svg_local,
@@ -281,8 +280,11 @@ pub trait HtmlServerTemplateRender {
                                     // example: data-st-href="st_placeholder" href="x"
                                     // The replace_string will always be applied to the next attribute. No matter the name.
                                     let placeholder = &value;
-                                    let repl_txt =
-                                        self.replace_with_string(placeholder, subtemplate, pos_cursor);
+                                    let repl_txt = self.replace_with_string(
+                                        placeholder,
+                                        subtemplate,
+                                        pos_cursor,
+                                    );
                                     replace_string = Some(repl_txt);
                                 } else {
                                     let value = if let Some(repl) = replace_string {
@@ -321,7 +323,8 @@ pub trait HtmlServerTemplateRender {
                                 // it must look like <!--st_get_text-->
 
                                 if txt.starts_with("st_") {
-                                    let repl_txt = self.replace_with_string(txt, subtemplate, pos_cursor);
+                                    let repl_txt =
+                                        self.replace_with_string(txt, subtemplate, pos_cursor);
                                     replace_string = Some(repl_txt);
                                 } else if txt.starts_with("sb_") {
                                     // boolean if this is true than render the next node, else don't render

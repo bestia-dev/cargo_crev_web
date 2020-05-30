@@ -130,7 +130,7 @@ impl ReservedFolder {
                         let review_short: ReviewShort =
                             unwrap!(serde_yaml::from_str(review_string));
 
-                            vec_of_auto_crev.push(OnlyAuthor {
+                        vec_of_auto_crev.push(OnlyAuthor {
                             author_name: if let Some(url) = &review_short.ids[0].url {
                                 author_name_from_url(&url)
                             } else {
@@ -176,13 +176,17 @@ impl ReservedFolder {
         let mut blacklisted_author_url: Vec<String> =
             unwrap!(serde_json::from_str(&blacklisted_author_url));
 
-            blacklisted_author_url.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+        blacklisted_author_url.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
 
         for auto_crev in vec_of_auto_crev.iter() {
             // if author already exists in index, I don't need it.
             // if author repo is in the "incomplete" list, I don't need it
-            if !fetched_author_url.iter().any(|v| v == &auto_crev.author_url)
-                && !blacklisted_author_url.iter().any(|v| v == &auto_crev.author_url)
+            if !fetched_author_url
+                .iter()
+                .any(|v| v == &auto_crev.author_url)
+                && !blacklisted_author_url
+                    .iter()
+                    .any(|v| v == &auto_crev.author_url)
             {
                 vec_of_new.push(OnlyAuthor {
                     author_name: auto_crev.author_name.clone(),

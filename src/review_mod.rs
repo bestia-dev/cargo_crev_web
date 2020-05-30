@@ -9,14 +9,14 @@ use serde_derive::{Deserialize, Serialize};
 use strum_macros;
 use unwrap::unwrap;
 
-#[derive(Serialize, Deserialize, Clone,Default)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 pub struct ReviewFrom {
     #[serde(rename = "id-type")]
     pub id_type: String,
     pub id: String,
     pub url: String,
 }
-#[derive(Serialize, Deserialize, Clone,Default)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 pub struct ReviewPackage {
     pub source: String,
     pub name: String,
@@ -24,25 +24,25 @@ pub struct ReviewPackage {
     pub digest: String,
     pub version_for_sorting: Option<String>,
 }
-#[derive(Serialize, Deserialize, Clone,Default)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 pub struct ReviewReview {
     pub thoroughness: Level,
     pub understanding: Level,
     pub rating: Rating,
 }
-#[derive(Serialize, Deserialize, Clone,Default)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 pub struct Alternative {
     pub source: String,
     pub name: String,
 }
-#[derive(Serialize, Deserialize, Clone,Default)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 pub struct Advisory {
     pub ids: Vec<String>,
     pub severity: Level,
     pub range: Option<String>,
     pub comment: String,
 }
-#[derive(Serialize, Deserialize, Clone,Default)]
+#[derive(Serialize, Deserialize, Clone, Default)]
 pub struct AdvisoryOld {
     pub affected: String,
     pub critical: String,
@@ -87,7 +87,9 @@ pub enum Rating {
 }
 
 impl Default for Rating {
-    fn default() -> Self { Rating::None }
+    fn default() -> Self {
+        Rating::None
+    }
 }
 
 #[derive(
@@ -112,7 +114,9 @@ pub enum Level {
     High,
 }
 impl Default for Level {
-    fn default() -> Self { Level::None }
+    fn default() -> Self {
+        Level::None
+    }
 }
 
 impl Review {

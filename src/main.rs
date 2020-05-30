@@ -210,6 +210,7 @@
 
 // region: (collapsed) use statements
 mod author_reviews_mod;
+mod badge_mod;
 mod crate_reviews_mod;
 mod crate_version_summary_mod;
 mod data_file_scan_mod;
@@ -221,11 +222,10 @@ mod reserved_folder_mod;
 mod review_index_mod;
 mod review_index_summary_mod;
 mod review_mod;
+mod review_new_mod;
 mod url_encode_mod;
 mod utils_mod;
 mod version_summary_mod;
-mod review_new_mod;
-mod badge_mod;
 
 // I must put the trait in scope
 use crate::html_server_template_mod::*;
@@ -315,13 +315,12 @@ async fn main() {
     // /cargo_crev_web/info/group_by_crate/
     // /cargo_crev_web/info/group_by_author/
     // /cargo_crev_web/review_new/
-    
-    let badge_route =
-    warp::path!("cargo_crev_web" / "badge" / "crev_count" / String  )
-    .and(cached_review_index.clone())
-        .map(|crate_name:String,cached_review_index| {
+
+    let badge_route = warp::path!("cargo_crev_web" / "badge" / "crev_count" / String)
+        .and(cached_review_index.clone())
+        .map(|crate_name: String, cached_review_index| {
             let ns_start = ns_start("review_new");
-            let data_model = badge_mod::Badge::crev_count(&crate_name,cached_review_index);
+            let data_model = badge_mod::Badge::crev_count(&crate_name, cached_review_index);
             dbg!(&data_model);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
@@ -329,16 +328,14 @@ async fn main() {
             warp::reply::html(html_file)
         });
 
-    let review_new_route =
-    warp::path!("cargo_crev_web" / "review_new" )
-        .map(|| {
-            let ns_start = ns_start("review_new");
-            let data_model =review_new_mod::ReviewNew::new();
-            let ns_new = ns_print("new()", ns_start);
-            let html_file = data_model.render_html_file("templates/");
-            ns_print("render_html_file()", ns_new);
-            warp::reply::html(html_file)
-        });
+    let review_new_route = warp::path!("cargo_crev_web" / "review_new").map(|| {
+        let ns_start = ns_start("review_new");
+        let data_model = review_new_mod::ReviewNew::new();
+        let ns_new = ns_print("new()", ns_start);
+        let html_file = data_model.render_html_file("templates/");
+        ns_print("render_html_file()", ns_new);
+        warp::reply::html(html_file)
+    });
 
     let reserved_folder_route =
         warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_fetch_new_reviews")
