@@ -83,8 +83,9 @@ pub trait HtmlServerTemplateRender {
         let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
         // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
         // I will add <!DOCTYPE html> when the rendering ends, before returning the html.
-        let pos_html = unwrap!(template_raw.find("<html"));
-        template_raw.drain(..pos_html);
+        if let Some(pos_html) = template_raw.find("<html"){
+            template_raw.drain(..pos_html);
+        }
 
         self.render(&template_raw)
     }

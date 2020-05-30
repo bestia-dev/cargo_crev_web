@@ -1,4 +1,6 @@
 //! badge_mod
+// the code is copied from 
+// https://github.com/nwtgck/svg-badge-scala
 
 use crate::*;
 
@@ -6,6 +8,7 @@ use crate::*;
 //use std::fs;
 //use unwrap::unwrap;
 
+#[derive(Clone, Debug)]
 pub struct Badge{
     pub subject_text: String,
     pub status_text: String,
@@ -21,14 +24,14 @@ pub struct Badge{
 
 impl Badge {
     /// prepare the data
-    pub fn new(
-        subject_text: &str, status_text: &str, badge_color: &str,
-        width: usize, subject_width: usize, ) -> Self {
-
+    pub fn new(subject_text: &str, status_text: &str, badge_color: &str) -> Self {
+        let padding = 20;
+        let subject_width = Self::text_to_width(subject_text)+padding;
+        let status_width  = Self::text_to_width(status_text)+padding;
         let height      = 20;
-        let status_width  = width - subject_width;
+        let width  = subject_width + status_width;
         let subject_x   = subject_width / 2;
-        let status_x   = subject_width + status_width / 2;
+        let status_x   = subject_width + (status_width / 2);
 
         Badge{
             subject_text:s!(subject_text),
@@ -42,6 +45,21 @@ impl Badge {
             height,
         }
     }
+    pub fn crev_count(crate_name: &str,cached_review_index:CachedReviewIndex) -> Self {
+        let review_index = cached_review_index
+        .lock()
+        .expect("error cached_review_index.lock()");
+        let subject_text = "crev count";
+        let status: usize = review_index.vec.iter().map(|e| if e.crate_name==crate_name { 1} else{ 0} ).sum();
+        let status_text = &status.to_string();
+        let badge_color = "#6c3";
+        //return
+        Self::new(subject_text,status_text,badge_color)
+    }
+    /// private functions
+    fn text_to_width(text: &str) -> usize {
+        text.chars().map(|e| if e.is_lowercase() { 8} else if e.is_uppercase(){ 10} else{ 9 } ).sum()
+     }
 }
 
 impl HtmlServerTemplateRender for Badge {
@@ -70,11 +88,6 @@ impl HtmlServerTemplateRender for Badge {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
     fn replace_with_string(
         &self,
         placeholder: &str,
@@ -89,6 +102,7 @@ impl HtmlServerTemplateRender for Badge {
             "st_subject_text" => self.subject_text.clone(),
             "st_status_text" => self.status_text.clone(),
             "st_width" => self.width.to_string(), 
+            "st_height" => self.height.to_string(), 
             "st_subject_width" => self.subject_width.to_string(), 
             "st_badge_color" => self.badge_color.to_string(), 
             "st_subject_x" => self.subject_x.to_string(), 

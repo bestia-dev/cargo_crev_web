@@ -306,20 +306,23 @@ async fn main() {
     // /cargo_crev_web/css/*  - static css file
 
     // dynamic content:
-    // /cargo_crev_web/review_new/
-    // /cargo_crev_web/info/
-    // /cargo_crev_web/info/group_by_crate/
-    // /cargo_crev_web/info/group_by_author/
     // /cargo_crev_web/author/{author_id}/
+    // /cargo_crev_web/badge/crev_count/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
-
+    // /cargo_crev_web/info/
+    // /cargo_crev_web/info/group_by_crate/
+    // /cargo_crev_web/info/group_by_author/
+    // /cargo_crev_web/review_new/
+    
     let badge_route =
-    warp::path!("cargo_crev_web" / "badge" )
-        .map(|| {
+    warp::path!("cargo_crev_web" / "badge" / "crev_count" / String  )
+    .and(cached_review_index.clone())
+        .map(|crate_name:String,cached_review_index| {
             let ns_start = ns_start("review_new");
-            let data_model = badge_mod::Badge::new("crev count", "33", "#6c3",90, 50);
+            let data_model = badge_mod::Badge::crev_count(&crate_name,cached_review_index);
+            dbg!(&data_model);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
