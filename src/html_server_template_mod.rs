@@ -126,7 +126,6 @@ pub trait HtmlServerTemplateRender {
         let mut root_element;
         let mut html_or_svg_local = html_or_svg_parent;
 
-        #[allow(clippy::single_match_else, clippy::wildcard_enum_match_arm)]
         // the root element must be only one
         if let Some(result_token) = reader_for_microxml.next(){
             match result_token{
@@ -353,7 +352,7 @@ pub trait HtmlServerTemplateRender {
                         }
                     }
                 }
-                Err(err_msg) => return Some(Err("End element not correct: ")),
+                Err(err_msg) => return Some(Err(err_msg)),
             }
         }
         //return

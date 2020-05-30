@@ -201,7 +201,7 @@
     // I have private function inside a function. Self does not work there.
     // clippy::use_self,
     // Cannot add #[inline] to the start function with #[wasm_bindgen(start)]
-    // because then wasm-pack build --st_arget no-modules returns an error: export `run` not found 
+    // because then wasm-pack build --target no-modules returns an error: export `run` not found 
     // clippy::missing_inline_in_public_items
     // Why is this bad : Doc is good. rustc has a MISSING_DOCS allowed-by-default lint for public members, but has no way to enforce documentation of private items. This lint fixes that.
     clippy::doc_markdown,
@@ -225,6 +225,7 @@ mod url_encode_mod;
 mod utils_mod;
 mod version_summary_mod;
 mod review_new_mod;
+mod badge_mod;
 
 // I must put the trait in scope
 use crate::html_server_template_mod::*;
@@ -313,6 +314,17 @@ async fn main() {
     // /cargo_crev_web/crate/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
+
+    let badge_route =
+    warp::path!("cargo_crev_web" / "badge" )
+        .map(|| {
+            let ns_start = ns_start("review_new");
+            let data_model = badge_mod::Badge::new("crev count", "33", "#6c3",90, 50);
+            let ns_new = ns_print("new()", ns_start);
+            let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
+            warp::reply::html(html_file)
+        });
 
     let review_new_route =
     warp::path!("cargo_crev_web" / "review_new" )
@@ -566,6 +578,7 @@ async fn main() {
         .or(query_crate_route)
         .or(reserved_folder_route)
         .or(review_new_route)
+        .or(badge_route)
         .or(fileserver);
     warp::serve(routes).run(local_addr).await;
 }

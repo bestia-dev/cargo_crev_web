@@ -1,38 +1,59 @@
-//! review_mod
-use crate::review_mod::*;
-use crate::html_server_template_mod::*;
-//use crate::utils_mod::*;
+//! badge_mod
+
 use crate::*;
 
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
 //use unwrap::unwrap;
 
-pub struct ReviewNew{
-    pub review:Review,
+pub struct Badge{
+    pub subject_text: String,
+    pub status_text: String,
+    pub width: usize,
+    pub subject_width: usize,
+    pub status_width: usize,
+    pub badge_color: String,
+    pub subject_x: usize,
+    pub status_x : usize,
+    pub height:usize,
+
 }
 
-impl ReviewNew {
-    /// prepares the data
-    pub fn new() -> Self {
-        ReviewNew{
-        review: Review {
-            ..Default::default()
+impl Badge {
+    /// prepare the data
+    pub fn new(
+        subject_text: &str, status_text: &str, badge_color: &str,
+        width: usize, subject_width: usize, ) -> Self {
+
+        let height      = 20;
+        let status_width  = width - subject_width;
+        let subject_x   = subject_width / 2;
+        let status_x   = subject_width + status_width / 2;
+
+        Badge{
+            subject_text:s!(subject_text),
+            status_text:s!(status_text),
+            width, 
+            subject_width,
+            status_width,
+            badge_color: s!(badge_color),
+            subject_x,
+            status_x, 
+            height,
         }
     }
-    }
 }
 
-impl HtmlServerTemplateRender for ReviewNew {
+impl HtmlServerTemplateRender for Badge {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         // return
-        s!("Review")
+        s!("Badge")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
         let template_file_name = format!(
-            "{}review_new_template.html",
+            "{}badge_template.html",
             templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
@@ -44,7 +65,6 @@ impl HtmlServerTemplateRender for ReviewNew {
     fn retain_next_node(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
-            "sb_has_issue" => self.review.issues.is_some(),
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -62,13 +82,20 @@ impl HtmlServerTemplateRender for ReviewNew {
         _pos_cursor: usize,
     ) -> String {
         // dbg!(&placeholder);
-        // list_fetched_author_id is Option and can be None or Some
-        
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
-            
+            "st_subject_text" => self.subject_text.clone(),
+            "st_status_text" => self.status_text.clone(),
+            "st_width" => self.width.to_string(), 
+            "st_subject_width" => self.subject_width.to_string(), 
+            "st_badge_color" => self.badge_color.to_string(), 
+            "st_subject_x" => self.subject_x.to_string(), 
+            "st_status_x" => self.status_x.to_string(), 
+            "st_d1"=> format!("M0 0h{}v{}H0z", self.subject_width, self.height),
+            "st_d2"=> format!("M{} 0h{}v{}H{}z", self.subject_width, self.status_width,  self.height, self.subject_width),
+            "st_d3"=> format!("M0 0h{}v{}H0z", self.width, self.height),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
