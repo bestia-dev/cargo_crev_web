@@ -241,7 +241,7 @@ use log::info;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::{Arc, Mutex};
 use unwrap::unwrap;
-use warp::Filter;
+use warp::{Filter,http::Response};
 
 type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
 
@@ -307,7 +307,7 @@ async fn main() {
 
     // dynamic content:
     // /cargo_crev_web/author/{author_id}/
-    // /cargo_crev_web/badge/crev_count/{crate_name}/
+    // /cargo_crev_web/badge/crev_count/{crate_name}.svg
     // /cargo_crev_web/crate/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
@@ -316,16 +316,23 @@ async fn main() {
     // /cargo_crev_web/info/group_by_author/
     // /cargo_crev_web/review_new/
 
+    // the crate_name must finish with .svg
     let badge_route = warp::path!("cargo_crev_web" / "badge" / "crev_count" / String)
         .and(cached_review_index.clone())
         .map(|crate_name: String, cached_review_index| {
             let ns_start = ns_start("review_new");
-            let data_model = badge_mod::Badge::crev_count(&crate_name, cached_review_index);
+            // remove suffix .svg
+            let trimmed_str: &str = crate_name.trim_end_matches(".svg");
+            let data_model = badge_mod::Badge::crev_count(trimmed_str, cached_review_index);
             dbg!(&data_model);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
-            warp::reply::html(html_file)
+            let reply = Response::builder()
+            .header("content-type", "image/svg+xml")
+            .body(html_file);
+            //return
+            reply
         });
 
     let review_new_route = warp::path!("cargo_crev_web" / "review_new").map(|| {
