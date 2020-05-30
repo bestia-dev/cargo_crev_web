@@ -1,7 +1,7 @@
 # cargo_crev_web
 
 [comment]: # (lmake_readme cargo.toml data start)
-version: 2020.530.844  date: 2020-05-30 authors: Luciano Bestia  
+version: 2020.530.1604  date: 2020-05-30 authors: Luciano Bestia  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
@@ -136,7 +136,7 @@ To make this run indefinitely in another terminal session I use `screen`.
 
 Not all data is required in every review, so I need to test examples that contains different data.  
 <https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
-<https://bestia.dev/cargo_crev_web/query/num-traits>  issues  
+<https://bestia.dev/cargo_crev_web/crate/num-traits/>  issues  
 <https://bestia.dev/cargo_crev_web/query/protobuf>  advisory old  
 <https://bestia.dev/cargo_crev_web/query/inventory>   advisories
 
@@ -148,7 +148,7 @@ It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-c
 to verify the trustworthiness of each of your dependencies.  
 Please, spread this info.  
 On the web use this url to read crate reviews. Example:  
-<https://bestia.dev/cargo_crev_web/query/num-traits>  
+<https://bestia.dev/cargo_crev_web/crate/num-traits/>  
 
 ## html templating
 

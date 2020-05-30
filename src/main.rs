@@ -241,7 +241,7 @@ use log::info;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::{Arc, Mutex};
 use unwrap::unwrap;
-use warp::{Filter,http::Response};
+use warp::{http::Response, Filter};
 
 type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
 
@@ -329,9 +329,9 @@ async fn main() {
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
             let reply = Response::builder()
-            .header("content-type", "image/svg+xml")
-            .header("Cache-Control", "no-cache")
-            .body(html_file);
+                .header("content-type", "image/svg+xml")
+                .header("Cache-Control", "no-cache")
+                .body(html_file);
             //return
             reply
         });

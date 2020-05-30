@@ -26,6 +26,7 @@ impl CrateVersionSummary {
                 crate_name: s!(crate_name),
                 version: String::new(),
                 version_for_sorting: String::new(),
+                last_reviewed_version: String::new(),
                 review_number: 0,
                 rating_strong: 0,
                 rating_positive: 0,
@@ -116,6 +117,16 @@ impl CrateVersionSummary {
                 version_summary.advisories += 1;
             }
         }
+        dbg!(&crate_version_summary.crate_summary.last_reviewed_version);
+        // find last version - with review
+        crate_version_summary.crate_summary.last_reviewed_version = crate_version_summary
+            .version_summaries
+            .iter()
+            .max_by(|a, b| a.version_for_sorting.cmp(&b.version_for_sorting))
+            .unwrap()
+            .version
+            .clone();
+        dbg!(&crate_version_summary.crate_summary.last_reviewed_version);
         // return
         crate_version_summary
     }
@@ -155,6 +166,10 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         // dbg!(&placeholder);
         match placeholder {
             "st_crate_name" => s!(&self.crate_name),
+            "st_cargo_toml_dependency" => format!(
+                r#"{} = "{}""#,
+                &self.crate_name, &self.crate_summary.last_reviewed_version
+            ),
             "st_crates_io_url" => format!("https://crates.io/crates/{}", self.crate_name),
             "st_lib_rs_url" => format!("https://lib.rs/crates/{}", self.crate_name),
             "st_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
