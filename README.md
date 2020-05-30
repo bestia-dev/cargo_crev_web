@@ -162,6 +162,13 @@ Then I add comments that are commands where to insert the dynamic data. This com
 On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.  
 The result is normal html and is sent to the browser.
 
+## Badges
+
+A service for SVG badges for `crev count of reviews for one crate` is on url:\
+<https://bestia.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg>\
+Example how it looks like on GitHub:\
+<https://github.com/LucianoBestia/reader_for_microxml/>  
+
 ## CodeTour
 
 I like very much the VSCode extension CodeTour.  
@@ -179,8 +186,9 @@ Maybe it will be possible to add the functionality to write new reviews in the b
 I am terrible in VIM, I confess.  
 
 ## TODO
+web form for entering a new review
 
-- more authors, more reviews
+Stats:
 
 2020-05-27 authors:55 crates: 514, reviews: 886
 

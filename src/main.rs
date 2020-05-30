@@ -323,8 +323,6 @@ async fn main() {
             let ns_start = ns_start("review_new");
             // remove suffix .svg
             let trimmed_str: &str = crate_name.trim_end_matches(".svg");
-            // just for debug: remove suffix .svx
-            let trimmed_str: &str = trimmed_str.trim_end_matches(".svx");
             let data_model = badge_mod::Badge::crev_count(trimmed_str, cached_review_index);
             dbg!(&data_model);
             let ns_new = ns_print("new()", ns_start);
