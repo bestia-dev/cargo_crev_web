@@ -4,7 +4,7 @@ use crate::review_mod::*;
 use crate::utils_mod::*;
 use crate::*;
 
-use std::{fs,path::PathBuf};
+use std::{fs, path::Path, path::PathBuf};
 use unwrap::unwrap;
 
 #[derive(Clone, Debug)]
@@ -23,7 +23,7 @@ pub struct ManyFileReviewsPk {
     pub vec: Vec<OneFileReviewsPk>,
 }
 
-pub fn path_of_remotes_folder()->PathBuf{
+pub fn path_of_remotes_folder() -> PathBuf {
     // original cache crev folder: /home/luciano/.cache/crev/remotes
     // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
     // local webfolder example "../sample_data/cache/crev/remotes"
@@ -35,33 +35,33 @@ pub fn path_of_remotes_folder()->PathBuf{
 }
 
 /// all file names
-pub fn crev_files() -> Vec<String> {
+pub fn crev_files(folder_path:&str) -> Vec<String> {
     // return
     unwrap!(traverse_dir_with_exclude_dir(
-        &path_of_remotes_folder(),
+        Path::new(folder_path),
         "/*.crev",
         // avoid big folders and other folders with *.crev
         &vec![s!("/.git"), s!("/trust")]
     ))
 }
 
-pub struct ReviewsInOneFile{
+pub struct ReviewsInOneFile {
     crev_text: String,
-    pos_cursor:usize,
-    is_old_format:bool
+    pos_cursor: usize,
+    is_old_format: bool,
 }
 
-impl ReviewsInOneFile{
-    pub fn new(file_name:&str)->Self{
+impl ReviewsInOneFile {
+    pub fn new(file_name: &str) -> Self {
         let path = path_of_remotes_folder().join(file_name);
         //dbg!(&path);
         // read crev file
         let crev_text = unwrap!(fs::read_to_string(path));
         //return
-        ReviewsInOneFile{
+        ReviewsInOneFile {
             crev_text,
-            pos_cursor:0,
-            is_old_format:false,
+            pos_cursor: 0,
+            is_old_format: false,
         }
     }
 }
@@ -72,35 +72,33 @@ impl Iterator for ReviewsInOneFile {
     type Item = String;
     /// returns the next review text
     fn next(&mut self) -> Option<Self::Item> {
-        if self.is_old_format==false{
+        if self.is_old_format == false {
             let range = find_range_between_delimiters(
                 &self.crev_text,
                 &mut self.pos_cursor,
                 "----- BEGIN CREV PROOF -----",
-                "----- SIGN CREV PROOF -----"
+                "----- SIGN CREV PROOF -----",
             );
-            if let Some(range) = range{
-                self.pos_cursor=range.end;
+            if let Some(range) = range {
+                self.pos_cursor = range.end;
                 return Some(self.crev_text[range].to_string());
-            }
-            else{
-                self.is_old_format=true;
+            } else {
+                self.is_old_format = true;
             }
         }
         // the second if must continue if the first if changes the bool
-        if self.is_old_format==true{
+        if self.is_old_format == true {
             //the old format
             let range = find_range_between_delimiters(
                 &self.crev_text,
                 &mut self.pos_cursor,
                 "-----BEGIN CREV PACKAGE REVIEW-----",
-                "-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----"
+                "-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----",
             );
-            if let Some(range) = range{
-                self.pos_cursor=range.end;
+            if let Some(range) = range {
+                self.pos_cursor = range.end;
                 return Some(self.crev_text[range].to_string());
-            }
-            else{
+            } else {
                 // end of iterator
                 return None;
             }
@@ -123,10 +121,7 @@ pub fn get_vec_of_selected_reviews(review_pks: ManyFileReviewsPk) -> Vec<Review>
 /// find one or more reviews from one file
 /// the review PK crate_name, author_id, version
 /// if None than push all reviews
-fn get_vec_from_one_file(
-    reviews: &mut Vec<Review>,
-    one_file_review_pk: &OneFileReviewsPk,
-) {
+fn get_vec_from_one_file(reviews: &mut Vec<Review>, one_file_review_pk: &OneFileReviewsPk) {
     let file_path = &one_file_review_pk.file_path;
     // first fill a vector with reviews, because I need to filter and sort them
     let path = path_of_remotes_folder().join(file_path);
@@ -135,11 +130,11 @@ fn get_vec_from_one_file(
     // read crev file
     // iterator for reviews return &str
     let reviews_in_one_file = ReviewsInOneFile::new(&path);
-    for review_string in reviews_in_one_file{
-        if let Some(reviews_pk) = &one_file_review_pk.reviews_pk{
+    for review_string in reviews_in_one_file {
+        if let Some(reviews_pk) = &one_file_review_pk.reviews_pk {
             // push this review if it is in selected reviews
             push_review_if_selected(&review_string, reviews, &reviews_pk);
-        }else{
+        } else {
             //push this reviews unconditionally
             push_this_review(&review_string, reviews);
         }
@@ -160,7 +155,11 @@ fn push_this_review(review_string: &str, reviews: &mut Vec<Review>) {
     reviews.push(review);
 }
 
-fn push_review_if_selected(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<ReviewPk>) {
+fn push_review_if_selected(
+    review_string: &str,
+    reviews: &mut Vec<Review>,
+    review_pks: &Vec<ReviewPk>,
+) {
     use serde_derive::{Deserialize, Serialize};
 
     #[derive(Serialize, Deserialize, Clone)]
@@ -186,7 +185,7 @@ fn push_review_if_selected(review_string: &str, reviews: &mut Vec<Review>, revie
             && review_short.from.id == review_pk.author_id
             && review_short.package.version == review_pk.version
         {
-            push_this_review(review_string,reviews);
+            push_this_review(review_string, reviews);
             break;
         }
     }

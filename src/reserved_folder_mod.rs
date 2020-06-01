@@ -5,11 +5,11 @@
 //! There are different "new" functions for different actions, to prepare adequate data.
 //! If field is is_some(), then render the html part dedicated to this action.
 
+use crate::data_file_scan_mod::*;
 use crate::html_server_template_mod::*;
 use crate::review_index_mod;
 use crate::utils_mod::*;
 use crate::CachedReviewIndex;
-use crate::data_file_scan_mod::*;
 use crate::*;
 
 use serde_derive::{Deserialize, Serialize};
@@ -107,46 +107,34 @@ impl ReservedFolder {
         struct ReviewShort {
             pub ids: Vec<ReviewIdsShort>,
         }
-
+        let mut vec_of_auto_crev = Vec::<OnlyAuthor>::new();
         let mut vec_of_new = Vec::<OnlyAuthor>::new();
         let path = path_of_remotes_folder().join("gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
-        let mut vec_of_auto_crev = Vec::<OnlyAuthor>::new();
-        for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
-            &path,
-            "/*.crev",
-            // avoid big folders
-            &vec![]
-        )) {
-            let crev_text = unwrap!(fs::read_to_string(filename_crev));
-            // dbg!(filename_crev);
-            for part1 in crev_text.split("----- END CREV PROOF -----") {
-                let start_delimiter = "----- BEGIN CREV PROOF -----";
-                if let Some(start_pos) = part1.find(start_delimiter) {
-                    let start_pos = start_pos + start_delimiter.len() + 1;
-                    if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
-                        let review_string = &part1[start_pos..end_pos];
-                        //dbg!(review_string);
-                        //fn push_author(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
-                        let review_short: ReviewShort =
-                            unwrap!(serde_yaml::from_str(review_string));
+        let path = path.to_string_lossy();
+        //fill from all the files all the reviews
+        for file_name in crev_files(&path).iter() {
+            // iterator for reviews return &str
+            let reviews_in_one_file = ReviewsInOneFile::new(file_name);
+            for review_string in reviews_in_one_file {
+                //dbg!(review_string);
+                //fn push_author(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
+                    let review_short: ReviewShort =
+                    unwrap!(serde_yaml::from_str(&review_string));
 
-                        vec_of_auto_crev.push(OnlyAuthor {
-                            author_name: if let Some(url) = &review_short.ids[0].url {
-                                author_name_from_url(&url)
-                            } else {
-                                s!("")
-                            },
-                            author_id: review_short.ids[0].id.clone(),
-                            author_url: if let Some(url) = &review_short.ids[0].url {
-                                url.clone()
-                            } else {
-                                s!("")
-                            },
-                        });
-                        //dbg!(&vec_of_new);
-                        //}
-                    }
-                }
+                vec_of_auto_crev.push(OnlyAuthor {
+                    author_name: if let Some(url) = &review_short.ids[0].url {
+                        author_name_from_url(&url)
+                    } else {
+                        s!("")
+                    },
+                    author_id: review_short.ids[0].id.clone(),
+                    author_url: if let Some(url) = &review_short.ids[0].url {
+                        url.clone()
+                    } else {
+                        s!("")
+                    },
+                });
+                //dbg!(&vec_of_new);
             }
         }
         //dbg!(&vec_of_new);

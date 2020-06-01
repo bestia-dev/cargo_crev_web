@@ -1,9 +1,9 @@
 //! crate_reviews_mod
 use crate::crate_version_summary_mod::*;
+use crate::data_file_scan_mod::*;
 use crate::html_server_template_mod::*;
 use crate::review_mod::*;
 use crate::utils_mod::*;
-use crate::data_file_scan_mod::*;
 use crate::*;
 
 use unwrap::unwrap;
@@ -14,7 +14,12 @@ pub struct CrateReviews {
 }
 
 impl CrateReviews {
-    pub fn new(cached_review_index: CachedReviewIndex, crate_name: &str, version: &str, kind: &str) -> CrateReviews {
+    pub fn new(
+        cached_review_index: CachedReviewIndex,
+        crate_name: &str,
+        version: &str,
+        kind: &str,
+    ) -> CrateReviews {
         let ns_start = ns_start("");
         let review_index = cached_review_index
             .lock()
@@ -56,11 +61,10 @@ impl CrateReviews {
         }
         // save the last file in the loop
         if &one_file.file_path != "don't push the first row" {
-            // push the last one 
+            // push the last one
             many_file.vec.push(one_file.clone());
-        }
-        else{
-            //remove the dummy 
+        } else {
+            //remove the dummy
             many_file.vec.pop();
         }
         let ns_read_from_index = ns_print(

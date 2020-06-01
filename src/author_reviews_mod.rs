@@ -62,11 +62,10 @@ impl AuthorReviews {
         }
         // save the last file in the loop
         if &one_file.file_path != "don't push the first row" {
-            // push the last one 
+            // push the last one
             many_file.vec.push(one_file.clone());
-        }
-        else{
-            //remove the dummy 
+        } else {
+            //remove the dummy
             many_file.vec.pop();
         }
         let ns_read_from_index = ns_print(

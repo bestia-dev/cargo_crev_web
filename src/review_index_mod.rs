@@ -1,8 +1,8 @@
 //! review_index_mod
 
+use crate::data_file_scan_mod::*;
 use crate::review_mod::*;
 use crate::utils_mod::*;
-use crate::data_file_scan_mod::*;
 /// iterating in the original file format is not performant
 /// it is better to read the files once and make an index of all
 /// and then mostly use this index from memory.
@@ -43,16 +43,16 @@ impl ReviewIndex {
         let mut review_index = ReviewIndex { vec: vec![] };
 
         let path_of_remotes_folder = path_of_remotes_folder();
-        let path_of_remotes_folder = path_of_remotes_folder.to_string_lossy()+"/";
+        let path_of_remotes_folder = path_of_remotes_folder.to_string_lossy() + "/";
         //fill from all the files all the reviews
-        for file_name in crev_files().iter(){
+        for file_name in crev_files(&path_of_remotes_folder).iter() {
             // I don't want too long file names
-            dbg!(file_name);
+            //dbg!(file_name);
             let file_name = file_name.trim_start_matches(&path_of_remotes_folder.to_string());
-            dbg!(file_name);
+            //dbg!(file_name);
             // iterator for reviews return &str
             let reviews_in_one_file = ReviewsInOneFile::new(file_name);
-            for review_string in reviews_in_one_file{
+            for review_string in reviews_in_one_file {
                 // use only data for index
                 Self::push_review_index(&review_string, &mut review_index, file_name);
             }

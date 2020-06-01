@@ -481,7 +481,8 @@ async fn main() {
                 "CrateReviews crate_name: '{}'",
                 Yellow.paint(&crate_name),
             ));
-            let data_model = crate_reviews_mod::CrateReviews::new(cached_review_index,&crate_name, "", "");
+            let data_model =
+                crate_reviews_mod::CrateReviews::new(cached_review_index, &crate_name, "", "");
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
@@ -489,21 +490,23 @@ async fn main() {
         })
         .or(warp::path!("cargo_crev_web" / "crate" / String / String)
             .and(cached_review_index.clone())
-            .map(
-                |crate_name: String, version: String, cached_review_index| {
-                    let ns_start = ns_start(&format!(
-                        "CrateReviews crate_name: '{}', version '{}'",
-                        Yellow.paint(&crate_name),
-                        Yellow.paint(&version),
-                    ));
-                    let data_model =
-                        crate_reviews_mod::CrateReviews::new(cached_review_index,&crate_name, &version, "");
-                    let ns_new = ns_print("new()", ns_start);
-                    let html_file = data_model.render_html_file("templates/");
-                    ns_print("render_html_file()", ns_new);
-                    warp::reply::html(html_file)
-                },
-            ))
+            .map(|crate_name: String, version: String, cached_review_index| {
+                let ns_start = ns_start(&format!(
+                    "CrateReviews crate_name: '{}', version '{}'",
+                    Yellow.paint(&crate_name),
+                    Yellow.paint(&version),
+                ));
+                let data_model = crate_reviews_mod::CrateReviews::new(
+                    cached_review_index,
+                    &crate_name,
+                    &version,
+                    "",
+                );
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            }))
         .or(
             warp::path!("cargo_crev_web" / "crate" / String / String / String)
                 .and(cached_review_index.clone())
@@ -515,8 +518,12 @@ async fn main() {
                             Yellow.paint(&version),
                             Yellow.paint(&kind)
                         ));
-                        let data_model =
-                            crate_reviews_mod::CrateReviews::new(cached_review_index,&crate_name, &version, &kind);
+                        let data_model = crate_reviews_mod::CrateReviews::new(
+                            cached_review_index,
+                            &crate_name,
+                            &version,
+                            &kind,
+                        );
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);
@@ -533,48 +540,55 @@ async fn main() {
                 "CrateReviews crate_name: '{}'",
                 Yellow.paint(&crate_name),
             ));
-            let data_model = crate_reviews_mod::CrateReviews::new(cached_review_index,&crate_name, "", "");
+            let data_model =
+                crate_reviews_mod::CrateReviews::new(cached_review_index, &crate_name, "", "");
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
-        .or(
-            warp::path!("cargo_crev_web" / "query" / String / String)
-                .and(cached_review_index.clone())
-                .map(|crate_name: String, version: String, cached_review_index| {
-                    let ns_start = ns_start(&format!(
-                        "CrateReviews crate_name: '{}', version '{}'",
-                        Yellow.paint(&crate_name),
-                        Yellow.paint(&version),
-                    ));
-                    let data_model =
-                        crate_reviews_mod::CrateReviews::new(cached_review_index, &crate_name, &version, "");
-                    let ns_new = ns_print("new()", ns_start);
-                    let html_file = data_model.render_html_file("templates/");
-                    ns_print("render_html_file()", ns_new);
-                    warp::reply::html(html_file)
-                },
-            ),
-        )
+        .or(warp::path!("cargo_crev_web" / "query" / String / String)
+            .and(cached_review_index.clone())
+            .map(|crate_name: String, version: String, cached_review_index| {
+                let ns_start = ns_start(&format!(
+                    "CrateReviews crate_name: '{}', version '{}'",
+                    Yellow.paint(&crate_name),
+                    Yellow.paint(&version),
+                ));
+                let data_model = crate_reviews_mod::CrateReviews::new(
+                    cached_review_index,
+                    &crate_name,
+                    &version,
+                    "",
+                );
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            }))
         .or(
             warp::path!("cargo_crev_web" / "query" / String / String / String)
                 .and(cached_review_index.clone())
-                .map(|crate_name: String, version: String, kind: String, cached_review_index| {
-                    let ns_start = ns_start(&format!(
-                        "CrateReviews crate_name: '{}', version '{}', kind '{}'",
-                        Yellow.paint(&crate_name),
-                        Yellow.paint(&version),
-                        Yellow.paint(&kind)
-                    ));
-                    let data_model =
-                        crate_reviews_mod::CrateReviews::new(cached_review_index, &crate_name, &version, &kind);
-                    let ns_new = ns_print("new()", ns_start);
-                    let html_file = data_model.render_html_file("templates/");
-                    ns_print("render_html_file()", ns_new);
-                    warp::reply::html(html_file)
-                },
-            ),
+                .map(
+                    |crate_name: String, version: String, kind: String, cached_review_index| {
+                        let ns_start = ns_start(&format!(
+                            "CrateReviews crate_name: '{}', version '{}', kind '{}'",
+                            Yellow.paint(&crate_name),
+                            Yellow.paint(&version),
+                            Yellow.paint(&kind)
+                        ));
+                        let data_model = crate_reviews_mod::CrateReviews::new(
+                            cached_review_index,
+                            &crate_name,
+                            &version,
+                            &kind,
+                        );
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        warp::reply::html(html_file)
+                    },
+                ),
         );
 
     // static file server (starts at cargo_crev_web)
