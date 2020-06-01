@@ -1,0 +1,479 @@
+/* modified 
+https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css*/
+
+html,
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif;
+    font-size: 14px;
+    padding: 0px;
+    line-height: 22px;
+    word-wrap: break-word;
+    background: #31363F;
+}
+
+p {
+    color: #9DA5B4;
+}
+
+#code-csp-warning {
+    position: fixed;
+    top: 0;
+    right: 0;
+    color: white;
+    margin: 16px;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+    background-color: #444444;
+    cursor: pointer;
+    padding: 6px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .25);
+}
+
+#code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .25);
+}
+
+body.scrollBeyondLastLine {
+    margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+    position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -12px;
+    height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+    left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+    border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+    border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+    border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+    border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+    border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+    border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+    border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+    border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+    border-left: none;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: white;
+    text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 1px solid -webkit-focus-ring-color;
+    outline-offset: -1px;
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    border-bottom: 2px solid;
+}
+
+h1 {
+    padding-bottom: 0.3em;
+    line-height: 1.2;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+h1,
+h2,
+h3 {
+    color: #9DA5B4;
+    font-weight: normal;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table>thead>tr>th {
+    text-align: left;
+    border-bottom: 1px solid;
+}
+
+table>thead>tr>th,
+table>thead>tr>td,
+table>tbody>tr>th,
+table>tbody>tr>td {
+    padding: 5px 10px;
+}
+
+table>tbody>tr+tr>td {
+    border-top: 1px solid;
+}
+
+code {
+    font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+    font-size: 1em;
+    line-height: 1.357em;
+    background-color: #1B1D23;
+}
+
+body.wordWrap pre {
+    white-space: pre-wrap;
+}
+
+.hljs>code>div {
+    /* not trivial to discover */
+    background-color: 1B1D23;
+    color: white;
+}
+
+.hljs,
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #f8f8f8;
+    background-color: #1B1D23;
+}
+
+pre.hljs {
+    background-color: #1B1D23;
+}
+
+.hljs-github .hljs {
+    background: red;
+}
+
+pre code {
+    color: yellow;
+    tab-size: 4;
+}
+
+
+/*
+ https://raw.githubusercontent.com/microsoft/vscode/master/extensions/markdown-language-features/media/highlight.css
+ */
+
+
+/** Theming */
+
+.vscode-dark code {
+    background-color: #1B1D23;
+    color: rgb(64, 182, 10);
+}
+
+.vscode-light pre {
+    background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-dark pre {
+    background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+    background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+    border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table>thead>tr>th {
+    border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table>thead>tr>th {
+    border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table>tbody>tr+tr>td {
+    border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table>tbody>tr+tr>td {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.hljs-keyword,
+.hljs-literal,
+.hljs-symbol,
+.hljs-name {
+    color: #569CD6;
+}
+
+.hljs-link {
+    color: #569CD6;
+    text-decoration: underline;
+}
+
+.hljs-built_in,
+.hljs-type {
+    color: #4EC9B0;
+}
+
+.hljs-number,
+.hljs-class {
+    color: #B8D7A3;
+}
+
+.hljs-string,
+.hljs-meta-string {
+    color: #D69D85;
+}
+
+.hljs-regexp,
+.hljs-template-tag {
+    color: #9A5334;
+}
+
+.hljs-subst,
+.hljs-function,
+.hljs-title,
+.hljs-params,
+.hljs-formula {
+    color: #DCDCDC;
+}
+
+.hljs-comment,
+.hljs-quote {
+    color: #57A64A;
+    font-style: italic;
+}
+
+.hljs-doctag {
+    color: #608B4E;
+}
+
+.hljs-meta,
+.hljs-meta-keyword,
+.hljs-tag {
+    color: #9B9B9B;
+}
+
+.hljs-variable,
+.hljs-template-variable {
+    color: #BD63C5;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-builtin-name {
+    color: #9CDCFE;
+}
+
+.hljs-section {
+    color: gold;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: bold;
+}
+
+.hljs-code {
+    font-family: 'Monospace';
+    background-color: #31363F;
+}
+
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+    color: #D7BA7D;
+}
+
+.hljs-addition {
+    background-color: rgba(155, 185, 85, 0.2);
+    color: rgb(155, 185, 85);
+    display: inline-block;
+    width: 100%;
+}
+
+.hljs-deletion {
+    background: rgba(255, 0, 0, 0.2);
+    color: rgb(255, 0, 0);
+    display: inline-block;
+    width: 100%;
+}
+
+.vscode-light .hljs-function,
+.vscode-light .hljs-params,
+.vscode-light .hljs-number,
+.vscode-light .hljs-class {
+    color: inherit;
+}
+
+.vscode-light .hljs-comment,
+.vscode-light .hljs-quote,
+.vscode-light .hljs-number,
+.vscode-light .hljs-class,
+.vscode-light .hljs-variable {
+    color: #008000;
+}
+
+.vscode-light .hljs-keyword,
+.vscode-light .hljs-selector-tag,
+.vscode-light .hljs-name,
+.vscode-light .hljs-tag {
+    color: #00f;
+}
+
+.vscode-light .hljs-built_in,
+.vscode-light .hljs-builtin-name {
+    color: #007acc;
+}
+
+.vscode-light .hljs-string,
+.vscode-light .hljs-section,
+.vscode-light .hljs-attribute,
+.vscode-light .hljs-literal,
+.vscode-light .hljs-template-tag,
+.vscode-light .hljs-template-variable,
+.vscode-light .hljs-type {
+    color: #a31515;
+}
+
+.vscode-light .hljs-selector-attr,
+.vscode-light .hljs-selector-pseudo,
+.vscode-light .hljs-meta,
+.vscode-light .hljs-meta-keyword {
+    color: #2b91af;
+}
+
+.vscode-light .hljs-title,
+.vscode-light .hljs-doctag {
+    color: #808080;
+}
+
+.vscode-light .hljs-attr {
+    color: #f00;
+}
+
+.vscode-light .hljs-symbol,
+.vscode-light .hljs-bullet,
+.vscode-light .hljs-link {
+    color: #00b0e8;
+}
+
+.vscode-light .hljs-emphasis {
+    font-style: italic;
+}
+
+.vscode-light .hljs-strong {
+    font-weight: bold;
+}
+
+blockquote {
+    color: #333333 !important;
+    position: relative;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+    background-color: #fcfcfc;
+    padding: 20px !important;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    border-left: 0 !important;
+}
+
+blockquote p {
+    margin: 0 !important;
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+    padding-left: 5px !important;
+}
+
+blockquote li {
+    margin-top: 15px;
+}
+
+blockquote::before {
+    display: block;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+}
+
+blockquote::before {
+    background-color: steelblue;
+}
+
+blockquote note::after,
+blockquote tip::after,
+blockquote important::after,
+blockquote warn::after,
+blockquote custom::after {
+    display: block;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+}
+
+blockquote important::before {
+    content: var(--title, "IMPORTANT");
+    color: var(--color, var(--important));
+}
+
+blockquote important::after {
+    background-color: var(--color, var(--important));
+}

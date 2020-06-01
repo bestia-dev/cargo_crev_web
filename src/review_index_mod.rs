@@ -2,13 +2,13 @@
 
 use crate::review_mod::*;
 use crate::utils_mod::*;
+use crate::data_file_scan_mod::*;
 /// iterating in the original file format is not performant
 /// it is better to read the files once and make an index of all
 /// and then mostly use this index from memory.
 /// this index is created every time the web app is initialized
 /// or manually when the new and updated files are fetched
 use crate::*;
-use std::fs;
 use unwrap::unwrap;
 
 /// one item in the index
@@ -41,46 +41,20 @@ impl ReviewIndex {
     pub fn new() -> Self {
         let ns_start = ns_start("ReviewIndex");
         let mut review_index = ReviewIndex { vec: vec![] };
-        // original cache crev folder: /home/luciano/.cache/crev/remotes
-        // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
-        // local webfolder example "../sample_data/cache/crev/remotes"
-        let path = unwrap!(dirs::home_dir());
-        let path = path.join(".cache/crev/remotes");
-        // dbg!(path);
-        // let mut count_files = 0;
-        for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
-            &path,
-            "/*.crev",
-            // avoid big folders and other folders with *.crev
-            &vec![s!("/.git"), s!("/trust")]
-        )) {
-            // count_files += 1;
-            // dbg!(filename_crev);
-            // for filename_result in unwrap!(glob("/reviews/*.crev")) {
-            // read crev file
-            let crev_text = unwrap!(fs::read_to_string(filename_crev));
-            for part1 in crev_text.split("----- END CREV PROOF -----") {
-                let start_delimiter = "----- BEGIN CREV PROOF -----";
-                if let Some(start_pos) = part1.find(start_delimiter) {
-                    let start_pos = start_pos + start_delimiter.len() + 1;
-                    if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
-                        let review_string = &part1[start_pos..end_pos];
-                        Self::push_review_index(review_string, &mut review_index, filename_crev);
-                    }
-                }
-            }
-            // older review has different delimiter. Everything else is the same.
-            for part1 in crev_text.split("-----END CREV PACKAGE REVIEW-----") {
-                let start_delimiter = "-----BEGIN CREV PACKAGE REVIEW-----";
-                if let Some(start_pos) = part1.find(start_delimiter) {
-                    let start_pos = start_pos + start_delimiter.len() + 1;
-                    if let Some(end_pos) =
-                        part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----")
-                    {
-                        let review_string = &part1[start_pos..end_pos];
-                        Self::push_review_index(review_string, &mut review_index, filename_crev);
-                    }
-                }
+
+        let path_of_remotes_folder = path_of_remotes_folder();
+        let path_of_remotes_folder = path_of_remotes_folder.to_string_lossy()+"/";
+        //fill from all the files all the reviews
+        for file_name in crev_files().iter(){
+            // I don't want too long file names
+            dbg!(file_name);
+            let file_name = file_name.trim_start_matches(&path_of_remotes_folder.to_string());
+            dbg!(file_name);
+            // iterator for reviews return &str
+            let reviews_in_one_file = ReviewsInOneFile::new(file_name);
+            for review_string in reviews_in_one_file{
+                // use only data for index
+                Self::push_review_index(&review_string, &mut review_index, file_name);
             }
         }
         // sort by file_path
@@ -95,6 +69,7 @@ impl ReviewIndex {
     /// mutates review_index
     fn push_review_index(review_string: &str, review_index: &mut ReviewIndex, file_path: &str) {
         // deserialize one review
+        dbg!(review_string);
         let review: crate::review_mod::Review = unwrap!(serde_yaml::from_str(review_string));
         // use only some of the data for the index
         let review_index_item = ReviewIndexItem {

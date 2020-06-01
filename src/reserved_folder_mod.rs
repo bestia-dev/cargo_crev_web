@@ -9,6 +9,7 @@ use crate::html_server_template_mod::*;
 use crate::review_index_mod;
 use crate::utils_mod::*;
 use crate::CachedReviewIndex;
+use crate::data_file_scan_mod::*;
 use crate::*;
 
 use serde_derive::{Deserialize, Serialize};
@@ -108,8 +109,7 @@ impl ReservedFolder {
         }
 
         let mut vec_of_new = Vec::<OnlyAuthor>::new();
-        let path = unwrap!(dirs::home_dir());
-        let path = path.join(".cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
+        let path = path_of_remotes_folder().join("gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
         let mut vec_of_auto_crev = Vec::<OnlyAuthor>::new();
         for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
             &path,
