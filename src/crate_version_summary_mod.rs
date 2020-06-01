@@ -117,7 +117,7 @@ impl CrateVersionSummary {
                 version_summary.advisories += 1;
             }
         }
-        dbg!(&crate_version_summary.crate_summary.last_reviewed_version);
+        //dbg!(&crate_version_summary.crate_summary.last_reviewed_version);
         // find last version - with review
         crate_version_summary.crate_summary.last_reviewed_version = crate_version_summary
             .version_summaries

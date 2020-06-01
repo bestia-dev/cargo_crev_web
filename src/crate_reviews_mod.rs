@@ -3,10 +3,9 @@ use crate::crate_version_summary_mod::*;
 use crate::html_server_template_mod::*;
 use crate::review_mod::*;
 use crate::utils_mod::*;
+use crate::data_file_scan_mod::*;
 use crate::*;
 
-use dirs;
-use std::fs;
 use unwrap::unwrap;
 
 pub struct CrateReviews {
@@ -15,12 +14,73 @@ pub struct CrateReviews {
 }
 
 impl CrateReviews {
-    pub fn new(crate_name: &str, version: &str, kind: &str) -> CrateReviews {
-        // first fill a vector with reviews, because I need to filter and sort them
-        let mut reviews = get_crate_reviews(crate_name);
+    pub fn new(cached_review_index: CachedReviewIndex, crate_name: &str, version: &str, kind: &str) -> CrateReviews {
+        let ns_start = ns_start("");
+        let review_index = cached_review_index
+            .lock()
+            .expect("error cached_review_index.lock()");
+        // sort data by file_path
+        // the data is sorted by path_file in ReviewIndex.new()
+        // nobody else should sort the data
+        // search data in the index
+        let mut many_file = ManyFileReviewsPk { vec: vec![] };
+        let mut old_file_path = s!("");
+        let mut one_file = OneFileReviewsPk {
+            file_path: s!("don't push the first row"),
+            reviews_pk: Some(vec![]),
+        };
+        for index_item in review_index.vec.iter() {
+            if index_item.crate_name == crate_name {
+                if index_item.file_path != old_file_path {
+                    old_file_path = index_item.file_path.clone();
+                    if &one_file.file_path == "don't push the first row" {
+                        // only once read
+                        // but don't push the dummy
+                    } else {
+                        // push the old one before creating the new one
+                        many_file.vec.push(one_file);
+                    }
+                    // create new OneFile
+                    one_file = OneFileReviewsPk {
+                        file_path: index_item.file_path.clone(),
+                        reviews_pk: Some(vec![]),
+                    };
+                }
+                // add data to reviews_pk
+                unwrap!(one_file.reviews_pk.as_mut()).push(ReviewPk {
+                    crate_name: index_item.crate_name.clone(),
+                    author_id: index_item.author_id.clone(),
+                    version: index_item.version.clone(),
+                });
+            }
+        }
+        // save the last file in the loop
+        if &one_file.file_path != "don't push the first row" {
+            // push the last one 
+            many_file.vec.push(one_file.clone());
+        }
+        else{
+            //remove the dummy 
+            many_file.vec.pop();
+        }
+        let ns_read_from_index = ns_print(
+            &format!("read from index, file_path count: {}", many_file.vec.len()),
+            ns_start,
+        );
+        let mut reviews = get_vec_of_selected_reviews(many_file);
+        ns_print(
+            &format!("read from files reviews.len(): {}", reviews.len()),
+            ns_read_from_index,
+        );
+        // sort reviews by version
+        reviews.sort_by(|a, b| {
+            b.package
+                .version_for_sorting
+                .cmp(&a.package.version_for_sorting)
+        });
 
         // the summary is always from all reviews. We must filter the reviews later.
-        let crate_version_summary = CrateVersionSummary::new(crate_name, &reviews);
+        let crate_version_summary = CrateVersionSummary::new(&crate_name, &reviews);
         filter_reviews(&mut reviews, version, kind);
 
         // return
@@ -29,63 +89,6 @@ impl CrateReviews {
             reviews,
         }
     }
-}
-
-/// crev crate returns html
-fn get_crate_reviews(crate_name: &str) -> Vec<Review> {
-    // first fill a vector with reviews, because I need to filter and sort them
-    let mut reviews = vec![];
-    // this part can be cached: last 10 queried crates
-
-    // original cache crev folder: /home/luciano/.cache/crev/remotes
-    // on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes
-    // local webfolder example "../sample_data/cache/crev/remotes"
-    let path = unwrap!(dirs::home_dir());
-    let path = path.join(".cache/crev/remotes");
-    // dbg!(path);
-    // let mut count_files = 0;
-    for filename_crev in &unwrap!(traverse_dir_with_exclude_dir(
-        &path,
-        "/*.crev",
-        // avoid big folders and other folders with *.crev
-        &vec![s!("/.git"), s!("/trust")]
-    )) {
-        // count_files += 1;
-        // dbg!(filename_crev);
-        // for filename_result in unwrap!(glob("/reviews/*.crev")) {
-        // read crev file
-        let crev_text = unwrap!(fs::read_to_string(filename_crev));
-        for part1 in crev_text.split("----- END CREV PROOF -----") {
-            let start_delimiter = "----- BEGIN CREV PROOF -----";
-            if let Some(start_pos) = part1.find(start_delimiter) {
-                let start_pos = start_pos + start_delimiter.len() + 1;
-                if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
-                    let review_string = &part1[start_pos..end_pos];
-                    push_review(review_string, &mut reviews, &crate_name);
-                }
-            }
-        }
-        // older review has different delimiter. Everything else is the same.
-        for part1 in crev_text.split("-----END CREV PACKAGE REVIEW-----") {
-            let start_delimiter = "-----BEGIN CREV PACKAGE REVIEW-----";
-            if let Some(start_pos) = part1.find(start_delimiter) {
-                let start_pos = start_pos + start_delimiter.len() + 1;
-                if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
-                    let review_string = &part1[start_pos..end_pos];
-                    push_review(review_string, &mut reviews, &crate_name);
-                }
-            }
-        }
-    }
-    // dbg!(count_files);
-    // sort first by version desc, but semver version and then by date
-    reviews.sort_by(|a, b| {
-        b.package
-            .version_for_sorting
-            .cmp(&a.package.version_for_sorting)
-    });
-    // return
-    reviews
 }
 
 fn filter_reviews(reviews: &mut Vec<Review>, version: &str, kind: &str) {
@@ -117,25 +120,6 @@ fn filter_reviews(reviews: &mut Vec<Review>, version: &str, kind: &str) {
         } else if kind == "a" {
             reviews.retain(|x| x.advisories.is_some() || x.advisory.is_some());
         }
-    }
-}
-
-fn push_review(review_string: &str, reviews: &mut Vec<Review>, crate_name: &str) {
-    let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
-    // filter: only one crate_name
-    if &review.package.name == crate_name {
-        // reviews without review are not important
-        // version for sorting
-        let (major, minor, patch) = parse_semver(&review.package.version);
-        review.package.version_for_sorting = Some(review.version_for_sorting());
-        Some(format!(
-            "{:09}.{:09}.{:09}-{}",
-            major,
-            minor,
-            patch,
-            review.get_author_name()
-        ));
-        reviews.push(review);
     }
 }
 

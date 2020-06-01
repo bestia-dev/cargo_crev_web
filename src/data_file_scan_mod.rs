@@ -15,26 +15,29 @@ pub struct ReviewPk {
 #[derive(Clone, Debug)]
 pub struct OneFileReviewsPk {
     pub file_path: String,
-    pub reviews_pk: Vec<ReviewPk>,
+    pub reviews_pk: Option<Vec<ReviewPk>>,
 }
 #[derive(Clone, Debug)]
 pub struct ManyFileReviewsPk {
     pub vec: Vec<OneFileReviewsPk>,
 }
 
-pub fn get_vec_of_review(review_pks: ManyFileReviewsPk) -> Vec<Review> {
+pub fn get_vec_of_selected_reviews(review_pks: ManyFileReviewsPk) -> Vec<Review> {
     // dbg!(review_pks);
     let mut reviews = vec![];
 
     for one_file in &review_pks.vec {
-        get_vec_of_review_by_review_pk(&mut reviews, &one_file);
+        get_vec_from_one_file(&mut reviews, &one_file);
     }
     // return
     reviews
 }
+
+
 /// find one or more reviews from one file
 /// the review PK crate_name, author_id, version
-fn get_vec_of_review_by_review_pk(
+/// if None than push all reviews
+fn get_vec_from_one_file(
     reviews: &mut Vec<Review>,
     one_file_review_pk: &OneFileReviewsPk,
 ) {
@@ -46,7 +49,7 @@ fn get_vec_of_review_by_review_pk(
     let path = unwrap!(dirs::home_dir());
     let path = path.join(".cache/crev/remotes");
     let path = path.join(file_path);
-    // dbg!(path.display());
+    //dbg!(&path);
     // read crev file
     let crev_text = unwrap!(fs::read_to_string(path));
 
@@ -56,7 +59,13 @@ fn get_vec_of_review_by_review_pk(
             let start_pos = start_pos + start_delimiter.len() + 1;
             if let Some(end_pos) = part1.find("----- SIGN CREV PROOF -----") {
                 let review_string = &part1[start_pos..end_pos];
-                push_review(review_string, reviews, &one_file_review_pk.reviews_pk);
+                if let Some(reviews_pk) = &one_file_review_pk.reviews_pk{
+                    // push this review if it is in selected reviews
+                    push_review_if_selected(review_string, reviews, &reviews_pk);
+                }else{
+                    //push this reviews unconditionally
+                    push_this_review(review_string, reviews);
+                }
             }
         }
     }
@@ -67,13 +76,33 @@ fn get_vec_of_review_by_review_pk(
             let start_pos = start_pos + start_delimiter.len() + 1;
             if let Some(end_pos) = part1.find("-----BEGIN CREV PACKAGE REVIEW SIGNATURE-----") {
                 let review_string = &part1[start_pos..end_pos];
-                push_review(review_string, reviews, &one_file_review_pk.reviews_pk);
+                if let Some(reviews_pk) = &one_file_review_pk.reviews_pk{
+                    // push this review if it is in selected reviews
+                    push_review_if_selected(review_string, reviews, &reviews_pk);
+                }else{
+                    //push this reviews unconditionally
+                    push_this_review(review_string, reviews);
+                }
             }
         }
     }
 }
 
-fn push_review(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<ReviewPk>) {
+fn push_this_review(review_string: &str, reviews: &mut Vec<Review>) {
+    // version for sorting
+    let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
+    let (major, minor, patch) = parse_semver(&review.package.version);
+    review.package.version_for_sorting = Some(format!(
+        "{:09}.{:09}.{:09}-{}",
+        major,
+        minor,
+        patch,
+        review.get_author_name()
+    ));
+    reviews.push(review);
+}
+
+fn push_review_if_selected(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<ReviewPk>) {
     use serde_derive::{Deserialize, Serialize};
 
     #[derive(Serialize, Deserialize, Clone)]
@@ -94,22 +123,12 @@ fn push_review(review_string: &str, reviews: &mut Vec<Review>, review_pks: &Vec<
     let review_short: ReviewShort = unwrap!(serde_yaml::from_str(review_string));
 
     for review_pk in review_pks {
-        // filter: only the one equal to review_pk
+        // push only if this review is in selected reviews pk
         if review_short.package.name == review_pk.crate_name
             && review_short.from.id == review_pk.author_id
             && review_short.package.version == review_pk.version
         {
-            // version for sorting
-            let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
-            let (major, minor, patch) = parse_semver(&review.package.version);
-            review.package.version_for_sorting = Some(format!(
-                "{:09}.{:09}.{:09}-{}",
-                major,
-                minor,
-                patch,
-                review.get_author_name()
-            ));
-            reviews.push(review);
+            push_this_review(review_string,reviews);
             break;
         }
     }

@@ -29,7 +29,7 @@ impl AuthorReviews {
         let mut old_file_path = s!("");
         let mut one_file = OneFileReviewsPk {
             file_path: s!("don't push the first row"),
-            reviews_pk: vec![],
+            reviews_pk: Some(vec![]),
         };
         let mut author_name = s!("");
         let mut author_url = s!("");
@@ -39,6 +39,7 @@ impl AuthorReviews {
                     old_file_path = index_item.file_path.clone();
                     if &one_file.file_path == "don't push the first row" {
                         // only once read the author_name
+                        // but don't push the dummy
                         author_name = index_item.author_name.clone();
                         author_url = index_item.author_url.clone();
                     } else {
@@ -48,11 +49,11 @@ impl AuthorReviews {
                     // create new OneFile
                     one_file = OneFileReviewsPk {
                         file_path: index_item.file_path.clone(),
-                        reviews_pk: vec![],
+                        reviews_pk: Some(vec![]),
                     };
                 }
                 // add data to reviews_pk
-                one_file.reviews_pk.push(ReviewPk {
+                unwrap!(one_file.reviews_pk.as_mut()).push(ReviewPk {
                     crate_name: index_item.crate_name.clone(),
                     author_id: index_item.author_id.clone(),
                     version: index_item.version.clone(),
@@ -61,14 +62,18 @@ impl AuthorReviews {
         }
         // save the last file in the loop
         if &one_file.file_path != "don't push the first row" {
-            // push the old one before creating the new one
+            // push the last one 
             many_file.vec.push(one_file.clone());
+        }
+        else{
+            //remove the dummy 
+            many_file.vec.pop();
         }
         let ns_read_from_index = ns_print(
             &format!("read from index, file_path count: {}", many_file.vec.len()),
             ns_start,
         );
-        let mut reviews = get_vec_of_review(many_file);
+        let mut reviews = get_vec_of_selected_reviews(many_file);
         ns_print(
             &format!("read from files reviews.len(): {}", reviews.len()),
             ns_read_from_index,

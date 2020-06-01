@@ -48,7 +48,7 @@ impl Badge {
         let review_index = cached_review_index
             .lock()
             .expect("error cached_review_index.lock()");
-        let subject_text = "crev count";
+        let subject_text = "crev reviews";
         let status: usize = review_index
             .vec
             .iter()
