@@ -69,7 +69,7 @@ impl ReviewIndex {
     /// mutates review_index
     fn push_review_index(review_string: &str, review_index: &mut ReviewIndex, file_path: &str) {
         // deserialize one review
-        dbg!(review_string);
+        //dbg!(review_string);
         let review: crate::review_mod::Review = unwrap!(serde_yaml::from_str(review_string));
         // use only some of the data for the index
         let review_index_item = ReviewIndexItem {
