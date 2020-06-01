@@ -54,7 +54,7 @@ impl ReviewIndexSummary {
             summary.count_of_issues += index_item.issues;
             summary.count_of_advisories += index_item.advisories;
         }
-        // dbg!( group_by_crate);
+        // dbg!( crates);
         use itertools::Itertools;
         summary.unique_crates = for_unique_crates.into_iter().unique().count();
         summary.unique_authors = for_unique_authors.into_iter().unique().count();

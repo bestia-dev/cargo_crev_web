@@ -19,12 +19,13 @@ pub enum Node {
     // comment
     Comment(String),
 }
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct ElementNode {
     pub tag_name: String,
     pub attributes: Vec<Attribute>,
     pub children: Vec<Node>,
     pub namespace: Option<String>,
+    pub is_self_closing: bool,
 }
 /// An attribute on a DOM node, such as `id="my-thing"`
 #[derive(Clone, Debug)]
@@ -136,9 +137,7 @@ pub trait HtmlServerTemplateRender {
                             dom_path.push(s!(tag_name));
                             root_element = ElementNode {
                                 tag_name: s!(tag_name),
-                                attributes: vec![],
-                                children: vec![],
-                                namespace: None,
+                                ..Default::default()
                             };
                             if &tag_name == &"svg" {
                                 html_or_svg_local = HtmlOrSvg::Svg;
@@ -229,9 +228,7 @@ pub trait HtmlServerTemplateRender {
                             // construct a child element and fill it (recursive)
                             let mut child_element = ElementNode {
                                 tag_name: s!(tag_name),
-                                attributes: vec![],
-                                children: vec![],
-                                namespace: None,
+                                ..Default::default()
                             };
                             if tag_name == "svg" {
                                 // this tagname changes to svg now
@@ -349,6 +346,9 @@ pub trait HtmlServerTemplateRender {
                             let last_name = unwrap!(dom_path.pop());
                             // it can be also auto-closing element
                             if last_name == name || name == "" {
+                                if name == "" {
+                                    element.is_self_closing = true;
+                                }
                                 return Some(Ok(element));
                             } else {
                                 return Some(Err("End element not correct: "));
@@ -450,21 +450,29 @@ pub trait HtmlServerTemplateRender {
                 html.push_str(&attr.value);
                 html.push_str("\" ");
             }
-            html.push_str(">");
-            for sub_elem in &element_node.children {
-                match &sub_elem {
-                    Node::Element(sub_element) => {
-                        // recursion
-                        sub_element_node_mut_html(html, sub_element);
+            if element_node.is_self_closing == true {
+                // auto-closing element
+                // for <br /> is significant to stay auto-closed
+                // because <br></br> is rendered differently
+                html.push_str("/>");
+            // dbg!(&html);
+            } else {
+                html.push_str(">");
+                for sub_elem in &element_node.children {
+                    match &sub_elem {
+                        Node::Element(sub_element) => {
+                            // recursion
+                            sub_element_node_mut_html(html, sub_element);
+                        }
+                        Node::Text(text) => html.push_str(&text),
+                        Node::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
                     }
-                    Node::Text(text) => html.push_str(&text),
-                    Node::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
                 }
+                // end tag
+                html.push_str("</");
+                html.push_str(&element_node.tag_name);
+                html.push_str(">");
             }
-            // end tag
-            html.push_str("</");
-            html.push_str(&element_node.tag_name);
-            html.push_str(">");
         }
 
         let mut html = String::with_capacity(5000);
@@ -501,9 +509,8 @@ pub fn replace_with_nodes_match_else(data_model_name: &str, placeholder: &str) -
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
         tag_name: s!("h2"),
-        attributes: vec![],
         children: vec![Node::Text(err_msg)],
-        namespace: None,
+        ..Default::default()
     });
     return vec![node];
 }
@@ -516,9 +523,8 @@ pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
         tag_name: s!("h2"),
-        attributes: vec![],
         children: vec![Node::Text(err_msg)],
-        namespace: None,
+        ..Default::default()
     });
     return vec![node];
 }

@@ -35,7 +35,7 @@ pub fn path_of_remotes_folder() -> PathBuf {
 }
 
 /// all file names
-pub fn crev_files(folder_path:&str) -> Vec<String> {
+pub fn crev_files(folder_path: &str) -> Vec<String> {
     // return
     unwrap!(traverse_dir_with_exclude_dir(
         Path::new(folder_path),

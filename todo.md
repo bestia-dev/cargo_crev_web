@@ -1,6 +1,8 @@
 
 # TODO
 
+info on first page index
+
 filter on author review
 
 unique authors for crate summary

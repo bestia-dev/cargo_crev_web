@@ -118,8 +118,7 @@ impl ReservedFolder {
             for review_string in reviews_in_one_file {
                 //dbg!(review_string);
                 //fn push_author(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
-                    let review_short: ReviewShort =
-                    unwrap!(serde_yaml::from_str(&review_string));
+                let review_short: ReviewShort = unwrap!(serde_yaml::from_str(&review_string));
 
                 vec_of_auto_crev.push(OnlyAuthor {
                     author_name: if let Some(url) = &review_short.ids[0].url {

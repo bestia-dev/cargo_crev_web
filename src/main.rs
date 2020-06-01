@@ -210,13 +210,13 @@
 
 // region: (collapsed) use statements
 mod author_reviews_mod;
+mod authors_mod;
 mod badge_mod;
 mod crate_reviews_mod;
 mod crate_version_summary_mod;
+mod crates_mod;
 mod data_file_scan_mod;
 mod html_server_template_mod;
-mod info_group_by_author_mod;
-mod info_group_by_crate_mod;
 mod issue_mod;
 mod reserved_folder_mod;
 mod review_index_mod;
@@ -302,19 +302,25 @@ async fn main() {
     // region: prepare routes
 
     // static files and folders:
-    // /cargo_crev_web/  - static index.html file
     // /cargo_crev_web/css/*  - static css file
+    // /cargo_crev_web/favicon.png  - static file
 
     // dynamic content:
+    // /cargo_crev_web/
+    // /cargo_crev_web/index.html
     // /cargo_crev_web/author/{author_id}/
     // /cargo_crev_web/badge/crev_count/{crate_name}.svg
     // /cargo_crev_web/crate/{crate_name}/
     // /cargo_crev_web/crate/{crate_name}/{version}/
     // /cargo_crev_web/crate/{crate_name}/{version}/{kind}/
-    // /cargo_crev_web/info/
-    // /cargo_crev_web/info/group_by_crate/
-    // /cargo_crev_web/info/group_by_author/
+    // /cargo_crev_web/crates/
+    // /cargo_crev_web/authors/
     // /cargo_crev_web/review_new/
+    // /cargo_crev_web/reserved_folder/
+    // /cargo_crev_web/reserved_folder/reindex_after_fetch_new_reviews/
+    // /cargo_crev_web/reserved_folder/list_new_author_id/
+    // /cargo_crev_web/reserved_folder/add_author_url/
+    // /cargo_crev_web/reserved_folder/list_fetched_author_id/
 
     // the crate_name must finish with .svg
     let badge_route = warp::path!("cargo_crev_web" / "badge" / "crev_count" / String)
@@ -426,7 +432,7 @@ async fn main() {
                     warp::reply::html(html_file)
                 }));
 
-    let info_route = warp::path!("cargo_crev_web" / "info")
+    let root_route = warp::path!("cargo_crev_web")
         .and(cached_review_index.clone())
         .map(|cached_review_index| {
             let ns_start = ns_start("ReviewIndexSummary");
@@ -436,23 +442,32 @@ async fn main() {
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
-        .or(warp::path!("cargo_crev_web" / "info" / "group_by_crate")
+        .or(warp::path!("cargo_crev_web" / "index.html")
             .and(cached_review_index.clone())
             .map(|cached_review_index| {
-                let ns_start = ns_start("ReviewIndexByCrate");
+                let ns_start = ns_start("ReviewIndexSummary");
                 let data_model =
-                    info_group_by_crate_mod::ReviewIndexByCrate::new(cached_review_index);
+                    review_index_summary_mod::ReviewIndexSummary::new(cached_review_index);
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
                 warp::reply::html(html_file)
             }))
-        .or(warp::path!("cargo_crev_web" / "info" / "group_by_author")
+        .or(warp::path!("cargo_crev_web" / "crates")
+            .and(cached_review_index.clone())
+            .map(|cached_review_index| {
+                let ns_start = ns_start("ReviewIndexByCrate");
+                let data_model = crates_mod::ReviewIndexByCrate::new(cached_review_index);
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            }))
+        .or(warp::path!("cargo_crev_web" / "authors")
             .and(cached_review_index.clone())
             .map(|cached_review_index| {
                 let ns_start = ns_start("ReviewIndexByAuthor");
-                let data_model =
-                    info_group_by_author_mod::ReviewIndexByAuthor::new(cached_review_index);
+                let data_model = authors_mod::ReviewIndexByAuthor::new(cached_review_index);
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
@@ -532,65 +547,6 @@ async fn main() {
                 ),
         );
 
-    // OBSOLETE
-    let query_crate_route = warp::path!("cargo_crev_web" / "query" / String)
-        .and(cached_review_index.clone())
-        .map(|crate_name: String, cached_review_index| {
-            let ns_start = ns_start(&format!(
-                "CrateReviews crate_name: '{}'",
-                Yellow.paint(&crate_name),
-            ));
-            let data_model =
-                crate_reviews_mod::CrateReviews::new(cached_review_index, &crate_name, "", "");
-            let ns_new = ns_print("new()", ns_start);
-            let html_file = data_model.render_html_file("templates/");
-            ns_print("render_html_file()", ns_new);
-            warp::reply::html(html_file)
-        })
-        .or(warp::path!("cargo_crev_web" / "query" / String / String)
-            .and(cached_review_index.clone())
-            .map(|crate_name: String, version: String, cached_review_index| {
-                let ns_start = ns_start(&format!(
-                    "CrateReviews crate_name: '{}', version '{}'",
-                    Yellow.paint(&crate_name),
-                    Yellow.paint(&version),
-                ));
-                let data_model = crate_reviews_mod::CrateReviews::new(
-                    cached_review_index,
-                    &crate_name,
-                    &version,
-                    "",
-                );
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                warp::reply::html(html_file)
-            }))
-        .or(
-            warp::path!("cargo_crev_web" / "query" / String / String / String)
-                .and(cached_review_index.clone())
-                .map(
-                    |crate_name: String, version: String, kind: String, cached_review_index| {
-                        let ns_start = ns_start(&format!(
-                            "CrateReviews crate_name: '{}', version '{}', kind '{}'",
-                            Yellow.paint(&crate_name),
-                            Yellow.paint(&version),
-                            Yellow.paint(&kind)
-                        ));
-                        let data_model = crate_reviews_mod::CrateReviews::new(
-                            cached_review_index,
-                            &crate_name,
-                            &version,
-                            &kind,
-                        );
-                        let ns_new = ns_print("new()", ns_start);
-                        let html_file = data_model.render_html_file("templates/");
-                        ns_print("render_html_file()", ns_new);
-                        warp::reply::html(html_file)
-                    },
-                ),
-        );
-
     // static file server (starts at cargo_crev_web)
     // route /cargo_crev_web/ get files from folder ./web_content_folder/
     let fileserver = warp::path("cargo_crev_web").and(warp::fs::dir("./web_content_folder/"));
@@ -599,8 +555,7 @@ async fn main() {
     // combine all routes with or
     let routes = crate_route
         .or(author_route)
-        .or(info_route)
-        .or(query_crate_route)
+        .or(root_route)
         .or(reserved_folder_route)
         .or(review_new_route)
         .or(badge_route)

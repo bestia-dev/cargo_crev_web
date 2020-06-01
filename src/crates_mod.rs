@@ -1,23 +1,23 @@
-//! info_group_by_author_mod
+//! crates_mod
 
 use crate::html_server_template_mod::*;
 use crate::url_encode_mod::*;
+use crate::CachedReviewIndex;
 use crate::*;
 
 use unwrap::unwrap;
 
 /// only one field with a generic name vec
 #[derive(Clone, Debug)]
-pub struct ReviewIndexByAuthor {
-    vec: Vec<ByAuthorItem>,
+pub struct ReviewIndexByCrate {
+    pub vec: Vec<ByCrateItem>,
 }
 #[derive(Clone, Debug)]
-pub struct ByAuthorItem {
-    pub author_name: String,
-    pub author_url: String,
-    pub author_id: String,
+pub struct ByCrateItem {
+    pub crate_name: String,
     pub count_of_reviews: usize,
-    pub unique_crates: usize,
+    pub unique_versions: usize,
+    pub unique_authors: usize,
     pub count_of_rating_strong: usize,
     pub count_of_rating_positive: usize,
     pub count_of_rating_neutral: usize,
@@ -28,35 +28,39 @@ pub struct ByAuthorItem {
     pub count_of_advisories: usize,
 }
 
-impl ReviewIndexByAuthor {
+impl ReviewIndexByCrate {
     pub fn new(cached_review_index: CachedReviewIndex) -> Self {
         let mut review_index = cached_review_index
             .lock()
             .expect("error cached_review_index.lock()");
+
         // sort order for group by, so I don't need to send a mutable
         review_index
             .vec
-            .sort_by(|a, b| Ord::cmp(&a.author_name, &b.author_name));
-        let mut old_author_name = s!("");
-        let mut for_unique_crates: Vec<String> = vec![];
-        let mut review_index_by_author = ReviewIndexByAuthor { vec: vec![] };
+            .sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
+
+        let mut old_crate_name = s!("");
+        let mut for_unique_versions: Vec<String> = vec![];
+        let mut for_unique_authors: Vec<String> = vec![];
+        let mut review_index_by_crate = ReviewIndexByCrate { vec: vec![] };
         for index_item in &review_index.vec {
-            // the reviews are already sorted by author_name
-            if &index_item.author_name != &old_author_name {
-                if !old_author_name.is_empty() {
+            // the reviews are already sorted by crate_name
+            if &index_item.crate_name != &old_crate_name {
+                if !old_crate_name.is_empty() {
                     // finalize the previous group
                     use itertools::Itertools;
-                    let mut last = unwrap!(review_index_by_author.vec.last_mut());
-                    last.unique_crates = for_unique_crates.into_iter().unique().count();
-                    for_unique_crates = vec![];
+                    let mut last = unwrap!(review_index_by_crate.vec.last_mut());
+                    last.unique_versions = for_unique_versions.into_iter().unique().count();
+                    for_unique_versions = vec![];
+                    last.unique_authors = for_unique_authors.into_iter().unique().count();
+                    for_unique_authors = vec![];
                 }
                 // a new group begins
-                let last = ByAuthorItem {
-                    author_name: index_item.author_name.clone(),
-                    author_url: index_item.author_url.clone(),
-                    author_id: index_item.author_id.clone(),
-                    unique_crates: 0,
+                let last = ByCrateItem {
+                    crate_name: index_item.crate_name.clone(),
                     count_of_reviews: 0,
+                    unique_versions: 0,
+                    unique_authors: 0,
                     count_of_rating_strong: 0,
                     count_of_rating_positive: 0,
                     count_of_rating_neutral: 0,
@@ -66,13 +70,14 @@ impl ReviewIndexByAuthor {
                     count_of_issues: 0,
                     count_of_advisories: 0,
                 };
-                review_index_by_author.vec.push(last);
-                old_author_name = s!(&index_item.author_name);
+                review_index_by_crate.vec.push(last);
+                old_crate_name = s!(&index_item.crate_name);
             }
             // add to the last group
-            let mut last = unwrap!(review_index_by_author.vec.last_mut());
+            let mut last = unwrap!(review_index_by_crate.vec.last_mut());
             last.count_of_reviews += 1;
-            for_unique_crates.push(s!(&index_item.author_name));
+            for_unique_versions.push(s!(&index_item.version));
+            for_unique_authors.push(s!(&index_item.author_name));
             last.count_of_rating_strong += index_item.rating_strong;
             last.count_of_rating_positive += index_item.rating_positive;
             last.count_of_rating_neutral += index_item.rating_neutral;
@@ -84,29 +89,27 @@ impl ReviewIndexByAuthor {
         }
 
         // return
-        review_index_by_author
+        review_index_by_crate
     }
 }
-impl HtmlServerTemplateRender for ReviewIndexByAuthor {
+impl HtmlServerTemplateRender for ReviewIndexByCrate {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         // return
-        s!("ReviewIndexByAuthor")
+        s!("ReviewIndexByCrate")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!(
-            "{}info_group_by_author_template.html",
-            templates_folder_name
-        );
+        let template_file_name = format!("{}crates_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
+
         // return
         html
     }
 
     /// boolean : is the next node rendered or not
     fn retain_next_node(&self, placeholder: &str) -> bool {
-        // dbg!(&placeholder);
+        // dbg!(&placeholder));
         match placeholder {
             _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
         }
@@ -124,21 +127,21 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
         _subtemplate: &str,
         pos_cursor: usize,
     ) -> String {
-        // dbg!( &placeholder);
+        // dbg!(&placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
             // this is a grid with repeated rows. Use the pos_cursor
             "st_ordinal_number" => (pos_cursor + 1).to_string(),
-            "st_author_name" => s!(&self.vec[pos_cursor].author_name),
-            "st_author_url" => format!("{}", self.vec[pos_cursor].author_url),
-            "st_author_route" => format!(
-                "/cargo_crev_web/author/{}/",
-                url_encode(&self.vec[pos_cursor].author_id)
+            "st_crate_name" => s!(&self.vec[pos_cursor].crate_name),
+            "st_crate_route" => format!(
+                "/cargo_crev_web/crate/{}/",
+                url_encode(&self.vec[pos_cursor].crate_name)
             ),
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
-            "st_unique_crates" => to_string_zero_to_empty(self.vec[pos_cursor].unique_crates),
+            "st_unique_versions" => to_string_zero_to_empty(self.vec[pos_cursor].unique_versions),
+            "st_unique_authors" => to_string_zero_to_empty(self.vec[pos_cursor].unique_authors),
             "st_count_of_rating_strong" => {
                 to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong)
             }
@@ -172,27 +175,27 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }
-    // render sub-template into Vec<Node>
+    /// renders sub-template
     #[allow(clippy::needless_return)]
     fn render_sub_template(
         &self,
         template_name: &str,
         sub_templates: &Vec<SubTemplate>,
     ) -> Vec<Node> {
-        // dbg!(&placeholder));
+        // dbg!(&placeholder);
         match template_name {
-            "stmplt_author_summary" => {
+            "stmplt_crate_summary" => {
                 let sub_template = unwrap!(sub_templates
                     .iter()
                     .find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
-                for cursor_for_vec in 0..self.vec.len() {
+                for cursor_for_crates in 0..self.vec.len() {
                     let vec_node = unwrap!(self.render_template_raw_to_nodes(
                         &sub_template.template,
                         HtmlOrSvg::Html,
-                        "stmplt_author_summary",
-                        cursor_for_vec
+                        template_name,
+                        cursor_for_crates
                     ));
                     nodes.extend_from_slice(&vec_node);
                 }

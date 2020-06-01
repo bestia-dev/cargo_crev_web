@@ -3,7 +3,7 @@
     "steps": [{
             "file": "src/main.rs",
             "line": 266,
-            "description": "## server route  \nThe web server recognizes the route /query/ and calls html_for_crev_query().",
+            "description": "## server route  \nThe web server recognizes the route /crate/ and calls html_for_crev_query().",
             "selection": {
                 "start": {
                     "line": 263,

@@ -1,7 +1,7 @@
 # cargo_crev_web
 
 [comment]: # (lmake_readme cargo.toml data start)
-version: 2020.601.1442  date: 2020-06-01 authors: Luciano Bestia  
+version: 2020.601.2208  date: 2020-06-01 authors: Luciano Bestia  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
@@ -168,6 +168,11 @@ A service for SVG badges for `crev count of reviews for one crate` is on url:\
 <https://bestia.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg>\
 Example how it looks like on GitHub:\
 <https://github.com/LucianoBestia/reader_for_microxml/>  
+```markdown
+[![crev reviews](
+https://bestia.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg
+)](https://bestia.dev/cargo_crev_web/crate/reader_for_microxml/)
+```
 
 ## CodeTour
 
@@ -188,9 +193,9 @@ I am terrible in VIM, I confess.
 ## TODO
 web form for entering a new review
 
-Stats:
+## Stats
 
-2020-05-27 authors:55 crates: 514, reviews: 886
+<https://github.com/LucianoBestia/cargo_crev_web/issues/4>
 
 ## References
 

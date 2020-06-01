@@ -15,8 +15,8 @@
         <div class="container0_content_not_grid">
             <div style="display: grid;grid-template-columns: 40% 60% ;">
                 <div class="middle">
-                    <h2><a class="white" href="/cargo_crev_web/">
-                            cargo_crev_web</a></h2>
+                    <h1><a class="white" href="/cargo_crev_web/">
+                            cargo_crev_web</a></h1>
                 </div>
                 <div class="middle right">
                     <h3>reviews from <a class="white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
@@ -24,7 +24,7 @@
             </div>
             <div style="display: grid;grid-template-columns: 70% 15% 15%;">
                 <div>
-                    <h3 class="h3y">summary</h3>
+                    <h3 class="h3y">count of crates, authors, reviews, ratings,...</h3>
                 </div>
                 <div class="right"><a class="white" href="https://lib.rs/" target="_blank">lib.rs</a></div>
                 <div class="right"><a class="white" href="https://crates.io/" target="_blank">crates.io</a></div>
@@ -78,9 +78,78 @@
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
-            <div>Links to grouped summaries:</div>
-            <div><a class="white" href="group_by_crate/">group by crate</a></div>
-            <div><a class="white" href="group_by_author/">group by author_name</a></div>
+            <h2 class="h2u">Try it out</h2>
+            <p>
+                <a class="white" href="/cargo_crev_web/crates/">
+                        /cargo_crev_web/crates/
+                  </a>
+            </p>
+            <p>
+                <a class="white" href="/cargo_crev_web/authors/">
+                        /cargo_crev_web/authors/
+                  </a>
+            </p>
+            <p>
+                <a class="white" href="/cargo_crev_web/author/FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE/">
+                        /cargo_crev_web/author/FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE/
+                  </a>
+            </p>
+            <p>
+                <a class="white" href="/cargo_crev_web/crate/num-traits/">
+                        /cargo_crev_web/crate/num-traits/
+                  </a>
+            </p>
+            <p>
+                <a class="white" href="/cargo_crev_web/badge/crev_count/num-traits/">
+                        /cargo_crev_web/badge/crev_count/num-traits/
+                  </a>
+            </p>
+
+            <h2 class="h2u">cargo-crev</h2>
+            <p><code>cargo-crev</code> is a cryptographically verifiable code review system for the cargo (Rust) package manager:<br />
+                <a class="white" target="_blank" href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a>
+            </p>
+            <p><code>cargo-crev</code> runs locally on the developer computer.<br /> It needs to be installed and initialized in a few steps.<br /> It takes some time to initialize it and learn how to use it.
+                <code>cargo-crev</code> is a relatively new project and the majority of rust developers don't have it installed yet.<br />
+            </p>
+
+            <h2 class="h2u">cargo_crev_web</h2>
+            <p>
+                I created <code>cargo_crev_web</code> to enable all developers to view crev reviews.
+                <br /> There is no installation, initialization or learning needed. It is just a simple web page.
+                <br /> It simply shows a list of reviews for a crate.<br /> I wish that crates.io will have some day a link to
+                <code>cargo_crev_web</code> just like today it has links to documentation and repository.
+            </p>
+            <h2 class="h2u">badges</h2>
+            <p>
+                In the meantime here is also a <code>badge service</code> that everyone can include in readme.md.<br/> Add a badge to your project readme.md:
+                <code>[![crev reviews](
+https://bestia.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg
+)](https://bestia.dev/cargo_crev_web/crate/reader_for_microxml/)</code> <br /> Example: <a class="white" href="https://github.com/LucianoBestia/reader_for_microxml/">https://github.com/LucianoBestia/reader_for_microxml/</a>
+            </p>
+            <h2 class="h2u">web of trust</h2>
+            <p>
+                New crev reviews are written by developers and committed to crev review repos and pushed to GitHub. From there they are available to all.
+                <br /> We need a system to trust this persons to trust their reviews.
+                <code>cargo-crev</code> has a list of trusted persons. But we personally only know a limited number of trusted persons. To make this circle bigger we need more people to trust. When we trust somebody for reviews, we usually also trust
+                their choices to trust other people. So we can trust also them. A little less, but still trust them.
+                <br /> This is an important part of the <code>web of trust</code>.<br /> It is common in every day life that the friends of our friends are probably also our friends.
+
+            </p>
+
+            <h2 class="h2u">TODO</h2>
+
+            <pre>
+This is a work in progress.
+- watch the reviews count growing <a class="white" href="https://github.com/LucianoBestia/cargo_crev_web/issues/4">https://github.com/LucianoBestia/cargo_crev_web/issues/4</a>
+            </pre>
+            <br />
+
+            <p><code>cargo_crev_web</code> github repository:
+                <a class="white" target="_blank" href="https://github.com/LucianoBestia/cargo_crev_web/">
+                        https://github.com/LucianoBestia/cargo_crev_web
+                  </a>
+            </p>
         </div>
     </div>
 
