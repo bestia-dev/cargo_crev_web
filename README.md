@@ -6,6 +6,9 @@ version: 2020.601.2208  date: 2020-06-01 authors: Luciano Bestia
 
 [comment]: # (lmake_readme cargo.toml data end)  
 
+![page1](https://user-images.githubusercontent.com/31509965/83490046-f2ae1500-a4cc-11ea-8af0-1cb62582e4f7.png)
+
+
 ## cargo-crev
 
 Cargo-crev is a system of review for rust crates in crates.io.  
