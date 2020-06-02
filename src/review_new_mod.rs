@@ -5,20 +5,105 @@ use crate::review_mod::*;
 use crate::*;
 
 //use serde_derive::{Deserialize, Serialize};
-//use std::fs;
+use std::collections::HashMap;
+use std::fs;
 //use unwrap::unwrap;
 
 pub struct ReviewNew {
-    pub review: Review,
+    pub rev: Review,
+    pub yaml_text: String,
 }
 
 impl ReviewNew {
+    #[allow(unused)]
     /// prepares the data
     pub fn new() -> Self {
         ReviewNew {
-            review: Review {
+            rev: Review {
                 ..Default::default()
             },
+            yaml_text: s!(""),
+        }
+    }
+    pub fn read_review(path: &str) -> Self {
+        //let path = "../sample_data/review_1.yaml";
+        let yaml_text = unwrap!(fs::read_to_string(path));
+        let review: Review = unwrap!(serde_yaml::from_str(&yaml_text));
+        ReviewNew {
+            rev: review,
+            yaml_text,
+        }
+    }
+    pub fn from_form_data(form_data: HashMap<String, String>)->Self{
+        let mut rev = Review{
+        ..Default::default()
+        };
+        for (key, value) in form_data {
+            match key.as_ref(){
+                "comment" => rev.comment=Some(value.to_string()),
+                _ => {}
+            }
+        }
+        let yaml_text = unwrap!(serde_yaml::to_string(&rev));
+        //return
+        ReviewNew{
+            rev,
+            yaml_text
+        }
+    }
+
+    pub fn st_comment(&self) -> String {
+        if let Some(comment) = &self.rev.comment {
+            comment.clone()
+        } else {
+            s!("")
+        }
+    }
+
+    pub fn st_thoroughness(&self) -> String {
+        if let Some(review) = &self.rev.review {
+            review.thoroughness.to_string()
+        } else {
+            s!("")
+        }
+    }
+
+    pub fn st_understanding(&self) -> String {
+        if let Some(review) = &self.rev.review {
+            review.understanding.to_string()
+        } else {
+            s!("")
+        }
+    }
+
+    pub fn st_rating(&self) -> String {
+        if let Some(review) = &self.rev.review {
+            review.rating.to_string()
+        } else {
+            s!("")
+        }
+    }
+
+    pub fn st_alternatives_0_source(&self) -> String {
+        if let Some(alternatives) = &self.rev.alternatives {
+            alternatives[0].source.clone()
+        } else {
+            s!("")
+        }
+    }
+
+    pub fn st_alternatives_0_name(&self) -> String {
+        if let Some(alternatives) = &self.rev.alternatives {
+            alternatives[0].name.clone()
+        } else {
+            s!("")
+        }
+    }
+    pub fn st_advisories_comment_0_0(&self) -> String {
+        if let Some(advisories) = &self.rev.advisories {
+            advisories[0].comment.clone()
+        } else {
+            s!("")
         }
     }
 }
@@ -27,7 +112,7 @@ impl HtmlServerTemplateRender for ReviewNew {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         // return
-        s!("Review")
+        s!("ReviewNew")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
@@ -38,11 +123,28 @@ impl HtmlServerTemplateRender for ReviewNew {
         html
     }
     /// boolean : is the next node rendered or not
-    fn retain_next_node(&self, placeholder: &str) -> bool {
+    fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
-            "sb_has_issue" => self.review.issues.is_some(),
-            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
+            "sb_has_alternative" => self.rev.alternatives.is_some(),
+            "sb_has_issue" => self.rev.issues.is_some(),
+            "sb_has_advisories" => self.rev.advisories.is_some(),
+            // radio buttons in html have this terrible attribute checked. Horror.
+            "sb_thoroughness_none" => &self.st_thoroughness() == "none",
+            "sb_thoroughness_low" => &self.st_thoroughness() == "none",
+            "sb_thoroughness_medium" => &self.st_thoroughness() == "medium",
+            "sb_thoroughness_high" => &self.st_thoroughness() == "high",
+            "sb_understanding_none" => &self.st_understanding() == "none",
+            "sb_understanding_low" => &self.st_understanding() == "low",
+            "sb_understanding_medium" => &self.st_understanding() == "medium",
+            "sb_understanding_high" => &self.st_understanding() == "high",
+            "sb_rating_none" => &self.st_rating() == "none",
+            "sb_rating_negative" => &self.st_rating() == "negative",
+            "sb_rating_neutral" => &self.st_rating() == "neutral",
+            "sb_rating_positive" => &self.st_rating() == "positive",
+            "sb_rating_strong" => &self.st_rating() == "strong",
+
+            _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
 
@@ -65,7 +167,15 @@ impl HtmlServerTemplateRender for ReviewNew {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
-
+            "st_yaml_text" => self.yaml_text.clone(),
+            "st_date" => self.rev.date.clone(),
+            "st_comment" => self.st_comment(),
+            "st_from_url" => self.rev.from.url.clone(),
+            "st_package_name" => self.rev.package.name.clone(),
+            "st_package_version" => self.rev.package.version.clone(),
+            "st_alternatives_0_source" => self.st_alternatives_0_source(),
+            "st_alternatives_0_name" => self.st_alternatives_0_name(),
+            "st_advisories_comment_0_0" => self.st_advisories_comment_0_0(),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

@@ -108,10 +108,10 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
     }
 
     /// boolean : is the next node rendered or not
-    fn retain_next_node(&self, placeholder: &str) -> bool {
+    fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder));
         match placeholder {
-            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
+            _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
 
@@ -135,10 +135,19 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
             // this is a grid with repeated rows. Use the pos_cursor
             "st_ordinal_number" => (pos_cursor + 1).to_string(),
             "st_crate_name" => s!(&self.vec[pos_cursor].crate_name),
-            "st_crate_route" => format!(
-                "/cargo_crev_web/crate/{}/",
-                url_encode(&self.vec[pos_cursor].crate_name)
-            ),
+            // "/cargo_crev_web/crate/{}/",
+            "st_crate_route" => {
+                let url_str = UrlEncodedString::new_abs_local_route(
+                    Some("cargo_crev_web"),
+                    Some("crate"),
+                    Some(&self.vec[pos_cursor].crate_name),
+                    None,
+                )
+                .get_enc();
+                dbg!(&url_str);
+                //return
+                url_str
+            }
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
             "st_unique_versions" => to_string_zero_to_empty(self.vec[pos_cursor].unique_versions),
             "st_unique_authors" => to_string_zero_to_empty(self.vec[pos_cursor].unique_authors),

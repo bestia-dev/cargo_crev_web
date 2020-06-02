@@ -162,7 +162,7 @@ impl HtmlServerTemplateRender for Review {
         String::new()
     }
     /// boolean : is the next node rendered or not
-    fn retain_next_node(&self, placeholder: &str) -> bool {
+    fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
             "sb_not_for_render" => false,
@@ -170,7 +170,7 @@ impl HtmlServerTemplateRender for Review {
             "sb_has_issues" => self.issues.is_some(),
             "sb_has_advisories" => self.advisories.is_some(),
             "sb_has_old_advisory" => self.advisory.is_some(),
-            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
+            _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
 
@@ -233,7 +233,7 @@ impl HtmlServerTemplateRender for Review {
                     s!("")
                 }
             }
-            "st_alternative_source" => {
+            "st_alternatives_source" => {
                 if let Some(alternatives) = &self.alternatives {
                     s!(&alternatives[0].source)
                 } else {

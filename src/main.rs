@@ -242,6 +242,7 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::{Arc, Mutex};
 use unwrap::unwrap;
 use warp::{http::Response, Filter};
+use std::collections::HashMap;
 
 type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
 
@@ -316,6 +317,7 @@ async fn main() {
     // /cargo_crev_web/crates/
     // /cargo_crev_web/authors/
     // /cargo_crev_web/review_new/
+    // /cargo_crev_web/review_new_to_yaml/
     // /cargo_crev_web/reserved_folder/
     // /cargo_crev_web/reserved_folder/reindex_after_fetch_new_reviews/
     // /cargo_crev_web/reserved_folder/list_new_author_id/
@@ -326,7 +328,7 @@ async fn main() {
     let badge_route = warp::path!("cargo_crev_web" / "badge" / "crev_count" / String)
         .and(cached_review_index.clone())
         .map(|crate_name: String, cached_review_index| {
-            let ns_start = ns_start("review_new");
+            let ns_start = ns_start("badge");
             // remove suffix .svg
             let trimmed_str: &str = crate_name.trim_end_matches(".svg");
             let data_model = badge_mod::Badge::crev_count(trimmed_str, cached_review_index);
@@ -336,20 +338,35 @@ async fn main() {
             ns_print("render_html_file()", ns_new);
             let reply = Response::builder()
                 .header("content-type", "image/svg+xml")
-                .header("Cache-Control", "no-cache")
+                // for github I allow 1 hour caching of img/badge.
+                // Because I fetch new data every hour.
+                .header("Cache-Control", "max-age=3600, public")
                 .body(html_file);
             //return
             reply
         });
 
-    let review_new_route = warp::path!("cargo_crev_web" / "review_new").map(|| {
-        let ns_start = ns_start("review_new");
-        let data_model = review_new_mod::ReviewNew::new();
-        let ns_new = ns_print("new()", ns_start);
-        let html_file = data_model.render_html_file("templates/");
-        ns_print("render_html_file()", ns_new);
-        warp::reply::html(html_file)
-    });
+    let review_new_route = warp::path!("cargo_crev_web" / "review_new")
+        .map(|| {
+            let ns_start = ns_start("review_new");
+            //let data_model = review_new_mod::ReviewNew::new();
+            let data_model = review_new_mod::ReviewNew::read_review("../sample_data/review_1.yaml");
+            let ns_new = ns_print("new()", ns_start);
+            let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
+            warp::reply::html(html_file)
+        })
+        .or(warp::path!("cargo_crev_web" / "review_new_to_yaml")
+           .and( warp::body::content_length_limit(1024 * 32))
+            .and(warp::body::form())
+            .map(|form_data: HashMap<String, String>| {
+                let ns_start = ns_start("review_new_to_yaml");
+                let data_model = review_new_mod::ReviewNew::from_form_data(form_data);
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            }));
 
     let reserved_folder_route =
         warp::path!("cargo_crev_web" / "reserved_folder" / "reindex_after_fetch_new_reviews")

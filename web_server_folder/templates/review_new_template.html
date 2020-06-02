@@ -32,59 +32,77 @@
     </div>
 
     <div class="container_0">
+        <h2 style="font-style:italic;">WORK IN PROGRESS.....</h2>
+        <h2 style="font-style:italic;">first I read a sample review struct read from yaml</h2>
         <div class="container0_content_not_grid">
+            <textarea readonly="readonly" style="height: 250px;"><!--st_yaml_text-->yaml_text</textarea>
             <pre>
+date: <input type="text" class="read_only" readonly="readonly" data-st-value="st_date" value="2020-01-24T12:13:38" />
+from:
+    url: <input type="text" class="read_only" readonly="readonly" data-st-value="st_from_url" value="https://github.com/LucianoBestia/crev-proofs" />
+package:
+    name: <input type="text" class="read_only" readonly="readonly" data-st-value="st_package_name" value="unwrap" />
+    version: <input type="text" class="read_only" readonly="readonly" data-st-value="st_package_version" value="1.2.1" />
+        </pre>
+        </div>
+    </div>
+
+    <form action="review_new_to_yaml/" method="POST">
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <input type="submit" value="Export to yaml" />
+                <pre>
 review:
-    thoroughness: <input type="radio" name="thoroughness" value="none">none     </input><input type="radio" name="thoroughness" value="low"><span class="c_low">low     </span></input><input type="radio" name="thoroughness" value="medium"><span class="c_medium">medium     </span></input><input type="radio" name="thoroughness"value="high"><span class="c_high">high     </span></input>
-    understanding: <input type="radio" name="understanding" value="none">none     </input><input type="radio" name="understanding" value="low"><span class="c_low">low     </span></input><input type="radio" name="understanding" value="medium"><span class="c_medium">medium     </span></input><input type="radio" name="understanding"value="high"><span class="c_high">high     </span></input>
-    rating: <input type="radio" name="rating" value="none"><span class="c_none">none     </span></input><input type="radio" name="rating" value="negative"><span class="c_negative">negative     </span></input><input type="radio" name="rating" value="neutral"><span class="c_neutral">neutral     </span></input><input type="radio" name="rating"value="positive"><span class="c_positive">positive     </span></input><input type="radio" name="rating"value="strong"><span class="c_strong">strong     </span></input>
-    comment: <textarea><!--st_review_comment-->Comment</textarea>
+    thoroughness: <input type="radio" name="thoroughness" value="none" data-sb-checked="sb_thoroughness_none" checked="checked" />none     <input type="radio" name="thoroughness" value="low" data-sb-checked="sb_thoroughness_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="thoroughness" value="medium" data-sb-checked="sb_thoroughness_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="thoroughness" value="high" data-sb-checked="sb_thoroughness_high" checked="checked" /><span class="c_high">high     </span>
+    understanding: <input type="radio" name="understanding" value="none" data-sb-checked="sb_understanding_none" checked="checked"/>none     <input type="radio" name="understanding" value="low" data-sb-checked="sb_understanding_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="understanding" value="medium" data-sb-checked="sb_understanding_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="understanding" value="high" data-sb-checked="sb_understanding_high" checked="checked"/><span class="c_high">high     </span>
+    rating: <input type="radio" name="rating" value="none" data-sb-checked="sb_rating_none" checked="checked"/><span class="c_none">none     </span><input type="radio" name="rating" value="negative" data-sb-checked="sb_rating_negative" checked="checked"/><span class="c_negative">negative     </span><input type="radio" name="rating" value="neutral" data-sb-checked="sb_rating_neutral" checked="checked"/><span class="c_neutral">neutral     </span><input type="radio" name="rating" value="positive" data-sb-checked="sb_rating_positive" checked="checked"/><span class="c_positive">positive     </span><input type="radio" name="rating" value="strong" data-sb-checked="sb_rating_strong" checked="checked"/><span class="c_strong">strong     </span>
+    comment: <textarea style="height: 250px;" name="comment"><!--st_comment-->Comment</textarea>
 
     Add alternative
     Add issue
     Add advisory
         </pre>
+            </div>
         </div>
-    </div>
 
 
-    <!--sb_has_alternative-->
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <pre>
+        <!--sb_has_alternative-->
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <pre>
 alternatives:
-- source: <input type="text" data-st-value="st_alternative_source" value="https://crates.io" />
-    name: <input type="text" data-st-value="st_alternative_name" value="cluatio" />
+- source: <input type="text" name="source" data-st-value="st_alternatives_0_source" value="https://crates.io" />
+    name: <input type="text" name="source_name" data-st-value="st_alternatives_0_name" value="" />
         </pre>
+            </div>
         </div>
-    </div>
 
 
-    <!--sb_has_issue-->
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <pre>
+        <!--sb_has_issue-->
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <pre>
 issues:
-- id: <input type="text" data-st-value="st_issues_id_0" value="RUSTSEC-2019-0006" />
-    severity: <input type="radio" name="iss_severity_0" value="none">none     </input><input type="radio" name="iss_severity_0" value="low"><span class="sc_low">low     </span></input><input type="radio" name="iss_severity_0" value="medium"><span class="sc_medium">medium     </span></input><input type="radio" name="iss_severity_0"value="high"><span class="sc_high">high     </span></input>
-    comment: <textarea><!--st_issues_comment_0-->Comment</textarea>
+- id: <input type="text" name="issues_id_0" data-st-value="st_issues_id_0" value="RUSTSEC-2019-0006" />
+    severity: <input type="radio" name="iss_severity_0" value="none"/>none     <input type="radio" name="iss_severity_0" value="low"/><span class="sc_low">low     </span><input type="radio" name="iss_severity_0" value="medium"/><span class="sc_medium">medium     </span><input type="radio" name="iss_severity_0" value="high"/><span class="sc_high">high     </span>
+    comment: <textarea name="issues_comment_0"><!--st_issues_comment_0-->Comment</textarea>
             </pre>
+            </div>
         </div>
-    </div>
 
-    <!--sb_has_advisories-->
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <pre>
+        <!--sb_has_advisories-->
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <pre>
 advisories:
 - ids:
-    - <input type="text" data-st-value="st_advisories_id_0" value="RUSTSEC-2019-0017" />
-    severity: <input type="radio" name="adv_severity_0_0" value="none">none     </input><input type="radio" name="adv_severity_0_0" value="low"><span class="sc_low">low     </span></input><input type="radio" name="adv_severity_0_0" value="medium"><span class="sc_medium">medium     </span></input><input type="radio" name="adv_severity_0_0"value="high"><span class="sc_high">high     </span></input>
-    comment: <textarea><!--st_advisories_comment_0_0-->comment</textarea>
+    - <input type="text" name="advisories_id_0" data-st-value="st_advisories_id_0" value="RUSTSEC-2019-0017" />
+    severity: <input type="radio" name="adv_severity_0_0" value="none"/>none     <input type="radio" name="adv_severity_0_0" value="low"/><span class="sc_low">low     </span><input type="radio" name="adv_severity_0_0" value="medium"/><span class="sc_medium">medium     </span><input type="radio" name="adv_severity_0_0" value="high"/><span class="sc_high">high     </span>
+    comment: <textarea name="advisories_comment_0_0"><!--st_advisories_comment_0_0-->comment</textarea>
             </pre>
+            </div>
         </div>
-    </div>
-
+    </form>
 
     <div class="container_0">
         <div class="container0_content_not_grid">

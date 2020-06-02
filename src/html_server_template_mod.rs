@@ -10,6 +10,13 @@ use std::fs;
 use unwrap::unwrap;
 // endregion: use
 
+#[allow(unused)]
+pub enum EncodedString {
+    UrlEnc(UrlEncodedString),
+    HtmlEnc(HtmlEncodedString),
+    NormalString(String),
+}
+
 #[derive(Clone, Debug)]
 pub enum Node {
     // A text node.
@@ -65,7 +72,7 @@ pub trait HtmlServerTemplateRender {
         pos_cursor: usize,
     ) -> String;
     //// boolean : is the next node rendered or not
-    fn retain_next_node(&self, placeholder: &str) -> bool;
+    fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool;
     /// returns a vector of Nodes to replace the next Node
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node>;
     /// renders sub-template
@@ -156,7 +163,7 @@ pub trait HtmlServerTemplateRender {
                                 &sub_templates,
                                 subtemplate,
                                 pos_cursor,
-                                // retain_next_node:
+                                // retain_next_node_or_attribute:
                                 true,
                             )) {
                                 Ok(new_root_element) => root_element = new_root_element,
@@ -195,26 +202,9 @@ pub trait HtmlServerTemplateRender {
         pos_cursor: usize,
         retain_this_node: bool,
     ) -> Option<Result<ElementNode, &'static str>> {
-        /// private fn - decode 5 xml control characters : " ' & < >
-        /// https://www.liquid-technologies.com/XML/EscapingData.aspx
-        /// I will ignore all html entities, to keep things simple,
-        /// because all others characters can be written as utf-8 characters.
-        /// it is mandatory that text is encoded in utf-8.
-        /// https://www.tutorialspoint.com/html5/html5_entities.htm
-        fn decode_5_xml_control_characters(input: &str) -> String {
-            // The standard library replace() function makes allocation,
-            // but is probably fast enough for my use case.
-            input
-                .replace("&quot;", "\"")
-                .replace("&apos;", "'")
-                .replace("&amp;", "&")
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
-        }
-
         let mut replace_string: Option<String> = None;
         let mut replace_vec_nodes: Option<Vec<Node>> = None;
-        let mut retain_next_node = retain_this_node;
+        let mut retain_next_node_or_attribute = retain_this_node;
         let mut html_or_svg_local;
         // loop through all the siblings in this iteration
         while let Some(result_token) = reader_for_microxml.next() {
@@ -252,11 +242,11 @@ pub trait HtmlServerTemplateRender {
                                 sub_templates,
                                 subtemplate,
                                 pos_cursor,
-                                retain_next_node,
+                                retain_next_node_or_attribute,
                             )));
                             // ignore this node dynamic content, and don't push to result
                             // but traverse all template nodes.
-                            if retain_next_node == true {
+                            if retain_next_node_or_attribute == true {
                                 if let Some(repl_vec_nodes) = replace_vec_nodes {
                                     for repl_node in repl_vec_nodes {
                                         element.children.push(repl_node);
@@ -267,7 +257,7 @@ pub trait HtmlServerTemplateRender {
                                 }
                             }
                             // the siblings get the parents retain, until sb_
-                            retain_next_node = retain_this_node;
+                            retain_next_node_or_attribute = retain_this_node;
                         }
                         Token::Attribute(name, value) => {
                             if retain_this_node == true {
@@ -282,7 +272,19 @@ pub trait HtmlServerTemplateRender {
                                         subtemplate,
                                         pos_cursor,
                                     );
+                                    let repl_txt = encode_5_xml_control_characters(&repl_txt);
                                     replace_string = Some(repl_txt);
+                                } else if name.starts_with("data-sb-") {
+                                    // the next attribute existence
+                                    // if false it will not be rendered
+                                    let placeholder = &value;
+                                    let repl_bool = self.retain_next_node_or_attribute(placeholder);
+                                    retain_next_node_or_attribute = repl_bool;
+                                } else if retain_next_node_or_attribute == false {
+                                    // don't push the next attribute
+                                    // usable for radio buttons checked attribute
+                                    // a terrible html design choice
+                                    retain_next_node_or_attribute = true;
                                 } else {
                                     let value = if let Some(repl) = replace_string {
                                         // empty the replace_string for the next node
@@ -322,10 +324,13 @@ pub trait HtmlServerTemplateRender {
                                 if txt.starts_with("st_") {
                                     let repl_txt =
                                         self.replace_with_string(txt, subtemplate, pos_cursor);
+
+                                    let repl_txt = encode_5_xml_control_characters(&repl_txt);
                                     replace_string = Some(repl_txt);
                                 } else if txt.starts_with("sb_") {
                                     // boolean if this is true than render the next node, else don't render
-                                    retain_next_node = self.retain_next_node(txt);
+                                    retain_next_node_or_attribute =
+                                        self.retain_next_node_or_attribute(txt);
                                 } else if txt.starts_with("stmplt_") {
                                     // replace exactly this placeholder for a sub-template
                                     let template_name = txt.trim_end_matches(" start");
@@ -483,10 +488,47 @@ pub trait HtmlServerTemplateRender {
     }
 }
 // region: utility fn
+
+/// private fn - decode 5 xml control characters : " ' & < >
+/// https://www.liquid-technologies.com/XML/EscapingData.aspx
+/// I will ignore all html entities, to keep things simple,
+/// because all others characters can be written as utf-8 characters.
+/// it is mandatory that text is encoded in utf-8.
+/// https://www.tutorialspoint.com/html5/html5_entities.htm
+/// TODO: find a faster method
+fn decode_5_xml_control_characters(input: &str) -> String {
+    // The standard library replace() function makes allocation,
+    // but is probably fast enough for my use case.
+    input
+        .replace("&quot;", "\"")
+        .replace("&apos;", "'")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&amp;", "&")
+}
+
+/// TODO: find a faster method
+/// Just to talk about XSS attack on attribute value.
+/// let name = "dummy onmouseover=alert(/XSS/)";    // User input
+/// let tag = format!("<option value={}>", htmlescape::encode_minimal(name));
+/// // Here `tag` is    "<option value=dummy onmouseover=alert(/XSS/)>"
+/// I use templates that must be microxml compatible.
+/// There cannot exist an attribute value without quotes.
+fn encode_5_xml_control_characters(input: &str) -> String {
+    // The standard library replace() function makes allocation,
+    // but is probably fast enough for my use case.
+    input
+        .replace("\"", "&quot;")
+        .replace("'", "&apos;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("&", "&amp;")
+}
+
 /// boilerplate
-pub fn retain_next_node_match_else(data_model_name: &str, placeholder: &str) -> bool {
+pub fn retain_next_node_or_attribute_match_else(data_model_name: &str, placeholder: &str) -> bool {
     eprintln!(
-        "Error: Unrecognized {} retain_next_node: \"{}\"",
+        "Error: Unrecognized {} retain_next_node_or_attribute: \"{}\"",
         data_model_name, placeholder
     );
     true
@@ -537,3 +579,28 @@ pub fn to_string_zero_to_empty(number: usize) -> String {
     }
 }
 // endregion: utility fn
+
+/// Html encoding will be like xml for this templating mod
+pub struct HtmlEncodedString {
+    /// this field is private.
+    /// it will be accessed with a method
+    #[allow(unused)]
+    enc: String,
+}
+impl HtmlEncodedString {
+    #[allow(unused)]
+    /// the only place to encode Html
+    /// TODO: maybe lazy encoding, only when needed?
+    pub fn new(text: &str) -> Self {
+        //return
+        HtmlEncodedString {
+            enc: encode_5_xml_control_characters(text),
+        }
+    }
+    #[allow(unused)]
+    /// get encoded string
+    pub fn get_enc(&self) -> String {
+        // return
+        self.enc.clone()
+    }
+}

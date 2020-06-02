@@ -9,8 +9,12 @@
         "delim",
         "designitis",
         "filedate",
+        "htmlescape",
         "itertools",
         "nanos",
-        "websysmod"
+        "onmouseover",
+        "pureascii",
+        "websysmod",
+        "čćžšđ"
     ]
 }

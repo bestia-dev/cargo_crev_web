@@ -144,10 +144,10 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         String::new()
     }
     /// boolean : is the next node rendered or not
-    fn retain_next_node(&self, placeholder: &str) -> bool {
+    fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
-            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
+            _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
 

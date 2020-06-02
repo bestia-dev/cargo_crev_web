@@ -278,7 +278,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
         html
     }
     /// boolean : is the next node rendered or not
-    fn retain_next_node(&self, placeholder: &str) -> bool {
+    fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
             "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
@@ -287,7 +287,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             }
             "sb_list_new_author_id" => self.list_new_author_id.is_some(),
             "sb_add_author_url" => self.add_author_url.is_some(),
-            _ => retain_next_node_match_else(&self.data_model_name(), placeholder),
+            _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
 

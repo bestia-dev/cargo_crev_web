@@ -7,6 +7,152 @@ use std::string::FromUtf8Error;
 
 // from https://github.com/kornelski/rust_urlencoding/blob/optimize/src/lib.rs
 
+/// UrlEncodedString
+/// url_encoding is NOT done on the entire url !
+/// It must be done on every part of the url path separately.
+/// url examples: scheme://prefix.domain:port/path1/path2/path3/filename
+/// for example <website/crate/čćžšđ>
+/// if I url_encode everything the / becomes %2F. We don't want that
+/// This looks like work for a macro, but I don't know yet about macros.
+/// I will do a
+/// it is just a normal string, but because the type is special
+/// I can guarantee that no normal string can go into a function that needs
+/// TODO: maybe I will use references one they when I understand better the lifetimes
+/// or Cow, to have both possibilities: String and &str. If is needed there is a lazy
+/// allocation. Or not if not needed.
+pub struct UrlEncodedString {
+    /// this field is private.
+    /// it will be accessed with a method
+    enc: String,
+    has_filename: bool,
+}
+impl UrlEncodedString {
+    #[allow(unused)]
+    /// the only place to encode Url
+    /// scheme://prefix.domain:port/path1/path2/path3/filename
+    /// TODO: maybe lazy encoding, only when needed?
+    pub fn new_with_domain(
+        scheme: Option<&str>,
+        prefix: Option<&str>,
+        domain: Option<&str>,
+        port: Option<&str>,
+        path1: Option<&str>,
+        path2: Option<&str>,
+        path3: Option<&str>,
+        filename: Option<&str>,
+    ) -> Self {
+        let mut enc = String::with_capacity(20);
+        let mut has_filename = false;
+        if let Some(scheme) = scheme {
+            enc.push_str(scheme);
+            enc.push_str("://");
+        }
+        if let Some(prefix) = prefix {
+            enc.push_str(prefix);
+            enc.push_str(".");
+        }
+        // domains always have trailing slashes
+        if let Some(domain) = domain {
+            enc.push_str(domain);
+            if let Some(port) = port {
+                enc.push(':');
+                enc.push_str(port);
+            }
+            enc.push('/');
+        }
+        Self::push_paths_and_filename(&mut enc, &mut has_filename, path1, path2, path3, filename);
+        //return
+        Self { enc, has_filename }
+    }
+
+    /// private fn to push paths and filename
+    fn push_paths_and_filename(
+        enc: &mut String,
+        has_filename: &mut bool,
+        path1: Option<&str>,
+        path2: Option<&str>,
+        path3: Option<&str>,
+        filename: Option<&str>,
+    ) {
+        // trailing slashes are recommended
+        if let Some(path1) = path1 {
+            enc.push_str(&url_encode(path1));
+            enc.push('/');
+        }
+        if let Some(path2) = path2 {
+            enc.push_str(&url_encode(path2));
+            enc.push('/');
+        }
+        if let Some(path3) = path3 {
+            enc.push_str(&url_encode(path3));
+            enc.push('/');
+        }
+        // filename is without trailing slash. can be None
+        if let Some(filename) = filename {
+            *has_filename = true;
+            enc.push_str(&url_encode(filename));
+        }
+    }
+    /// absolute local route, starts with /
+    pub fn new_abs_local_route(
+        path1: Option<&str>,
+        path2: Option<&str>,
+        path3: Option<&str>,
+        filename: Option<&str>,
+    ) -> Self {
+        let mut enc = String::with_capacity(20);
+        let mut has_filename = false;
+        enc.push('/');
+        Self::push_paths_and_filename(&mut enc, &mut has_filename, path1, path2, path3, filename);
+        //return
+        Self { enc, has_filename }
+    }
+    #[allow(unused)]
+    /// relative local route, does NOT start with /
+    pub fn new_rel_local_route(
+        path1: Option<&str>,
+        path2: Option<&str>,
+        path3: Option<&str>,
+        filename: Option<&str>,
+    ) -> Self {
+        let mut enc = String::with_capacity(20);
+        let mut has_filename = false;
+        Self::push_paths_and_filename(&mut enc, &mut has_filename, path1, path2, path3, filename);
+        //return
+        Self { enc, has_filename }
+    }
+    #[allow(unused)]
+    /// path has always training slashes
+    /// if the filename is already pushed, this
+    pub fn push_path_part(&mut self, path_part: &str) -> Result<(), &'static str> {
+        if self.has_filename == true {
+            return Err("The url has already the end with filename.");
+        } else {
+            self.enc.push_str(&url_encode(path_part));
+            self.enc.push('/');
+            //return
+            Ok(())
+        }
+    }
+    #[allow(unused)]
+    /// filename has never trailing slashes
+    pub fn push_filename(&mut self, file_name: &str) -> Result<(), &'static str> {
+        if self.has_filename == true {
+            return Err("The url has already the end with filename.");
+        } else {
+            self.has_filename = true;
+            self.enc.push_str(&url_encode(file_name));
+            //return
+            Ok(())
+        }
+    }
+    /// get encoded string
+    pub fn get_enc(&self) -> String {
+        // return
+        self.enc.clone()
+    }
+}
+
 pub fn url_encode(data: &str) -> String {
     let mut escaped = Vec::with_capacity(data.len());
     encode_into(data, &mut escaped).unwrap();

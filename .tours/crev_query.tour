@@ -303,7 +303,7 @@
         {
             "file": "src/html_template_mod.rs",
             "line": 183,
-            "description": "## next node\nBefore rendering the next node we look at the temporary value retain_next_node.\nIf it is false, then we don't render the next node. Just jump over it.",
+            "description": "## next node\nBefore rendering the next node we look at the temporary value retain_next_node_or_attribute.\nIf it is false, then we don't render the next node. Just jump over it.",
             "selection": {
                 "start": {
                     "line": 182,

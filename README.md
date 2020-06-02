@@ -1,7 +1,7 @@
 # cargo_crev_web
 
 [comment]: # (lmake_readme cargo.toml data start)
-version: 2020.601.2208  date: 2020-06-01 authors: Luciano Bestia  
+version: 2020.602.1032  date: 2020-06-02 authors: Luciano Bestia  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
@@ -175,6 +175,13 @@ Example how it looks like on GitHub:\
 https://web.crev.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg
 )](https://web.crev.dev/cargo_crev_web/crate/reader_for_microxml/)
 ```
+
+### xhtml validator
+
+Manually coded xhtml can be full of "bugs".\
+The validator will quickly find them out.\
+I would like to have this tool inside VsCode.\
+<https://www.liquid-technologies.com/online-xml-validator>
 
 ## CodeTour
 
