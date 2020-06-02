@@ -6,7 +6,11 @@ version: 2020.601.2208  date: 2020-06-01 authors: Luciano Bestia
 
 [comment]: # (lmake_readme cargo.toml data end)  
 
-![page1](https://user-images.githubusercontent.com/31509965/83490046-f2ae1500-a4cc-11ea-8af0-1cb62582e4f7.png)
+<img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="200"/>
+<img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="200"/>
+<img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="200"/>
+<img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="200"/>
+<img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="200"/>
 
 
 ## cargo-crev
