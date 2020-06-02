@@ -219,34 +219,34 @@
             <span class="string">&quot;t_understanding&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">to_string_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">understanding</span>),
 
             <span class="string">&quot;t_filter_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/cargo_crev_web/query/{}/{}&quot;</span>, <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>)
+                <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;/cargo_crev_web/crate/{}/{}&quot;</span>, <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>)
             }
             <span class="string">&quot;t_filter_strong&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/cargo_crev_web/query/{}/{}/S&quot;</span>,
+                <span class="string">&quot;/cargo_crev_web/crate/{}/{}/S&quot;</span>,
                 <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>
             ),
             <span class="string">&quot;t_filter_positive&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/cargo_crev_web/query/{}/{}/P&quot;</span>,
+                <span class="string">&quot;/cargo_crev_web/crate/{}/{}/P&quot;</span>,
                 <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>
             ),
             <span class="string">&quot;t_filter_neutral&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/cargo_crev_web/query/{}/{}/E&quot;</span>,
+                <span class="string">&quot;/cargo_crev_web/crate/{}/{}/E&quot;</span>,
                 <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>
             ),
             <span class="string">&quot;t_filter_negative&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/cargo_crev_web/query/{}/{}/N&quot;</span>,
+                <span class="string">&quot;/cargo_crev_web/crate/{}/{}/N&quot;</span>,
                 <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>
             ),
             <span class="string">&quot;t_filter_alternatives&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/cargo_crev_web/query/{}/{}/v&quot;</span>,
+                <span class="string">&quot;/cargo_crev_web/crate/{}/{}/v&quot;</span>,
                 <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>
             ),
             <span class="string">&quot;t_filter_issues&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/cargo_crev_web/query/{}/{}/i&quot;</span>,
+                <span class="string">&quot;/cargo_crev_web/crate/{}/{}/i&quot;</span>,
                 <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>
             ),
             <span class="string">&quot;t_filter_advisories&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/cargo_crev_web/query/{}/{}/a&quot;</span>,
+                <span class="string">&quot;/cargo_crev_web/crate/{}/{}/a&quot;</span>,
                 <span class="self">self</span>.<span class="ident">crate_name</span>, <span class="self">self</span>.<span class="ident">version</span>
             ),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">call_fn_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),

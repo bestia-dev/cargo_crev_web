@@ -13,8 +13,8 @@ keywords = ["warp","crev","cargo-crev"]
 publish = false
 
 [dependencies]
-#reader_for_microxml = "1.1.6"
-reader_for_microxml = { path = "../reader_for_microxml" }
+reader_for_microxml = "1.1.10"
+#reader_for_microxml = { path = "../reader_for_microxml" }
 
 futures = "0.3.5"
 log = "0.4.8"

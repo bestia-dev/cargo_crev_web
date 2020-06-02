@@ -125,10 +125,10 @@
 //! ## testing .cache/crev
 //!
 //! Not all data is required in every review, so I need to test examples that contains different data.  
-//! <https://bestia.dev/cargo_crev_web/crate/btoi>  alternatives  
-//! <https://bestia.dev/cargo_crev_web/crate/num-traits>  issues  
-//! <https://bestia.dev/cargo_crev_web/crate/protobuf>  advisory old  
-//! <https://bestia.dev/cargo_crev_web/crate/inventory>   advisories
+//! <https://web.crev.dev/cargo_crev_web/crate/btoi>  alternatives  
+//! <https://web.crev.dev/cargo_crev_web/crate/num-traits>  issues  
+//! <https://web.crev.dev/cargo_crev_web/crate/protobuf>  advisory old  
+//! <https://web.crev.dev/cargo_crev_web/crate/inventory>   advisories
 //!
 //! Locally in development is the same, just the server is 127.0.0.1:8051/.  
 //!
@@ -138,7 +138,7 @@
 //! to verify the trustworthiness of each of your dependencies.  
 //! Please, spread this info.  
 //! On the web use this url to read crate reviews. Example:  
-//! <https://bestia.dev/cargo_crev_web/crate/num-traits>  
+//! <https://web.crev.dev/cargo_crev_web/crate/num-traits>  
 //!
 //! ## html templating
 //!
@@ -294,7 +294,7 @@ async fn main() {
     // websites are mostly always made of more separate web-apps
     // it is good for web-apps to NOT start from the website root
     // this webapp starts with the route website_url/cargo_crev_web/
-    // example: bestia.dev/cargo_crev_web/crate/num-traits
+    // example: web.crev.dev/cargo_crev_web/crate/num-traits
     //   or : 127.0.0.1:8051/cargo_crev_web/crate/num-traits
     // that way is easy to publish it on different websites.
     // if they have this route not taken.

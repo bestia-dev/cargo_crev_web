@@ -135,10 +135,10 @@ To make this run indefinitely in another terminal session I use `screen`.
 ## testing .cache/crev
 
 Not all data is required in every review, so I need to test examples that contains different data.  
-<https://bestia.dev/cargo_crev_web/query/btoi>  alternatives  
-<https://bestia.dev/cargo_crev_web/crate/num-traits/>  issues  
-<https://bestia.dev/cargo_crev_web/query/protobuf>  advisory old  
-<https://bestia.dev/cargo_crev_web/query/inventory>   advisories
+<https://web.crev.dev/cargo_crev_web/crate/btoi>  alternatives  
+<https://web.crev.dev/cargo_crev_web/crate/num-traits/>  issues  
+<https://web.crev.dev/cargo_crev_web/crate/protobuf>  advisory old  
+<https://web.crev.dev/cargo_crev_web/crate/inventory>   advisories
 
 Locally in development is the same, just the server is 127.0.0.1:8051/.  
 
@@ -148,7 +148,7 @@ It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-c
 to verify the trustworthiness of each of your dependencies.  
 Please, spread this info.  
 On the web use this url to read crate reviews. Example:  
-<https://bestia.dev/cargo_crev_web/crate/num-traits/>  
+<https://web.crev.dev/cargo_crev_web/crate/num-traits/>  
 
 ## html templating
 
@@ -165,13 +165,13 @@ The result is normal html and is sent to the browser.
 ## Badges
 
 A service for SVG badges for `crev count of reviews for one crate` is on url:\
-<https://bestia.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg>\
+<https://web.crev.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg>\
 Example how it looks like on GitHub:\
 <https://github.com/LucianoBestia/reader_for_microxml/>  
 ```markdown
 [![crev reviews](
-https://bestia.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg
-)](https://bestia.dev/cargo_crev_web/crate/reader_for_microxml/)
+https://web.crev.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg
+)](https://web.crev.dev/cargo_crev_web/crate/reader_for_microxml/)
 ```
 
 ## CodeTour

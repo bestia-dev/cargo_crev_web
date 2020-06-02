@@ -214,7 +214,7 @@ The template's life starts as static content. The graphic designer can copy the 
 
 ##### step 12 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/templates/query/crev_query_template.html#L28)
 ```html
-            <div class="middle"><h2><a style="color:white" href="https://bestia.dev/cargo_crev_web" target="_blank">
+            <div class="middle"><h2><a style="color:white" href="https://web.crev.dev/cargo_crev_web" target="_blank">
                     cargo_crev_web</a></h2></div>
             <div class="middle right"><h3 >query reviews from <a style="color:white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3></div>
         </div>
