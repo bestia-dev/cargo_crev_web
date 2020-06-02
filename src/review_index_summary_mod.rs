@@ -106,6 +106,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
             // the href for css is good for static data. For dynamic route it must be different.
             "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
             "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
+            "st_img_src_logo"=>s!("/cargo_crev_web/images/Logo_02.png"),
             "st_unique_crates" => self.unique_crates.to_string(),
             "st_unique_authors" => self.unique_authors.to_string(),
             "st_count_of_reviews" => self.count_of_reviews.to_string(),
