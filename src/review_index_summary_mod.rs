@@ -73,7 +73,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
         let template_file_name = format!(
-            "{}review_index_summary_template.html",
+            "{}index_template.html",
             templates_folder_name
         );
         let html = self.render_from_file(&template_file_name);
@@ -104,9 +104,9 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         // dbg!(&placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
-            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
-            "st_img_src_logo" => s!("/cargo_crev_web/images/Logo_02.png"),
+            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
+            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
+            "st_img_src_logo" => s!("/rust-reviews/images/Logo_02.png"),
             "st_unique_crates" => self.unique_crates.to_string(),
             "st_unique_authors" => self.unique_authors.to_string(),
             "st_count_of_reviews" => self.count_of_reviews.to_string(),

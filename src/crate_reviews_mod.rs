@@ -164,8 +164,8 @@ impl HtmlServerTemplateRender for CrateReviews {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
-            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
+            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
+            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

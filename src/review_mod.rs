@@ -1,5 +1,6 @@
 //! review_mod
 
+use crate::encode_decode_mod::*;
 use crate::html_server_template_mod::*;
 use crate::issue_mod::Issue;
 use crate::utils_mod::*;
@@ -189,9 +190,10 @@ impl HtmlServerTemplateRender for Review {
         // dbg!( &placeholder);
         match placeholder {
             "st_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
-            "st_crate_route" => {
-                format!("/cargo_crev_web/crate/{}/", url_encode(&self.package.name))
-            }
+            "st_crate_route" => format!(
+                "/rust-reviews/crate/{}/",
+                utf8_percent_encode(&self.package.name)
+            ),
             "st_review_rating" => {
                 if let Some(review) = &self.review {
                     review.rating.to_string()
@@ -213,7 +215,10 @@ impl HtmlServerTemplateRender for Review {
                 self.get_author_name()
             }
             "st_author_url" => s!(&self.from.url),
-            "st_author_route" => format!("/cargo_crev_web/author/{}/", url_encode(&self.from.id)),
+            "st_author_route" => format!(
+                "/rust-reviews/author/{}/",
+                utf8_percent_encode(&self.from.id)
+            ),
             "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
                     format!(

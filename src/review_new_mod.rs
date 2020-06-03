@@ -34,22 +34,19 @@ impl ReviewNew {
             yaml_text,
         }
     }
-    pub fn from_form_data(form_data: HashMap<String, String>)->Self{
-        let mut rev = Review{
-        ..Default::default()
+    pub fn from_form_data(form_data: HashMap<String, String>) -> Self {
+        let mut rev = Review {
+            ..Default::default()
         };
         for (key, value) in form_data {
-            match key.as_ref(){
-                "comment" => rev.comment=Some(value.to_string()),
+            match key.as_ref() {
+                "comment" => rev.comment = Some(value.to_string()),
                 _ => {}
             }
         }
         let yaml_text = unwrap!(serde_yaml::to_string(&rev));
         //return
-        ReviewNew{
-            rev,
-            yaml_text
-        }
+        ReviewNew { rev, yaml_text }
     }
 
     pub fn st_comment(&self) -> String {
@@ -165,8 +162,8 @@ impl HtmlServerTemplateRender for ReviewNew {
 
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
-            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
+            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
+            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
             "st_yaml_text" => self.yaml_text.clone(),
             "st_date" => self.rev.date.clone(),
             "st_comment" => self.st_comment(),

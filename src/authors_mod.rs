@@ -1,7 +1,7 @@
 //! authors_mod
 
+use crate::encode_decode_mod::*;
 use crate::html_server_template_mod::*;
-use crate::url_encode_mod::*;
 use crate::*;
 
 use unwrap::unwrap;
@@ -124,15 +124,15 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
-            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
+            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
+            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
             // this is a grid with repeated rows. Use the pos_cursor
             "st_ordinal_number" => (pos_cursor + 1).to_string(),
             "st_author_name" => s!(&self.vec[pos_cursor].author_name),
             "st_author_url" => format!("{}", self.vec[pos_cursor].author_url),
             "st_author_route" => format!(
-                "/cargo_crev_web/author/{}/",
-                url_encode(&self.vec[pos_cursor].author_id)
+                "/rust-reviews/author/{}/",
+                utf8_percent_encode(&self.vec[pos_cursor].author_id)
             ),
             "st_count_of_reviews" => to_string_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
             "st_unique_crates" => to_string_zero_to_empty(self.vec[pos_cursor].unique_crates),

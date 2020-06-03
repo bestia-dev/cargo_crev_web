@@ -1,7 +1,7 @@
 [package]
 name = "cargo_crev_web"
 #no need for semver if it is not a library
-version = "2020.603.1215" 
+version = "2020.604.703" 
 description = "web server to query reviews from cargo-crev"
 authors = ["Luciano Bestia"]
 edition = "2018"
@@ -38,5 +38,6 @@ strum="0.18.0"
 strum_macros = "0.18.0"
 chrono="0.4.11"
 itertools = "0.9.0"
-urlencoding = "1.0.0"
 surf = "1.0.3"
+percent-encoding = "2.1.0"
+anyhow = "1.0.31"

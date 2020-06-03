@@ -10,20 +10,15 @@ use std::fs;
 use unwrap::unwrap;
 // endregion: use
 
-#[allow(unused)]
-pub enum EncodedString {
-    UrlEnc(UrlEncodedString),
-    HtmlEnc(HtmlEncodedString),
-    NormalString(String),
-}
-
 #[derive(Clone, Debug)]
 pub enum Node {
-    // A text node.
+    /// A text node. The text must be not encoded.
+    /// It will be xml encoded when converting the node to html string.
     Text(String),
-    // An element potentially with attributes and children.
+    /// An element potentially with attributes and children.
     Element(ElementNode),
-    // comment
+    /// comment. . The text must be not encoded.
+    /// It will be xml encoded when converting the node to html string.
     Comment(String),
 }
 #[derive(Clone, Debug, Default)]
@@ -38,6 +33,8 @@ pub struct ElementNode {
 #[derive(Clone, Debug)]
 pub struct Attribute {
     pub name: String,
+    /// attribute value. The text must be not encoded.
+    /// It will be xml encoded when converting the node to html string.
     pub value: String,
 }
 /// Svg elements are different because they have a namespace
@@ -55,6 +52,7 @@ pub struct SubTemplate {
     pub placeholder: String,
     pub template: String,
 }
+
 pub trait HtmlServerTemplateRender {
     // region: methods must be implemented for a specific project
     // because the data model is always different and is known only to the project.
@@ -272,7 +270,6 @@ pub trait HtmlServerTemplateRender {
                                         subtemplate,
                                         pos_cursor,
                                     );
-                                    let repl_txt = encode_5_xml_control_characters(&repl_txt);
                                     replace_string = Some(repl_txt);
                                 } else if name.starts_with("data-sb-") {
                                     // the next attribute existence
@@ -324,8 +321,6 @@ pub trait HtmlServerTemplateRender {
                                 if txt.starts_with("st_") {
                                     let repl_txt =
                                         self.replace_with_string(txt, subtemplate, pos_cursor);
-
-                                    let repl_txt = encode_5_xml_control_characters(&repl_txt);
                                     replace_string = Some(repl_txt);
                                 } else if txt.starts_with("sb_") {
                                     // boolean if this is true than render the next node, else don't render
@@ -443,6 +438,7 @@ pub trait HtmlServerTemplateRender {
     }
 
     /// converts element node to string
+    /// the attribute values and Text nodes and Comments are xml encoded
     fn root_element_node_to_html_string(element_node: &ElementNode) -> Result<String, String> {
         /// recursive private fn sub element to html
         fn sub_element_node_mut_html(html: &mut String, element_node: &ElementNode) {
@@ -452,7 +448,7 @@ pub trait HtmlServerTemplateRender {
             for attr in &element_node.attributes {
                 html.push_str(&attr.name);
                 html.push_str(" = \"");
-                html.push_str(&attr.value);
+                html.push_str(&encode_5_xml_control_characters(&attr.value));
                 html.push_str("\" ");
             }
             if element_node.is_self_closing == true {
@@ -469,8 +465,11 @@ pub trait HtmlServerTemplateRender {
                             // recursion
                             sub_element_node_mut_html(html, sub_element);
                         }
-                        Node::Text(text) => html.push_str(&text),
-                        Node::Comment(text) => html.push_str(&format!("<!--{}-->", &text)),
+                        Node::Text(text) => html.push_str(&encode_5_xml_control_characters(&text)),
+                        Node::Comment(text) => html.push_str(&format!(
+                            "<!--{}-->",
+                            encode_5_xml_control_characters(&text)
+                        )),
                     }
                 }
                 // end tag
@@ -493,12 +492,10 @@ pub trait HtmlServerTemplateRender {
 /// https://www.liquid-technologies.com/XML/EscapingData.aspx
 /// I will ignore all html entities, to keep things simple,
 /// because all others characters can be written as utf-8 characters.
-/// it is mandatory that text is encoded in utf-8.
+/// it is mandatory that text is valid utf-8.
 /// https://www.tutorialspoint.com/html5/html5_entities.htm
-/// TODO: find a faster method
+/// TODO: find a faster method // The standard library replace() function makes allocation,
 fn decode_5_xml_control_characters(input: &str) -> String {
-    // The standard library replace() function makes allocation,
-    // but is probably fast enough for my use case.
     input
         .replace("&quot;", "\"")
         .replace("&apos;", "'")
@@ -507,7 +504,7 @@ fn decode_5_xml_control_characters(input: &str) -> String {
         .replace("&amp;", "&")
 }
 
-/// TODO: find a faster method
+/// TODO: find a faster method // The standard library replace() function makes allocation,
 /// Just to talk about XSS attack on attribute value.
 /// let name = "dummy onmouseover=alert(/XSS/)";    // User input
 /// let tag = format!("<option value={}>", htmlescape::encode_minimal(name));
@@ -515,8 +512,6 @@ fn decode_5_xml_control_characters(input: &str) -> String {
 /// I use templates that must be microxml compatible.
 /// There cannot exist an attribute value without quotes.
 fn encode_5_xml_control_characters(input: &str) -> String {
-    // The standard library replace() function makes allocation,
-    // but is probably fast enough for my use case.
     input
         .replace("\"", "&quot;")
         .replace("'", "&apos;")
@@ -579,28 +574,3 @@ pub fn to_string_zero_to_empty(number: usize) -> String {
     }
 }
 // endregion: utility fn
-
-/// Html encoding will be like xml for this templating mod
-pub struct HtmlEncodedString {
-    /// this field is private.
-    /// it will be accessed with a method
-    #[allow(unused)]
-    enc: String,
-}
-impl HtmlEncodedString {
-    #[allow(unused)]
-    /// the only place to encode Html
-    /// TODO: maybe lazy encoding, only when needed?
-    pub fn new(text: &str) -> Self {
-        //return
-        HtmlEncodedString {
-            enc: encode_5_xml_control_characters(text),
-        }
-    }
-    #[allow(unused)]
-    /// get encoded string
-    pub fn get_enc(&self) -> String {
-        // return
-        self.enc.clone()
-    }
-}

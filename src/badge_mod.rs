@@ -107,8 +107,8 @@ impl HtmlServerTemplateRender for Badge {
         // dbg!(&placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
-            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
+            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
+            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
             "st_subject_text" => self.subject_text.clone(),
             "st_status_text" => self.status_text.clone(),
             "st_width" => self.width.to_string(),

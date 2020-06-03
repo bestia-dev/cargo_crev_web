@@ -1,12 +1,16 @@
-# cargo_crev_web
+# Rust-reviews (working title cargo_crev_web)
 
 [comment]: # (lmake_readme cargo.toml data start)
-version: 2020.602.1032  date: 2020-06-02 authors: Luciano Bestia  
+version: 2020.604.703  date: 2020-06-04 authors: Luciano Bestia  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
 
 <img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
+
+## Try it out
+
+https://web.crev.dev/rust-reviews/crate/num-traits/  
 
 ## cargo-crev
 
@@ -41,19 +45,19 @@ Nginx also redirects all http 80 to https 443.
 In sites-available/default I added this lines:
 
 ```nginx
-#region cargo_crev_web
+#region rust-reviews
     #without the trailing / it is not a directory (for the server and for the browser)
     #do the browser redirect 301
-    location = /cargo_crev_web {
-      return 301 /cargo_crev_web/;
+    location = /rust-reviews {
+      return 301 /rust-reviews/;
     }
     #folder name only, pass to index.html on port 8051
-    location = /cargo_crev_web/ {
+    location = /rust-reviews/ {
       proxy_pass http://127.0.0.1:8051/index.html;
       proxy_buffering off;
     }
     # the trailing / after both of these lines means this route is not appended to the forwarding
-    location /cargo_crev_web/ {
+    location /rust-reviews/ {
       proxy_pass http://127.0.0.1:8051/;
       proxy_buffering off;
     }
@@ -137,10 +141,10 @@ To make this run indefinitely in another terminal session I use `screen`.
 ## testing .cache/crev
 
 Not all data is required in every review, so I need to test examples that contains different data.  
-<https://web.crev.dev/cargo_crev_web/crate/btoi>  alternatives  
-<https://web.crev.dev/cargo_crev_web/crate/num-traits/>  issues  
-<https://web.crev.dev/cargo_crev_web/crate/protobuf>  advisory old  
-<https://web.crev.dev/cargo_crev_web/crate/inventory>   advisories
+<https://web.crev.dev/rust-reviews/crate/btoi>  alternatives  
+<https://web.crev.dev/rust-reviews/crate/num-traits/>  issues  
+<https://web.crev.dev/rust-reviews/crate/protobuf>  advisory old  
+<https://web.crev.dev/rust-reviews/crate/inventory>   advisories
 
 Locally in development is the same, just the server is 127.0.0.1:8051/.  
 
@@ -150,7 +154,7 @@ It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-c
 to verify the trustworthiness of each of your dependencies.  
 Please, spread this info.  
 On the web use this url to read crate reviews. Example:  
-<https://web.crev.dev/cargo_crev_web/crate/num-traits/>  
+<https://web.crev.dev/rust-reviews/crate/num-traits/>  
 
 ## html templating
 
@@ -167,13 +171,13 @@ The result is normal html and is sent to the browser.
 ## Badges
 
 A service for SVG badges for `crev count of reviews for one crate` is on url:\
-<https://web.crev.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg>\
+<https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg>\
 Example how it looks like on GitHub:\
 <https://github.com/LucianoBestia/reader_for_microxml/>  
 ```markdown
 [![crev reviews](
-https://web.crev.dev/cargo_crev_web/badge/crev_count/reader_for_microxml.svg
-)](https://web.crev.dev/cargo_crev_web/crate/reader_for_microxml/)
+https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg
+)](https://web.crev.dev/rust-reviews/crate/reader_for_microxml/)
 ```
 
 ### xhtml validator

@@ -6,6 +6,7 @@
 //! If field is is_some(), then render the html part dedicated to this action.
 
 use crate::data_file_scan_mod::*;
+use crate::encode_decode_mod::*;
 use crate::html_server_template_mod::*;
 use crate::review_index_mod;
 use crate::utils_mod::*;
@@ -86,7 +87,7 @@ impl ReservedFolder {
         // is automated to have all the crev repos it can find. It is also
         // possible to add repos manually.
         // I will clone and fetch that repo periodically
-        // I will extract the data for adding new repos to cargo_crev_web.
+        // I will extract the data for adding new repos to rust-reviews.
         // on my local disk it is cached as:
         // .cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust/
         // in the sample folder it is:
@@ -193,9 +194,12 @@ impl ReservedFolder {
     }
 
     pub async fn add_author_url(
-        author_name: String,
+        // this type guarantee that it has been decoded
+        author_name: PercentDecoded,
         _cached_review_index: CachedReviewIndex,
     ) -> Self {
+        let author_name = author_name.to_string();
+        dbg!(&author_name);
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
         // dbg!(&author_name);
@@ -323,13 +327,13 @@ impl HtmlServerTemplateRender for ReservedFolder {
         }
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/cargo_crev_web/css/cargo_crev_web.css"),
-            "st_favicon_route" => s!("/cargo_crev_web/favicon.png"),
+            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
+            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
             "st_ordinal_number" => (pos_cursor + 1).to_string(),
             "st_author_name_1" => s!(&item_at_cursor_1.author_name),
             "st_author_route" => format!(
-                "/cargo_crev_web/author/{}/",
-                url_encode(&item_at_cursor_1.author_id)
+                "/rust-reviews/author/{}/",
+                utf8_percent_encode(&item_at_cursor_1.author_id)
             ),
             "st_author_id" => item_at_cursor_1.author_id.clone(),
             // same name from different data model is not allowed
@@ -340,8 +344,8 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 &item_at_cursor_2.author_name,
             ),
             "st_add_author_url_route" => format!(
-                "/cargo_crev_web/reserved_folder/add_author_url/{}/",
-                url_encode(&item_at_cursor_2.author_name)
+                "/rust-reviews/reserved_folder/add_author_url/{}/",
+                utf8_percent_encode(&item_at_cursor_2.author_name)
             ),
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
