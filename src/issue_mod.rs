@@ -1,8 +1,8 @@
 //! issue_mod
 
-use crate::html_server_template_mod::*;
 use crate::review_mod::Level;
 use crate::*;
+
 //use unwrap::unwrap;
 //use strum_macros;
 use serde_derive::{Deserialize, Serialize};
@@ -49,9 +49,21 @@ impl HtmlServerTemplateRender for Issue {
         // dbg&placeholder));
         match placeholder {
             "st_issue_id" => s!(&self.id),
-            "st_issue_severity" => self.severity.to_string(),
+            "st_issue_severity" => s!(self.severity),
             "st_issue_comment" => s!(&self.comment),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

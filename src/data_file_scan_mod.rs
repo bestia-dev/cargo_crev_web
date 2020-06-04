@@ -1,7 +1,6 @@
 //! data_file_scan_mod
 
 use crate::review_mod::*;
-use crate::utils_mod::*;
 use crate::*;
 
 use std::{fs, path::Path, path::PathBuf};

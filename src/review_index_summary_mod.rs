@@ -1,6 +1,5 @@
 //! review_index_summary_mod
 
-use crate::html_server_template_mod::*;
 use crate::*;
 
 //use unwrap::unwrap;
@@ -72,10 +71,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!(
-            "{}index_template.html",
-            templates_folder_name
-        );
+        let template_file_name = format!("{}index_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
 
         // return
@@ -103,22 +99,34 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     ) -> String {
         // dbg!(&placeholder);
         match placeholder {
-            // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
-            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
-            "st_img_src_logo" => s!("/rust-reviews/images/Logo_02.png"),
-            "st_unique_crates" => self.unique_crates.to_string(),
-            "st_unique_authors" => self.unique_authors.to_string(),
-            "st_count_of_reviews" => self.count_of_reviews.to_string(),
-            "st_count_of_rating_strong" => self.count_of_rating_strong.to_string(),
-            "st_count_of_rating_positive" => self.count_of_rating_positive.to_string(),
-            "st_count_of_rating_neutral" => self.count_of_rating_neutral.to_string(),
-            "st_count_of_rating_negative" => self.count_of_rating_negative.to_string(),
-            "st_count_of_rating_none" => self.count_of_rating_none.to_string(),
-            "st_count_of_alternatives" => self.count_of_alternatives.to_string(),
-            "st_count_of_issues" => self.count_of_issues.to_string(),
-            "st_count_of_advisories" => self.count_of_advisories.to_string(),
+            "st_unique_crates" => s!(self.unique_crates),
+            "st_unique_authors" => s!(self.unique_authors),
+            "st_count_of_reviews" => s!(self.count_of_reviews),
+            "st_count_of_rating_strong" => s!(self.count_of_rating_strong),
+            "st_count_of_rating_positive" => s!(self.count_of_rating_positive),
+            "st_count_of_rating_neutral" => s!(self.count_of_rating_neutral),
+            "st_count_of_rating_negative" => s!(self.count_of_rating_negative),
+            "st_count_of_rating_none" => s!(self.count_of_rating_none),
+            "st_count_of_alternatives" => s!(self.count_of_alternatives),
+            "st_count_of_issues" => s!(self.count_of_issues),
+            "st_count_of_advisories" => s!(self.count_of_advisories),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            // the href for css is good for static data. For dynamic route it must be different.
+            "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
+            "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

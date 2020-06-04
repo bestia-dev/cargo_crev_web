@@ -1,21 +1,17 @@
 
 # TODO
 
-info on first page index
+for href, src must be encoded url a special type?
+enum with string and urlEncoded.
+urlEncoded for href and src. else string
+
+
+On mobile it looks terrible.
+In landscape is really ok, but in portrait just can't show the tables.
 
 filter on author review
 
 unique authors for crate summary
 
-if I have cargo installed
-then I have the index and I can search in the index
-to find the Last version of the crate.
-maybe the date ?
-
-new review
-
-
-
 - try to make more smaller crates. Like libraries.
 Maybe the compiler will be faster then.
-

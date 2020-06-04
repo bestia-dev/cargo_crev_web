@@ -1,9 +1,8 @@
 //! crate_reviews_mod
+
 use crate::crate_version_summary_mod::*;
 use crate::data_file_scan_mod::*;
-use crate::html_server_template_mod::*;
 use crate::review_mod::*;
-use crate::utils_mod::*;
 use crate::*;
 
 use unwrap::unwrap;
@@ -163,10 +162,22 @@ impl HtmlServerTemplateRender for CrateReviews {
     ) -> String {
         // dbg!( &placeholder);
         match placeholder {
-            // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
-            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            // the href for css is good for static data. For dynamic route it must be different.
+            "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
+            "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

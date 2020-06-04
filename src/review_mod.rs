@@ -1,9 +1,6 @@
 //! review_mod
 
-use crate::encode_decode_mod::*;
-use crate::html_server_template_mod::*;
 use crate::issue_mod::Issue;
-use crate::utils_mod::*;
 use crate::*;
 
 use serde_derive::{Deserialize, Serialize};
@@ -189,19 +186,15 @@ impl HtmlServerTemplateRender for Review {
     ) -> String {
         // dbg!( &placeholder);
         match placeholder {
-            "st_crate_name_version" => format!("{} {}", self.package.name, self.package.version),
-            "st_crate_route" => format!(
-                "/rust-reviews/crate/{}/",
-                utf8_percent_encode(&self.package.name)
-            ),
+            "st_crate_name_version" => s!("{} {}", self.package.name, self.package.version),
             "st_review_rating" => {
                 if let Some(review) = &self.review {
-                    review.rating.to_string()
+                    s!(review.rating)
                 } else {
                     s!("")
                 }
             }
-            "st_rating_class_color" => format!(
+            "st_rating_class_color" => s!(
                 "review_header0_cell {} bold",
                 color_from_rating(if let Some(review) = &self.review {
                     Some(&review.rating)
@@ -212,16 +205,11 @@ impl HtmlServerTemplateRender for Review {
             "st_review_date" => s!(&self.date[..10]),
             "st_review_author" => {
                 // naive method to extract author_name
-                self.get_author_name()
+                s!(self.get_author_name())
             }
-            "st_author_url" => s!(&self.from.url),
-            "st_author_route" => format!(
-                "/rust-reviews/author/{}/",
-                utf8_percent_encode(&self.from.id)
-            ),
             "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
-                    format!(
+                    s!(
                         "{} {}",
                         review.thoroughness.to_string(),
                         review.understanding.to_string()
@@ -233,12 +221,12 @@ impl HtmlServerTemplateRender for Review {
             "st_review_comment" => {
                 // dbg!(&self.comment);
                 if let Some(comment) = &self.comment {
-                    comment.clone()
+                    s!(comment)
                 } else {
                     s!("")
                 }
             }
-            "st_alternatives_source" => {
+            "st_alternative_source" => {
                 if let Some(alternatives) = &self.alternatives {
                     s!(&alternatives[0].source)
                 } else {
@@ -261,7 +249,7 @@ impl HtmlServerTemplateRender for Review {
             }
             "st_issue_severity" => {
                 if let Some(issues) = &self.issues {
-                    issues[0].severity.to_string()
+                    s!(issues[0].severity)
                 } else {
                     s!("")
                 }
@@ -282,7 +270,7 @@ impl HtmlServerTemplateRender for Review {
             }
             "st_advisories_severity" => {
                 if let Some(advisories) = &self.advisories {
-                    advisories[0].severity.to_string()
+                    s!(advisories[0].severity)
                 } else {
                     s!("")
                 }
@@ -313,6 +301,21 @@ impl HtmlServerTemplateRender for Review {
                 }
             }
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            "su_crate_route" => url_u!("/rust-reviews/crate/{}/", &self.package.name),
+            "su_author_route" => url_u!("/rust-reviews/author/{}/", &self.from.id),
+            "su_author_url" => url_u!(&self.from.url,""),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

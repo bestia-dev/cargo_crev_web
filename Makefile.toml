@@ -34,6 +34,7 @@ skip_core_tasks = true
         "echo $ cargo test",
         "cargo test",
     ]                
+
     [tasks.release]
     description = "cargo build release"
     clear = true
@@ -53,14 +54,7 @@ skip_core_tasks = true
         "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
         "target/release/${CARGO_MAKE_CRATE_NAME} ",
     ]
-    
-    [tasks.run_rel1]
-    description = "run target/release/${CARGO_MAKE_CRATE_NAME}"
-    clear = true
-    script = [
-        "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
-        "target/release/${CARGO_MAKE_CRATE_NAME} ",
-    ]
+
     [tasks.fmt]
     description = "format code and git commit before"
     clear = true
@@ -77,11 +71,22 @@ skip_core_tasks = true
     [tasks.doc]
     description = "cargo doc - create docs from doc comments"
     clear = true
-    dependencies = [
-        "include_readme",
-        "cargo_doc",
-        "doc_copy",
-    ]
+    script= [
+        "echo $ lmake_readme",
+        # copy data from cargo.toml to readme.md, then include text from readme.md into *.rs doc comments
+        "lmake_readme",
+        "echo $ cargo doc --no-deps --document-private-items",
+        # create doc from doc comments
+        "cargo doc --no-deps --document-private-items",
+        "echo $ codetour_export_to_md",
+        # export code tour to md
+        "codetour_export_to_md",
+        # copy to /docs/ because it is github standard
+        "echo $ rsync -a --info=progress2 --delete-after target/doc docs",
+        "rsync -a --info=progress2 --delete-after target/doc docs",
+        # message to help user with next move
+        "echo after successful doc, run cargo make fmt msg_for_commit",
+        ]
     
     [tasks.sshadd]
     description = "adds identity to ssh-agent for git and publish operations"
@@ -98,27 +103,27 @@ skip_core_tasks = true
     script = [
         "echo $ git push",
         "git push",
-        "echo after successful git push, use $ cargo make publish_to_web",
+        "echo after successful git push, use $ cargo make crates_io_dry_run or publish_to_web",
     ]
 
-
     [tasks.publish_to_web]
-    description = "publish the web_server_folder to google vm"
-    # Firt copies the content of /cargo_crev_web/web_server_folder to // googlecloud/ folder and then to google vm with use of sshagent."
+    description = "publish to web server"
     workspace = false
     clear = true
     # backslash is the escape character for all other special characters.
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
+        "echo ",
         "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
         "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-        "echo $ rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
-        "rsync -avz --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
-        "echo $ rsync -e ssh -avz --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
-        "rsync -e ssh -avz --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
+        "echo $ rsync -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+        "rsync -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+        "echo $ rsync -e ssh -a --info=progress2--delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
+        "rsync -e ssh -a --info=progress2--delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
         "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev /var/www/scripts/cargo_crev_web_publish.sh",
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev /var/www/scripts/cargo_crev_web_publish.sh",
     ]
+    # end of publish script
 
     [tasks.increment_minor]
     description = "increments semver minor"
@@ -154,11 +159,11 @@ script= [
 "echo 06. cargo make release - build release version, increment semver patch incargo.toml",
 "echo 07. ......run the release build. Cargo make tasks LIST is below.",
 "echo ",
-"echo 08. cargo make doc - includea from cargo.toml to readme.md and from readme.md to main.rs or lib.rs, generates doc and copies to docs folder.",
+"echo 08. cargo make doc - includes from cargo.toml to readme.md and from readme.md to main.rs or lib.rs, generates doc and copies to docs folder.",
 "echo 09. cargo make fmt commit_message - runs git commit and rustfmt",
 "echo 10. cargo make sshadd - run only once - adds identity to ssh-agent for git and publish",
 "echo 11. cargo make gitpush - git push",
-"echo 12. cargo make publish_to_web - publish to web",
+"echo 12. cargo make publish_to_web",
 "echo ",
 "echo LIST RUN WITH ARGUMENTS - release build",
 "echo cargo make run_rel1 - target/release/${CARGO_MAKE_CRATE_NAME}",
@@ -170,6 +175,14 @@ script= [
 "echo cargo crev repo query review crate_name",
 "echo cargo crev repo publish",
 
+"echo ",
+"echo LIST RUN WITH ARGUMENTS - release build",
+"echo cargo make run_rel0 - no arguments target/release/${CARGO_MAKE_CRATE_NAME}",
+"echo cargo make run_rel1 - target/release/${CARGO_MAKE_CRATE_NAME} argument1",
+"echo ",
+"echo CREV - cryptographic review system for rust",
+"echo ",
+"echo cargo crev verify",
 "echo "
 ]
 
@@ -232,42 +245,6 @@ script = [
     "echo if the fmt makes changes, just run the same command again."         
 ]
 
-[tasks.include_readme]
-clear = true
-private = true
-description = "copy the content of readme.md into *.rs comments (for the docs)"
-script= ["lmake_readme"]
-
-[tasks.cargo_doc]
-clear = true
-private = true
-description = "call cargo doc"
-script=[
-    "echo $ cargo doc --no-deps --document-private-items",
-    "cargo doc --no-deps --document-private-items",
-    "echo $ codetour_export_to_md",
-    "codetour_export_to_md",
-] 
-
-[tasks.doc_copy]
-clear = true
-private = true
-description = "copy doc folder as docs (out of folder target), so it can be git comitted"
-script = [
-    "echo $ \\rsync -avz --delete-after target/doc/*  docs/",
-    "\\rsync -avz --delete-after target/doc/*  docs/",
-    "echo after successful doc, run cargo make fmt msg_for_commit",
-]
-
-[tasks.gittag]
-clear = true
-private = true
-description = "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
-script = [
-    "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-    "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}"
-]
-
 [tasks.post_build_dev]
 clear=true
 private=true
@@ -293,5 +270,3 @@ script = [
     "echo $  ./cargo_crev_web",
     " ./cargo_crev_web",
 ]
-
-

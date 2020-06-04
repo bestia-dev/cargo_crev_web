@@ -1,13 +1,12 @@
 //! review_mod
-use crate::html_server_template_mod::*;
+
 use crate::review_mod::*;
-//use crate::utils_mod::*;
 use crate::*;
 
 //use serde_derive::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
-//use unwrap::unwrap;
+use unwrap::unwrap;
 
 pub struct ReviewNew {
     pub rev: Review,
@@ -159,21 +158,32 @@ impl HtmlServerTemplateRender for ReviewNew {
     ) -> String {
         // dbg!(&placeholder);
         // list_fetched_author_id is Option and can be None or Some
-
+        match placeholder {
+            "st_yaml_text" => s!(self.yaml_text),
+            "st_date" => s!(self.rev.date),
+            "st_comment" => s!(self.st_comment()),
+            "st_from_url" => s!(self.rev.from.url),
+            "st_package_name" => s!(self.rev.package.name),
+            "st_package_version" => s!(self.rev.package.version),
+            "st_alternatives_0_source" => s!(self.st_alternatives_0_source()),
+            "st_alternatives_0_name" => s!(self.st_alternatives_0_name()),
+            "st_advisories_comment_0_0" => s!(self.st_advisories_comment_0_0()),
+            _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
-            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
-            "st_yaml_text" => self.yaml_text.clone(),
-            "st_date" => self.rev.date.clone(),
-            "st_comment" => self.st_comment(),
-            "st_from_url" => self.rev.from.url.clone(),
-            "st_package_name" => self.rev.package.name.clone(),
-            "st_package_version" => self.rev.package.version.clone(),
-            "st_alternatives_0_source" => self.st_alternatives_0_source(),
-            "st_alternatives_0_name" => self.st_alternatives_0_name(),
-            "st_advisories_comment_0_0" => self.st_advisories_comment_0_0(),
-            _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+            "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
+            "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

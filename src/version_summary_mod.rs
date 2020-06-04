@@ -1,8 +1,9 @@
 //! crate_version_summary_mod
 
 // region: use
+
 use crate::*;
-use html_server_template_mod::*;
+
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
 //use unwrap::unwrap;
@@ -81,42 +82,69 @@ impl HtmlServerTemplateRender for VersionSummary {
         // dbg!( &placeholder);
         match placeholder {
             "st_version" => s!(&self.version),
-            "st_review_number" => to_string_zero_to_empty(self.review_number),
-            "st_rating_strong" => to_string_zero_to_empty(self.rating_strong),
-            "st_rating_positive" => to_string_zero_to_empty(self.rating_positive),
-            "st_rating_neutral" => to_string_zero_to_empty(self.rating_neutral),
-            "st_rating_negative" => to_string_zero_to_empty(self.rating_negative),
-            "st_alternatives" => to_string_zero_to_empty(self.alternatives),
-            "st_issues" => to_string_zero_to_empty(self.issues),
-            "st_advisories" => to_string_zero_to_empty(self.advisories),
-            "st_thoroughness" => to_string_zero_to_empty(self.thoroughness),
-            "st_understanding" => to_string_zero_to_empty(self.understanding),
-
-            "st_filter_version" => {
-                format!("/rust-reviews/crate/{}/{}", self.crate_name, self.version)
-            }
-            "st_filter_strong" => {
-                format!("/rust-reviews/crate/{}/{}/S", self.crate_name, self.version)
-            }
-            "st_filter_positive" => {
-                format!("/rust-reviews/crate/{}/{}/P", self.crate_name, self.version)
-            }
-            "st_filter_neutral" => {
-                format!("/rust-reviews/crate/{}/{}/E", self.crate_name, self.version)
-            }
-            "st_filter_negative" => {
-                format!("/rust-reviews/crate/{}/{}/N", self.crate_name, self.version)
-            }
-            "st_filter_alternatives" => {
-                format!("/rust-reviews/crate/{}/{}/v", self.crate_name, self.version)
-            }
-            "st_filter_issues" => {
-                format!("/rust-reviews/crate/{}/{}/i", self.crate_name, self.version)
-            }
-            "st_filter_advisories" => {
-                format!("/rust-reviews/crate/{}/{}/a", self.crate_name, self.version)
-            }
+            "st_review_number" => url_s_zero_to_empty(self.review_number),
+            "st_rating_strong" => url_s_zero_to_empty(self.rating_strong),
+            "st_rating_positive" => url_s_zero_to_empty(self.rating_positive),
+            "st_rating_neutral" => url_s_zero_to_empty(self.rating_neutral),
+            "st_rating_negative" => url_s_zero_to_empty(self.rating_negative),
+            "st_alternatives" => url_s_zero_to_empty(self.alternatives),
+            "st_issues" => url_s_zero_to_empty(self.issues),
+            "st_advisories" => url_s_zero_to_empty(self.advisories),
+            "st_thoroughness" => url_s_zero_to_empty(self.thoroughness),
+            "st_understanding" => url_s_zero_to_empty(self.understanding),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            "su_filter_version" => url_u!(
+                "/rust-reviews/crate/{}/{}/",
+                &self.crate_name,
+                &self.version
+            ),
+            "su_filter_strong" => url_u!(
+                "/rust-reviews/crate/{}/{}/S/",
+                &self.crate_name,
+                &self.version
+            ),
+            "su_filter_positive" => url_u!(
+                "/rust-reviews/crate/{}/{}/P/",
+                &self.crate_name,
+                &self.version
+            ),
+            "su_filter_neutral" => url_u!(
+                "/rust-reviews/crate/{}/{}/E/",
+                &self.crate_name,
+                &self.version
+            ),
+            "su_filter_negative" => url_u!(
+                "/rust-reviews/crate/{}/{}/N/",
+                &self.crate_name,
+                &self.version
+            ),
+            "su_filter_alternatives" => url_u!(
+                "/rust-reviews/crate/{}/{}/v/",
+                &self.crate_name,
+                &self.version
+            ),
+            "su_filter_issues" => url_u!(
+                "/rust-reviews/crate/{}/{}/i/",
+                &self.crate_name,
+                &self.version
+            ),
+            "su_filter_advisories" => url_u!(
+                "/rust-reviews/crate/{}/{}/a/",
+                &self.crate_name,
+                &self.version
+            ),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

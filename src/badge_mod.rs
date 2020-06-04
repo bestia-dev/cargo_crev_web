@@ -106,24 +106,39 @@ impl HtmlServerTemplateRender for Badge {
     ) -> String {
         // dbg!(&placeholder);
         match placeholder {
-            // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
-            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
-            "st_subject_text" => self.subject_text.clone(),
-            "st_status_text" => self.status_text.clone(),
-            "st_width" => self.width.to_string(),
-            "st_height" => self.height.to_string(),
-            "st_subject_width" => self.subject_width.to_string(),
-            "st_badge_color" => self.badge_color.to_string(),
-            "st_subject_x" => self.subject_x.to_string(),
-            "st_status_x" => self.status_x.to_string(),
-            "st_d1" => format!("M0 0h{}v{}H0z", self.subject_width, self.height),
-            "st_d2" => format!(
+            "st_subject_text" => s!(self.subject_text),
+            "st_status_text" => s!(self.status_text),
+            "st_width" => s!(self.width),
+            "st_height" => s!(self.height),
+            "st_subject_width" => s!(self.subject_width),
+            "st_badge_color" => s!(self.badge_color),
+            "st_subject_x" => s!(self.subject_x),
+            "st_status_x" => s!(self.status_x),
+            "st_d1" => s!("M0 0h{}v{}H0z", self.subject_width, self.height),
+            "st_d2" => s!(
                 "M{} 0h{}v{}H{}z",
-                self.subject_width, self.status_width, self.height, self.subject_width
+                self.subject_width,
+                self.status_width,
+                self.height,
+                self.subject_width
             ),
-            "st_d3" => format!("M0 0h{}v{}H0z", self.width, self.height),
+            "st_d3" => s!("M0 0h{}v{}H0z", self.width, self.height),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            // the href for css is good for static data. For dynamic route it must be different.
+            "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
+            "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

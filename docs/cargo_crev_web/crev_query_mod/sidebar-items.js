@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["filter_proofs",""],["html_for_crev_query","crev query returns html"],["proofs_crev_query","crev query returns html"],["push_proof",""]],"struct":[["CrevQueryData",""]]});

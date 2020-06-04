@@ -1,8 +1,5 @@
 //! crates_mod
 
-use crate::encode_decode_mod::*;
-use crate::html_server_template_mod::*;
-use crate::CachedReviewIndex;
 use crate::*;
 
 use unwrap::unwrap;
@@ -129,43 +126,52 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
     ) -> String {
         // dbg!(&placeholder);
         match placeholder {
-            // the href for css is good for static data. For dynamic route it must be different.
-            "st_css_route" => s!("/rust-reviews/css/rust-reviews.css"),
-            "st_favicon_route" => s!("/rust-reviews/favicon.png"),
             // this is a grid with repeated rows. Use the pos_cursor
-            "st_ordinal_number" => (pos_cursor + 1).to_string(),
+            "st_ordinal_number" => s!(pos_cursor + 1),
             "st_crate_name" => s!(&self.vec[pos_cursor].crate_name),
-            // "/rust-reviews/crate/{}/",
-            "st_crate_route" => format!(
-                "/rust-reviews/crate/{}/",
-                utf8_percent_encode(&self.vec[pos_cursor].crate_name)
-            ),
-            "st_count_of_reviews" => to_string_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
-            "st_unique_versions" => to_string_zero_to_empty(self.vec[pos_cursor].unique_versions),
-            "st_unique_authors" => to_string_zero_to_empty(self.vec[pos_cursor].unique_authors),
+            "st_count_of_reviews" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
+            "st_unique_versions" => url_s_zero_to_empty(self.vec[pos_cursor].unique_versions),
+            "st_unique_authors" => url_s_zero_to_empty(self.vec[pos_cursor].unique_authors),
             "st_count_of_rating_strong" => {
-                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong)
+                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong)
             }
             "st_count_of_rating_positive" => {
-                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_positive)
+                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_positive)
             }
             "st_count_of_rating_neutral" => {
-                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_neutral)
+                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_neutral)
             }
             "st_count_of_rating_negative" => {
-                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_negative)
+                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_negative)
             }
             "st_count_of_rating_none" => {
-                to_string_zero_to_empty(self.vec[pos_cursor].count_of_rating_none)
+                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_none)
             }
             "st_count_of_alternatives" => {
-                to_string_zero_to_empty(self.vec[pos_cursor].count_of_alternatives)
+                url_s_zero_to_empty(self.vec[pos_cursor].count_of_alternatives)
             }
-            "st_count_of_issues" => to_string_zero_to_empty(self.vec[pos_cursor].count_of_issues),
+            "st_count_of_issues" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_issues),
             "st_count_of_advisories" => {
-                to_string_zero_to_empty(self.vec[pos_cursor].count_of_advisories)
+                url_s_zero_to_empty(self.vec[pos_cursor].count_of_advisories)
             }
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            // the href for css is good for static data. For dynamic route it must be different.
+            "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
+            "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            // "/rust-reviews/crate/{}/",
+            "su_crate_route" => url_u!("/rust-reviews/crate/{}/", &self.vec[pos_cursor].crate_name),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node

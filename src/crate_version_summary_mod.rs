@@ -4,7 +4,7 @@
 use crate::review_mod::*;
 use crate::version_summary_mod::VersionSummary;
 use crate::*;
-use html_server_template_mod::*;
+
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
 use unwrap::unwrap;
@@ -166,36 +166,46 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         // dbg!(&placeholder);
         match placeholder {
             "st_crate_name" => s!(&self.crate_name),
-            "st_cargo_toml_dependency" => format!(
+            "st_cargo_toml_dependency" => s!(
                 r#"{} = "{}""#,
-                &self.crate_name, &self.crate_summary.last_reviewed_version
+                &self.crate_name,
+                &self.crate_summary.last_reviewed_version
             ),
-            "st_crates_io_url" => format!("https://crates.io/crates/{}", self.crate_name),
-            "st_lib_rs_url" => format!("https://lib.rs/crates/{}", self.crate_name),
-            "st_crate_review_number" => to_string_zero_to_empty(self.crate_summary.review_number),
-            "st_crate_rating_strong" => to_string_zero_to_empty(self.crate_summary.rating_strong),
-            "st_crate_rating_positive" => {
-                to_string_zero_to_empty(self.crate_summary.rating_positive)
-            }
-            "st_crate_rating_neutral" => to_string_zero_to_empty(self.crate_summary.rating_neutral),
-            "st_crate_rating_negative" => {
-                to_string_zero_to_empty(self.crate_summary.rating_negative)
-            }
-            "st_crate_alternatives" => to_string_zero_to_empty(self.crate_summary.alternatives),
-            "st_crate_issues" => to_string_zero_to_empty(self.crate_summary.issues),
-            "st_crate_advisories" => to_string_zero_to_empty(self.crate_summary.advisories),
-            "st_crate_thoroughness" => to_string_zero_to_empty(self.crate_summary.thoroughness),
-            "st_crate_understanding" => to_string_zero_to_empty(self.crate_summary.understanding),
+            "st_crate_review_number" => url_s_zero_to_empty(self.crate_summary.review_number),
+            "st_crate_rating_strong" => url_s_zero_to_empty(self.crate_summary.rating_strong),
+            "st_crate_rating_positive" => url_s_zero_to_empty(self.crate_summary.rating_positive),
+            "st_crate_rating_neutral" => url_s_zero_to_empty(self.crate_summary.rating_neutral),
+            "st_crate_rating_negative" => url_s_zero_to_empty(self.crate_summary.rating_negative),
+            "st_crate_alternatives" => url_s_zero_to_empty(self.crate_summary.alternatives),
+            "st_crate_issues" => url_s_zero_to_empty(self.crate_summary.issues),
+            "st_crate_advisories" => url_s_zero_to_empty(self.crate_summary.advisories),
+            "st_crate_thoroughness" => url_s_zero_to_empty(self.crate_summary.thoroughness),
+            "st_crate_understanding" => url_s_zero_to_empty(self.crate_summary.understanding),
 
-            "st_filter_crate" => format!("/rust-reviews/crate/{}", self.crate_name),
-            "st_filter_strong" => format!("/rust-reviews/crate/{}/crate/S", self.crate_name),
-            "st_filter_positive" => format!("/rust-reviews/crate/{}/crate/P", self.crate_name),
-            "st_filter_neutral" => format!("/rust-reviews/crate/{}/crate/E", self.crate_name),
-            "st_filter_negative" => format!("/rust-reviews/crate/{}/crate/N", self.crate_name),
-            "st_filter_alternatives" => format!("/rust-reviews/crate/{}/crate/v", self.crate_name),
-            "st_filter_issues" => format!("/rust-reviews/crate/{}/crate/i", self.crate_name),
-            "st_filter_advisories" => format!("/rust-reviews/crate/{}/crate/a", self.crate_name),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
+        }
+    }
+    /// exclusive url encoded for href and src
+    fn replace_with_url(
+        &self,
+        placeholder: &str,
+        _subtemplate: &str,
+        _pos_cursor: usize,
+    ) -> UrlUtf8EncodedString {
+        // dbg!( &placeholder);
+        match placeholder {
+            // the href for css is good for static data. For dynamic route it must be different.
+            "su_crates_io_url" => url_u!("https://crates.io/crates/{}", &self.crate_name),
+            "su_lib_rs_url" => url_u!("https://lib.rs/crates/{}", &self.crate_name),
+            "su_filter_crate" => url_u!("/rust-reviews/crate/{}", &self.crate_name),
+            "su_filter_strong" => url_u!("/rust-reviews/crate/{}/crate/S", &self.crate_name),
+            "su_filter_positive" => url_u!("/rust-reviews/crate/{}/crate/P", &self.crate_name),
+            "su_filter_neutral" => url_u!("/rust-reviews/crate/{}/crate/E", &self.crate_name),
+            "su_filter_negative" => url_u!("/rust-reviews/crate/{}/crate/N", &self.crate_name),
+            "su_filter_alternatives" => url_u!("/rust-reviews/crate/{}/crate/v", &self.crate_name),
+            "su_filter_issues" => url_u!("/rust-reviews/crate/{}/crate/i", &self.crate_name),
+            "su_filter_advisories" => url_u!("/rust-reviews/crate/{}/crate/a", &self.crate_name),
+            _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// returns a vector of Nodes to replace the next Node
