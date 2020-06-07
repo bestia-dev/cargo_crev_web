@@ -4,6 +4,20 @@ The web server recognizes the route /crate/ and calls html_for_crev_query().
 
 ##### step 1 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/main.rs#L266)
 ```rust
+    // because then wasm-pack build --target no-modules returns an error: export `run` not found 
+    // clippy::missing_inline_in_public_items
+    // Why is this bad : Doc is good. rustc has a MISSING_DOCS allowed-by-default lint for public members, but has no way to enforce documentation of private items. This lint fixes that.
+    clippy::doc_markdown,
+)]
+// endregion: (collapsed) Clippy
+
+// region: (collapsed) use statements
+mod author_reviews_mod;
+#//---------------------- selection start ----------------------
+mod authors_mod;
+mod badge_mod;
+#//----------------------- selection end -----------------------
+```
 ## data model  
 Prepare CrevQueryData. This is the data model with all the data for templating in one place.
 
