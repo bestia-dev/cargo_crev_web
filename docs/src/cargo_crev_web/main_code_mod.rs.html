@@ -46,7 +46,6 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
-<span id="49">49</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! main.rs</span>
 
@@ -93,7 +92,6 @@
 
     <span class="comment">// I will cache the review index</span>
     <span class="kw">let</span> <span class="ident">cached_review_index</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">review_index_mod</span>::<span class="ident">ReviewIndex</span>::<span class="ident">new</span>()));
-    
 
     <span class="ident">router_mod</span>::<span class="ident">start_routes</span>(<span class="ident">cached_review_index</span>, <span class="ident">local_addr</span>).<span class="kw">await</span>;
 }

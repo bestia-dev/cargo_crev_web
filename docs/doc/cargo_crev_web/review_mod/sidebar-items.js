@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Level",""],["Rating",""]],"fn":[["color_from_rating",""]],"struct":[["Advisory",""],["AdvisoryOld",""],["Alternative",""],["Review",""],["ReviewFrom",""],["ReviewPackage",""],["ReviewReview",""]]});

@@ -1,3 +1,0 @@
-(function() {var implementors = {};
-implementors["cargo_crev_web"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"enum\" href=\"cargo_crev_web/url_encode_mod/enum.FromUrlEncodingError.html\" title=\"enum cargo_crev_web::url_encode_mod::FromUrlEncodingError\">FromUrlEncodingError</a>","synthetic":false,"types":["cargo_crev_web::url_encode_mod::FromUrlEncodingError"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

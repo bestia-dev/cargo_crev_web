@@ -1,3 +1,0 @@
-(function() {var implementors = {};
-implementors["cargo_crev_web"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html\" title=\"trait core::iter::traits::iterator::Iterator\">Iterator</a> for <a class=\"struct\" href=\"cargo_crev_web/data_file_scan_mod/struct.ReviewsInOneFile.html\" title=\"struct cargo_crev_web::data_file_scan_mod::ReviewsInOneFile\">ReviewsInOneFile</a>","synthetic":false,"types":["cargo_crev_web::data_file_scan_mod::ReviewsInOneFile"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

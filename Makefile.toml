@@ -82,8 +82,8 @@ skip_core_tasks = true
         # export code tour to md
         "codetour_export_to_md",
         # copy to /docs/ because it is github standard
-        "echo $ rsync -a --info=progress2 --delete-after target/doc docs",
-        "rsync -a --info=progress2 --delete-after target/doc docs",
+        "echo $ rsync -a --info=progress2 --delete-after target/doc/ docs/",
+        "rsync -a --info=progress2 --delete-after target/doc/ docs/",
         # message to help user with next move
         "echo after successful doc, run cargo make fmt msg_for_commit",
         ]

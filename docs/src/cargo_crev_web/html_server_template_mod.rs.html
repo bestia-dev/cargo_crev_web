@@ -574,6 +574,98 @@
 <span id="574">574</span>
 <span id="575">575</span>
 <span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! html_server_template_mod</span>
 <span class="doccomment">//! html templating library for the web server</span>
@@ -639,14 +731,27 @@
     <span class="kw">fn</span> <span class="ident">render_html_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">templates_folder_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
     <span class="doccomment">/// name of data model for debugging</span>
     <span class="kw">fn</span> <span class="ident">data_model_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
-    <span class="doccomment">/// returns a String to replace the next text-node</span>
+    <span class="doccomment">/// returns a String to replace the next text-node or attribute value</span>
+    <span class="doccomment">/// use macro s!() for a normal string</span>
     <span class="kw">fn</span> <span class="ident">replace_with_string</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
         <span class="ident">pos_cursor</span>: <span class="ident">usize</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
-    <span class="comment">//// boolean : is the next node rendered or not</span>
+    <span class="doccomment">/// same as replace_with_string, but return url</span>
+    <span class="doccomment">/// exclusively for attributes value of href and src</span>
+    <span class="doccomment">/// the url must be encoded in the beginning because it encodes segments of</span>
+    <span class="doccomment">/// url prior to being composed together.</span>
+    <span class="doccomment">/// use macro url_u!() to create an url, very like format!</span>
+    <span class="doccomment">/// I try to avoid String here to force the developer to not forget to url_encode</span>
+    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">pos_cursor</span>: <span class="ident">usize</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span>;
+    <span class="doccomment">/// boolean : is the next node rendered or not</span>
     <span class="kw">fn</span> <span class="ident">retain_next_node_or_attribute</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
     <span class="doccomment">/// returns a vector of Nodes to replace the next Node</span>
     <span class="kw">fn</span> <span class="ident">replace_with_nodes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span>;
@@ -778,6 +883,9 @@
         <span class="ident">retain_this_node</span>: <span class="ident">bool</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ElementNode</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">replace_string</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">replace_attr_name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">replace_attr_repl_name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">replace_url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UrlUtf8EncodedString</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">replace_vec_nodes</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="prelude-val">None</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">retain_next_node_or_attribute</span> <span class="op">=</span> <span class="ident">retain_this_node</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">html_or_svg_local</span>;
@@ -836,18 +944,29 @@
                         }
                         <span class="ident">Token</span>::<span class="ident">Attribute</span>(<span class="ident">name</span>, <span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="kw">if</span> <span class="ident">retain_this_node</span> <span class="op">=</span><span class="op">=</span> <span class="bool-val">true</span> {
-                                <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">starts_with</span>(<span class="string">&quot;data-st-&quot;</span>) {
-                                    <span class="comment">// placeholder is in the attribute value.</span>
-                                    <span class="comment">// the attribute name is informative and should be similar to the next attribute</span>
-                                    <span class="comment">// example: data-st-href=&quot;st_placeholder&quot; href=&quot;x&quot;</span>
+                                <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">starts_with</span>(<span class="string">&quot;data-st_&quot;</span>) {
+                                    <span class="comment">// placeholder is in the attribute name.</span>
+                                    <span class="comment">// the attribute value is only informative what is the next attribute name</span>
+                                    <span class="comment">// example: data-st_placeholder=&quot;href&quot; href=&quot;x&quot;</span>
                                     <span class="comment">// The replace_string will always be applied to the next attribute. No matter the name.</span>
-                                    <span class="kw">let</span> <span class="ident">placeholder</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">value</span>;
+                                    <span class="kw">let</span> <span class="ident">placeholder</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">trim_start_matches</span>(<span class="string">&quot;data-&quot;</span>);
                                     <span class="kw">let</span> <span class="ident">repl_txt</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">replace_with_string</span>(
                                         <span class="ident">placeholder</span>,
                                         <span class="ident">subtemplate</span>,
                                         <span class="ident">pos_cursor</span>,
                                     );
+                                    <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">value</span>));
+                                    <span class="ident">replace_attr_repl_name</span><span class="op">=</span><span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>));
                                     <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_txt</span>);
+                                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">starts_with</span>(<span class="string">&quot;data-su_&quot;</span>) {
+                                    <span class="comment">// the same as data-st_, but exclusive to href and src</span>
+                                    <span class="comment">// because they must use an url encoded string</span>
+                                    <span class="kw">let</span> <span class="ident">placeholder</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">trim_start_matches</span>(<span class="string">&quot;data-&quot;</span>);
+                                    <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span>
+                                        <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">placeholder</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
+                                    <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">value</span>));
+                                    <span class="ident">replace_attr_repl_name</span><span class="op">=</span><span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>));
+                                    <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_url</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">starts_with</span>(<span class="string">&quot;data-sb-&quot;</span>) {
                                     <span class="comment">// the next attribute existence</span>
                                     <span class="comment">// if false it will not be rendered</span>
@@ -860,33 +979,83 @@
                                     <span class="comment">// a terrible html design choice</span>
                                     <span class="ident">retain_next_node_or_attribute</span> <span class="op">=</span> <span class="bool-val">true</span>;
                                 } <span class="kw">else</span> {
-                                    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_string</span> {
+                                    <span class="comment">// add attribute to Node</span>
+                                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_string</span> {
+                                        <span class="kw">if</span> <span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_name</span>) {
+                                            <span class="macro">panic</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>, 
+                                            <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>,  <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>));
+                                            <span class="comment">// replace_attr_name = None;</span>
+                                            <span class="comment">// replace_attr_repl_name=None;</span>
+                                        } <span class="kw">else</span> {
+                                            <span class="comment">// exclusively href and src must contain url</span>
+                                            <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;href&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;src&quot;</span> {
+                                                <span class="comment">// error it is NOT encoded</span>
+                                                <span class="macro">panic</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error: Repl of  {} name {} is NOT created as url, but as string: {}  data-model:{} dom_path: {:?}&quot;</span>, 
+                                                <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>, <span class="ident">repl</span>, <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>));
+                                            } <span class="kw">else</span> {
+                                                <span class="ident">element</span>.<span class="ident">attributes</span>.<span class="ident">push</span>(<span class="ident">Attribute</span> {
+                                                    <span class="ident">name</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>),
+                                                    <span class="ident">value</span>: <span class="ident">repl</span>,
+                                                });
+                                            }
+                                            <span class="comment">// empty the replace_string for the next node</span>
+                                            <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                                            <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                                            <span class="ident">replace_attr_repl_name</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                                        }
+                                    } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_url</span> {
+                                        <span class="kw">if</span> <span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_name</span>.<span class="ident">as_ref</span>()) {
+                                            <span class="macro">panic</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>, 
+                                             <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>, <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>));
+                                            <span class="comment">// replace_attr_name = None;</span>
+                                            <span class="comment">// replace_attr_repl_name = None;</span>
+                                        } <span class="kw">else</span> {
+                                            <span class="comment">// this is dynamic content. Must be already url encoded</span>
+                                            <span class="comment">// from the source for &quot;href&quot; and &quot;src&quot; only.</span>
+                                            <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;href&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;src&quot;</span> {
+                                                <span class="ident">element</span>.<span class="ident">attributes</span>.<span class="ident">push</span>(<span class="ident">Attribute</span> {
+                                                    <span class="ident">name</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>),
+                                                    <span class="ident">value</span>: <span class="ident">repl</span>.<span class="ident">to_string</span>(),
+                                                });
+                                            } <span class="kw">else</span> {
+                                                <span class="comment">//error. it is encoded for other attributes</span>
+                                                <span class="macro">panic</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Repl of {} name {} is mistakenly url encoded: {} data-model:{} dom_path: {:?}&quot;</span>, 
+                                            <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>, <span class="ident">repl</span>.<span class="ident">to_string</span>(), <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>));
+                                            }
+                                        }
                                         <span class="comment">// empty the replace_string for the next node</span>
-                                        <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-                                        <span class="ident">decode_5_xml_control_characters</span>(<span class="kw-2">&amp;</span><span class="ident">repl</span>)
+                                        <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                                        <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                                        <span class="ident">replace_attr_repl_name</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                                     } <span class="kw">else</span> {
-                                        <span class="ident">decode_5_xml_control_characters</span>(<span class="ident">value</span>)
-                                    };
-                                    <span class="ident">element</span>.<span class="ident">attributes</span>.<span class="ident">push</span>(<span class="ident">Attribute</span> {
-                                        <span class="ident">name</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>),
-                                        <span class="ident">value</span>: <span class="ident">value</span>,
-                                    });
+                                        <span class="comment">// Value is coming from the template that must be well-formed.</span>
+                                        <span class="comment">// It means that is html-encoded and we must decode it</span>
+                                        <span class="comment">// to push it to Node where all the strings are NOT html-encoded.</span>
+                                        <span class="ident">element</span>.<span class="ident">attributes</span>.<span class="ident">push</span>(<span class="ident">Attribute</span> {
+                                            <span class="ident">name</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>),
+                                            <span class="ident">value</span>: <span class="ident">decode_5_xml_control_characters</span>(<span class="ident">value</span>),
+                                        });
+                                    }
                                 }
                             }
                         }
                         <span class="ident">Token</span>::<span class="ident">TextNode</span>(<span class="ident">txt</span>) <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="kw">if</span> <span class="ident">retain_this_node</span> <span class="op">=</span><span class="op">=</span> <span class="bool-val">true</span> {
-                                <span class="kw">let</span> <span class="ident">txt</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_string</span> {
-                                    <span class="comment">// empty the replace_string for the next node</span>
+                                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_string</span> {
+                                    <span class="comment">// empty the replace_string for the next Text node</span>
                                     <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-                                    <span class="ident">decode_5_xml_control_characters</span>(<span class="kw-2">&amp;</span><span class="ident">repl</span>)
+                                    <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">push</span>(<span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">repl</span>));
+                                } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_url</span> {
+                                    <span class="comment">// empty the replace_string for the next Text node</span>
+                                    <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+                                    <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">push</span>(<span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">repl</span>.<span class="ident">to_string</span>()));
                                 } <span class="kw">else</span> {
-                                    <span class="comment">//dbg!(txt);</span>
-                                    <span class="ident">decode_5_xml_control_characters</span>(<span class="ident">txt</span>)
+                                    <span class="comment">// The template is well-formed.</span>
+                                    <span class="comment">// The string is html-encoded and must be html-decoded</span>
+                                    <span class="comment">// to push it to Node, where strings are &quot;normal&quot;.</span>
+                                    <span class="kw">let</span> <span class="ident">txt</span> <span class="op">=</span> <span class="ident">decode_5_xml_control_characters</span>(<span class="ident">txt</span>);
+                                    <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">push</span>(<span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">txt</span>));
                                 };
-                                <span class="comment">// here accepts only utf-8.</span>
-                                <span class="comment">// only minimum html entities are decoded</span>
-                                <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">push</span>(<span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">txt</span>));
                             }
                         }
                         <span class="ident">Token</span>::<span class="ident">Comment</span>(<span class="ident">txt</span>) <span class="op">=</span><span class="op">&gt;</span> {
@@ -894,11 +1063,14 @@
                                 <span class="comment">// the main goal of comments is to change the value of the next text node</span>
                                 <span class="comment">// with the result of a function</span>
                                 <span class="comment">// it must look like &lt;!--st_get_text--&gt;</span>
-
                                 <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;st_&quot;</span>) {
                                     <span class="kw">let</span> <span class="ident">repl_txt</span> <span class="op">=</span>
                                         <span class="self">self</span>.<span class="ident">replace_with_string</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_txt</span>);
+                                } <span class="kw">else</span>  <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;su_&quot;</span>) {
+                                    <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span>
+                                        <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
+                                    <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_url</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;sb_&quot;</span>) {
                                     <span class="comment">// boolean if this is true than render the next node, else don&#39;t render</span>
                                     <span class="ident">retain_next_node_or_attribute</span> <span class="op">=</span>
@@ -1112,7 +1284,19 @@
         <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>
     );
     <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
-    <span class="ident">err_msg</span>
+    <span class="macro">s</span><span class="macro">!</span>(<span class="ident">err_msg</span>)
+}
+<span class="doccomment">/// boilerplate</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_with_url_match_else</span>(
+    <span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+    <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
+    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(
+        <span class="string">&quot;Error: Unrecognized {} replace_with_string: \&quot;{}\&quot;&quot;</span>,
+        <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>
+    );
+    <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
+    <span class="macro">url_u</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">err_msg</span>, <span class="string">&quot;&quot;</span>)
 }
 <span class="doccomment">/// boilerplate</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_with_nodes_match_else</span>(<span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
@@ -1143,11 +1327,11 @@
     <span class="kw">return</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">node</span>];
 }
 <span class="doccomment">/// to string, but zero converts to empty</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_string_zero_to_empty</span>(<span class="ident">number</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">url_s_zero_to_empty</span>(<span class="ident">number</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
     <span class="kw">if</span> <span class="ident">number</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
         <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
     } <span class="kw">else</span> {
-        <span class="ident">number</span>.<span class="ident">to_string</span>()
+        <span class="macro">s</span><span class="macro">!</span>(<span class="ident">number</span>)
     }
 }
 <span class="comment">// endregion: utility fn</span>
