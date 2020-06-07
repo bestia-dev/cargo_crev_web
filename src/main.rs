@@ -1,7 +1,7 @@
-//! main.rs
-//! Here will have only doc comments, because they are so very large.
-//! It is then difficult to code with all this doc comments cluttering the text editor.
-//! The actual code will go to a separate file/mod : main_code_mod.rs
+// main.rs
+// Here will have only doc comments, because they are so very large.
+// It is then difficult to code with all this doc comments cluttering the text editor.
+// The actual code will go to a separate file/mod : main_code_mod.rs
 
 // region: lmake_readme include "readme.md" //! A
 //! # Rust-reviews (working title cargo_crev_web)

@@ -8,7 +8,7 @@ version: 2020.607.806  date: 2020-06-07 authors: Luciano Bestia
 
 | src code | doc comments | comments | examples | tests |
 | :------: | :----------: | :------: | :------: | :---: |
-|          |              |          |          |       |
+|   lines  |    lines     |   lines  |   lines  | lines |
 |   3848   |     256      |   512    |    0     |  57   |
 
 <img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
