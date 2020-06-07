@@ -112,20 +112,18 @@
 <span id="112">112</span>
 <span id="113">113</span>
 <span id="114">114</span>
-<span id="115">115</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! review_index_mod</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">data_file_scan_mod</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">review_mod</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// iterating in the original file format is not performant</span>
 <span class="doccomment">/// it is better to read the files once and make an index of all</span>
 <span class="doccomment">/// and then mostly use this index from memory.</span>
 <span class="doccomment">/// this index is created every time the web app is initialized</span>
 <span class="doccomment">/// or manually when the new and updated files are fetched</span>
-
 <span class="comment">//use crate::*;</span>
 <span class="kw">use</span> <span class="ident">unwrap</span>::<span class="ident">unwrap</span>;
 

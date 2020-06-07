@@ -197,12 +197,21 @@
 <span id="197">197</span>
 <span id="198">198</span>
 <span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! review_mod</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">review_mod</span>::<span class="kw-2">*</span>;
-
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
 
 <span class="comment">//use serde_derive::{Deserialize, Serialize};</span>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
@@ -359,21 +368,32 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="comment">// list_fetched_author_id is Option and can be None or Some</span>
-
+        <span class="kw">match</span> <span class="ident">placeholder</span> {
+            <span class="string">&quot;st_yaml_text&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">yaml_text</span>),
+            <span class="string">&quot;st_date&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">date</span>),
+            <span class="string">&quot;st_comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_comment</span>()),
+            <span class="string">&quot;st_from_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">from</span>.<span class="ident">url</span>),
+            <span class="string">&quot;st_package_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">package</span>.<span class="ident">name</span>),
+            <span class="string">&quot;st_package_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">package</span>.<span class="ident">version</span>),
+            <span class="string">&quot;st_alternatives_0_source&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_alternatives_0_source</span>()),
+            <span class="string">&quot;st_alternatives_0_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_alternatives_0_name</span>()),
+            <span class="string">&quot;st_advisories_comment_0_0&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_advisories_comment_0_0</span>()),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
+        }
+    }
+    <span class="doccomment">/// exclusive url encoded for href and src</span>
+    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">_pos_cursor</span>: <span class="ident">usize</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
+        <span class="comment">// dbg!( &amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="comment">// the href for css is good for static data. For dynamic route it must be different.</span>
-            <span class="string">&quot;st_css_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/css/rust-reviews.css&quot;</span>),
-            <span class="string">&quot;st_favicon_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/favicon.png&quot;</span>),
-            <span class="string">&quot;st_yaml_text&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">yaml_text</span>.<span class="ident">clone</span>(),
-            <span class="string">&quot;st_date&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">date</span>.<span class="ident">clone</span>(),
-            <span class="string">&quot;st_comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">st_comment</span>(),
-            <span class="string">&quot;st_from_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">from</span>.<span class="ident">url</span>.<span class="ident">clone</span>(),
-            <span class="string">&quot;st_package_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">package</span>.<span class="ident">name</span>.<span class="ident">clone</span>(),
-            <span class="string">&quot;st_package_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">package</span>.<span class="ident">version</span>.<span class="ident">clone</span>(),
-            <span class="string">&quot;st_alternatives_0_source&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">st_alternatives_0_source</span>(),
-            <span class="string">&quot;st_alternatives_0_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">st_alternatives_0_name</span>(),
-            <span class="string">&quot;st_advisories_comment_0_0&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">st_advisories_comment_0_0</span>(),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
+            <span class="string">&quot;su_css_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/css/rust-reviews.css&quot;</span>),
+            <span class="string">&quot;su_favicon_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/favicon.png&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_url_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
     <span class="doccomment">/// returns a vector of Nodes to replace the next Node</span>

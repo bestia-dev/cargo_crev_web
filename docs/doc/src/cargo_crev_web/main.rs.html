@@ -73,6 +73,7 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
+<span id="76">76</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! main.rs</span>
 <span class="doccomment">//! Here will have only doc comments, because they are so very large.</span>
@@ -113,8 +114,6 @@
 <span class="comment">// endregion: (collapsed) Clippy</span>
 
 <span class="comment">// region: (collapsed) use statements</span>
-<span class="kw">mod</span> <span class="ident">main_code_mod</span>;
-<span class="kw">mod</span> <span class="ident">router_mod</span>;
 <span class="kw">mod</span> <span class="ident">author_reviews_mod</span>;
 <span class="kw">mod</span> <span class="ident">authors_mod</span>;
 <span class="kw">mod</span> <span class="ident">badge_mod</span>;
@@ -122,25 +121,28 @@
 <span class="kw">mod</span> <span class="ident">crate_version_summary_mod</span>;
 <span class="kw">mod</span> <span class="ident">crates_mod</span>;
 <span class="kw">mod</span> <span class="ident">data_file_scan_mod</span>;
-<span class="kw">mod</span> <span class="ident">encode_decode_mod</span>;
 <span class="kw">mod</span> <span class="ident">html_server_template_mod</span>;
 <span class="kw">mod</span> <span class="ident">issue_mod</span>;
+<span class="kw">mod</span> <span class="ident">macros_mod</span>;
+<span class="kw">mod</span> <span class="ident">main_code_mod</span>;
 <span class="kw">mod</span> <span class="ident">reserved_folder_mod</span>;
 <span class="kw">mod</span> <span class="ident">review_index_mod</span>;
 <span class="kw">mod</span> <span class="ident">review_index_summary_mod</span>;
 <span class="kw">mod</span> <span class="ident">review_mod</span>;
 <span class="kw">mod</span> <span class="ident">review_new_mod</span>;
+<span class="kw">mod</span> <span class="ident">router_mod</span>;
+<span class="kw">mod</span> <span class="ident">url_utf8_mod</span>;
 <span class="kw">mod</span> <span class="ident">utils_mod</span>;
 <span class="kw">mod</span> <span class="ident">version_summary_mod</span>;
-<span class="kw">mod</span> <span class="ident">macros_mod</span>;
 
 <span class="comment">// `pub use` statements her are propagated to every other module</span>
 <span class="comment">// when they use `crate::*;`</span>
 <span class="comment">// just like they were all in the same file ;-)</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">main_code_mod</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">macros_mod</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils_mod</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">html_server_template_mod</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">macros_mod</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">main_code_mod</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">url_utf8_mod</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">utils_mod</span>::<span class="kw-2">*</span>;
 
 <span class="comment">// endregion: (collapsed) use statements</span>
 

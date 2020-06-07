@@ -368,12 +368,16 @@
 <span id="368">368</span>
 <span id="369">369</span>
 <span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! review_mod</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">encode_decode_mod</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">issue_mod</span>::<span class="ident">Issue</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use</span> <span class="ident">serde_derive</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">strum_macros</span>;
@@ -558,19 +562,15 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// dbg!( &amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
-            <span class="string">&quot;st_crate_name_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">name</span>, <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">version</span>),
-            <span class="string">&quot;st_crate_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/rust-reviews/crate/{}/&quot;</span>,
-                <span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">package</span>.<span class="ident">name</span>)
-            ),
+            <span class="string">&quot;st_crate_name_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;{} {}&quot;</span>, <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">name</span>, <span class="self">self</span>.<span class="ident">package</span>.<span class="ident">version</span>),
             <span class="string">&quot;st_review_rating&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">review</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">review</span> {
-                    <span class="ident">review</span>.<span class="ident">rating</span>.<span class="ident">to_string</span>()
+                    <span class="macro">s</span><span class="macro">!</span>(<span class="ident">review</span>.<span class="ident">rating</span>)
                 } <span class="kw">else</span> {
                     <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
                 }
             }
-            <span class="string">&quot;st_rating_class_color&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
+            <span class="string">&quot;st_rating_class_color&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(
                 <span class="string">&quot;review_header0_cell {} bold&quot;</span>,
                 <span class="ident">color_from_rating</span>(<span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">review</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">review</span> {
                     <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">rating</span>)
@@ -581,16 +581,11 @@
             <span class="string">&quot;st_review_date&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">date</span>[..<span class="number">10</span>]),
             <span class="string">&quot;st_review_author&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// naive method to extract author_name</span>
-                <span class="self">self</span>.<span class="ident">get_author_name</span>()
+                <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">get_author_name</span>())
             }
-            <span class="string">&quot;st_author_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">from</span>.<span class="ident">url</span>),
-            <span class="string">&quot;st_author_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
-                <span class="string">&quot;/rust-reviews/author/{}/&quot;</span>,
-                <span class="ident">utf8_percent_encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">from</span>.<span class="ident">id</span>)
-            ),
             <span class="string">&quot;st_crate_thoroughness_understanding&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">review</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">review</span> {
-                    <span class="macro">format</span><span class="macro">!</span>(
+                    <span class="macro">s</span><span class="macro">!</span>(
                         <span class="string">&quot;{} {}&quot;</span>,
                         <span class="ident">review</span>.<span class="ident">thoroughness</span>.<span class="ident">to_string</span>(),
                         <span class="ident">review</span>.<span class="ident">understanding</span>.<span class="ident">to_string</span>()
@@ -602,7 +597,7 @@
             <span class="string">&quot;st_review_comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="comment">// dbg!(&amp;self.comment);</span>
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">comment</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">comment</span> {
-                    <span class="ident">comment</span>.<span class="ident">clone</span>()
+                    <span class="macro">s</span><span class="macro">!</span>(<span class="ident">comment</span>)
                 } <span class="kw">else</span> {
                     <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
                 }
@@ -630,7 +625,7 @@
             }
             <span class="string">&quot;st_issue_severity&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">issues</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">issues</span> {
-                    <span class="ident">issues</span>[<span class="number">0</span>].<span class="ident">severity</span>.<span class="ident">to_string</span>()
+                    <span class="macro">s</span><span class="macro">!</span>(<span class="ident">issues</span>[<span class="number">0</span>].<span class="ident">severity</span>)
                 } <span class="kw">else</span> {
                     <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
                 }
@@ -651,7 +646,7 @@
             }
             <span class="string">&quot;st_advisories_severity&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">advisories</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">advisories</span> {
-                    <span class="ident">advisories</span>[<span class="number">0</span>].<span class="ident">severity</span>.<span class="ident">to_string</span>()
+                    <span class="macro">s</span><span class="macro">!</span>(<span class="ident">advisories</span>[<span class="number">0</span>].<span class="ident">severity</span>)
                 } <span class="kw">else</span> {
                     <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
                 }
@@ -682,6 +677,21 @@
                 }
             }
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
+        }
+    }
+    <span class="doccomment">/// exclusive url encoded for href and src</span>
+    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
+        <span class="ident">_pos_cursor</span>: <span class="ident">usize</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
+        <span class="comment">// dbg!( &amp;placeholder);</span>
+        <span class="kw">match</span> <span class="ident">placeholder</span> {
+            <span class="string">&quot;su_crate_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/crate/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">package</span>.<span class="ident">name</span>),
+            <span class="string">&quot;su_author_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/author/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">from</span>.<span class="ident">id</span>),
+            <span class="string">&quot;su_author_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">from</span>.<span class="ident">url</span>,<span class="string">&quot;&quot;</span>),
+            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_url_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
     <span class="doccomment">/// returns a vector of Nodes to replace the next Node</span>
