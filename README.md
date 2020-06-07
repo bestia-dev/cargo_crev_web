@@ -8,6 +8,11 @@ version: 2020.605.651  date: 2020-06-05 authors: Luciano Bestia
 
 <img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
 
+| src code | doc comments | comments | examples | tests |
+| :------: | :----------: | :------: | :------: | :---: |
+|          |              |          |          |       |
+|   3848   |     256      |   512    |    0     |  57   |
+
 ## Try it out
 
 https://web.crev.dev/rust-reviews/crate/num-traits/  
@@ -126,17 +131,21 @@ It is not really trusting, it is just showing their reviews.
 The repo <https://gitlab.com/crev-dev/auto-crev-proofs> contains all of the proof repos.  
 It is automated and maintained by @chrysn.  
 <https://github.com/crev-dev/cargo-crev/issues/336>  
+Other reference is <https://github.com/crev-dev/cargo-crev/wiki/List-of-Proof-Repositories>  
 For incomplete, obsolete or otherwise unwanted repos I will have an editable blacklist.  
 
 ## Linux scheduler
 
 I need to call every hour:  
-`cargo crev repo fetch trusted`
+`cargo crev repo fetch all`
 to have fresh reviews available locally in `~/.cache/crev/`.  
 The Linux scheduler `crontab` is ok, but I miss something more visual.  
-I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
+I wrote <https://github.com/LucianoBestia/  foreground_scheduler> to do this.  
 It is a normal CLI and it is easy to see the output on the screen.  
 To make this run indefinitely in another terminal session I use `screen`.
+The script is in /var/www/scripts/cargo_crev_web_fetch_reindex.sh\
+I run it:  
+`foreground_scheduler 05 /bin/bash "/var/www/scripts/cargo_crev_web_fetch_reindex.sh"`  
 
 ## testing .cache/crev
 

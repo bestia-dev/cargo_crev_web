@@ -108,14 +108,14 @@ pub async fn start_routes(
             .and(cached_review_index.clone())
             .map(|cached_review_index| {
                 let ns_start = ns_start("reindex_after_fetch_new_reviews");
-                let data_model =
+                let _data_model =
                     reserved_folder_mod::ReservedFolder::reindex_after_fetch_new_reviews(
                         cached_review_index,
                     );
                 let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
+                //let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
-                warp::reply::html(html_file)
+                warp::reply::html("Reindex finished !")
             })
             .or(
                 warp::path!("rust-reviews" / "reserved_folder" / "list_new_author_id")
