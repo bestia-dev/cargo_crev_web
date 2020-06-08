@@ -1,203 +1,224 @@
-/* css variables */
-
-:root {
-    /* color palette */
-    /* use of variables: var(--b_color_05); */
-    /* background color */
-    --b_color_01: #24292E;
-    --b_color_02: #1B1D23;
-    --b_color_03: #181A1F;
-    --b_color_04: #333842;
-    /* front color */
-    --f_color_01: #FBF462;
-    --f_color_02: #9DA5B4;
-    --f_color_03: #78C379;
-    /* border color*/
-    --brd_color_01: #000;
-    --brd_color_02: #eaecef;
-}
-
-
-/* region: basics */
-
-html {
-    font-family: sans-serif;
-    max-width: 1200px;
-    min-width: 300px;
-    width: 100%;
-    /*margin auto means centered horizontally*/
-    margin: auto;
-    padding-right: 0px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    box-sizing: border-box;
-    background-color: var(--b_color_01);
-    line-height: 1.5;
-    color: var(--f_color_01);
-    /*This is the base font-size. All other font-size 
+        /* css variables */
+        
+         :root {
+            /* color palette */
+            /* use of variables: var(--b_color_05); */
+            /* background color */
+            --b_color_01: #24292E;
+            --b_color_02: #1B1D23;
+            --b_color_03: #181A1F;
+            --b_color_04: #333842;
+            /* front color */
+            --f_color_01: #FBF462;
+            --f_color_02: #9DA5B4;
+            --f_color_03: #78C379;
+            /* border color*/
+            --brd_color_01: #000;
+            --brd_color_02: #eaecef;
+        }
+        /*region: media dependent on screen size */
+        /*less then 450*/
+        
+        @media (max-width: 590px) {
+            .media_header_grid_01 {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+            .media_header_grid_02 {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+            div.media_right {
+                text-align: left;
+            }
+        }
+        /*larger then 450*/
+        
+        @media (min-width: 590px) {
+            .media_header_grid_01 {
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+            }
+            .media_header_grid_02 {
+                display: grid;
+                grid-template-columns: 1fr 3fr 1fr;
+            }
+            div.media_right {
+                text-align: right;
+            }
+        }
+        /* region: basics */
+        
+        html {
+            font-family: sans-serif;
+            max-width: 1200px;
+            min-width: 300px;
+            width: 100%;
+            /*margin auto means centered horizontally*/
+            margin: auto;
+            padding-right: 0px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            box-sizing: border-box;
+            background-color: var(--b_color_01);
+            line-height: 1.5;
+            color: var(--f_color_01);
+            /*This is the base font-size. All other font-size 
   use rem units that are
   relative to this font-size.*/
-    /*width greater than 600 px*/
-    font-size: 34px;
-    -webkit-font-smoothing: antialiased;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
-}
-
-body {
-    max-width: 1200px;
-    margin: 0;
-    padding: 0;
-    font-size: 60%;
-    line-height: 1.5;
-    color: var(--f_color_02);
-    background-color: var(--b_color_01);
-}
-
-
-/*CSS Reset*/
-
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-font,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-style: none;
-    outline: 0;
-    font-family: 'Roboto', sans-serif;
-    vertical-align: baseline;
-    background: transparent;
-}
-
-a:link,
-a:visited,
-a:hover,
-a:active {
-    color: inherit;
-    text-decoration: none;
-}
-
-h1,
-h2,
-h3,
-h4 {
-    margin-bottom: 16px;
-}
-
-p {
-    line-height: 1.5;
-}
-
-pre {
-    padding: 0;
-    margin: 0;
-}
-
-code {
-    padding: .1em .4em;
-    margin: 0;
-    font-size: 85%;
-    background-color: var(--b_color_02);
-    color: var(--f_color_03);
-    border-radius: 3px;
-    font-family: Consolas, Liberation Mono, Courier, monospace;
-}
-
-input[type=text] {
-    background-color: var(--b_color_03);
-    color: var(--f_color_03);
-    width: 600px;
-    border: 1px;
-    border-radius: 3px;
-    padding: 2px;
-    font-size: 100%;
-    font-family: Consolas, Liberation Mono, Courier, monospace;
-}
-
-input.read_only {
-    background-color: var(--f_color_04);
-    color: var(--f_color_02);
-}
-
-textarea {
-    background-color: var(--b_color_03);
-    color: var(--f_color_03);
-    width: 900px;
-    height: 120px;
-    border: 1px;
-    border-radius: 3px;
-    padding: 18px;
-    font-size: 100%;
-    font-family: Consolas, Liberation Mono, Courier, monospace;
-}
-
-
-/* endregion: basics */
-
-
-/* region: css classes */
-
-
-/* When concatenating names that makes it hard to refactor later.
+            /*width greater than 600 px*/
+            font-size: 34px;
+            -webkit-font-smoothing: antialiased;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+        }
+        
+        body {
+            max-width: 1200px;
+            margin: 0;
+            padding: 0;
+            font-size: 60%;
+            line-height: 1.5;
+            color: var(--f_color_02);
+            background-color: var(--b_color_01);
+        }
+        /*CSS Reset*/
+        
+        div,
+        span,
+        applet,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        a,
+        abbr,
+        acronym,
+        address,
+        big,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        font,
+        img,
+        ins,
+        kbd,
+        q,
+        s,
+        samp,
+        small,
+        strike,
+        strong,
+        sub,
+        sup,
+        tt,
+        var,
+        b,
+        u,
+        i,
+        center,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-style: none;
+            outline: 0;
+            font-family: 'Roboto', sans-serif;
+            vertical-align: baseline;
+            background: transparent;
+        }
+        
+        a:link,
+        a:visited,
+        a:hover,
+        a:active {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4 {
+            margin-bottom: 16px;
+        }
+        
+        p {
+            line-height: 1.5;
+        }
+        
+        pre {
+            padding: 0;
+            margin: 0;
+        }
+        
+        code {
+            padding: .1em .4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: var(--b_color_02);
+            color: var(--f_color_03);
+            border-radius: 3px;
+            font-family: Consolas, Liberation Mono, Courier, monospace;
+        }
+        
+        input[type=text] {
+            background-color: var(--b_color_03);
+            color: var(--f_color_03);
+            width: 600px;
+            border: 1px;
+            border-radius: 3px;
+            padding: 2px;
+            font-size: 100%;
+            font-family: Consolas, Liberation Mono, Courier, monospace;
+        }
+        
+        input.read_only {
+            background-color: var(--f_color_04);
+            color: var(--f_color_02);
+        }
+        
+        textarea {
+            background-color: var(--b_color_03);
+            color: var(--f_color_03);
+            width: 900px;
+            height: 120px;
+            border: 1px;
+            border-radius: 3px;
+            padding: 18px;
+            font-size: 100%;
+            font-family: Consolas, Liberation Mono, Courier, monospace;
+        }
+        /* endregion: basics */
+        /* region: css classes */
+        /* When concatenating names that makes it hard to refactor later.
 example if both `grid` and `grid_cell` start with the same word `grid`.
 So I mandatory add a number. 
 But to make them different to the searcher, 
@@ -205,179 +226,174 @@ the first one have underscore+number:               container0_content_grid_0
 and the second one only number without underscore:  grid0_c
 A small difference to help search and replace refactoring.
 */
-
-.container0_content_grid_0 {
-    width: 100%;
-    display: grid;
-    border-radius: 5px;
-    border: 0.2px solid var(--brd_color_01);
-}
-
-.grid0_h_c {
-    /* grid0 header cell */
-    background-color: var(--b_color_03);
-    border: 0.2px solid var(--brd_color_01);
-    text-align: center;
-}
-
-.grid0_c {
-    /* grid0 cell */
-    border: 0.2px solid var(--brd_color_01);
-    text-align: center;
-}
-
-.container_0 {
-    display: grid;
-    background-color: var(--b_color_04);
-    border: 1px solid var(--b_color_03);
-    border-radius: 5px;
-    margin: 2%;
-}
-
-.container0_content_not_grid {
-    padding: 20px;
-}
-
-.review_header_0 {
-    display: grid;
-    justify-content: space-around;
-    background-color: var(--b_color_03);
-    padding: 10px;
-}
-
-.review_header0_cell {
-    padding: 0px;
-    /*border: 1px solid var(--brd_color_01);*/
-    text-align: center;
-}
-
-.review_info_header {
-    display: flex;
-    justify-content: space-around;
-    background-color: var(--b_color_02);
-    padding: 10px;
-}
-
-.review_comment {
-    padding: 20px;
-    padding-top: 20px;
-    font-family: sans-serif;
-    font-size: 20px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: pre-line;
-    overflow: hidden;
-}
-
-.h3y {
-    /*h3 yellow ?/
+        
+        .container0_content_grid_0 {
+            width: 100%;
+            display: grid;
+            border-radius: 5px;
+            border: 0.2px solid var(--brd_color_01);
+        }
+        
+        .grid0_h_c {
+            /* grid0 header cell */
+            background-color: var(--b_color_03);
+            border: 0.2px solid var(--brd_color_01);
+            text-align: center;
+        }
+        
+        .grid0_c {
+            /* grid0 cell */
+            border: 0.2px solid var(--brd_color_01);
+            text-align: center;
+        }
+        
+        .container_0 {
+            display: grid;
+            background-color: var(--b_color_04);
+            border: 1px solid var(--b_color_03);
+            border-radius: 5px;
+            margin: 2%;
+        }
+        
+        .container0_content_not_grid {
+            padding: 20px;
+        }
+        
+        .review_header_0 {
+            display: grid;
+            justify-content: space-around;
+            background-color: var(--b_color_03);
+            padding: 10px;
+        }
+        
+        .review_header0_cell {
+            padding: 0px;
+            /*border: 1px solid var(--brd_color_01);*/
+            text-align: center;
+        }
+        
+        .review_info_header {
+            display: flex;
+            justify-content: space-around;
+            background-color: var(--b_color_02);
+            padding: 10px;
+        }
+        
+        .review_comment {
+            padding: 20px;
+            padding-top: 20px;
+            font-family: sans-serif;
+            font-size: 20px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-line;
+            overflow: hidden;
+        }
+        
+        .h3y {
+            /*h3 yellow ?/
     /*The .class_name is repeated in css to take different properties.*/
-    background: transparent;
-}
-
-.h2u {
-    /*h2 underline */
-    /*The .class_name is repeated in css to take different properties.*/
-    background: transparent;
-    margin-top: 20px;
-}
-
-
-/* endregion: css classes */
-
-
-/* region: colors and attributes */
-
-.break-all {
-    word-break: break-all;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-.white {
-    color: white;
-}
-
-a:link.white,
-a:visited.white,
-a:hover.white,
-a:active.white {
-    color: white;
-}
-
-.dark_white .h2u {
-    color: #C2C1C1;
-}
-
-.black {
-    color: black;
-}
-
-.greener,
-.c_strong,
-.c_high,
-.sc_low {
-    color: Chartreuse;
-}
-
-.green,
-.c_positive {
-    color: green;
-}
-
-.yellow,
-.alternative,
-.sc_medium,
-.h3y {
-    color: yellow;
-}
-
-.orange,
-.c_medium,
-.c_neutral,
-.color_issue {
-    color: orange;
-}
-
-.red,
-.c_negative,
-.c_low,
-.sc_high,
-.color_advisory {
-    color: red;
-}
-
-div.middle {
-    display: grid;
-    align-items: center;
-}
-
-div.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-div.right {
-    text-align: right;
-}
-
-.under_line,
-.h2u {
-    border-bottom: 1px solid var(--brd_color_02);
-}
-
-.big {
-    font-size: 140%;
-}
-
-.small {
-    font-size: 80%;
-}
-
-
-/* endregion: colors and attributes */
+            background: transparent;
+        }
+        
+        .h2u {
+            /*h2 underline */
+            /*The .class_name is repeated in css to take different properties.*/
+            background: transparent;
+            margin-top: 20px;
+        }
+        /* endregion: css classes */
+        /* region: colors and attributes */
+        
+        .break-all {
+            word-break: break-all;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .bold {
+            font-weight: bold;
+        }
+        
+        .white,
+        a:link.white,
+        a:visited.white,
+        a:hover.white,
+        a:active.white {
+            color: white;
+        }
+        
+        .dark_white .h2u {
+            color: #C2C1C1;
+        }
+        
+        .black {
+            color: black;
+        }
+        
+        .greener,
+        .c_strong,
+        .c_high,
+        .sc_low {
+            color: Chartreuse;
+        }
+        
+        .green,
+        .c_positive {
+            color: green;
+        }
+        
+        .yellow,
+        .alternative,
+        .sc_medium,
+        .h3y,
+        a:link.yellow,
+        a:visited.yellow,
+        a:hover.yellow,
+        a:active.yellow {
+            color: yellow;
+        }
+        
+        .orange,
+        .c_medium,
+        .c_neutral,
+        .color_issue {
+            color: orange;
+        }
+        
+        .red,
+        .c_negative,
+        .c_low,
+        .sc_high,
+        .color_advisory {
+            color: red;
+        }
+        
+        div.middle {
+            display: grid;
+            align-items: center;
+        }
+        
+        div.center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        div.right {
+            text-align: right;
+        }
+        
+        .under_line,
+        .h2u {
+            border-bottom: 1px solid var(--brd_color_02);
+        }
+        
+        .big {
+            font-size: 140%;
+        }
+        
+        .small {
+            font-size: 80%;
+        }
+        /* endregion: colors and attributes */
