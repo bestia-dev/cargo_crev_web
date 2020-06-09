@@ -342,6 +342,14 @@
 <span id="342">342</span>
 <span id="343">343</span>
 <span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! router_mod</span>
 
@@ -359,8 +367,13 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">net</span>::<span class="ident">SocketAddr</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
-<span class="comment">//use unwrap::unwrap;</span>
-<span class="kw">use</span> <span class="ident">warp</span>::{<span class="ident">http</span>::<span class="ident">Response</span>, <span class="ident">Filter</span>};
+<span class="kw">use</span> <span class="ident">unwrap</span>::<span class="ident">unwrap</span>;
+<span class="kw">use</span> <span class="ident">warp</span>::{
+    <span class="ident">filters</span>::<span class="ident">BoxedFilter</span>,
+    <span class="ident">http</span>::{<span class="ident">Response</span>, <span class="ident">Uri</span>},
+    <span class="ident">path</span>::<span class="ident">FullPath</span>,
+    <span class="ident">redirect</span>, <span class="ident">Filter</span>, <span class="ident">Reply</span>,
+};
 
 <span class="comment">// end region: (collapsed) use statements</span>
 
@@ -402,6 +415,18 @@
     <span class="comment">// /rust-reviews/reserved_folder/list_new_author_id/</span>
     <span class="comment">// /rust-reviews/reserved_folder/add_author_url/</span>
     <span class="comment">// /rust-reviews/reserved_folder/list_fetched_author_id/</span>
+
+    <span class="comment">// this looks like a file and does not need ends_with_slash_or_redirect()</span>
+    <span class="kw">let</span> <span class="ident">index_html_route</span> <span class="op">=</span> <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;rust-reviews&quot;</span> <span class="op">/</span> <span class="string">&quot;index.html&quot;</span>)
+        .<span class="ident">and</span>(<span class="ident">cached_review_index</span>.<span class="ident">clone</span>())
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">cached_review_index</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">ns_start</span> <span class="op">=</span> <span class="ident">ns_start</span>(<span class="string">&quot;ReviewIndexSummary&quot;</span>);
+            <span class="kw">let</span> <span class="ident">data_model</span> <span class="op">=</span> <span class="ident">review_index_summary_mod</span>::<span class="ident">ReviewIndexSummary</span>::<span class="ident">new</span>(<span class="ident">cached_review_index</span>);
+            <span class="kw">let</span> <span class="ident">ns_new</span> <span class="op">=</span> <span class="ident">ns_print</span>(<span class="string">&quot;new()&quot;</span>, <span class="ident">ns_start</span>);
+            <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">data_model</span>.<span class="ident">render_html_file</span>(<span class="string">&quot;templates/&quot;</span>);
+            <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
+            <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
+        });
 
     <span class="comment">// the crate_name must finish with .svg</span>
     <span class="kw">let</span> <span class="ident">badge_route</span> <span class="op">=</span> <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;rust-reviews&quot;</span> <span class="op">/</span> <span class="string">&quot;badge&quot;</span> <span class="op">/</span> <span class="string">&quot;crev_count&quot;</span> <span class="op">/</span> <span class="ident">UrlPartUtf8Decoded</span>)
@@ -542,17 +567,6 @@
             <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
             <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
         })
-        .<span class="ident">or</span>(<span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;rust-reviews&quot;</span> <span class="op">/</span> <span class="string">&quot;index.html&quot;</span>)
-            .<span class="ident">and</span>(<span class="ident">cached_review_index</span>.<span class="ident">clone</span>())
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">cached_review_index</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">ns_start</span> <span class="op">=</span> <span class="ident">ns_start</span>(<span class="string">&quot;ReviewIndexSummary&quot;</span>);
-                <span class="kw">let</span> <span class="ident">data_model</span> <span class="op">=</span>
-                    <span class="ident">review_index_summary_mod</span>::<span class="ident">ReviewIndexSummary</span>::<span class="ident">new</span>(<span class="ident">cached_review_index</span>);
-                <span class="kw">let</span> <span class="ident">ns_new</span> <span class="op">=</span> <span class="ident">ns_print</span>(<span class="string">&quot;new()&quot;</span>, <span class="ident">ns_start</span>);
-                <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">data_model</span>.<span class="ident">render_html_file</span>(<span class="string">&quot;templates/&quot;</span>);
-                <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
-                <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
-            }))
         .<span class="ident">or</span>(<span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;rust-reviews&quot;</span> <span class="op">/</span> <span class="string">&quot;crates&quot;</span>)
             .<span class="ident">and</span>(<span class="ident">cached_review_index</span>.<span class="ident">clone</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">cached_review_index</span><span class="op">|</span> {
@@ -668,13 +682,15 @@
 
     <span class="comment">// static file server (starts at rust-reviews)</span>
     <span class="comment">// route /rust-reviews/ get files from folder ./web_content_folder/</span>
+    <span class="comment">// static files must not have trailing slash, no need for ends_with_slash_or_redirect()</span>
     <span class="kw">let</span> <span class="ident">fileserver</span> <span class="op">=</span> <span class="ident">warp</span>::<span class="ident">path</span>(<span class="string">&quot;rust-reviews&quot;</span>).<span class="ident">and</span>(<span class="ident">warp</span>::<span class="ident">fs</span>::<span class="ident">dir</span>(<span class="string">&quot;./web_content_folder/&quot;</span>));
     <span class="comment">// endregion: prepare routes</span>
 
     <span class="comment">// combine all routes with or</span>
-    <span class="kw">let</span> <span class="ident">routes</span> <span class="op">=</span> <span class="ident">crate_route</span>
-        .<span class="ident">or</span>(<span class="ident">author_route</span>)
+    <span class="kw">let</span> <span class="ident">routes</span> <span class="op">=</span> <span class="ident">index_html_route</span>
         .<span class="ident">or</span>(<span class="ident">root_route</span>)
+        .<span class="ident">or</span>(<span class="ident">crate_route</span>)
+        .<span class="ident">or</span>(<span class="ident">author_route</span>)
         .<span class="ident">or</span>(<span class="ident">reserved_folder_route</span>)
         .<span class="ident">or</span>(<span class="ident">review_new_route</span>)
         .<span class="ident">or</span>(<span class="ident">badge_route</span>)

@@ -166,7 +166,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             "su_author_route" => {
                 url_u!("/rust-reviews/author/{}/", &self.vec[pos_cursor].author_id)
             }
-            "su_author_url" => url_u!(&self.vec[pos_cursor].author_url,""),
+            "su_author_url" => url_u!(&self.vec[pos_cursor].author_url, ""),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

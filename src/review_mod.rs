@@ -314,7 +314,7 @@ impl HtmlServerTemplateRender for Review {
         match placeholder {
             "su_crate_route" => url_u!("/rust-reviews/crate/{}/", &self.package.name),
             "su_author_route" => url_u!("/rust-reviews/author/{}/", &self.from.id),
-            "su_author_url" => url_u!(&self.from.url,""),
+            "su_author_url" => url_u!(&self.from.url, ""),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

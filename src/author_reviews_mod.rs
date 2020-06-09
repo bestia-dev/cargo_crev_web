@@ -145,7 +145,7 @@ impl HtmlServerTemplateRender for AuthorReviews {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
-            "su_author_url" => url_u!(&self.author_url,""),
+            "su_author_url" => url_u!(&self.author_url, ""),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

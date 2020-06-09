@@ -16,10 +16,10 @@
             <div class="media_header_grid_02">
                 <div class="middle" style="padding-right: 5%;">
                     <a href="https://github.com/crev-dev/cargo-crev" target="_blank">
-                        <img data-su_img_src_logo="src" src="../web_content_folder/images/Logo_02.png" />
+                        <img alt="logo" data-su_img_src_logo="src" src="../web_content_folder/images/Logo_02.png" />
                     </a>
                 </div>
-                <div class="middle">
+                <div class="middle" style="padding-left:5%">
                     <p class="big bold"><a class="white" href="/rust-reviews/">Rust code reviews</a></p>
                     <p class="small white">Cryptographically verifiable, distributed, dependency reviews.</p>
                     <div>
@@ -82,7 +82,7 @@
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
-            <img style="display: block;margin-left:auto;margin-right:auto;width:100%;min-width:250px;max-width:600px;" src="/rust-reviews/images/legend01.svg" />
+            <img style="display: block;margin-left:auto;margin-right:auto;width:100%;min-width:250px;max-width:600px;" alt="legend" src="https://web.crev.dev/rust-reviews/images/legend01.svg" />
             <h2 class="h2u">Try it out</h2>
             <p>
                 <a class="white" href="/rust-reviews/crates/">
@@ -94,6 +94,7 @@
                         /rust-reviews/authors/
                   </a>
             </p>
+            <p>Examples:</p>
             <p>
                 <a class="white break-all" href="/rust-reviews/author/FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE/">
                         /rust-reviews/author/FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE/
@@ -104,79 +105,87 @@
                         /rust-reviews/crate/num-traits/
                   </a>
             </p>
-            <p>
-                <a class="white" href="/rust-reviews/badge/crev_count/num-traits/">
-                        /rust-reviews/badge/crev_count/num-traits/
-                  </a>
-            </p>
+        </div>
+    </div>
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <h1>Crev Vision</h1>
+            <a class="white" href="https://web.crev.dev/">Crev</a> is a scalable, social, Code REView and recommendation system that we desperately need
+            <br/>for establishing trust in Open Source code.
+            <br/>It is designed to be used with many different languages and ecosystems.
         </div>
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
             <h2 class="h2u">cargo-crev</h2>
-            <p><code>cargo-crev</code> is a cryptographically verifiable code review system for the cargo (Rust) package manager:<br />
-                <a class="white" target="_blank" href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a>
-            </p>
-            <p><code>cargo-crev</code> runs locally on the developer computer.<br /> It needs to be installed and initialized in a few steps.<br /> It takes some time to initialize it and learn how to use it.</p>
-            <p><code>cargo-crev</code> is a relatively new project and the majority of rust developers don't have it installed yet.</p>
+            <p><code>cargo-crev</code> is a cryptographically verifiable code review system for the cargo (Rust) package manager.</p>
+            <p>It is open source on GitHub: <a class="white" target="_blank" href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a></p>
+            <p>It is a CLI program that is installed and runs locally on the developer computer.</p>
+            <p>Read the <a class="white" href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Getting Started Guide</a></p>
+            <p>It is recommended to always verify the trustworthiness of each of the dependencies in your Rust project.</p>
+            <p>There can be hundreds of transient dependencies. Do you trust them all?</p>
+            <p>Simply run <code>$ cargo crev verify</code> in your Rust project folder.</p>
+            <p>Find out what other developers have to say about a crate. And especially a specific version of a crate.</p>
+            <p>There can be advisories or issues or better alternatives. Or maybe it is the best crate version so far.</p>
+            <p>Write your review of a crate you trust and help other developers to trust that crate.</p>
         </div>
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
             <h2 class="h2u">rust-reviews</h2>
             <p>
-                I created <code>rust-reviews</code> to enable all developers to view crev reviews.
+                This web page <code>Rust code reviews</code> is built to enable all developers to view crev reviews fast and effortlessly.
                 <br /> There is no installation, initialization or learning needed. It is just a simple web page.
-                <br /> It simply shows a list of reviews for a crate.<br /> I wish that crates.io will have some day a link to
-                <code>rust-reviews</code> just like today it has links to documentation and repository.
+                <br /> It simply shows the list of reviews for a crate.
+                <br /> Give it a try!
             </p>
         </div>
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
-            <h2 class="h2u">badges</h2>
-            <p>
-                In the meantime here is also a <code class="break-all">badge service</code> that everyone can include in readme.md.</p>
-            <img src="https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg" /> <br /> Add a badge to your project readme.md:
+            <h2 class="h2u">badges <img alt="badge" src="https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg" /></h2>
+            <p>Include a badge to your crate readme.md to show the count of crev reviews.
+                <br/> The more reviews the crate has, more trusted it should be.
+                <br/> It is also a link to your crate reviews here on Rust code reviews.
+                <br />Markdown code:</p>
             <p><code class="break-all">[![crev reviews](https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg)](https://web.crev.dev/rust-reviews/crate/reader_for_microxml/)</code></p>
-            <p class="break-all">Example: <a class="white" href="https://github.com/LucianoBestia/reader_for_microxml/">https://github.com/LucianoBestia/reader_for_microxml/</a></p>
-
+            <p class="break-all">See example here: <a class="white" href="https://github.com/LucianoBestia/reader_for_microxml/">https://github.com/LucianoBestia/reader_for_microxml/</a></p>
         </div>
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
             <h2 class="h2u">web of trust</h2>
             <p>
-                New crev reviews are written by developers and committed to crev review repos and pushed to GitHub. From there they are available to all.
+                This webpage shows all reviews from all developers.
+                <br/>But do you personally trust all developers?
+                <br/>New crev reviews can be written by anybody and published publicly on GitHub.
+                <br/>From there they are available to all.
                 <br /> We need a system to trust this persons to trust their reviews.
-                <code>cargo-crev</code> has a list of trusted persons. But we personally only know a limited number of trusted persons. To make this circle bigger we need more people to trust. When we trust somebody for reviews, we usually also trust
-                their choices to trust other people. So we can trust also them. A little less, but still trust them.
-                <br /> This is an important part of the <code>web of trust</code>.<br /> It is common in every day life that the friends of our friends are probably also our friends.
-
+                <br/><code>cargo-crev</code> has a list of trusted persons.
+                <br/>But we personally only know a limited number of trusted persons.
+                <br/>To make this circle bigger we need more people to trust.
+                <br/>When we trust somebody for reviews, we usually also trust their choices to trust other people.
+                <br/>So we can transiently trust also them. A little less, but still trust them.
+                <br />This is an important part of the <code>web of trust</code>.
+                <br />It is common in every day life that the friends of our friends are probably also our friends.
+                <br/>This can be configured in your local personal cargo-crev CLI program.
             </p>
         </div>
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
-            <h2 class="h2u"> cargo crev reviews and advisory</h2>
+            <h2 class="h2u">Raise awareness</h2>
             <p>
-                It is recommended to always use <br />
-                <a class="white" href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a>
-                <br/>to verify the trustworthiness of each of your dependencies.<br/> Please, spread this info.<br/>
+                If you're supportive of the cause, we would appreciate help to raise awareness of the project.
+                <br/>Consider putting the below note in the README of your Rust projects:
+                <br/><code>Before adding a dependency to your project, check the reviews on [web.crev.dev/rust-reviews](https://web.crev.dev/rust-reviews).
+                    <br/>It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)
+                    <br/>to verify the trustworthiness of each of your dependencies, including this one.
+                <br/>
+            </code>
+                <br/> Please, spread this info.
+                <br/>
             </p>
-        </div>
-    </div>
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <h2 class="h2u">TODO</h2>
-
-            <pre>
-This is a work in progress.
-- watch the reviews count growing 
-</pre>
-            <a class="white" href="https://github.com/LucianoBestia/cargo_crev_web/issues/4"><span class="break-all">https://github.com/LucianoBestia/cargo_crev_web/issues/4</span></a>
-
-            <br />
         </div>
     </div>
     <div class="container_0">

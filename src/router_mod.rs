@@ -14,8 +14,13 @@ use log::info;
 use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
-//use unwrap::unwrap;
-use warp::{http::Response, Filter};
+use unwrap::unwrap;
+use warp::{
+    filters::BoxedFilter,
+    http::{Response, Uri},
+    path::FullPath,
+    redirect, Filter, Reply,
+};
 
 // end region: (collapsed) use statements
 
@@ -57,6 +62,18 @@ pub async fn start_routes(
     // /rust-reviews/reserved_folder/list_new_author_id/
     // /rust-reviews/reserved_folder/add_author_url/
     // /rust-reviews/reserved_folder/list_fetched_author_id/
+
+    // this looks like a file and does not need ends_with_slash_or_redirect()
+    let index_html_route = warp::path!("rust-reviews" / "index.html")
+        .and(cached_review_index.clone())
+        .map(|cached_review_index| {
+            let ns_start = ns_start("ReviewIndexSummary");
+            let data_model = review_index_summary_mod::ReviewIndexSummary::new(cached_review_index);
+            let ns_new = ns_print("new()", ns_start);
+            let html_file = data_model.render_html_file("templates/");
+            ns_print("render_html_file()", ns_new);
+            warp::reply::html(html_file)
+        });
 
     // the crate_name must finish with .svg
     let badge_route = warp::path!("rust-reviews" / "badge" / "crev_count" / UrlPartUtf8Decoded)
@@ -197,17 +214,6 @@ pub async fn start_routes(
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
-        .or(warp::path!("rust-reviews" / "index.html")
-            .and(cached_review_index.clone())
-            .map(|cached_review_index| {
-                let ns_start = ns_start("ReviewIndexSummary");
-                let data_model =
-                    review_index_summary_mod::ReviewIndexSummary::new(cached_review_index);
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                warp::reply::html(html_file)
-            }))
         .or(warp::path!("rust-reviews" / "crates")
             .and(cached_review_index.clone())
             .map(|cached_review_index| {
@@ -323,13 +329,15 @@ pub async fn start_routes(
 
     // static file server (starts at rust-reviews)
     // route /rust-reviews/ get files from folder ./web_content_folder/
+    // static files must not have trailing slash, no need for ends_with_slash_or_redirect()
     let fileserver = warp::path("rust-reviews").and(warp::fs::dir("./web_content_folder/"));
     // endregion: prepare routes
 
     // combine all routes with or
-    let routes = crate_route
-        .or(author_route)
+    let routes = index_html_route
         .or(root_route)
+        .or(crate_route)
+        .or(author_route)
         .or(reserved_folder_route)
         .or(review_new_route)
         .or(badge_route)

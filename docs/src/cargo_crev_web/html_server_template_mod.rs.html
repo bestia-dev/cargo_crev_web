@@ -666,6 +666,8 @@
 <span id="666">666</span>
 <span id="667">667</span>
 <span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! html_server_template_mod</span>
 <span class="doccomment">//! html templating library for the web server</span>
@@ -898,6 +900,7 @@
                     <span class="kw">match</span> <span class="ident">token</span> {
                         <span class="ident">Token</span>::<span class="ident">StartElement</span>(<span class="ident">tag_name</span>) <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="ident">dom_path</span>.<span class="ident">push</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">tag_name</span>));
+                            <span class="comment">// println!(&quot;dom_path: {:?}&quot;,dom_path);</span>
                             <span class="comment">// construct a child element and fill it (recursive)</span>
                             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">child_element</span> <span class="op">=</span> <span class="ident">ElementNode</span> {
                                 <span class="ident">tag_name</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="ident">tag_name</span>),
@@ -927,6 +930,7 @@
                                 <span class="ident">pos_cursor</span>,
                                 <span class="ident">retain_next_node_or_attribute</span>,
                             )));
+
                             <span class="comment">// ignore this node dynamic content, and don&#39;t push to result</span>
                             <span class="comment">// but traverse all template nodes.</span>
                             <span class="kw">if</span> <span class="ident">retain_next_node_or_attribute</span> <span class="op">=</span><span class="op">=</span> <span class="bool-val">true</span> {
@@ -956,7 +960,7 @@
                                         <span class="ident">pos_cursor</span>,
                                     );
                                     <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">value</span>));
-                                    <span class="ident">replace_attr_repl_name</span><span class="op">=</span><span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>));
+                                    <span class="ident">replace_attr_repl_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>));
                                     <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_txt</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">starts_with</span>(<span class="string">&quot;data-su_&quot;</span>) {
                                     <span class="comment">// the same as data-st_, but exclusive to href and src</span>
@@ -965,7 +969,7 @@
                                     <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span>
                                         <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">placeholder</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">value</span>));
-                                    <span class="ident">replace_attr_repl_name</span><span class="op">=</span><span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>));
+                                    <span class="ident">replace_attr_repl_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="ident">name</span>));
                                     <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_url</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">name</span>.<span class="ident">starts_with</span>(<span class="string">&quot;data-sb-&quot;</span>) {
                                     <span class="comment">// the next attribute existence</span>
@@ -984,8 +988,8 @@
                                         <span class="kw">if</span> <span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_name</span>) {
                                             <span class="macro">panic</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>, 
                                             <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>,  <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>));
-                                            <span class="comment">// replace_attr_name = None;</span>
-                                            <span class="comment">// replace_attr_repl_name=None;</span>
+                                        <span class="comment">// replace_attr_name = None;</span>
+                                        <span class="comment">// replace_attr_repl_name=None;</span>
                                         } <span class="kw">else</span> {
                                             <span class="comment">// exclusively href and src must contain url</span>
                                             <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;href&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;src&quot;</span> {
@@ -1007,8 +1011,8 @@
                                         <span class="kw">if</span> <span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_name</span>.<span class="ident">as_ref</span>()) {
                                             <span class="macro">panic</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>, 
                                              <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>, <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>));
-                                            <span class="comment">// replace_attr_name = None;</span>
-                                            <span class="comment">// replace_attr_repl_name = None;</span>
+                                        <span class="comment">// replace_attr_name = None;</span>
+                                        <span class="comment">// replace_attr_repl_name = None;</span>
                                         } <span class="kw">else</span> {
                                             <span class="comment">// this is dynamic content. Must be already url encoded</span>
                                             <span class="comment">// from the source for &quot;href&quot; and &quot;src&quot; only.</span>
@@ -1067,7 +1071,7 @@
                                     <span class="kw">let</span> <span class="ident">repl_txt</span> <span class="op">=</span>
                                         <span class="self">self</span>.<span class="ident">replace_with_string</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_txt</span>);
-                                } <span class="kw">else</span>  <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;su_&quot;</span>) {
+                                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;su_&quot;</span>) {
                                     <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span>
                                         <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_url</span>);

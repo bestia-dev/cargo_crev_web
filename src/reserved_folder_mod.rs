@@ -367,7 +367,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
-            "su_author_url" => url_u!(&item_at_cursor_1.author_url,""),
+            "su_author_url" => url_u!(&item_at_cursor_1.author_url, ""),
             "su_author_route" => url_u!("/rust-reviews/author/{}/", &item_at_cursor_1.author_id),
             "su_add_author_url_route" => url_u!(
                 "/rust-reviews/reserved_folder/add_author_url/{}/",

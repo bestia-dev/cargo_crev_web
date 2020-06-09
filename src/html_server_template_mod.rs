@@ -229,6 +229,7 @@ pub trait HtmlServerTemplateRender {
                     match token {
                         Token::StartElement(tag_name) => {
                             dom_path.push(s!(tag_name));
+                            // println!("dom_path: {:?}",dom_path);
                             // construct a child element and fill it (recursive)
                             let mut child_element = ElementNode {
                                 tag_name: s!(tag_name),
@@ -258,6 +259,7 @@ pub trait HtmlServerTemplateRender {
                                 pos_cursor,
                                 retain_next_node_or_attribute,
                             )));
+
                             // ignore this node dynamic content, and don't push to result
                             // but traverse all template nodes.
                             if retain_next_node_or_attribute == true {
@@ -287,7 +289,7 @@ pub trait HtmlServerTemplateRender {
                                         pos_cursor,
                                     );
                                     replace_attr_name = Some(s!(value));
-                                    replace_attr_repl_name=Some(s!(name));
+                                    replace_attr_repl_name = Some(s!(name));
                                     replace_string = Some(repl_txt);
                                 } else if name.starts_with("data-su_") {
                                     // the same as data-st_, but exclusive to href and src
@@ -296,7 +298,7 @@ pub trait HtmlServerTemplateRender {
                                     let repl_url =
                                         self.replace_with_url(placeholder, subtemplate, pos_cursor);
                                     replace_attr_name = Some(s!(value));
-                                    replace_attr_repl_name=Some(s!(name));
+                                    replace_attr_repl_name = Some(s!(name));
                                     replace_url = Some(repl_url);
                                 } else if name.starts_with("data-sb-") {
                                     // the next attribute existence
@@ -315,8 +317,8 @@ pub trait HtmlServerTemplateRender {
                                         if name != &unwrap!(replace_attr_name) {
                                             panic!(format!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
                                             unwrap!(replace_attr_repl_name), name,  self.data_model_name(), dom_path));
-                                            // replace_attr_name = None;
-                                            // replace_attr_repl_name=None;
+                                        // replace_attr_name = None;
+                                        // replace_attr_repl_name=None;
                                         } else {
                                             // exclusively href and src must contain url
                                             if name == "href" || name == "src" {
@@ -338,8 +340,8 @@ pub trait HtmlServerTemplateRender {
                                         if name != unwrap!(replace_attr_name.as_ref()) {
                                             panic!(format!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
                                              unwrap!(replace_attr_repl_name), name, self.data_model_name(), dom_path));
-                                            // replace_attr_name = None;
-                                            // replace_attr_repl_name = None;
+                                        // replace_attr_name = None;
+                                        // replace_attr_repl_name = None;
                                         } else {
                                             // this is dynamic content. Must be already url encoded
                                             // from the source for "href" and "src" only.
@@ -398,7 +400,7 @@ pub trait HtmlServerTemplateRender {
                                     let repl_txt =
                                         self.replace_with_string(txt, subtemplate, pos_cursor);
                                     replace_string = Some(repl_txt);
-                                } else  if txt.starts_with("su_") {
+                                } else if txt.starts_with("su_") {
                                     let repl_url =
                                         self.replace_with_url(txt, subtemplate, pos_cursor);
                                     replace_url = Some(repl_url);
