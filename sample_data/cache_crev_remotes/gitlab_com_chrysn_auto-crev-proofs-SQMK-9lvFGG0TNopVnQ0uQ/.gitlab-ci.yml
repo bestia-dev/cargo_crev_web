@@ -1,0 +1,19 @@
+run:
+  image: debian:sid
+  script:
+    # Ensure they're in a location where they can be backupped
+    - mkdir -p .cache
+    - mkdir -p .cargo
+    - 'ln -s -f -T  "${PWD}/.cache" ~/.cache'
+    - 'ln -s -f -T  "${PWD}/.cargo" ~/.cargo'
+    - apt-get update
+    - apt-get -y install jq git curl
+      # Chances are we can skip the minutes long compilation process and just use the cached binary
+    - "[ ! -e ~/.cargo/bin/cargo-crev ] && apt-get -y install build-essential cargo openssl libssl-dev libgcrypt20-dev pkg-config && cargo install cargo-crev"
+    - ./setup.sh
+    - ./collect.sh
+    - ./pushback.sh
+  cache:
+    paths:
+      - .cargo
+      - .cache

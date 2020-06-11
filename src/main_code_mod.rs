@@ -43,6 +43,7 @@ pub async fn main_code() {
 
     // I will cache the review index
     let cached_review_index = Arc::new(Mutex::new(review_index_mod::ReviewIndex::new()));
+    cargo_registry_index_mod::CrateIndex::new();
 
     router_mod::start_routes(cached_review_index, local_addr).await;
 }

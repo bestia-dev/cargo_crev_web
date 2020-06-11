@@ -1,7 +1,7 @@
 
 # TODO
 
-new reviews page, insert, update
+new reviews page - add crate and version
 
 SqLite - numbers of crates/authors/reviews every day
 to see the trend growing

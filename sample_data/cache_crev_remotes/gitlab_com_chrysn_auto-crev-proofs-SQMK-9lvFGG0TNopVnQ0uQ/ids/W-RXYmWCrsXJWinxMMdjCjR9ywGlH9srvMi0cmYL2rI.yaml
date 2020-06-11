@@ -1,0 +1,13 @@
+---
+version: -1
+url: "https://gitlab.com/chrysn/auto-crev-proofs"
+public-key: W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI
+sealed-secret-key: VP0Ek0JojkF0lcwlk0d9QTATFqOS48qzviadBf1z9vAKZeIvuNtnr6ILsGAtMzVl
+seal-nonce: QE8xSpU1cZrNTjEvCDJos8Se9U7z4ZMNsAb5TwmmGfk
+pass:
+  version: 19
+  variant: argon2id
+  iterations: 192
+  memory-size: 4096
+  lanes: 8
+  salt: 4lCEkAkhhpXmM-uTbdL4XXM280DKQY8Ymyt8-PCdByc

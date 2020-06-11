@@ -1,0 +1,17 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2020-05-08T04:12:26.497659666+00:00"
+from:
+  id-type: crev
+  id: W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI
+  url: "https://gitlab.com/chrysn/auto-crev-proofs"
+ids:
+  - id-type: crev
+    id: krR5XC6pTwJUl9YQxPEyxbJm0HzYSiacp_Q3JS9W4UY
+    url: "https://github.com/pickfire/crev-proofs"
+trust: none
+----- SIGN CREV PROOF -----
+m-s2tUqkcqJBHUjLhjO0A2ilSp7jtIGcTBSdob3_ZbQpQB2ANPuO9E8jeOGlWBAh-Q5sOIBNcuTeMf8rXnW4Cw
+----- END CREV PROOF -----
+

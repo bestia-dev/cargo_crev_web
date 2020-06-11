@@ -1,0 +1,19 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2020-05-04T15:06:24.685476550+02:00"
+from:
+  id-type: crev
+  id: W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI
+  url: "https://gitlab.com/chrysn/auto-crev-proofs"
+ids:
+  - id-type: crev
+    id: W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI
+trust: none
+comment: |-
+  This key should neither issue proofs with trusts higher than none, nor should
+  be trusted with anything other than that.
+----- SIGN CREV PROOF -----
+K2JMTwepBJpRG0h35XUvwZxIgRTeY1Ng5PnpgR9qL17bNI-rWKpp09kharOd2O-3v69kZP29RytaABiKVYJGBw
+----- END CREV PROOF -----
+

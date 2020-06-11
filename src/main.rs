@@ -279,6 +279,7 @@ mod router_mod;
 mod url_utf8_mod;
 mod utils_mod;
 mod version_summary_mod;
+mod cargo_registry_index_mod;
 
 // `pub use` statements her are propagated to every other module
 // when they use `crate::*;`
