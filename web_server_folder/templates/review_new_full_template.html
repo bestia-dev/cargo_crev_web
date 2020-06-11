@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <form action="review_new/" method="POST">
+    <form action="review_new_/" method="POST">
         <div class="container_0">
             <div class="container0_content_not_grid">
                 <pre>
@@ -39,14 +39,49 @@ review:
     thoroughness: <input type="radio" name="thoroughness" value="none" data-sb-checked="sb_thoroughness_none" checked="checked" />none     <input type="radio" name="thoroughness" value="low" data-sb-checked="sb_thoroughness_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="thoroughness" value="medium" data-sb-checked="sb_thoroughness_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="thoroughness" value="high" data-sb-checked="sb_thoroughness_high" checked="checked" /><span class="c_high">high     </span>
     understanding: <input type="radio" name="understanding" value="none" data-sb-checked="sb_understanding_none" checked="checked"/>none     <input type="radio" name="understanding" value="low" data-sb-checked="sb_understanding_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="understanding" value="medium" data-sb-checked="sb_understanding_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="understanding" value="high" data-sb-checked="sb_understanding_high" checked="checked"/><span class="c_high">high     </span>
     rating: <input type="radio" name="rating" value="none" data-sb-checked="sb_rating_none" checked="checked"/><span class="c_none">none     </span><input type="radio" name="rating" value="negative" data-sb-checked="sb_rating_negative" checked="checked"/><span class="c_negative">negative     </span><input type="radio" name="rating" value="neutral" data-sb-checked="sb_rating_neutral" checked="checked"/><span class="c_neutral">neutral     </span><input type="radio" name="rating" value="positive" data-sb-checked="sb_rating_positive" checked="checked"/><span class="c_positive">positive     </span><input type="radio" name="rating" value="strong" data-sb-checked="sb_rating_strong" checked="checked"/><span class="c_strong">strong     </span>
-</pre>
-                <textarea style="height: 250px;" name="comment"><!--st_comment-->Comment</textarea>
-                <input class="button" type="submit" value="Export to yaml" />
-                <p>Copy/paste this yaml text to your VIM editor:</p>
-                <textarea readonly="readonly" style="height: 250px;"><!--st_yaml_text-->yaml_text</textarea>
+<textarea style="height: 250px;" name="comment"><!--st_comment-->Comment</textarea>
+        </pre>
+                <input type="submit" value="Export to yaml" />
             </div>
         </div>
 
+
+        <!--sb_has_alternative-->
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <pre>
+alternatives:
+- source: <input type="text" name="source" data-st_alternatives_0_source="value" value="https://crates.io" />
+    name: <input type="text" name="source_name" data-st_alternatives_0_name="value" value="" />
+        </pre>
+            </div>
+        </div>
+
+
+        <!--not yet sb_has_issue-->
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <pre>
+issues:
+- id: <input type="text" name="issues_id_0" data-st_issues_id_0="value" value="RUSTSEC-2019-0006" />
+    severity: <input type="radio" name="iss_severity_0" value="none"/>none     <input type="radio" name="iss_severity_0" value="low"/><span class="sc_low">low     </span><input type="radio" name="iss_severity_0" value="medium"/><span class="sc_medium">medium     </span><input type="radio" name="iss_severity_0" value="high"/><span class="sc_high">high     </span>
+    comment: <textarea name="issues_comment_0"><!--st_issues_comment_0-->Comment</textarea>
+            </pre>
+            </div>
+        </div>
+
+        <!--sb_has_advisories-->
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <pre>
+advisories:
+- ids:
+    - <input type="text" name="advisories_id_0" data-st_advisories_id_0="value" value="RUSTSEC-2019-0017" />
+    severity: <input type="radio" name="adv_severity_0_0" value="none"/>none     <input type="radio" name="adv_severity_0_0" value="low"/><span class="sc_low">low     </span><input type="radio" name="adv_severity_0_0" value="medium"/><span class="sc_medium">medium     </span><input type="radio" name="adv_severity_0_0" value="high"/><span class="sc_high">high     </span>
+    comment: <textarea name="advisories_comment_0_0"><!--st_advisories_comment_0_0-->comment</textarea>
+            </pre>
+            </div>
+        </div>
     </form>
 
     <div class="container_0">
@@ -65,29 +100,31 @@ Read the <code><a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo
     <div class="container_0">
         <div class="container0_content_not_grid">
             <pre>
-The <span class="white">new crev review</span> must be written with the command <code>$ cargo crev crate review {crate_name} {version}</code> 
+The <span class="white">new crev review</span> must be written with the command <code>$ cargo crev crate review {crate_name}</code> 
 It opens the VIM editor. 
 This is the important part: When saved, the review is encrypted automatically ! 
 But writing in VIM is not easy for everybody. 
-By the way when you panic, type <code>:q</code> or <code>:q!</code> to exit or quit VIM. 
-There is also the possibility to write in your favorite editor, that is much better, but still not the best user experience. 
-This webpage makes it easy to write a review in the browser. 
+By the way type <code>:q</code> or <code>:q!</code> to exit or quit VIM. 
+There is also the possibility to write in your favorite editor, that is much better, but not the best user experience. 
+Here on this webpage are easy templates to write a review in the browser. 
 The browser cannot finish the review with encryption. 
 So you have to copy the resulting text to VIM: 
 - first in the browser <code>copy</code> the resulting text, 
-- run the command <code>$ cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code>.
-- VIM will open.
+- run the command <code>$ cargo crev id new</code>. VIM will open.
 - delete the first cc 10 lines with repeating the VIM shortcut <code>dd</code> for delete line 
 - then in VIM type <code>i</code> to go into <code>VIM Insert Mode</code> 
 - then mouse <code>right click</code> to paste 
-- the Esc to go to <code>VIM Normal mode</code>
-- type <code>:</code> to go into <code>VIM command mode</code>
+- type <code>:</code> to go into <code>VIM command mode</code>            
 - then type <code>:wq</code> to write and quit 
 - now the encryption will kick in 
-- Done. Easy.
-- check your new review <code>cargo crev repo query review reader_for_microxml</code>
-- publish (push to GitHub)<code>cargo crev publish</code>
-</pre>
+- Done. Easy.</pre>
+        </div>
+    </div>
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <pre>
+TODO: maybe one day it will be possible to download a file and ask cargo-crev to encrypt it.
+TODO: make possible more than one advisory or issue or alternative.</pre>
         </div>
     </div>
 

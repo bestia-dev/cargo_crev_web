@@ -14,13 +14,41 @@ use log::info;
 use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
-use unwrap::unwrap;
+//use unwrap::unwrap;
 use warp::{
-    filters::BoxedFilter,
-    http::{Response, Uri},
-    path::FullPath,
-    redirect, Filter, Reply,
+    //filters::BoxedFilter,
+    http::Response,
+    Filter,
 };
+
+// https://github.com/rs-ipfs/rust-ipfs/commit/ae3306686209afa5911b1ad02170c1ac3bacda7c
+/// Helper to combine the multiple filters together with Filter::or, possibly boxing the types in
+/// the process. This greatly helps the build times for `ipfs-http`.
+macro_rules! combine {
+    ($x:expr, $($y:expr),+) => {
+        {
+            let filter = boxed_on_debug!($x);
+            $(
+                let filter = boxed_on_debug!(filter.or($y));
+            )+
+            filter
+        }
+    }
+}
+
+#[cfg(debug_assertions)]
+macro_rules! boxed_on_debug {
+    ($x:expr) => {
+        $x.boxed()
+    };
+}
+
+#[cfg(not(debug_assertions))]
+macro_rules! boxed_on_debug {
+    ($x:expr) => {
+        $x
+    };
+}
 
 // end region: (collapsed) use statements
 
@@ -56,7 +84,6 @@ pub async fn start_routes(
     // /rust-reviews/crates/
     // /rust-reviews/authors/
     // /rust-reviews/review_new/
-    // /rust-reviews/review_new_to_yaml/
     // /rust-reviews/reserved_folder/
     // /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/
     // /rust-reviews/reserved_folder/list_new_author_id/
@@ -99,41 +126,44 @@ pub async fn start_routes(
         });
 
     let review_new_route = warp::path!("rust-reviews" / "review_new")
-        .map(|| {
+        .and(warp::body::form())
+        .map(|form_data: HashMap<String, String>| {
             let ns_start = ns_start("review_new");
-            //let data_model = review_new_mod::ReviewNew::new();
-            let data_model = review_new_mod::ReviewNew::read_review("review_1.yaml");
+            let data_model = review_new_mod::ReviewNew::new(form_data);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
-        })
-        .or(warp::path!("rust-reviews" / "review_new_to_yaml")
-            .and(warp::body::content_length_limit(1024 * 32))
-            .and(warp::body::form())
-            .map(|form_data: HashMap<String, String>| {
-                let ns_start = ns_start("review_new_to_yaml");
-                let data_model = review_new_mod::ReviewNew::from_form_data(form_data);
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                warp::reply::html(html_file)
-            }));
+        });
 
     let reserved_folder_route =
         warp::path!("rust-reviews" / "reserved_folder" / "reindex_after_fetch_new_reviews")
             .and(cached_review_index.clone())
             .map(|cached_review_index| {
                 let ns_start = ns_start("reindex_after_fetch_new_reviews");
-                let _data_model =
+                let data_model =
                     reserved_folder_mod::ReservedFolder::reindex_after_fetch_new_reviews(
                         cached_review_index,
                     );
                 let ns_new = ns_print("new()", ns_start);
-                //let html_file = data_model.render_html_file("templates/");
+                let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
-                warp::reply::html("Reindex finished !")
+                warp::reply::html(html_file)
             })
+            .or(
+                warp::path!("rust-reviews" / "reserved_folder" / "fetch_new_reviews")
+                    .and(cached_review_index.clone())
+                    .map(|cached_review_index| {
+                        let ns_start = ns_start("fetch_new_reviews");
+                        let data_model = reserved_folder_mod::ReservedFolder::fetch_new_reviews(
+                            cached_review_index,
+                        );
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        warp::reply::html(html_file)
+                    }),
+            )
             .or(
                 warp::path!("rust-reviews" / "reserved_folder" / "list_new_author_id")
                     .and(cached_review_index.clone())
@@ -334,14 +364,16 @@ pub async fn start_routes(
     // endregion: prepare routes
 
     // combine all routes with or
-    let routes = index_html_route
-        .or(root_route)
-        .or(crate_route)
-        .or(author_route)
-        .or(reserved_folder_route)
-        .or(review_new_route)
-        .or(badge_route)
-        .or(fileserver);
+    let routes = combine!(
+        index_html_route,
+        root_route,
+        crate_route,
+        author_route,
+        reserved_folder_route,
+        review_new_route,
+        badge_route,
+        fileserver
+    );
 
     info!(
         "Entry point sub-directory: {} ",

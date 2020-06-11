@@ -196,60 +196,49 @@
 <span id="196">196</span>
 <span id="197">197</span>
 <span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! review_mod</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">review_mod</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
 
-<span class="comment">//use serde_derive::{Deserialize, Serialize};</span>
+<span class="kw">use</span> <span class="ident">serde_derive</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span>;
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fs</span>;
+<span class="comment">//use std::fs;</span>
 <span class="kw">use</span> <span class="ident">unwrap</span>::<span class="ident">unwrap</span>;
+<span class="comment">//use strum_macros::EnumString;</span>
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+
+<span class="doccomment">/// simplified review</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Review01</span> {
+    <span class="kw">pub</span> <span class="ident">review</span>: <span class="ident">ReviewReview</span>,
+    <span class="kw">pub</span> <span class="ident">comment</span>: <span class="ident">String</span>,
+}
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReviewNew</span> {
-    <span class="kw">pub</span> <span class="ident">rev</span>: <span class="ident">Review</span>,
+    <span class="kw">pub</span> <span class="ident">rev</span>: <span class="ident">Review01</span>,
     <span class="kw">pub</span> <span class="ident">yaml_text</span>: <span class="ident">String</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">ReviewNew</span> {
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused</span>)]</span>
     <span class="doccomment">/// prepares the data</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="ident">ReviewNew</span> {
-            <span class="ident">rev</span>: <span class="ident">Review</span> {
-                ..<span class="ident">Default</span>::<span class="ident">default</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">form_data</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rev</span> <span class="op">=</span> <span class="ident">Review01</span> {
+            <span class="ident">review</span>: <span class="ident">ReviewReview</span> {
+                <span class="ident">thoroughness</span>: <span class="ident">Level</span>::<span class="prelude-val">None</span>,
+                <span class="ident">understanding</span>: <span class="ident">Level</span>::<span class="prelude-val">None</span>,
+                <span class="ident">rating</span>: <span class="ident">Rating</span>::<span class="prelude-val">None</span>,
             },
-            <span class="ident">yaml_text</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>),
-        }
-    }
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_review</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="comment">//let path = &quot;../sample_data/review_1.yaml&quot;;</span>
-        <span class="kw">let</span> <span class="ident">yaml_text</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">fs</span>::<span class="ident">read_to_string</span>(<span class="ident">path</span>));
-        <span class="kw">let</span> <span class="ident">review</span>: <span class="ident">Review</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">serde_yaml</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">yaml_text</span>));
-        <span class="ident">ReviewNew</span> {
-            <span class="ident">rev</span>: <span class="ident">review</span>,
-            <span class="ident">yaml_text</span>,
-        }
-    }
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_form_data</span>(<span class="ident">form_data</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rev</span> <span class="op">=</span> <span class="ident">Review</span> {
-            ..<span class="ident">Default</span>::<span class="ident">default</span>()
+            <span class="ident">comment</span>: <span class="string">&quot;comment&quot;</span>.<span class="ident">to_string</span>(),
         };
         <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="ident">form_data</span> {
             <span class="kw">match</span> <span class="ident">key</span>.<span class="ident">as_ref</span>() {
-                <span class="string">&quot;comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rev</span>.<span class="ident">comment</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">to_string</span>()),
+                <span class="string">&quot;thoroughness&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rev</span>.<span class="ident">review</span>.<span class="ident">thoroughness</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">Level</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>)),
+                <span class="string">&quot;understanding&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rev</span>.<span class="ident">review</span>.<span class="ident">understanding</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">Level</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>)),
+                <span class="string">&quot;rating&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rev</span>.<span class="ident">review</span>.<span class="ident">rating</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">Rating</span>::<span class="ident">from_str</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>)),
+                <span class="string">&quot;comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rev</span>.<span class="ident">comment</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">to_string</span>(),
                 <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
             }
         }
@@ -259,59 +248,44 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">st_comment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">comment</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">comment</span> {
-            <span class="ident">comment</span>.<span class="ident">clone</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
-        }
+        <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">comment</span>.<span class="ident">to_string</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">st_thoroughness</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">review</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">review</span> {
-            <span class="ident">review</span>.<span class="ident">thoroughness</span>.<span class="ident">to_string</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
-        }
+        <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">review</span>.<span class="ident">thoroughness</span>.<span class="ident">to_string</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">st_understanding</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">review</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">review</span> {
-            <span class="ident">review</span>.<span class="ident">understanding</span>.<span class="ident">to_string</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
-        }
+        <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">review</span>.<span class="ident">understanding</span>.<span class="ident">to_string</span>()
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">st_rating</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">review</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">review</span> {
-            <span class="ident">review</span>.<span class="ident">rating</span>.<span class="ident">to_string</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
+        <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">review</span>.<span class="ident">rating</span>.<span class="ident">to_string</span>()
+    }
+    <span class="comment">/*
+    pub fn st_alternatives_0_source(&amp;self) -&gt; String {
+        if let Some(alternatives) = &amp;self.rev.alternatives {
+            alternatives[0].source.clone()
+        } else {
+            s!(&quot;&quot;)
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">st_alternatives_0_source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">alternatives</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">alternatives</span> {
-            <span class="ident">alternatives</span>[<span class="number">0</span>].<span class="ident">source</span>.<span class="ident">clone</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
+    pub fn st_alternatives_0_name(&amp;self) -&gt; String {
+        if let Some(alternatives) = &amp;self.rev.alternatives {
+            alternatives[0].name.clone()
+        } else {
+            s!(&quot;&quot;)
         }
     }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">st_alternatives_0_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">alternatives</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">alternatives</span> {
-            <span class="ident">alternatives</span>[<span class="number">0</span>].<span class="ident">name</span>.<span class="ident">clone</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
+    pub fn st_advisories_comment_0_0(&amp;self) -&gt; String {
+        if let Some(advisories) = &amp;self.rev.advisories {
+            advisories[0].comment.clone()
+        } else {
+            s!(&quot;&quot;)
         }
     }
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">st_advisories_comment_0_0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">advisories</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">advisories</span> {
-            <span class="ident">advisories</span>[<span class="number">0</span>].<span class="ident">comment</span>.<span class="ident">clone</span>()
-        } <span class="kw">else</span> {
-            <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>)
-        }
-    }
+    */</span>
 }
 
 <span class="kw">impl</span> <span class="ident">HtmlServerTemplateRender</span> <span class="kw">for</span> <span class="ident">ReviewNew</span> {
@@ -332,12 +306,14 @@
     <span class="kw">fn</span> <span class="ident">retain_next_node_or_attribute</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
-            <span class="string">&quot;sb_has_alternative&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">alternatives</span>.<span class="ident">is_some</span>(),
-            <span class="string">&quot;sb_has_issue&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">issues</span>.<span class="ident">is_some</span>(),
-            <span class="string">&quot;sb_has_advisories&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">advisories</span>.<span class="ident">is_some</span>(),
+            <span class="comment">/*
+            &quot;sb_has_alternative&quot; =&gt; self.rev.alternatives.is_some(),
+            &quot;sb_has_issue&quot; =&gt; self.rev.issues.is_some(),
+            &quot;sb_has_advisories&quot; =&gt; self.rev.advisories.is_some(),
+            */</span>
             <span class="comment">// radio buttons in html have this terrible attribute checked. Horror.</span>
             <span class="string">&quot;sb_thoroughness_none&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">st_thoroughness</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;none&quot;</span>,
-            <span class="string">&quot;sb_thoroughness_low&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">st_thoroughness</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;none&quot;</span>,
+            <span class="string">&quot;sb_thoroughness_low&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">st_thoroughness</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;low&quot;</span>,
             <span class="string">&quot;sb_thoroughness_medium&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">st_thoroughness</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;medium&quot;</span>,
             <span class="string">&quot;sb_thoroughness_high&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">st_thoroughness</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;high&quot;</span>,
             <span class="string">&quot;sb_understanding_none&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">st_understanding</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;none&quot;</span>,
@@ -370,14 +346,16 @@
         <span class="comment">// list_fetched_author_id is Option and can be None or Some</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="string">&quot;st_yaml_text&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">yaml_text</span>),
-            <span class="string">&quot;st_date&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">date</span>),
+            <span class="comment">//&quot;st_date&quot; =&gt; s!(self.rev.date),</span>
             <span class="string">&quot;st_comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_comment</span>()),
-            <span class="string">&quot;st_from_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">from</span>.<span class="ident">url</span>),
-            <span class="string">&quot;st_package_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">package</span>.<span class="ident">name</span>),
-            <span class="string">&quot;st_package_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">rev</span>.<span class="ident">package</span>.<span class="ident">version</span>),
-            <span class="string">&quot;st_alternatives_0_source&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_alternatives_0_source</span>()),
-            <span class="string">&quot;st_alternatives_0_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_alternatives_0_name</span>()),
-            <span class="string">&quot;st_advisories_comment_0_0&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">st_advisories_comment_0_0</span>()),
+            <span class="comment">/*
+            &quot;st_from_url&quot; =&gt; s!(self.rev.from.url),
+            &quot;st_package_name&quot; =&gt; s!(self.rev.package.name),
+            &quot;st_package_version&quot; =&gt; s!(self.rev.package.version),
+            &quot;st_alternatives_0_source&quot; =&gt; s!(self.st_alternatives_0_source()),
+            &quot;st_alternatives_0_name&quot; =&gt; s!(self.st_alternatives_0_name()),
+            &quot;st_advisories_comment_0_0&quot; =&gt; s!(self.st_advisories_comment_0_0()),
+            */</span>
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }

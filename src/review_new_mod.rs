@@ -3,43 +3,43 @@
 use crate::review_mod::*;
 use crate::*;
 
-//use serde_derive::{Deserialize, Serialize};
+use serde_derive::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::fs;
+//use std::fs;
 use unwrap::unwrap;
+//use strum_macros::EnumString;
+use std::str::FromStr;
+
+/// simplified review
+#[derive(Serialize, Deserialize, Clone, Default)]
+pub struct Review01 {
+    pub review: ReviewReview,
+    pub comment: String,
+}
 
 pub struct ReviewNew {
-    pub rev: Review,
+    pub rev: Review01,
     pub yaml_text: String,
 }
 
 impl ReviewNew {
     #[allow(unused)]
     /// prepares the data
-    pub fn new() -> Self {
-        ReviewNew {
-            rev: Review {
-                ..Default::default()
+    pub fn new(form_data: HashMap<String, String>) -> Self {
+        let mut rev = Review01 {
+            review: ReviewReview {
+                thoroughness: Level::None,
+                understanding: Level::None,
+                rating: Rating::None,
             },
-            yaml_text: s!(""),
-        }
-    }
-    pub fn read_review(path: &str) -> Self {
-        //let path = "../sample_data/review_1.yaml";
-        let yaml_text = unwrap!(fs::read_to_string(path));
-        let review: Review = unwrap!(serde_yaml::from_str(&yaml_text));
-        ReviewNew {
-            rev: review,
-            yaml_text,
-        }
-    }
-    pub fn from_form_data(form_data: HashMap<String, String>) -> Self {
-        let mut rev = Review {
-            ..Default::default()
+            comment: "comment".to_string(),
         };
         for (key, value) in form_data {
             match key.as_ref() {
-                "comment" => rev.comment = Some(value.to_string()),
+                "thoroughness" => rev.review.thoroughness = unwrap!(Level::from_str(&value)),
+                "understanding" => rev.review.understanding = unwrap!(Level::from_str(&value)),
+                "rating" => rev.review.rating = unwrap!(Rating::from_str(&value)),
+                "comment" => rev.comment = value.to_string(),
                 _ => {}
             }
         }
@@ -49,37 +49,21 @@ impl ReviewNew {
     }
 
     pub fn st_comment(&self) -> String {
-        if let Some(comment) = &self.rev.comment {
-            comment.clone()
-        } else {
-            s!("")
-        }
+        self.rev.comment.to_string()
     }
 
     pub fn st_thoroughness(&self) -> String {
-        if let Some(review) = &self.rev.review {
-            review.thoroughness.to_string()
-        } else {
-            s!("")
-        }
+        self.rev.review.thoroughness.to_string()
     }
 
     pub fn st_understanding(&self) -> String {
-        if let Some(review) = &self.rev.review {
-            review.understanding.to_string()
-        } else {
-            s!("")
-        }
+        self.rev.review.understanding.to_string()
     }
 
     pub fn st_rating(&self) -> String {
-        if let Some(review) = &self.rev.review {
-            review.rating.to_string()
-        } else {
-            s!("")
-        }
+        self.rev.review.rating.to_string()
     }
-
+    /*
     pub fn st_alternatives_0_source(&self) -> String {
         if let Some(alternatives) = &self.rev.alternatives {
             alternatives[0].source.clone()
@@ -102,6 +86,7 @@ impl ReviewNew {
             s!("")
         }
     }
+    */
 }
 
 impl HtmlServerTemplateRender for ReviewNew {
@@ -122,12 +107,14 @@ impl HtmlServerTemplateRender for ReviewNew {
     fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
+            /*
             "sb_has_alternative" => self.rev.alternatives.is_some(),
             "sb_has_issue" => self.rev.issues.is_some(),
             "sb_has_advisories" => self.rev.advisories.is_some(),
+            */
             // radio buttons in html have this terrible attribute checked. Horror.
             "sb_thoroughness_none" => &self.st_thoroughness() == "none",
-            "sb_thoroughness_low" => &self.st_thoroughness() == "none",
+            "sb_thoroughness_low" => &self.st_thoroughness() == "low",
             "sb_thoroughness_medium" => &self.st_thoroughness() == "medium",
             "sb_thoroughness_high" => &self.st_thoroughness() == "high",
             "sb_understanding_none" => &self.st_understanding() == "none",
@@ -160,14 +147,16 @@ impl HtmlServerTemplateRender for ReviewNew {
         // list_fetched_author_id is Option and can be None or Some
         match placeholder {
             "st_yaml_text" => s!(self.yaml_text),
-            "st_date" => s!(self.rev.date),
+            //"st_date" => s!(self.rev.date),
             "st_comment" => s!(self.st_comment()),
+            /*
             "st_from_url" => s!(self.rev.from.url),
             "st_package_name" => s!(self.rev.package.name),
             "st_package_version" => s!(self.rev.package.version),
             "st_alternatives_0_source" => s!(self.st_alternatives_0_source()),
             "st_alternatives_0_name" => s!(self.st_alternatives_0_name()),
             "st_advisories_comment_0_0" => s!(self.st_advisories_comment_0_0()),
+            */
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }

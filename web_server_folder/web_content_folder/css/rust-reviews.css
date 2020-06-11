@@ -397,3 +397,11 @@ A small difference to help search and replace refactoring.
             font-size: 80%;
         }
         /* endregion: colors and attributes */
+        
+        .button {
+            width: 300px;
+            height: 80px;
+            background: dodgerblue;
+            border-radius: 6px;
+            font-size: 120%;
+        }

@@ -25,6 +25,7 @@ pub struct OnlyAuthor {
 pub struct ReservedFolder {
     pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
+    pub fetch_new_reviews: Option<String>,
     pub list_new_author_id: Option<Vec<OnlyAuthor>>,
     pub add_author_url: Option<String>,
 }
@@ -75,6 +76,16 @@ impl ReservedFolder {
         // return
         ReservedFolder {
             reindex_after_fetch_new_reviews: Some(s!("Reindex finished.")),
+            ..Default::default()
+        }
+    }
+    pub fn fetch_new_reviews(_cached_review_index: CachedReviewIndex) -> Self {
+        unwrap!(std::process::Command::new("bash")
+            .arg("/var/www/scripts/cargo_crev_web_fetch_reindex.sh")
+            .spawn());
+        // return
+        ReservedFolder {
+            fetch_new_reviews: Some(s!("Fetch will be done in a minute or so.")),
             ..Default::default()
         }
     }
@@ -305,6 +316,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
         // dbg!(&placeholder);
         match placeholder {
             "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
+            "sb_is_fetch_new_reviews" => self.fetch_new_reviews.is_some(),
             "sb_is_reindex_after_fetch_new_reviews" => {
                 self.reindex_after_fetch_new_reviews.is_some()
             }
@@ -344,6 +356,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
             }
+            "st_fetch_new_reviews" => s!(unwrap!(self.fetch_new_reviews.as_ref())),
             "st_add_author_url" => s!(unwrap!(self.add_author_url.as_ref())),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }

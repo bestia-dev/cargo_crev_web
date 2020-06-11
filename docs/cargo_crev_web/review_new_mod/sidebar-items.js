@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ReviewNew",""]]});
+initSidebarItems({"struct":[["Review01","simplified review"],["ReviewNew",""]]});

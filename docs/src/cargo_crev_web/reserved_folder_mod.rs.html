@@ -446,6 +446,19 @@
 <span id="446">446</span>
 <span id="447">447</span>
 <span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! reserved_folder_mod</span>
 <span class="doccomment">//! This is only one module/html page, but can execute different actions.</span>
@@ -474,6 +487,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReservedFolder</span> {
     <span class="kw">pub</span> <span class="ident">list_fetched_author_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OnlyAuthor</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">reindex_after_fetch_new_reviews</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">fetch_new_reviews</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">list_new_author_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OnlyAuthor</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">add_author_url</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
@@ -524,6 +538,16 @@
         <span class="comment">// return</span>
         <span class="ident">ReservedFolder</span> {
             <span class="ident">reindex_after_fetch_new_reviews</span>: <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;Reindex finished.&quot;</span>)),
+            ..<span class="ident">Default</span>::<span class="ident">default</span>()
+        }
+    }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fetch_new_reviews</span>(<span class="ident">_cached_review_index</span>: <span class="ident">CachedReviewIndex</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">std</span>::<span class="ident">process</span>::<span class="ident">Command</span>::<span class="ident">new</span>(<span class="string">&quot;bash&quot;</span>)
+            .<span class="ident">arg</span>(<span class="string">&quot;/var/www/scripts/cargo_crev_web_fetch_reindex.sh&quot;</span>)
+            .<span class="ident">spawn</span>());
+        <span class="comment">// return</span>
+        <span class="ident">ReservedFolder</span> {
+            <span class="ident">fetch_new_reviews</span>: <span class="prelude-val">Some</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;Fetch will be done in a minute or so.&quot;</span>)),
             ..<span class="ident">Default</span>::<span class="ident">default</span>()
         }
     }
@@ -754,6 +778,7 @@
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="string">&quot;sb_is_list_fetched_author_id&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">list_fetched_author_id</span>.<span class="ident">is_some</span>(),
+            <span class="string">&quot;sb_is_fetch_new_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">fetch_new_reviews</span>.<span class="ident">is_some</span>(),
             <span class="string">&quot;sb_is_reindex_after_fetch_new_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="self">self</span>.<span class="ident">reindex_after_fetch_new_reviews</span>.<span class="ident">is_some</span>()
             }
@@ -793,6 +818,7 @@
             <span class="string">&quot;st_reindex_after_fetch_new_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">s</span><span class="macro">!</span>(<span class="macro">unwrap</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">reindex_after_fetch_new_reviews</span>.<span class="ident">as_ref</span>()))
             }
+            <span class="string">&quot;st_fetch_new_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="macro">unwrap</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">fetch_new_reviews</span>.<span class="ident">as_ref</span>())),
             <span class="string">&quot;st_add_author_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="macro">unwrap</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">add_author_url</span>.<span class="ident">as_ref</span>())),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
