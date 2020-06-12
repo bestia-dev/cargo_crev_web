@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/cargo_registry_index_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>cargo_registry_index_mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../cargo_crev_web/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+</pre><div class="example-wrap"><pre class="rust ">
+<span class="comment">// SADLY, it is just a cache of used crates. Most of the crates is not here.</span>
+<span class="comment">// and it would be very big if I include all the crates, because there is a lot of data</span>
+<span class="comment">// I don&#39;t need. I wrote to them, but I don&#39;t expect much reaction.</span>
+
+<span class="comment">// cargo stores a registry index cache of all the crates and versions on the local disk</span>
+<span class="comment">// all the versions are here, and the dependencies, It is big, too big to cache all on start.</span>
+<span class="comment">// I will cache only the crates name, that is file names. The versions will be lazy cached.</span>
+<span class="comment">// When needed I will check if I have the versions cached. If not, I will get them from file.</span>
+<span class="comment">// For now on linux only.</span>
+<span class="comment">// The folder of the cache is this:  `~\.cargo\registry\index\github.com-1ecc6299db9ec823\.cache\`</span>
+<span class="comment">// today 2020-06-11: index/cache: 17 MB</span>
+<span class="comment">// registry/ is big 1.6 GB, index/ 82 MB, cache 242 MB, source 1,3 GB</span>
+<span class="comment">/*
+use crate::utils_mod::*;
+use crate::*;
+
+use regex::Regex;
+//use serde_derive::Deserialize;
+use std::fs;
+use std::path::Path;
+use unwrap::unwrap;
+
+#[derive(Clone, Debug)]
+pub struct Version {
+    version: String,
+    version_for_sorting: String,
+}
+
+#[derive(Clone, Debug)]
+pub struct Crate {
+    crate_name: String,
+    last_version: String,
+    versions: Vec&lt;Version&gt;,
+}
+
+#[derive(Clone, Debug)]
+pub struct CrateIndex {
+    crates: Vec&lt;Crate&gt;,
+}
+
+impl CrateIndex {
+    /// prepares the data. Only crate_names on start
+    pub fn new() -&gt; Self {
+        println!(&quot;CrateIndex::new()&quot;);
+        let mut crates = vec![];
+        // Find data from crates.io registry index in local cache.
+        let mut folder = dirs::home_dir().expect(&quot;no home dir&quot;);
+        folder.push(&quot;.cargo/registry/index/github.com-1ecc6299db9ec823/.cache&quot;);
+        let folder_path = Path::new(&amp;folder);
+
+        let files = unwrap!(traverse_dir_with_exclude_dir(
+            Path::new(folder_path),
+            there is no space here, correct it: &quot;/ *&quot;,
+            // avoid big folders
+            &amp;vec![]
+        ));
+        for file_path in files.iter() {
+            //println!(&quot;file: {}&quot;, file_path);
+            // only the filename
+            let spl: Vec&lt;&amp;str&gt; = file_path.split(&#39;/&#39;).collect();
+            let crate_name = spl.last().unwrap();
+            //println!(&quot;crate_name: {}&quot;, crate_name);
+            crates.push(Crate {
+                crate_name: crate_name.to_string(),
+                last_version: s!(&quot;&quot;),
+                versions: vec![],
+            })
+        }
+        println!(&quot;crates.len(): {}&quot;, crates.len());
+        //return
+        CrateIndex { crates }
+    }
+
+    /// if is empty, then read from file
+    pub fn get_last_version(&amp;mut self, crate_name: &amp;str) -&gt; String {
+        // the crate_name must exist
+        let cursor_pos = self.crates.iter().position(|x| x.crate_name == crate_name);
+
+        if let Some(cursor_pos) =  cursor_pos{
+            if self.crates[cursor_pos].last_version.is_empty() {
+                // this is the first time, read it from file and store it
+                // the linux shell home dir symbol ~ or HOME is not expanded in raw rust
+                // I must use the dirs crate
+                let mut file_path = dirs::home_dir().expect(&quot;Not home dir&quot;);
+                file_path.push(&quot;.cargo/registry/index/github.com-1ecc6299db9ec823/.cache&quot;);
+                //interesting rules for the file_path structure
+                if crate_name.len() == 1 {
+                    file_path.push(&quot;1&quot;);
+                } else if crate_name.len() == 2 {
+                    file_path.push(&quot;2&quot;);
+                } else if crate_name.len() == 3 {
+                    file_path.push(&quot;3&quot;);
+                } else {
+                    file_path.push(&amp;crate_name[0..2]);
+                    file_path.push(&amp;crate_name[2..4]);
+                }
+                file_path.push(crate_name);
+                println!(&quot;file_path: {:?}&quot;, &amp;file_path);
+                //read the content and find versions
+                let file_content = unwrap!(fs::read_to_string(file_path));
+                dbg!(&amp;file_content.len());
+                //I will use regex to find the last &quot;vers&quot;: &quot;0.3.3&quot;,
+                let re = unwrap!(Regex::new(r#&quot;&quot;vers&quot;:&quot;(.*?)&quot;&quot;#));
+                let last_version = unwrap!(re.captures_iter(&amp;file_content).last());
+                let last_version = last_version[1].to_string();
+                self.crates[cursor_pos].last_version = last_version.to_string();
+            }
+            return self.crates[cursor_pos].last_version.to_string();
+        } else {
+            return s!(&quot;&quot;);
+        }
+    }
+}
+*/</span>
+</pre></div>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

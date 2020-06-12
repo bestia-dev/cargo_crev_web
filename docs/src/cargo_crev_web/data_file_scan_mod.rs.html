@@ -186,10 +186,6 @@
 <span id="186">186</span>
 <span id="187">187</span>
 <span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! data_file_scan_mod</span>
 
@@ -336,13 +332,9 @@
 <span class="kw">fn</span> <span class="ident">push_this_review</span>(<span class="ident">review_string</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">reviews</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Review</span><span class="op">&gt;</span>) {
     <span class="comment">// version for sorting</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">review</span>: <span class="ident">Review</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">serde_yaml</span>::<span class="ident">from_str</span>(<span class="ident">review_string</span>));
-    <span class="kw">let</span> (<span class="ident">major</span>, <span class="ident">minor</span>, <span class="ident">patch</span>) <span class="op">=</span> <span class="ident">parse_semver</span>(<span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version</span>);
-    <span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version_for_sorting</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">format</span><span class="macro">!</span>(
-        <span class="string">&quot;{:09}.{:09}.{:09}-{}&quot;</span>,
-        <span class="ident">major</span>,
-        <span class="ident">minor</span>,
-        <span class="ident">patch</span>,
-        <span class="ident">review</span>.<span class="ident">get_author_name</span>()
+    <span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version_for_sorting</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">version_for_sorting</span>(
+        <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version</span>,
+        <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">get_author_name</span>(),
     ));
     <span class="ident">reviews</span>.<span class="ident">push</span>(<span class="ident">review</span>);
 }

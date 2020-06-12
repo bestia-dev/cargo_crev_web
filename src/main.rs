@@ -6,7 +6,7 @@
 // region: lmake_readme include "readme.md" //! A
 //! # Rust-reviews (working title cargo_crev_web)
 //!
-//! ***version: 2020.611.634  date: 2020-06-11 authors: Luciano Bestia***  
+//! ***version: 2020.612.1317  date: 2020-06-12 authors: Luciano Bestia***  
 //! **web server to query reviews from cargo-crev**
 //!
 //!

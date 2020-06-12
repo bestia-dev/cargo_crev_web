@@ -46,6 +46,14 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! main.rs</span>
 
@@ -64,7 +72,8 @@
 <span class="comment">// end region: (collapsed) use statements</span>
 
 <span class="comment">// Globally accessible object inside Arc-Mutex</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">CachedReviewIndex</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">review_index_mod</span>::<span class="ident">ReviewIndex</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ArcMutStateGlobal</span> <span class="op">=</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">state_mod</span>::<span class="ident">StateGlobal</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="comment">// review_index_mod::ReviewIndex&gt;&gt;;</span>
 
 <span class="kw">pub</span> <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">main_code</span>() {
     <span class="comment">// region: env_logger log text to stdout depend on ENV variable</span>
@@ -91,9 +100,16 @@
     <span class="comment">// endregion</span>
 
     <span class="comment">// I will cache the review index</span>
-    <span class="kw">let</span> <span class="ident">cached_review_index</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">review_index_mod</span>::<span class="ident">ReviewIndex</span>::<span class="ident">new</span>()));
+    <span class="kw">let</span> <span class="ident">review_index</span> <span class="op">=</span> <span class="ident">review_index_mod</span>::<span class="ident">ReviewIndex</span>::<span class="ident">new</span>();
+    <span class="comment">// I don&#39;t have a solution yet. I&#39;m waiting if maybe they make an api for minimal data.</span>
+    <span class="comment">//let crate_index = cargo_registry_index_mod::CrateIndex::new();</span>
+    <span class="kw">let</span> <span class="ident">state_global</span> <span class="op">=</span> <span class="ident">state_mod</span>::<span class="ident">StateGlobal</span> {
+        <span class="comment">//crate_index,</span>
+        <span class="ident">review_index</span>,
+    };
+    <span class="kw">let</span> <span class="ident">state_global</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">state_global</span>));
 
-    <span class="ident">router_mod</span>::<span class="ident">start_routes</span>(<span class="ident">cached_review_index</span>, <span class="ident">local_addr</span>).<span class="kw">await</span>;
+    <span class="ident">router_mod</span>::<span class="ident">start_routes</span>(<span class="ident">state_global</span>, <span class="ident">local_addr</span>).<span class="kw">await</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

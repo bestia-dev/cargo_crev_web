@@ -50,11 +50,11 @@ impl ReviewNew {
                 _ => {}
             }
         }
-        if review_new.package_name.is_empty(){
-            review_new.package_name="crate_name".into();
+        if review_new.package_name.is_empty() {
+            review_new.package_name = "crate_name".into();
         }
-        if review_new.package_version.is_empty(){
-            review_new.package_version="version".into();
+        if review_new.package_version.is_empty() {
+            review_new.package_version = "version".into();
         }
         // parse cargo_toml_line if it exist
         /*
@@ -184,7 +184,7 @@ impl HtmlServerTemplateRender for ReviewNew {
             "st_comment" => s!(self.review_for_vim.comment),
             "st_package_name" => s!(self.package_name),
             "st_package_version" => s!(self.package_version),
-            "st_package_name_version"=>format!("{} {}",self.package_name,self.package_version),
+            "st_package_name_version" => format!("{} {}", self.package_name, self.package_version),
             /*
             "st_from_url" => s!(self.review_for_vim.from.url),
 
