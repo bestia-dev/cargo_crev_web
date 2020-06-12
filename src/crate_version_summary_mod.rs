@@ -15,10 +15,14 @@ pub struct CrateVersionSummary {
     pub crate_name: String,
     pub crate_summary: VersionSummary,
     pub version_summaries: Vec<VersionSummary>,
+    //pub last_version: String,
 }
 impl CrateVersionSummary {
-    pub fn new(crate_name: &str, reviews: &Vec<Review>) -> Self {
+    pub fn new(_state_global: ArcMutStateGlobal, crate_name: &str, reviews: &Vec<Review>) -> Self {
         // the first version empty_string is for "all_versions" or crate_summary
+
+        //let last_version = unwrap!(state_global.lock()).crate_index.get_last_version(crate_name);
+
         let mut crate_version_summary = CrateVersionSummary {
             crate_name: s!(crate_name),
             version_summaries: vec![],
@@ -38,6 +42,7 @@ impl CrateVersionSummary {
                 thoroughness: 0,
                 understanding: 0,
             },
+            //last_version,
         };
 
         for review in reviews {
@@ -126,7 +131,6 @@ impl CrateVersionSummary {
             .unwrap()
             .version
             .clone();
-        dbg!(&crate_version_summary.crate_summary.last_reviewed_version);
         // return
         crate_version_summary
     }
@@ -171,6 +175,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
                 &self.crate_name,
                 &self.crate_summary.last_reviewed_version
             ),
+            //"st_last_version" => s!(&self.last_version),
             "st_crate_review_number" => url_s_zero_to_empty(self.crate_summary.review_number),
             "st_crate_rating_strong" => url_s_zero_to_empty(self.crate_summary.rating_strong),
             "st_crate_rating_positive" => url_s_zero_to_empty(self.crate_summary.rating_positive),
@@ -197,6 +202,8 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_crates_io_url" => url_u!("https://crates.io/crates/{}", &self.crate_name),
             "su_lib_rs_url" => url_u!("https://lib.rs/crates/{}", &self.crate_name),
+            //"su_review_new" => url_u!("/rust-reviews/review_new/{}/{}/",&self.crate_name, &self.last_version),
+            "su_review_new" => url_u!("/rust-reviews/review_new/{}/", &self.crate_name),
             "su_filter_crate" => url_u!("/rust-reviews/crate/{}", &self.crate_name),
             "su_filter_strong" => url_u!("/rust-reviews/crate/{}/crate/S", &self.crate_name),
             "su_filter_positive" => url_u!("/rust-reviews/crate/{}/crate/P", &self.crate_name),
@@ -205,6 +212,8 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             "su_filter_alternatives" => url_u!("/rust-reviews/crate/{}/crate/v", &self.crate_name),
             "su_filter_issues" => url_u!("/rust-reviews/crate/{}/crate/i", &self.crate_name),
             "su_filter_advisories" => url_u!("/rust-reviews/crate/{}/crate/a", &self.crate_name),
+            //"su_new_review" => url_u!("/rust-reviews/review_new/{}/{}/",&self.crate_name,&self.last_version),
+            "su_new_review" => url_u!("/rust-reviews/review_new/{}/", &self.crate_name),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

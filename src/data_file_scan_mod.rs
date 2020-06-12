@@ -143,13 +143,9 @@ fn get_vec_from_one_file(reviews: &mut Vec<Review>, one_file_review_pk: &OneFile
 fn push_this_review(review_string: &str, reviews: &mut Vec<Review>) {
     // version for sorting
     let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
-    let (major, minor, patch) = parse_semver(&review.package.version);
-    review.package.version_for_sorting = Some(format!(
-        "{:09}.{:09}.{:09}-{}",
-        major,
-        minor,
-        patch,
-        review.get_author_name()
+    review.package.version_for_sorting = Some(version_for_sorting(
+        &review.package.version,
+        &review.get_author_name(),
     ));
     reviews.push(review);
 }

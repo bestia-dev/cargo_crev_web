@@ -27,13 +27,26 @@
                     <h3 class="h3y">new review template</h3>
                 </div>
             </div>
-            <code>$ cargo crev crate review {crate_name} {version}</code>
+            <code>$ cargo crev crate review -u --skip-activity-check <!--st_package_name_version-->reader_for_microxml 1.1.11</code>
         </div>
     </div>
 
-    <form action="review_new/" method="POST">
+    <form action="/rust-reviews/review_new/" method="POST">
+        <!--
         <div class="container_0">
             <div class="container0_content_not_grid">
+                <p><a class="white" target="_blank" href="https://crates.io/">Search</a> for crate and version on <a class="white" target="_blank" href="https://crates.io/">crates.io</a> and then copy the line for Cargo.toml.</p>
+                <p>Cargo.toml: <input style="width: 50%;" type="text" name="cargo_toml_line" />
+                    <input class="button" style="width: 150px;height: 35px;margin: 1%;" type="submit" value="Parse it" />
+                </p>
+                crate: <input style="width: 30%;" type="text" name="package_name" data-st_package_name="value" value="" /> version: <input style="width: 30%;" type="text" name="package_version" data-st_package_version="value" value="" />
+            </div>
+        </div>
+    -->
+        <div class="container_0">
+            <div class="container0_content_not_grid">
+                <input style="display:none" type="text" name="package_name" data-st_package_name="value" value="" />
+                <input style="display:none" type="text" name="package_version" data-st_package_version="value" value="" />
                 <pre>
 review:
     thoroughness: <input type="radio" name="thoroughness" value="none" data-sb-checked="sb_thoroughness_none" checked="checked" />none     <input type="radio" name="thoroughness" value="low" data-sb-checked="sb_thoroughness_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="thoroughness" value="medium" data-sb-checked="sb_thoroughness_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="thoroughness" value="high" data-sb-checked="sb_thoroughness_high" checked="checked" /><span class="c_high">high     </span>
@@ -41,7 +54,7 @@ review:
     rating: <input type="radio" name="rating" value="none" data-sb-checked="sb_rating_none" checked="checked"/><span class="c_none">none     </span><input type="radio" name="rating" value="negative" data-sb-checked="sb_rating_negative" checked="checked"/><span class="c_negative">negative     </span><input type="radio" name="rating" value="neutral" data-sb-checked="sb_rating_neutral" checked="checked"/><span class="c_neutral">neutral     </span><input type="radio" name="rating" value="positive" data-sb-checked="sb_rating_positive" checked="checked"/><span class="c_positive">positive     </span><input type="radio" name="rating" value="strong" data-sb-checked="sb_rating_strong" checked="checked"/><span class="c_strong">strong     </span>
 </pre>
                 <textarea style="height: 250px;" name="comment"><!--st_comment-->Comment</textarea>
-                <input class="button" type="submit" value="Export to yaml" />
+                <input class="button" style="width: 200px;height: 60px;" type="submit" value="Export to yaml" />
                 <p>Copy/paste this yaml text to your VIM editor:</p>
                 <textarea readonly="readonly" style="height: 250px;"><!--st_yaml_text-->yaml_text</textarea>
             </div>
@@ -65,28 +78,39 @@ Read the <code><a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo
     <div class="container_0">
         <div class="container0_content_not_grid">
             <pre>
-The <span class="white">new crev review</span> must be written with the command <code>$ cargo crev crate review {crate_name} {version}</code> 
+The new crev review must be written with the command
+<code>$ cargo crev crate review -u --skip-activity-check <!--st_package_name_version-->reader_for_microxml 1.1.11</code> 
 It opens the VIM editor. 
 This is the important part: When saved, the review is encrypted automatically ! 
 But writing in VIM is not easy for everybody. 
-By the way when you panic, type <code>:q</code> or <code>:q!</code> to exit or quit VIM. 
+Vim has "modes": Normal, Insert, Command,... Confusing. 
+By the way when you panic in VIM, type <code>Esc</code> and <code>:q</code> or <code>:q!</code> to exit or quit VIM. 
 There is also the possibility to write in your favorite editor, that is much better, but still not the best user experience. 
-This webpage makes it easy to write a review in the browser. 
-The browser cannot finish the review with encryption. 
-So you have to copy the resulting text to VIM: 
-- first in the browser <code>copy</code> the resulting text, 
-- run the command <code>$ cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code>.
-- VIM will open.
+The browser cannot finish the review with encryption. So we need a combination of all: browser, bash and VIM.
+</pre>
+        </div>
+    </div>
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <pre>
+- on this webpage write a review 
+- Export to yaml
+- <code>copy</code> the yaml text, 
+- run the command <code>$ cargo crev crate review -u --skip-activity-check <!--st_package_name_version-->reader_for_microxml 1.1.11</code>.
+- VIM will open in <code>Normal mode</code>
 - delete the first cc 10 lines with repeating the VIM shortcut <code>dd</code> for delete line 
 - then in VIM type <code>i</code> to go into <code>VIM Insert Mode</code> 
 - then mouse <code>right click</code> to paste 
-- the Esc to go to <code>VIM Normal mode</code>
+- then <code>Esc</code> to go to <code>VIM Normal mode</code>
 - type <code>:</code> to go into <code>VIM command mode</code>
 - then type <code>:wq</code> to write and quit 
 - now the encryption will kick in 
-- Done. Easy.
-- check your new review <code>cargo crev repo query review reader_for_microxml</code>
-- publish (push to GitHub)<code>cargo crev publish</code>
+- Done. Easy?!
+- check your new review locally <code>cargo crev repo query review <!--st_package_name-->reader_for_microxml</code>
+- publish (push to GitHub) <code>cargo crev publish</code>
+
+Now everybody can fetch and view your crev review.
+On this web site the new review will be fetched once in the next hour.
 </pre>
         </div>
     </div>

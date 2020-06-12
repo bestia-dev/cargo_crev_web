@@ -14,15 +14,12 @@ pub struct CrateReviews {
 
 impl CrateReviews {
     pub fn new(
-        cached_review_index: CachedReviewIndex,
+        state_global: ArcMutStateGlobal,
         crate_name: &str,
         version: &str,
         kind: &str,
     ) -> CrateReviews {
         let ns_start = ns_start("");
-        let review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
         // sort data by file_path
         // the data is sorted by path_file in ReviewIndex.new()
         // nobody else should sort the data
@@ -33,7 +30,7 @@ impl CrateReviews {
             file_path: s!("don't push the first row"),
             reviews_pk: Some(vec![]),
         };
-        for index_item in review_index.vec.iter() {
+        for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
             if index_item.crate_name == crate_name {
                 if index_item.file_path != old_file_path {
                     old_file_path = index_item.file_path.clone();
@@ -83,7 +80,7 @@ impl CrateReviews {
         });
 
         // the summary is always from all reviews. We must filter the reviews later.
-        let crate_version_summary = CrateVersionSummary::new(&crate_name, &reviews);
+        let crate_version_summary = CrateVersionSummary::new(state_global, &crate_name, &reviews);
         filter_reviews(&mut reviews, version, kind);
 
         // return

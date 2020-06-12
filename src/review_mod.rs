@@ -127,16 +127,7 @@ impl Review {
     }
     /// version for sorting
     pub fn version_for_sorting(&self) -> String {
-        let (major, minor, patch) = parse_semver(&self.package.version);
-        let version_for_sorting = format!(
-            "{:09}.{:09}.{:09}-{}",
-            major,
-            minor,
-            patch,
-            self.get_author_name(),
-        );
-        // return
-        version_for_sorting
+        version_for_sorting(&self.package.version, &self.get_author_name())
     }
     /// get rating even when review in none
     pub fn get_rating(&self) -> Rating {

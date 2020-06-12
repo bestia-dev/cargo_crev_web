@@ -13,7 +13,6 @@ use ansi_term::Colour::{Blue, Green, Red, Yellow};
 use log::info;
 use std::collections::HashMap;
 use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
 //use unwrap::unwrap;
 use warp::{
     //filters::BoxedFilter,
@@ -52,10 +51,7 @@ macro_rules! boxed_on_debug {
 
 // end region: (collapsed) use statements
 
-pub async fn start_routes(
-    cached_review_index: Arc<Mutex<review_index_mod::ReviewIndex>>,
-    local_addr: SocketAddr,
-) {
+pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAddr) {
     // websites are mostly always made of more separate web-apps
     // it is good for web-apps to NOT start from the website root
     // this webapp starts with the route website_url/rust-reviews/
@@ -67,7 +63,7 @@ pub async fn start_routes(
     // region: prepare routes
 
     // Turn our "state" into a new Filter...
-    let cached_review_index = warp::any().map(move || cached_review_index.clone());
+    let state_global = warp::any().map(move || state_global.clone());
 
     // static files and folders:
     // /rust-reviews/css/*  - static css file
@@ -84,6 +80,7 @@ pub async fn start_routes(
     // /rust-reviews/crates/
     // /rust-reviews/authors/
     // /rust-reviews/review_new/
+    // /rust-reviews/review_new/{crate}/{version}/
     // /rust-reviews/reserved_folder/
     // /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/
     // /rust-reviews/reserved_folder/list_new_author_id/
@@ -92,10 +89,10 @@ pub async fn start_routes(
 
     // this looks like a file and does not need ends_with_slash_or_redirect()
     let index_html_route = warp::path!("rust-reviews" / "index.html")
-        .and(cached_review_index.clone())
-        .map(|cached_review_index| {
+        .and(state_global.clone())
+        .map(|state_global| {
             let ns_start = ns_start("ReviewIndexSummary");
-            let data_model = review_index_summary_mod::ReviewIndexSummary::new(cached_review_index);
+            let data_model = review_index_summary_mod::ReviewIndexSummary::new(state_global);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
@@ -104,13 +101,13 @@ pub async fn start_routes(
 
     // the crate_name must finish with .svg
     let badge_route = warp::path!("rust-reviews" / "badge" / "crev_count" / UrlPartUtf8Decoded)
-        .and(cached_review_index.clone())
-        .map(|crate_name: UrlPartUtf8Decoded, cached_review_index| {
+        .and(state_global.clone())
+        .map(|crate_name: UrlPartUtf8Decoded, state_global| {
             let ns_start = ns_start("badge");
             let crate_name = crate_name.to_string();
             // remove suffix .svg
             let trimmed_str: &str = crate_name.trim_end_matches(".svg");
-            let data_model = badge_mod::Badge::crev_count(trimmed_str, cached_review_index);
+            let data_model = badge_mod::Badge::crev_count(trimmed_str, state_global);
             dbg!(&data_model);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
@@ -134,16 +131,45 @@ pub async fn start_routes(
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
-        });
+        })
+        .or(
+            warp::path!("rust-reviews" / "review_new" / UrlPartUtf8Decoded).map(
+                |crate_name: UrlPartUtf8Decoded| {
+                    let crate_name = crate_name.to_string();
+                    let ns_start = ns_start("review_new");
+                    let data_model = review_new_mod::ReviewNew::new_from_get(&crate_name, "");
+                    let ns_new = ns_print("new()", ns_start);
+                    let html_file = data_model.render_html_file("templates/");
+                    ns_print("render_html_file()", ns_new);
+                    warp::reply::html(html_file)
+                },
+            ),
+        )
+        .or(
+            warp::path!("rust-reviews" / "review_new" / UrlPartUtf8Decoded / UrlPartUtf8Decoded)
+                .map(
+                    |crate_name: UrlPartUtf8Decoded, version: UrlPartUtf8Decoded| {
+                        let crate_name = crate_name.to_string();
+                        let version = version.to_string();
+                        let ns_start = ns_start("review_new");
+                        let data_model =
+                            review_new_mod::ReviewNew::new_from_get(&crate_name, &version);
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        warp::reply::html(html_file)
+                    },
+                ),
+        );
 
     let reserved_folder_route =
         warp::path!("rust-reviews" / "reserved_folder" / "reindex_after_fetch_new_reviews")
-            .and(cached_review_index.clone())
-            .map(|cached_review_index| {
+            .and(state_global.clone())
+            .map(|state_global| {
                 let ns_start = ns_start("reindex_after_fetch_new_reviews");
                 let data_model =
                     reserved_folder_mod::ReservedFolder::reindex_after_fetch_new_reviews(
-                        cached_review_index,
+                        state_global,
                     );
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
@@ -152,12 +178,11 @@ pub async fn start_routes(
             })
             .or(
                 warp::path!("rust-reviews" / "reserved_folder" / "fetch_new_reviews")
-                    .and(cached_review_index.clone())
-                    .map(|cached_review_index| {
+                    .and(state_global.clone())
+                    .map(|state_global| {
                         let ns_start = ns_start("fetch_new_reviews");
-                        let data_model = reserved_folder_mod::ReservedFolder::fetch_new_reviews(
-                            cached_review_index,
-                        );
+                        let data_model =
+                            reserved_folder_mod::ReservedFolder::fetch_new_reviews(state_global);
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);
@@ -166,13 +191,12 @@ pub async fn start_routes(
             )
             .or(
                 warp::path!("rust-reviews" / "reserved_folder" / "list_new_author_id")
-                    .and(cached_review_index.clone())
-                    .and_then(|cached_review_index| async move {
+                    .and(state_global.clone())
+                    .and_then(|state_global| async move {
                         let ns_start = ns_start("list_new_author_id");
-                        let data_model = reserved_folder_mod::ReservedFolder::list_new_author_id(
-                            cached_review_index,
-                        )
-                        .await;
+                        let data_model =
+                            reserved_folder_mod::ReservedFolder::list_new_author_id(state_global)
+                                .await;
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);
@@ -185,36 +209,32 @@ pub async fn start_routes(
             .or(warp::path!(
                 "rust-reviews" / "reserved_folder" / "add_author_url" / UrlPartUtf8Decoded
             )
-            .and(cached_review_index.clone())
-            .and_then(
-                |author_name: UrlPartUtf8Decoded, cached_review_index| async move {
-                    let ns_start = ns_start("add_author_url");
-                    let author_name = author_name.to_string();
-                    // in this fragment are 2 parts delimited with /, so it must be encoded
-                    // after decoding looks like "scott-wilson/crev-proofs"
-                    dbg!(&author_name);
-                    let data_model = reserved_folder_mod::ReservedFolder::add_author_url(
-                        author_name,
-                        cached_review_index,
-                    )
-                    .await;
-                    let ns_new = ns_print("new()", ns_start);
-                    let html_file = data_model.render_html_file("templates/");
-                    ns_print("render_html_file()", ns_new);
-                    // return crazy types
-                    let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
-                        Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
-                    result
-                },
-            ))
+            .and(state_global.clone())
+            .and_then(|author_name: UrlPartUtf8Decoded, state_global| async move {
+                let ns_start = ns_start("add_author_url");
+                let author_name = author_name.to_string();
+                // in this fragment are 2 parts delimited with /, so it must be encoded
+                // after decoding looks like "scott-wilson/crev-proofs"
+                dbg!(&author_name);
+                let data_model =
+                    reserved_folder_mod::ReservedFolder::add_author_url(author_name, state_global)
+                        .await;
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                // return crazy types
+                let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
+                    Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
+                result
+            }))
             .or(
                 warp::path!("rust-reviews" / "reserved_folder" / "list_fetched_author_id")
-                    .and(cached_review_index.clone())
-                    .map(|cached_review_index| {
+                    .and(state_global.clone())
+                    .map(|state_global| {
                         let ns_start = ns_start("list_fetched_author_id");
                         let data_model =
                             reserved_folder_mod::ReservedFolder::list_fetched_author_id(
-                                cached_review_index,
+                                state_global,
                             );
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
@@ -223,10 +243,10 @@ pub async fn start_routes(
                     }),
             )
             .or(warp::path!("rust-reviews" / "reserved_folder")
-                .and(cached_review_index.clone())
-                .map(|cached_review_index| {
+                .and(state_global.clone())
+                .map(|state_global| {
                     let ns_start = ns_start("reserved_folder");
-                    let data_model = reserved_folder_mod::ReservedFolder::new(cached_review_index);
+                    let data_model = reserved_folder_mod::ReservedFolder::new(state_global);
                     // dbg!( data_model);
                     let ns_new = ns_print("new()", ns_start);
                     let html_file = data_model.render_html_file("templates/");
@@ -235,30 +255,30 @@ pub async fn start_routes(
                 }));
 
     let root_route = warp::path!("rust-reviews")
-        .and(cached_review_index.clone())
-        .map(|cached_review_index| {
+        .and(state_global.clone())
+        .map(|state_global| {
             let ns_start = ns_start("ReviewIndexSummary");
-            let data_model = review_index_summary_mod::ReviewIndexSummary::new(cached_review_index);
+            let data_model = review_index_summary_mod::ReviewIndexSummary::new(state_global);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
         .or(warp::path!("rust-reviews" / "crates")
-            .and(cached_review_index.clone())
-            .map(|cached_review_index| {
+            .and(state_global.clone())
+            .map(|state_global| {
                 let ns_start = ns_start("ReviewIndexByCrate");
-                let data_model = crates_mod::ReviewIndexByCrate::new(cached_review_index);
+                let data_model = crates_mod::ReviewIndexByCrate::new(state_global);
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
                 warp::reply::html(html_file)
             }))
         .or(warp::path!("rust-reviews" / "authors")
-            .and(cached_review_index.clone())
-            .map(|cached_review_index| {
+            .and(state_global.clone())
+            .map(|state_global| {
                 let ns_start = ns_start("ReviewIndexByAuthor");
-                let data_model = authors_mod::ReviewIndexByAuthor::new(cached_review_index);
+                let data_model = authors_mod::ReviewIndexByAuthor::new(state_global);
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
@@ -266,15 +286,14 @@ pub async fn start_routes(
             }));
 
     let author_route = warp::path!("rust-reviews" / "author" / UrlPartUtf8Decoded)
-        .and(cached_review_index.clone())
-        .map(|author_id: UrlPartUtf8Decoded, cached_review_index| {
+        .and(state_global.clone())
+        .map(|author_id: UrlPartUtf8Decoded, state_global| {
             let author_id = author_id.to_string();
             let ns_start = ns_start(&format!(
                 "AuthorReviews author_name: '{}'",
                 Yellow.paint(&author_id),
             ));
-            let data_model =
-                author_reviews_mod::AuthorReviews::new(cached_review_index, &author_id);
+            let data_model = author_reviews_mod::AuthorReviews::new(state_global, &author_id);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
@@ -282,8 +301,8 @@ pub async fn start_routes(
         });
 
     let crate_route = warp::path!("rust-reviews" / "crate" / UrlPartUtf8Decoded)
-        .and(cached_review_index.clone())
-        .map(|crate_name: UrlPartUtf8Decoded, cached_review_index| {
+        .and(state_global.clone())
+        .map(|crate_name: UrlPartUtf8Decoded, state_global| {
             let crate_name = crate_name.to_string();
             let ns_start = ns_start(&format!(
                 "CrateReviews crate_name: '{}'",
@@ -291,7 +310,7 @@ pub async fn start_routes(
             ));
 
             let data_model =
-                crate_reviews_mod::CrateReviews::new(cached_review_index, &crate_name, "", "");
+                crate_reviews_mod::CrateReviews::new(state_global, &crate_name, "", "");
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
@@ -299,11 +318,9 @@ pub async fn start_routes(
         })
         .or(
             warp::path!("rust-reviews" / "crate" / UrlPartUtf8Decoded / UrlPartUtf8Decoded)
-                .and(cached_review_index.clone())
+                .and(state_global.clone())
                 .map(
-                    |crate_name: UrlPartUtf8Decoded,
-                     version: UrlPartUtf8Decoded,
-                     cached_review_index| {
+                    |crate_name: UrlPartUtf8Decoded, version: UrlPartUtf8Decoded, state_global| {
                         let crate_name = crate_name.to_string();
                         let version = version.to_string();
                         let ns_start = ns_start(&format!(
@@ -313,7 +330,7 @@ pub async fn start_routes(
                         ));
 
                         let data_model = crate_reviews_mod::CrateReviews::new(
-                            cached_review_index,
+                            state_global,
                             &crate_name,
                             &version,
                             "",
@@ -328,12 +345,12 @@ pub async fn start_routes(
         .or(warp::path!(
             "rust-reviews" / "crate" / UrlPartUtf8Decoded / UrlPartUtf8Decoded / UrlPartUtf8Decoded
         )
-        .and(cached_review_index.clone())
+        .and(state_global.clone())
         .map(
             |crate_name: UrlPartUtf8Decoded,
              version: UrlPartUtf8Decoded,
              kind: UrlPartUtf8Decoded,
-             cached_review_index| {
+             state_global| {
                 let crate_name = crate_name.to_string();
                 let version = version.to_string();
                 let kind = kind.to_string();
@@ -345,7 +362,7 @@ pub async fn start_routes(
                 ));
 
                 let data_model = crate_reviews_mod::CrateReviews::new(
-                    cached_review_index,
+                    state_global,
                     &crate_name,
                     &version,
                     &kind,

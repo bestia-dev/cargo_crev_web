@@ -12,13 +12,16 @@ use std::str::FromStr;
 
 /// simplified review
 #[derive(Serialize, Deserialize, Clone, Default)]
-pub struct Review01 {
+pub struct ReviewForVim {
     pub review: ReviewReview,
     pub comment: String,
 }
-
+#[derive(Clone, Default)]
 pub struct ReviewNew {
-    pub rev: Review01,
+    pub package_name: String,
+    pub package_version: String,
+    //pub cargo_toml_line: String,
+    pub review_for_vim: ReviewForVim,
     pub yaml_text: String,
 }
 
@@ -26,65 +29,81 @@ impl ReviewNew {
     #[allow(unused)]
     /// prepares the data
     pub fn new(form_data: HashMap<String, String>) -> Self {
-        let mut rev = Review01 {
-            review: ReviewReview {
-                thoroughness: Level::None,
-                understanding: Level::None,
-                rating: Rating::None,
-            },
-            comment: "comment".to_string(),
-        };
+        let mut review_new = ReviewNew::default();
+        // just copy form data into struct. Don't process it here.
         for (key, value) in form_data {
             match key.as_ref() {
-                "thoroughness" => rev.review.thoroughness = unwrap!(Level::from_str(&value)),
-                "understanding" => rev.review.understanding = unwrap!(Level::from_str(&value)),
-                "rating" => rev.review.rating = unwrap!(Rating::from_str(&value)),
-                "comment" => rev.comment = value.to_string(),
+                //"cargo_toml_line" => review_new.cargo_toml_line = value,
+                "package_name" => review_new.package_name = value.to_string(),
+                "package_version" => review_new.package_version = value.to_string(),
+                "thoroughness" => {
+                    review_new.review_for_vim.review.thoroughness = unwrap!(Level::from_str(&value))
+                }
+                "understanding" => {
+                    review_new.review_for_vim.review.understanding =
+                        unwrap!(Level::from_str(&value))
+                }
+                "rating" => {
+                    review_new.review_for_vim.review.rating = unwrap!(Rating::from_str(&value))
+                }
+                "comment" => review_new.review_for_vim.comment = value.to_string(),
                 _ => {}
             }
         }
-        let yaml_text = unwrap!(serde_yaml::to_string(&rev));
+        if review_new.package_name.is_empty(){
+            review_new.package_name="crate_name".into();
+        }
+        if review_new.package_version.is_empty(){
+            review_new.package_version="version".into();
+        }
+        // parse cargo_toml_line if it exist
+        /*
+        if !review_new.cargo_toml_line.is_empty(){
+            let (package_name, package_version) = Self::parse_cargo_toml_line(&review_new.cargo_toml_line);
+            review_new.package_name = package_name;
+            review_new.package_version = package_version;
+        }
+        */
+        review_new.yaml_text = unwrap!(serde_yaml::to_string(&review_new.review_for_vim));
         //return
-        ReviewNew { rev, yaml_text }
+        review_new
     }
 
-    pub fn st_comment(&self) -> String {
-        self.rev.comment.to_string()
-    }
+    pub fn new_from_get(crate_name: &str, version: &str) -> Self {
+        let mut review_new = ReviewNew {
+            package_name: crate_name.to_string(),
+            package_version: version.to_string(),
+            //cargo_toml_line:s!(""),
+            review_for_vim: ReviewForVim {
+                review: ReviewReview {
+                    thoroughness: Level::None,
+                    understanding: Level::None,
+                    rating: Rating::None,
+                },
+                comment: "comment".to_string(),
+            },
+            yaml_text: s!(""),
+        };
+        review_new.yaml_text = unwrap!(serde_yaml::to_string(&review_new.review_for_vim));
 
-    pub fn st_thoroughness(&self) -> String {
-        self.rev.review.thoroughness.to_string()
-    }
-
-    pub fn st_understanding(&self) -> String {
-        self.rev.review.understanding.to_string()
-    }
-
-    pub fn st_rating(&self) -> String {
-        self.rev.review.rating.to_string()
+        //return
+        review_new
     }
     /*
-    pub fn st_alternatives_0_source(&self) -> String {
-        if let Some(alternatives) = &self.rev.alternatives {
-            alternatives[0].source.clone()
-        } else {
-            s!("")
-        }
-    }
-
-    pub fn st_alternatives_0_name(&self) -> String {
-        if let Some(alternatives) = &self.rev.alternatives {
-            alternatives[0].name.clone()
-        } else {
-            s!("")
-        }
-    }
-    pub fn st_advisories_comment_0_0(&self) -> String {
-        if let Some(advisories) = &self.rev.advisories {
-            advisories[0].comment.clone()
-        } else {
-            s!("")
-        }
+    pub fn parse_cargo_toml_line(value: &str) -> (String, String) {
+        // micro-ecc-sys = "0.2.0"
+        let mut spl = value.split('=');
+        let crate_name = spl.next().unwrap_or("").trim().to_string();
+        println!("{}", crate_name);
+        let version = spl
+            .next()
+            .unwrap_or("")
+            .replace(r#"""#, "")
+            .trim()
+            .to_string();
+        println!("{}", version);
+        // return
+        (crate_name, version)
     }
     */
 }
@@ -108,24 +127,38 @@ impl HtmlServerTemplateRender for ReviewNew {
         // dbg!(&placeholder);
         match placeholder {
             /*
-            "sb_has_alternative" => self.rev.alternatives.is_some(),
-            "sb_has_issue" => self.rev.issues.is_some(),
-            "sb_has_advisories" => self.rev.advisories.is_some(),
+            "sb_has_alternative" => self.review_for_vim.alternatives.is_some(),
+            "sb_has_issue" => self.review_for_vim.issues.is_some(),
+            "sb_has_advisories" => self.review_for_vim.advisories.is_some(),
             */
             // radio buttons in html have this terrible attribute checked. Horror.
-            "sb_thoroughness_none" => &self.st_thoroughness() == "none",
-            "sb_thoroughness_low" => &self.st_thoroughness() == "low",
-            "sb_thoroughness_medium" => &self.st_thoroughness() == "medium",
-            "sb_thoroughness_high" => &self.st_thoroughness() == "high",
-            "sb_understanding_none" => &self.st_understanding() == "none",
-            "sb_understanding_low" => &self.st_understanding() == "low",
-            "sb_understanding_medium" => &self.st_understanding() == "medium",
-            "sb_understanding_high" => &self.st_understanding() == "high",
-            "sb_rating_none" => &self.st_rating() == "none",
-            "sb_rating_negative" => &self.st_rating() == "negative",
-            "sb_rating_neutral" => &self.st_rating() == "neutral",
-            "sb_rating_positive" => &self.st_rating() == "positive",
-            "sb_rating_strong" => &self.st_rating() == "strong",
+            "sb_thoroughness_none" => {
+                &self.review_for_vim.review.thoroughness.to_string() == "none"
+            }
+            "sb_thoroughness_low" => &self.review_for_vim.review.thoroughness.to_string() == "low",
+            "sb_thoroughness_medium" => {
+                &self.review_for_vim.review.thoroughness.to_string() == "medium"
+            }
+            "sb_thoroughness_high" => {
+                &self.review_for_vim.review.thoroughness.to_string() == "high"
+            }
+            "sb_understanding_none" => {
+                &self.review_for_vim.review.understanding.to_string() == "none"
+            }
+            "sb_understanding_low" => {
+                &self.review_for_vim.review.understanding.to_string() == "low"
+            }
+            "sb_understanding_medium" => {
+                &self.review_for_vim.review.understanding.to_string() == "medium"
+            }
+            "sb_understanding_high" => {
+                &self.review_for_vim.review.understanding.to_string() == "high"
+            }
+            "sb_rating_none" => &self.review_for_vim.review.rating.to_string() == "none",
+            "sb_rating_negative" => &self.review_for_vim.review.rating.to_string() == "negative",
+            "sb_rating_neutral" => &self.review_for_vim.review.rating.to_string() == "neutral",
+            "sb_rating_positive" => &self.review_for_vim.review.rating.to_string() == "positive",
+            "sb_rating_strong" => &self.review_for_vim.review.rating.to_string() == "strong",
 
             _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
@@ -147,12 +180,14 @@ impl HtmlServerTemplateRender for ReviewNew {
         // list_fetched_author_id is Option and can be None or Some
         match placeholder {
             "st_yaml_text" => s!(self.yaml_text),
-            //"st_date" => s!(self.rev.date),
-            "st_comment" => s!(self.st_comment()),
+            //"st_date" => s!(self.review_for_vim.date),
+            "st_comment" => s!(self.review_for_vim.comment),
+            "st_package_name" => s!(self.package_name),
+            "st_package_version" => s!(self.package_version),
+            "st_package_name_version"=>format!("{} {}",self.package_name,self.package_version),
             /*
-            "st_from_url" => s!(self.rev.from.url),
-            "st_package_name" => s!(self.rev.package.name),
-            "st_package_version" => s!(self.rev.package.version),
+            "st_from_url" => s!(self.review_for_vim.from.url),
+
             "st_alternatives_0_source" => s!(self.st_alternatives_0_source()),
             "st_alternatives_0_name" => s!(self.st_alternatives_0_name()),
             "st_advisories_comment_0_0" => s!(self.st_advisories_comment_0_0()),

@@ -15,7 +15,8 @@ use std::sync::{Arc, Mutex};
 // end region: (collapsed) use statements
 
 // Globally accessible object inside Arc-Mutex
-pub type CachedReviewIndex = Arc<Mutex<review_index_mod::ReviewIndex>>;
+pub type ArcMutStateGlobal = Arc<Mutex<state_mod::StateGlobal>>;
+// review_index_mod::ReviewIndex>>;
 
 pub async fn main_code() {
     // region: env_logger log text to stdout depend on ENV variable
@@ -42,8 +43,14 @@ pub async fn main_code() {
     // endregion
 
     // I will cache the review index
-    let cached_review_index = Arc::new(Mutex::new(review_index_mod::ReviewIndex::new()));
-    cargo_registry_index_mod::CrateIndex::new();
+    let review_index = review_index_mod::ReviewIndex::new();
+    // I don't have a solution yet. I'm waiting if maybe they make an api for minimal data.
+    //let crate_index = cargo_registry_index_mod::CrateIndex::new();
+    let state_global = state_mod::StateGlobal {
+        //crate_index,
+        review_index,
+    };
+    let state_global = Arc::new(Mutex::new(state_global));
 
-    router_mod::start_routes(cached_review_index, local_addr).await;
+    router_mod::start_routes(state_global, local_addr).await;
 }

@@ -26,13 +26,10 @@ pub struct ByCrateItem {
 }
 
 impl ReviewIndexByCrate {
-    pub fn new(cached_review_index: CachedReviewIndex) -> Self {
-        let mut review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
-
+    pub fn new(state_global: ArcMutStateGlobal) -> Self {
         // sort order for group by, so I don't need to send a mutable
-        review_index
+        unwrap!(state_global.lock())
+            .review_index
             .vec
             .sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
 
@@ -40,7 +37,7 @@ impl ReviewIndexByCrate {
         let mut for_unique_versions: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
         let mut review_index_by_crate = ReviewIndexByCrate { vec: vec![] };
-        for index_item in &review_index.vec {
+        for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
             // the reviews are already sorted by crate_name
             if &index_item.crate_name != &old_crate_name {
                 if !old_crate_name.is_empty() {

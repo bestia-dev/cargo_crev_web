@@ -6,7 +6,7 @@ use crate::*;
 
 //use serde_derive::{Deserialize, Serialize};
 //use std::fs;
-//use unwrap::unwrap;
+use unwrap::unwrap;
 
 #[derive(Clone, Debug)]
 pub struct Badge {
@@ -44,12 +44,10 @@ impl Badge {
             height,
         }
     }
-    pub fn crev_count(crate_name: &str, cached_review_index: CachedReviewIndex) -> Self {
-        let review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
+    pub fn crev_count(crate_name: &str, state_global: ArcMutStateGlobal) -> Self {
         let subject_text = "crev reviews";
-        let status: usize = review_index
+        let status: usize = unwrap!(state_global.lock())
+            .review_index
             .vec
             .iter()
             .map(|e| if e.crate_name == crate_name { 1 } else { 0 })

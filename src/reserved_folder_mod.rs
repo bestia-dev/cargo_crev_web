@@ -32,20 +32,17 @@ pub struct ReservedFolder {
 
 impl ReservedFolder {
     /// prepares the data
-    pub fn new(_cached_review_index: CachedReviewIndex) -> Self {
-        // let review_index = cached_review_index.lock().expect("error cached_review_index.lock()");
+    pub fn new(_state_global: ArcMutStateGlobal) -> Self {
         // return
         ReservedFolder {
             ..Default::default()
         }
     }
-    pub fn list_fetched_author_id(cached_review_index: CachedReviewIndex) -> Self {
+    pub fn list_fetched_author_id(state_global: ArcMutStateGlobal) -> Self {
         // fills the field list_fetched_author_id
-        let review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
         use itertools::Itertools;
-        let mut only_author: Vec<OnlyAuthor> = review_index
+        let mut only_author: Vec<OnlyAuthor> = unwrap!(state_global.lock())
+            .review_index
             .vec
             .iter()
             .unique_by(|rev| &rev.author_name)
@@ -68,18 +65,15 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
-    pub fn reindex_after_fetch_new_reviews(cached_review_index: CachedReviewIndex) -> Self {
-        let mut review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
-        *review_index = review_index_mod::ReviewIndex::new();
+    pub fn reindex_after_fetch_new_reviews(state_global: ArcMutStateGlobal) -> Self {
+        unwrap!(state_global.lock()).review_index = review_index_mod::ReviewIndex::new();
         // return
         ReservedFolder {
             reindex_after_fetch_new_reviews: Some(s!("Reindex finished.")),
             ..Default::default()
         }
     }
-    pub fn fetch_new_reviews(_cached_review_index: CachedReviewIndex) -> Self {
+    pub fn fetch_new_reviews(_state_global: ArcMutStateGlobal) -> Self {
         unwrap!(std::process::Command::new("bash")
             .arg("/var/www/scripts/cargo_crev_web_fetch_reindex.sh")
             .spawn());
@@ -89,7 +83,7 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
-    pub async fn list_new_author_id(cached_review_index: CachedReviewIndex) -> Self {
+    pub async fn list_new_author_id(state_global: ArcMutStateGlobal) -> Self {
         // The repo https://gitlab.com/crev-dev/auto-crev-proofs.git
         // is automated to have all the crev repos it can find. It is also
         // possible to add repos manually.
@@ -151,11 +145,9 @@ impl ReservedFolder {
         // and reference lifetime is in question?
         // so I must do it after await.
         // probably the Mutex is available everywhere, anytime ?
-        let review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
         use itertools::Itertools;
-        let mut fetched_author_url: Vec<String> = review_index
+        let mut fetched_author_url: Vec<String> = unwrap!(state_global.lock())
+            .review_index
             .vec
             .iter()
             .unique_by(|rev| &rev.author_url)
@@ -203,7 +195,7 @@ impl ReservedFolder {
     pub async fn add_author_url(
         // this type guarantee that it has been decoded
         author_name: String,
-        _cached_review_index: CachedReviewIndex,
+        _state_global: ArcMutStateGlobal,
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one

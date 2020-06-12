@@ -262,6 +262,7 @@
 mod author_reviews_mod;
 mod authors_mod;
 mod badge_mod;
+mod cargo_registry_index_mod;
 mod crate_reviews_mod;
 mod crate_version_summary_mod;
 mod crates_mod;
@@ -276,10 +277,10 @@ mod review_index_summary_mod;
 mod review_mod;
 mod review_new_mod;
 mod router_mod;
+mod state_mod;
 mod url_utf8_mod;
 mod utils_mod;
 mod version_summary_mod;
-mod cargo_registry_index_mod;
 
 // `pub use` statements her are propagated to every other module
 // when they use `crate::*;`

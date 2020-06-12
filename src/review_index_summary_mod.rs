@@ -2,7 +2,8 @@
 
 use crate::*;
 
-//use unwrap::unwrap;
+use unwrap::unwrap;
+
 #[derive(Clone, Debug)]
 pub struct ReviewIndexSummary {
     pub unique_crates: usize,
@@ -20,11 +21,7 @@ pub struct ReviewIndexSummary {
 
 impl ReviewIndexSummary {
     /// prepares the data
-    pub fn new(cached_review_index: CachedReviewIndex) -> Self {
-        let review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
-
+    pub fn new(state_global: ArcMutStateGlobal) -> Self {
         let mut for_unique_crates: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
         let mut summary = ReviewIndexSummary {
@@ -40,7 +37,7 @@ impl ReviewIndexSummary {
             count_of_issues: 0,
             count_of_advisories: 0,
         };
-        for index_item in &review_index.vec {
+        for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
             for_unique_crates.push(s!(&index_item.crate_name));
             for_unique_authors.push(s!(&index_item.author_name));
             summary.count_of_reviews += 1;

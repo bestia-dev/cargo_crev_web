@@ -15,11 +15,8 @@ pub struct AuthorReviews {
 }
 
 impl AuthorReviews {
-    pub fn new(cached_review_index: CachedReviewIndex, author_id: &str) -> Self {
+    pub fn new(state_global: ArcMutStateGlobal, author_id: &str) -> Self {
         let ns_start = ns_start("");
-        let review_index = cached_review_index
-            .lock()
-            .expect("error cached_review_index.lock()");
         // sort data by file_path
         // the data is sorted by path_file in ReviewIndex.new()
         // nobody else should sort the data
@@ -32,7 +29,7 @@ impl AuthorReviews {
         };
         let mut author_name = s!("");
         let mut author_url = s!("");
-        for index_item in review_index.vec.iter() {
+        for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
             if index_item.author_id == author_id {
                 if index_item.file_path != old_file_path {
                     old_file_path = index_item.file_path.clone();

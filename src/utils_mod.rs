@@ -244,3 +244,11 @@ pub fn author_name_from_url(url: &str) -> String {
     // return
     author_name
 }
+
+/// version for sorting
+pub fn version_for_sorting(version: &str, author_name: &str) -> String {
+    let (major, minor, patch) = parse_semver(version);
+    let version_for_sorting = format!("{:09}.{:09}.{:09}-{}", major, minor, patch, author_name,);
+    // return
+    version_for_sorting
+}
