@@ -387,8 +387,15 @@ pub trait HtmlServerTemplateRender {
                                     // The template is well-formed.
                                     // The string is html-encoded and must be html-decoded
                                     // to push it to Node, where strings are "normal".
-                                    let txt = decode_5_xml_control_characters(txt);
-                                    element.children.push(Node::Text(txt));
+                                    dbg!(&dom_path);
+                                    // The <script> node is the exception with other rules for encoding
+                                    if unwrap!(dom_path.last()) == "script" {
+                                        let txt = decode_html_script_node(txt);
+                                        element.children.push(Node::Text(txt));
+                                    } else {
+                                        let txt = decode_5_xml_control_characters(txt);
+                                        element.children.push(Node::Text(txt));
+                                    }
                                 };
                             }
                         }
@@ -523,11 +530,17 @@ pub trait HtmlServerTemplateRender {
     /// converts element node to string
     /// the attribute values and Text nodes and Comments are xml encoded
     fn root_element_node_to_html_string(element_node: &ElementNode) -> Result<String, String> {
+        let mut dom_path: Vec<String> = Vec::new();
         /// recursive private fn sub element to html
-        fn sub_element_node_mut_html(html: &mut String, element_node: &ElementNode) {
+        fn sub_element_node_mut_html(
+            html: &mut String,
+            element_node: &ElementNode,
+            dom_path: &mut Vec<String>,
+        ) {
             html.push_str("<");
             html.push_str(&element_node.tag_name);
             html.push_str(" ");
+            dom_path.push(element_node.tag_name.to_string());
             for attr in &element_node.attributes {
                 html.push_str(&attr.name);
                 html.push_str(" = \"");
@@ -539,6 +552,7 @@ pub trait HtmlServerTemplateRender {
                 // for <br /> is significant to stay auto-closed
                 // because <br></br> is rendered differently
                 html.push_str("/>");
+                unwrap!(dom_path.pop());
             // dbg!(&html);
             } else {
                 html.push_str(">");
@@ -546,9 +560,16 @@ pub trait HtmlServerTemplateRender {
                     match &sub_elem {
                         Node::Element(sub_element) => {
                             // recursion
-                            sub_element_node_mut_html(html, sub_element);
+                            sub_element_node_mut_html(html, sub_element, dom_path);
                         }
-                        Node::Text(text) => html.push_str(&encode_5_xml_control_characters(&text)),
+                        Node::Text(text) => {
+                            if unwrap!(dom_path.last()) == "script" {
+                                // in html script elements are encoded differently
+                                html.push_str(&encode_html_script_node(&text));
+                            } else {
+                                html.push_str(&encode_5_xml_control_characters(&text));
+                            }
+                        }
                         Node::Comment(text) => html.push_str(&format!(
                             "<!--{}-->",
                             encode_5_xml_control_characters(&text)
@@ -559,17 +580,28 @@ pub trait HtmlServerTemplateRender {
                 html.push_str("</");
                 html.push_str(&element_node.tag_name);
                 html.push_str(">");
+                unwrap!(dom_path.pop());
             }
         }
 
         let mut html = String::with_capacity(5000);
         html.push_str("<!DOCTYPE html>");
-        sub_element_node_mut_html(&mut html, element_node);
+        sub_element_node_mut_html(&mut html, element_node, &mut dom_path);
         // return
         Ok(html)
     }
 }
 // region: utility fn
+
+/// in html the <script> element is encoded differently
+pub fn encode_html_script_node(input: &str) -> String {
+    input.replace("</script>", "\\x3c/script>")
+}
+
+/// in html the <script> element is decoded differently
+pub fn decode_html_script_node(input: &str) -> String {
+    input.replace("\\x3c/script>", "</script>")
+}
 
 /// private fn - decode 5 xml control characters : " ' & < >
 /// https://www.liquid-technologies.com/XML/EscapingData.aspx

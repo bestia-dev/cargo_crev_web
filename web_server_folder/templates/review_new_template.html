@@ -8,6 +8,7 @@
     <link rel="stylesheet" data-su_css_route="href" href="../web_content_folder/css/rust-reviews.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
     <link rel="shortcut icon" type="image/x-icon" data-su_favicon_route="href" href="../favicon.png" />
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
                     <h3 class="h3y">new review helper</h3>
                 </div>
             </div>
-            <code>$ cargo crev crate review -u --skip-activity-check <!--st_package_name_version-->reader_for_microxml 1.1.11</code>
+            <code data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to copy" data-tooltip="Click to Copy">$ <!--st_bash_command-->cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code>
         </div>
     </div>
 
@@ -79,7 +80,8 @@ Read the <code><a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo
         <div class="container0_content_not_grid">
             <pre>
 The new crev review must be written with the command
-<code>$ cargo crev crate review -u --skip-activity-check <!--st_package_name_version-->reader_for_microxml 1.1.11</code> 
+<code data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to copy" 
+data-tooltip="Click to Copy" >$ <!--st_bash_command-->cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code> 
 It opens the VIM editor. 
 This is the important part: When saved, the review is encrypted automatically ! 
 But writing in VIM is not easy for everybody. 
@@ -96,7 +98,9 @@ The browser cannot finish the review with encryption. So we need a combination o
 - on this webpage write a review 
 - Export to yaml
 - <code>copy</code> the yaml text, 
-- run the command <code>$ cargo crev crate review -u --skip-activity-check <!--st_package_name_version-->reader_for_microxml 1.1.11</code>.
+- run the command <code 
+data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to copy" 
+data-tooltip="Click to Copy" >$ <!--st_bash_command-->cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code>.
 - VIM will open in <code>Normal mode</code>
 - delete the first cc 10 lines with repeating the VIM shortcut <code>dd</code> for delete line 
 - then in VIM type <code>i</code> to go into <code>VIM Insert Mode</code> 
@@ -106,6 +110,11 @@ The browser cannot finish the review with encryption. So we need a combination o
 - then type <code>:wq</code> to write and quit 
 - now the encryption will kick in 
 - Done. Easy?!
+
+Let's repeat it faster, only the part after the command:
+<code>dd * 10 i r_click Esc :wq</code>
+It is not so bad.
+
 - check your new review locally <code>cargo crev repo query review <!--st_package_name-->reader_for_microxml</code>
 - publish (push to GitHub) <code>cargo crev publish</code>
 
@@ -116,5 +125,9 @@ On this web site the new review will be fetched once in the next hour.
     </div>
 
 </body>
+
+<script>
+    new ClipboardJS("[data-clipboard-text]");
+</script>
 
 </html>

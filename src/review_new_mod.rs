@@ -184,7 +184,10 @@ impl HtmlServerTemplateRender for ReviewNew {
             "st_comment" => s!(self.review_for_vim.comment),
             "st_package_name" => s!(self.package_name),
             "st_package_version" => s!(self.package_version),
-            "st_package_name_version" => format!("{} {}", self.package_name, self.package_version),
+            "st_bash_command" => format!(
+                "cargo crev crate review -u --skip-activity-check {} {}",
+                self.package_name, self.package_version
+            ),
             /*
             "st_from_url" => s!(self.review_for_vim.from.url),
 

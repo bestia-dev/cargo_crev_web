@@ -6,7 +6,7 @@
 // region: lmake_readme include "readme.md" //! A
 //! # Rust-reviews (working title cargo_crev_web)
 //!
-//! ***version: 2020.613.848  date: 2020-06-13 authors: Luciano Bestia***  
+//! ***version: 2020.613.1605  date: 2020-06-13 authors: Luciano Bestia***  
 //! **web server to query reviews from cargo-crev**
 //!
 //!
@@ -33,6 +33,18 @@
 //! The basis of cargo-crev is a list of trusted individuals.  
 //! For the web it would be a broader number of people to achieve more understanding in the community.  
 //! The same machine will have the web server and the git repository for cargo-crev.  
+//!
+//! ## CREV - Rust code reviews - Raise awareness
+//!
+//! Please, spread this info !\
+//! Open source code needs a community effort to express trustworthiness.\
+//! Start with reading the reviews of the crates you use. Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/) \
+//! Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \
+//! On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
+//! Write a new review ! \
+//! Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
+//! Help other developers, inform them and share your opinion.\
+//! Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://web.crev.dev/rust-reviews/review_new)
 //!
 //! ## crates.io and lib.rs
 //!
@@ -162,17 +174,6 @@
 //!
 //! Locally in development is the same, just the server is 127.0.0.1:8051/.  
 //!
-//! ## CREV - Rust code reviews - Raise awareness
-//!
-//! Please, spread this info.\
-//! Open source code needs a community effort to express trustworthiness.\
-//! Start with reading the reviews of the crates you use.Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/)  
-//! Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md).
-//! On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
-//! Write a new review for the crates you trust. Or for the crate versions you think are dangerous.\
-//! Help other developers, inform them and share your opinion.\
-//! Use this webpage to help you: [web.crev.dev/rust-reviews/review_new](https::/web.crev.dev/rust-reviews/review_new)  
-//!
 //! ## html templating
 //!
 //! Like many developers I also suffer from "graphical designitis".  
@@ -211,6 +212,11 @@
 //! No other type of documentation is so useful as this.  
 //! It works only in VSCode. I made an export to md utility because is so much easier to distribute the md file around.  
 //!
+//! ## javascript Click to Copy
+//!
+//! I used <https://clipboardjs.com/> for Click to Copy.  
+//! For tooltips I used <https://chrisbracco.com/a-simple-css-tooltip/>  
+//!
 //! ## ideas
 //!
 //! The same web server can easily run on the local machine of the developer.  
@@ -231,7 +237,6 @@
 //! ## References
 //!
 //! <https://github.com/rustomax/rust-iterators>  
-//!
 // endregion: lmake_readme include "readme.md" //! A
 
 // region: (collapsed) Clippy

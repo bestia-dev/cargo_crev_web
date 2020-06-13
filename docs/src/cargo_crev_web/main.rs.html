@@ -303,6 +303,11 @@
 <span id="303">303</span>
 <span id="304">304</span>
 <span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// main.rs</span>
 <span class="comment">// Here will have only doc comments, because they are so very large.</span>
@@ -312,7 +317,7 @@
 <span class="comment">// region: lmake_readme include &quot;readme.md&quot; //! A</span>
 <span class="doccomment">//! # Rust-reviews (working title cargo_crev_web)</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ***version: 2020.613.848  date: 2020-06-13 authors: Luciano Bestia***  </span>
+<span class="doccomment">//! ***version: 2020.613.1605  date: 2020-06-13 authors: Luciano Bestia***  </span>
 <span class="doccomment">//! **web server to query reviews from cargo-crev**</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!</span>
@@ -339,6 +344,18 @@
 <span class="doccomment">//! The basis of cargo-crev is a list of trusted individuals.  </span>
 <span class="doccomment">//! For the web it would be a broader number of people to achieve more understanding in the community.  </span>
 <span class="doccomment">//! The same machine will have the web server and the git repository for cargo-crev.  </span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## CREV - Rust code reviews - Raise awareness</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Please, spread this info !\</span>
+<span class="doccomment">//! Open source code needs a community effort to express trustworthiness.\</span>
+<span class="doccomment">//! Start with reading the reviews of the crates you use. Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/) \</span>
+<span class="doccomment">//! Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \</span>
+<span class="doccomment">//! On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\</span>
+<span class="doccomment">//! Write a new review ! \</span>
+<span class="doccomment">//! Describe the crates you trust. Or warn about the crate versions you think are dangerous.\</span>
+<span class="doccomment">//! Help other developers, inform them and share your opinion.\</span>
+<span class="doccomment">//! Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://web.crev.dev/rust-reviews/review_new)</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## crates.io and lib.rs</span>
 <span class="doccomment">//!</span>
@@ -468,17 +485,6 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Locally in development is the same, just the server is 127.0.0.1:8051/.  </span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! ## CREV - Rust code reviews - Raise awareness</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Please, spread this info.\</span>
-<span class="doccomment">//! Open source code needs a community effort to express trustworthiness.\</span>
-<span class="doccomment">//! Start with reading the reviews of the crates you use.Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/)  </span>
-<span class="doccomment">//! Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md).</span>
-<span class="doccomment">//! On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\</span>
-<span class="doccomment">//! Write a new review for the crates you trust. Or for the crate versions you think are dangerous.\</span>
-<span class="doccomment">//! Help other developers, inform them and share your opinion.\</span>
-<span class="doccomment">//! Use this webpage to help you: [web.crev.dev/rust-reviews/review_new](https::/web.crev.dev/rust-reviews/review_new)  </span>
-<span class="doccomment">//!</span>
 <span class="doccomment">//! ## html templating</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Like many developers I also suffer from &quot;graphical designitis&quot;.  </span>
@@ -517,6 +523,11 @@
 <span class="doccomment">//! No other type of documentation is so useful as this.  </span>
 <span class="doccomment">//! It works only in VSCode. I made an export to md utility because is so much easier to distribute the md file around.  </span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! ## javascript Click to Copy</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! I used &lt;https://clipboardjs.com/&gt; for Click to Copy.  </span>
+<span class="doccomment">//! For tooltips I used &lt;https://chrisbracco.com/a-simple-css-tooltip/&gt;  </span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! ## ideas</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The same web server can easily run on the local machine of the developer.  </span>
@@ -537,7 +548,6 @@
 <span class="doccomment">//! ## References</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! &lt;https://github.com/rustomax/rust-iterators&gt;  </span>
-<span class="doccomment">//!</span>
 <span class="comment">// endregion: lmake_readme include &quot;readme.md&quot; //! A</span>
 
 <span class="comment">// region: (collapsed) Clippy</span>

@@ -1,7 +1,7 @@
 # Rust-reviews (working title cargo_crev_web)
 
 [comment]: # (lmake_readme cargo.toml data start)
-***version: 2020.613.848  date: 2020-06-13 authors: Luciano Bestia***  
+***version: 2020.613.1605  date: 2020-06-13 authors: Luciano Bestia***  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
@@ -208,6 +208,11 @@ It makes a special kind of documentation that shows the code flow.
 No other type of documentation is so useful as this.  
 It works only in VSCode. I made an export to md utility because is so much easier to distribute the md file around.  
 
+## javascript Click to Copy
+
+I used <https://clipboardjs.com/> for Click to Copy.  
+For tooltips I used <https://chrisbracco.com/a-simple-css-tooltip/>  
+
 ## ideas
 
 The same web server can easily run on the local machine of the developer.  
@@ -228,4 +233,3 @@ web form for entering a new review
 ## References
 
 <https://github.com/rustomax/rust-iterators>  
-
