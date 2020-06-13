@@ -9,7 +9,7 @@ use crate::*;
 //use unwrap::unwrap;
 // endregion: use
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct VersionSummary {
     pub crate_name: String,
     pub version: String,

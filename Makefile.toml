@@ -22,9 +22,23 @@ skip_core_tasks = true
     [tasks.dev]
     description = "cargo build development"
     clear = true
-     dependencies = [
-    "build_dev",
-    "post_build_dev",
+    script = [
+        "echo $ cargo build",
+        "cargo build",
+    ]
+
+    [tasks.dev_and_run]
+    description = "cargo build development and run"
+    clear = true
+    script = [
+        "echo $ cargo build",
+        "cargo build",
+        "echo $ cp target/debug/cargo_crev_web ./web_server_folder",
+        "cp target/debug/cargo_crev_web ./web_server_folder",
+        "echo $ cd web_server_folder",
+        "cd web_server_folder",
+        "echo $  ./cargo_crev_web",
+        " ./cargo_crev_web",
     ]
 
     [tasks.test]
@@ -38,17 +52,39 @@ skip_core_tasks = true
     [tasks.release]
     description = "cargo build release"
     clear = true
-    dependencies = [
+    script = [
         # Binaries version is date
-         "lmake_version_from_date",
+        "echo $ lmake_version_from_date",
+        "lmake_version_from_date",
         # Library version is semver
-        # "semver_increment_patch",
-        "build_release",
-        "post_build_release",
+        # "echo $ lmake_semver --increment=patch",
+        # "lmake_semver --increment=patch",
+        "echo $ cargo build --release",
+        "cargo build --release",
+    ]
+
+    [tasks.release_and_run]
+    description = "cargo build release and run"
+    clear = true
+    script = [
+        # Binaries version is date
+        "echo $ lmake_version_from_date",
+        "lmake_version_from_date",
+        # Library version is semver
+        # "echo $ lmake_semver --increment=patch",
+        # "lmake_semver --increment=patch",
+        "echo $ cargo build --release",
+        "cargo build --release",
+        "echo $ cp target/release/cargo_crev_web ./web_server_folder",
+        "cp target/release/cargo_crev_web ./web_server_folder",
+        "echo $ cd web_server_folder",
+        "cd web_server_folder",
+        "echo $  ./cargo_crev_web",
+        " ./cargo_crev_web",
     ]
 
     [tasks.run_rel0]
-    description = "run target/release/${CARGO_MAKE_CRATE_NAME}"
+    description = "no-argument - target/release/${CARGO_MAKE_CRATE_NAME}"
     clear = true
     script = [
         "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
@@ -124,6 +160,8 @@ skip_core_tasks = true
         "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev /var/www/scripts/cargo_crev_web_publish.sh",
     ]
     # end of publish script
+    # end of publish script
+    # end of publish script
 
     [tasks.increment_minor]
     description = "increments semver minor"
@@ -153,69 +191,26 @@ script= [
 "echo     cargo make - this list",
 "echo 01. ..... change your code in the editor",
 "echo 02. cargo make dev - build developer versions",
-"echo 03. ......run the developer build. Cargo make tasks LIST is below.",
+"echo 02a. or cargo make dev_and_run - build and run developer versions",
+"echo 03. cargo make run_dev0 - run the developer build",
 "echo 04. cargo make test - test the test code",
 "echo 05. cargo make increment_minor - if needed increment semver minor",
 "echo 06. cargo make release - build release version, increment semver patch incargo.toml",
-"echo 07. ......run the release build. Cargo make tasks LIST is below.",
+"echo 06a. or cargo make release_and_run - build and run release version, increment semver patch incargo.toml",
+"echo 07. cargo makr run_rel0 - run the release build",
 "echo ",
-"echo 08. cargo make doc - includes from cargo.toml to readme.md and from readme.md to main.rs or lib.rs, generates doc and copies to docs folder.",
-"echo 09. cargo make fmt commit_message - runs git commit and rustfmt",
+"echo 08. cargo make doc - includes from cargo.toml to readme.md and from readme.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
+"echo 09. cargo make fmt commit_message - cargo fmt and git commit ",
 "echo 10. cargo make sshadd - run only once - adds identity to ssh-agent for git and publish",
 "echo 11. cargo make gitpush - git push",
 "echo 12. cargo make publish_to_web",
 "echo ",
-"echo LIST RUN WITH ARGUMENTS - release build",
-"echo cargo make run_rel1 - target/release/${CARGO_MAKE_CRATE_NAME}",
+"echo LIST PREPARED RUN WITH ARGUMENTS (separate debug and release versions)",
+"echo cargo make run_rel0 - no arguments - target/release/${CARGO_MAKE_CRATE_NAME}",
 "echo ",
-"echo CREV - cryptographic review system for rust",
-"echo ",
-"echo cargo crev verify",
-"echo cargo crev crate review --skip-activity-check crate_name",
-"echo cargo crev repo query review crate_name",
-"echo cargo crev repo publish",
-
-"echo ",
-"echo LIST RUN WITH ARGUMENTS - release build",
-"echo cargo make run_rel0 - no arguments target/release/${CARGO_MAKE_CRATE_NAME}",
-"echo cargo make run_rel1 - target/release/${CARGO_MAKE_CRATE_NAME} argument1",
-"echo ",
-"echo CREV - cryptographic review system for rust",
-"echo ",
+"echo CREV - always verify you dependencies",
 "echo cargo crev verify",
 "echo "
-]
-
-[tasks.build_dev]
-clear = true
-private = true
-description = "build in dev/debug mode"
-command = "cargo"
-args = ["build"]
-          
-# Libraries version are semver, but binaries are dates.
-[tasks.semver_increment_patch]
-clear = true
-private = true
-description = "increment semver patch"
-script= ["lmake_semver --increment=patch"]
-
-# Binaries version are dates, but Libraries are semver.
-# For PWA must update version also in the service_worker.js.
-[tasks.lmake_version_from_date]
-description = "in cargo.toml change version to today date"
-clear = true
-private = true
-script= ["lmake_version_from_date" ]
-
-[tasks.build_release]
-description = "build for release"
-clear = true
-private = true
-script = [
-    "echo $ cargo build --release",
-    "cargo build --release",
-    "echo after successful testing, run $ cargo make doc",
 ]
 
 [tasks.cargo_audit]
@@ -243,30 +238,4 @@ script = [
     "cargo fmt",
     "echo after successful fmt and git commit, run $ cargo make gitpush",
     "echo if the fmt makes changes, just run the same command again."         
-]
-
-[tasks.post_build_dev]
-clear=true
-private=true
-script = [
-    "echo post_build_dev", 
-    "echo $ cp target/debug/cargo_crev_web ./web_server_folder",
-    "cp target/debug/cargo_crev_web ./web_server_folder",
-    "echo $ cd web_server_folder",
-    "cd web_server_folder",
-    "echo $  ./cargo_crev_web",
-    " ./cargo_crev_web",
-]
-
-[tasks.post_build_release]
-clear=true
-private=true
-script = [
-    "echo post_build_release",
-    "echo $ cp target/release/cargo_crev_web ./web_server_folder",
-    "cp target/release/cargo_crev_web ./web_server_folder",
-    "echo $ cd web_server_folder",
-    "cd web_server_folder",
-    "echo $  ./cargo_crev_web",
-    " ./cargo_crev_web",
 ]

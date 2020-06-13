@@ -96,6 +96,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     ) -> String {
         // dbg!(&placeholder);
         match placeholder {
+            "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_unique_crates" => s!(self.unique_crates),
             "st_unique_authors" => s!(self.unique_authors),
             "st_count_of_reviews" => s!(self.count_of_reviews),

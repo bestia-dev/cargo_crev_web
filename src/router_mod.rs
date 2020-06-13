@@ -80,6 +80,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // /rust-reviews/crates/
     // /rust-reviews/authors/
     // /rust-reviews/review_new/
+    // /rust-reviews/review_new/{crate}/
     // /rust-reviews/review_new/{crate}/{version}/
     // /rust-reviews/reserved_folder/
     // /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/

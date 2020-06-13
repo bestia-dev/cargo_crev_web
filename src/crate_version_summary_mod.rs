@@ -202,8 +202,20 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_crates_io_url" => url_u!("https://crates.io/crates/{}", &self.crate_name),
             "su_lib_rs_url" => url_u!("https://lib.rs/crates/{}", &self.crate_name),
-            //"su_review_new" => url_u!("/rust-reviews/review_new/{}/{}/",&self.crate_name, &self.last_version),
-            "su_review_new" => url_u!("/rust-reviews/review_new/{}/", &self.crate_name),
+            "su_review_new" => {
+                if self.crate_name.is_empty() && self.crate_summary.last_reviewed_version.is_empty()
+                {
+                    url_u!("/rust-reviews/review_new/")
+                } else if self.crate_summary.last_reviewed_version.is_empty() {
+                    url_u!("/rust-reviews/review_new/{}/", &self.crate_name)
+                } else {
+                    url_u!(
+                        "/rust-reviews/review_new/{}/{}/",
+                        &self.crate_name,
+                        &self.crate_summary.last_reviewed_version
+                    )
+                }
+            }
             "su_filter_crate" => url_u!("/rust-reviews/crate/{}", &self.crate_name),
             "su_filter_strong" => url_u!("/rust-reviews/crate/{}/crate/S", &self.crate_name),
             "su_filter_positive" => url_u!("/rust-reviews/crate/{}/crate/P", &self.crate_name),

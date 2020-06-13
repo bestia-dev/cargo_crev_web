@@ -20,73 +20,92 @@ impl CrateReviews {
         kind: &str,
     ) -> CrateReviews {
         let ns_start = ns_start("");
-        // sort data by file_path
-        // the data is sorted by path_file in ReviewIndex.new()
-        // nobody else should sort the data
-        // search data in the index
-        let mut many_file = ManyFileReviewsPk { vec: vec![] };
-        let mut old_file_path = s!("");
-        let mut one_file = OneFileReviewsPk {
-            file_path: s!("don't push the first row"),
-            reviews_pk: Some(vec![]),
-        };
-        for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
-            if index_item.crate_name == crate_name {
-                if index_item.file_path != old_file_path {
-                    old_file_path = index_item.file_path.clone();
-                    if &one_file.file_path == "don't push the first row" {
-                        // only once read
-                        // but don't push the dummy
-                    } else {
-                        // push the old one before creating the new one
-                        many_file.vec.push(one_file);
+        if unwrap!(state_global.lock())
+            .review_index
+            .vec
+            .iter()
+            .any(|x| x.crate_name == crate_name)
+        {
+            // sort data by file_path
+            // the data is sorted by path_file in ReviewIndex.new()
+            // nobody else should sort the data
+            // search data in the index
+            let mut many_file = ManyFileReviewsPk { vec: vec![] };
+            let mut old_file_path = s!("");
+            let mut one_file = OneFileReviewsPk {
+                file_path: s!("don't push the first row"),
+                reviews_pk: Some(vec![]),
+            };
+            for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
+                if index_item.crate_name == crate_name {
+                    if index_item.file_path != old_file_path {
+                        old_file_path = index_item.file_path.clone();
+                        if &one_file.file_path == "don't push the first row" {
+                            // only once read
+                            // but don't push the dummy
+                        } else {
+                            // push the old one before creating the new one
+                            many_file.vec.push(one_file);
+                        }
+                        // create new OneFile
+                        one_file = OneFileReviewsPk {
+                            file_path: index_item.file_path.clone(),
+                            reviews_pk: Some(vec![]),
+                        };
                     }
-                    // create new OneFile
-                    one_file = OneFileReviewsPk {
-                        file_path: index_item.file_path.clone(),
-                        reviews_pk: Some(vec![]),
-                    };
+                    // add data to reviews_pk
+                    unwrap!(one_file.reviews_pk.as_mut()).push(ReviewPk {
+                        crate_name: index_item.crate_name.clone(),
+                        author_id: index_item.author_id.clone(),
+                        version: index_item.version.clone(),
+                    });
                 }
-                // add data to reviews_pk
-                unwrap!(one_file.reviews_pk.as_mut()).push(ReviewPk {
-                    crate_name: index_item.crate_name.clone(),
-                    author_id: index_item.author_id.clone(),
-                    version: index_item.version.clone(),
-                });
             }
-        }
-        // save the last file in the loop
-        if &one_file.file_path != "don't push the first row" {
-            // push the last one
-            many_file.vec.push(one_file.clone());
+            // save the last file in the loop
+            if &one_file.file_path != "don't push the first row" {
+                // push the last one
+                many_file.vec.push(one_file.clone());
+            } else {
+                //remove the dummy
+                many_file.vec.pop();
+            }
+            let ns_read_from_index = ns_print(
+                &format!("read from index, file_path count: {}", many_file.vec.len()),
+                ns_start,
+            );
+            let mut reviews = get_vec_of_selected_reviews(many_file);
+            ns_print(
+                &format!("read from files reviews.len(): {}", reviews.len()),
+                ns_read_from_index,
+            );
+            // sort reviews by version
+            reviews.sort_by(|a, b| {
+                b.package
+                    .version_for_sorting
+                    .cmp(&a.package.version_for_sorting)
+            });
+
+            // the summary is always from all reviews. We must filter the reviews later.
+            let crate_version_summary =
+                CrateVersionSummary::new(state_global, &crate_name, &reviews);
+            filter_reviews(&mut reviews, version, kind);
+
+            // return (this is empty if crate name does not exist)
+            CrateReviews {
+                crate_version_summary,
+                reviews,
+            }
         } else {
-            //remove the dummy
-            many_file.vec.pop();
-        }
-        let ns_read_from_index = ns_print(
-            &format!("read from index, file_path count: {}", many_file.vec.len()),
-            ns_start,
-        );
-        let mut reviews = get_vec_of_selected_reviews(many_file);
-        ns_print(
-            &format!("read from files reviews.len(): {}", reviews.len()),
-            ns_read_from_index,
-        );
-        // sort reviews by version
-        reviews.sort_by(|a, b| {
-            b.package
-                .version_for_sorting
-                .cmp(&a.package.version_for_sorting)
-        });
-
-        // the summary is always from all reviews. We must filter the reviews later.
-        let crate_version_summary = CrateVersionSummary::new(state_global, &crate_name, &reviews);
-        filter_reviews(&mut reviews, version, kind);
-
-        // return
-        CrateReviews {
-            crate_version_summary,
-            reviews,
+            // crate name does not exist
+            // return empty
+            CrateReviews {
+                crate_version_summary: CrateVersionSummary {
+                    crate_name: crate_name.to_string(),
+                    crate_summary: version_summary_mod::VersionSummary::default(),
+                    version_summaries: vec![],
+                },
+                reviews: vec![],
+            }
         }
     }
 }
