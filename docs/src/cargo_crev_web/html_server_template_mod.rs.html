@@ -697,6 +697,10 @@
 <span id="697">697</span>
 <span id="698">698</span>
 <span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! html_server_template_mod</span>
 <span class="doccomment">//! html templating library for the web server</span>
@@ -1089,10 +1093,10 @@
                                     <span class="comment">// to push it to Node, where strings are &quot;normal&quot;.</span>
                                     <span class="macro">dbg</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">dom_path</span>);
                                     <span class="comment">// The &lt;script&gt; node is the exception with other rules for encoding</span>
-                                    <span class="kw">if</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">dom_path</span>.<span class="ident">last</span>())<span class="op">=</span><span class="op">=</span><span class="string">&quot;script&quot;</span>{
+                                    <span class="kw">if</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">dom_path</span>.<span class="ident">last</span>()) <span class="op">=</span><span class="op">=</span> <span class="string">&quot;script&quot;</span> {
                                         <span class="kw">let</span> <span class="ident">txt</span> <span class="op">=</span> <span class="ident">decode_html_script_node</span>(<span class="ident">txt</span>);
                                         <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">push</span>(<span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">txt</span>));
-                                    }<span class="kw">else</span>{
+                                    } <span class="kw">else</span> {
                                         <span class="kw">let</span> <span class="ident">txt</span> <span class="op">=</span> <span class="ident">decode_5_xml_control_characters</span>(<span class="ident">txt</span>);
                                         <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">push</span>(<span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">txt</span>));
                                     }
@@ -1232,7 +1236,11 @@
     <span class="kw">fn</span> <span class="ident">root_element_node_to_html_string</span>(<span class="ident">element_node</span>: <span class="kw-2">&amp;</span><span class="ident">ElementNode</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dom_path</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="doccomment">/// recursive private fn sub element to html</span>
-        <span class="kw">fn</span> <span class="ident">sub_element_node_mut_html</span>(<span class="ident">html</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>, <span class="ident">element_node</span>: <span class="kw-2">&amp;</span><span class="ident">ElementNode</span>,<span class="ident">dom_path</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) {
+        <span class="kw">fn</span> <span class="ident">sub_element_node_mut_html</span>(
+            <span class="ident">html</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>,
+            <span class="ident">element_node</span>: <span class="kw-2">&amp;</span><span class="ident">ElementNode</span>,
+            <span class="ident">dom_path</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+        ) {
             <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="string">&quot;&lt;&quot;</span>);
             <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">element_node</span>.<span class="ident">tag_name</span>);
             <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="string">&quot; &quot;</span>);
@@ -1256,10 +1264,10 @@
                     <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">sub_elem</span> {
                         <span class="ident">Node</span>::<span class="ident">Element</span>(<span class="ident">sub_element</span>) <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="comment">// recursion</span>
-                            <span class="ident">sub_element_node_mut_html</span>(<span class="ident">html</span>, <span class="ident">sub_element</span>,<span class="ident">dom_path</span>);
+                            <span class="ident">sub_element_node_mut_html</span>(<span class="ident">html</span>, <span class="ident">sub_element</span>, <span class="ident">dom_path</span>);
                         }
-                        <span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span>{
-                            <span class="kw">if</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">dom_path</span>.<span class="ident">last</span>())<span class="op">=</span><span class="op">=</span><span class="string">&quot;script&quot;</span>{
+                        <span class="ident">Node</span>::<span class="ident">Text</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="kw">if</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">dom_path</span>.<span class="ident">last</span>()) <span class="op">=</span><span class="op">=</span> <span class="string">&quot;script&quot;</span> {
                                 <span class="comment">// in html script elements are encoded differently</span>
                                 <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">encode_html_script_node</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>));
                             } <span class="kw">else</span> {

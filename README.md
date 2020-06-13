@@ -1,7 +1,7 @@
 # Rust-reviews (working title cargo_crev_web)
 
 [comment]: # (lmake_readme cargo.toml data start)
-***version: 2020.613.1605  date: 2020-06-13 authors: Luciano Bestia***  
+***version: 2020.613.1623  date: 2020-06-13 authors: Luciano Bestia***  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
@@ -219,12 +219,7 @@ The same web server can easily run on the local machine of the developer.
 It is just one single binary executable file.  
 It will read only the trusted reviews specific to that developer.  
 So now we have a local web server and a browser. It means we have now the possibility to make a beautiful GUI for cargo-crev that works on any OS and remotely also. Good.  
-Maybe it will be possible to add the functionality to write new reviews in the browser.  
-I am terrible in VIM, I confess.  
-
-## TODO
-
-web form for entering a new review
+This local server will ue crev-lib to access the crev functionality.  
 
 ## Stats
 

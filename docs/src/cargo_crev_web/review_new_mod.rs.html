@@ -231,6 +231,9 @@
 <span id="231">231</span>
 <span id="232">232</span>
 <span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! review_mod</span>
 
@@ -418,7 +421,10 @@
             <span class="string">&quot;st_comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">review_for_vim</span>.<span class="ident">comment</span>),
             <span class="string">&quot;st_package_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">package_name</span>),
             <span class="string">&quot;st_package_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">package_version</span>),
-            <span class="string">&quot;st_bash_command&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;cargo crev crate review -u --skip-activity-check {} {}&quot;</span>,<span class="self">self</span>.<span class="ident">package_name</span>, <span class="self">self</span>.<span class="ident">package_version</span>),
+            <span class="string">&quot;st_bash_command&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format</span><span class="macro">!</span>(
+                <span class="string">&quot;cargo crev crate review -u --skip-activity-check {} {}&quot;</span>,
+                <span class="self">self</span>.<span class="ident">package_name</span>, <span class="self">self</span>.<span class="ident">package_version</span>
+            ),
             <span class="comment">/*
             &quot;st_from_url&quot; =&gt; s!(self.review_for_vim.from.url),
 
