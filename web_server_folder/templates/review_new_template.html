@@ -45,36 +45,21 @@ review:
     understanding: <input type="radio" name="understanding" value="none" data-sb-checked="sb_understanding_none" checked="checked"/>none     <input type="radio" name="understanding" value="low" data-sb-checked="sb_understanding_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="understanding" value="medium" data-sb-checked="sb_understanding_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="understanding" value="high" data-sb-checked="sb_understanding_high" checked="checked"/><span class="c_high">high     </span>
     rating: <input type="radio" name="rating" value="none" data-sb-checked="sb_rating_none" checked="checked"/><span class="c_none">none     </span><input type="radio" name="rating" value="negative" data-sb-checked="sb_rating_negative" checked="checked"/><span class="c_negative">negative     </span><input type="radio" name="rating" value="neutral" data-sb-checked="sb_rating_neutral" checked="checked"/><span class="c_neutral">neutral     </span><input type="radio" name="rating" value="positive" data-sb-checked="sb_rating_positive" checked="checked"/><span class="c_positive">positive     </span><input type="radio" name="rating" value="strong" data-sb-checked="sb_rating_strong" checked="checked"/><span class="c_strong">strong     </span>
 </pre>
-                <textarea style="height: 250px;" name="comment"><!--st_comment-->Comment</textarea>
+                <textarea style="height: 220px;" name="comment"><!--st_comment-->Comment</textarea>
                 <input class="button" style="width: 200px;height: 60px;" type="submit" value="Export to yaml" />
                 <p>Click to Copy this yaml text and paste it in your VIM editor:</p>
-                <textarea readonly="readonly" style="height: 100px;" data-st_yaml_text="data-clipboard-text" data-clipboard-text="Click to copy" data-tooltip="Click to Copy"><!--st_yaml_text-->yaml_text</textarea>
+                <textarea readonly="readonly" style="height: 170px;" data-st_yaml_text="data-clipboard-text" data-clipboard-text="Click to copy" data-tooltip="Click to Copy"><!--st_yaml_text-->yaml_text</textarea>
             </form>
         </div>
     </div>
 
-
-
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <pre>
-<span class="white">Prerequisites</span> to write new <code>crev reviews</code> for a crate version:
-- on your developer machine install <code>$ cargo install cargo-crev</code>,
-- on GitHub or GitLab fork the repo <code>https://github.com/crev-dev/crev-proofs</code> 
-- clone it to your local machine
-- create your personal crev ID <code>$ cargo crev id new</code>
-Everything is encrypted, so be careful with the secrets, keys, passphrase,... There's no way to recover them.
-Read the <code><a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Get Start Guide</a></code> to know better. 
-</pre>
-        </div>
-    </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
             <pre>
 - run the bash command (copy on click) <code 
 data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to copy" 
 data-tooltip="Click to Copy" >$ <!--st_bash_command-->cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code>.
-- type your crev password
+- type your crev passphrase to unlock
 - VIM will open in <code>Normal mode</code>
 - delete the first cc 11 lines with repeating the VIM shortcut <code>dd</code> for delete line 
 
@@ -90,7 +75,7 @@ data-tooltip="Click to Copy" >$ <!--st_bash_command-->cargo crev crate review -u
 - now the encryption will kick in 
 - Done. Easy?!
 
-Let's repeat it faster, only the part after the command:
+Let's repeat it faster, only the part in Vim:
 <code>dd * 10 i r_click Esc :wq</code>
 It is not so bad.
 
@@ -101,6 +86,20 @@ Now everybody can fetch and view your crev review.
 On this web site the new review will be fetched once in the next hour.
 
 By the way when you panic in VIM, type <code>Esc</code> and <code>:q</code> or <code>:q!</code> to exit or quit VIM ;-) 
+</pre>
+        </div>
+    </div>
+
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <pre>
+<span class="white">Prerequisites</span> to write new <code>crev reviews</code> for a crate version:
+- on your developer machine install <code>$ cargo install cargo-crev</code>,
+- on GitHub or GitLab fork the repo <code>https://github.com/crev-dev/crev-proofs</code> 
+- clone it to your local machine
+- create your personal crev ID <code>$ cargo crev id new</code>
+Everything is encrypted, so be careful with the secrets, keys, passphrase,... There's no way to recover them.
+Read the <code><a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Get Start Guide</a></code> to know better. 
 </pre>
         </div>
     </div>

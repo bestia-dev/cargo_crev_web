@@ -387,7 +387,7 @@ pub trait HtmlServerTemplateRender {
                                     // The template is well-formed.
                                     // The string is html-encoded and must be html-decoded
                                     // to push it to Node, where strings are "normal".
-                                    dbg!(&dom_path);
+                                    // dbg!(&dom_path);
                                     // The <script> node is the exception with other rules for encoding
                                     if unwrap!(dom_path.last()) == "script" {
                                         let txt = decode_html_script_node(txt);
