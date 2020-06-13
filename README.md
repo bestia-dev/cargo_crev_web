@@ -40,8 +40,7 @@ On your Rust project, verify the trustworthiness of all dependencies, including 
 Write a new review ! \
 Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
 Help other developers, inform them and share your opinion.\
-Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https::/web.crev.dev/rust-reviews/review_new)\
-\
+Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://web.crev.dev/rust-reviews/review_new)
 
 ## crates.io and lib.rs
 
