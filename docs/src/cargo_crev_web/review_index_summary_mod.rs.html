@@ -147,6 +147,7 @@
 <span id="147">147</span>
 <span id="148">148</span>
 <span id="149">149</span>
+<span id="150">150</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! review_index_summary_mod</span>
 
@@ -246,6 +247,7 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
+            <span class="string">&quot;st_cargo_crev_web_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>)),
             <span class="string">&quot;st_unique_crates&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">unique_crates</span>),
             <span class="string">&quot;st_unique_authors&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">unique_authors</span>),
             <span class="string">&quot;st_count_of_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">count_of_reviews</span>),

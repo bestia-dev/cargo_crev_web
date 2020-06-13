@@ -256,6 +256,18 @@
 <span id="256">256</span>
 <span id="257">257</span>
 <span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! crate_version_summary_mod</span>
 
@@ -461,8 +473,20 @@
             <span class="comment">// the href for css is good for static data. For dynamic route it must be different.</span>
             <span class="string">&quot;su_crates_io_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;https://crates.io/crates/{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
             <span class="string">&quot;su_lib_rs_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;https://lib.rs/crates/{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
-            <span class="comment">//&quot;su_review_new&quot; =&gt; url_u!(&quot;/rust-reviews/review_new/{}/{}/&quot;,&amp;self.crate_name, &amp;self.last_version),</span>
-            <span class="string">&quot;su_review_new&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/review_new/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
+            <span class="string">&quot;su_review_new&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">crate_name</span>.<span class="ident">is_empty</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">last_reviewed_version</span>.<span class="ident">is_empty</span>()
+                {
+                    <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/review_new/&quot;</span>)
+                } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">last_reviewed_version</span>.<span class="ident">is_empty</span>() {
+                    <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/review_new/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>)
+                } <span class="kw">else</span> {
+                    <span class="macro">url_u</span><span class="macro">!</span>(
+                        <span class="string">&quot;/rust-reviews/review_new/{}/{}/&quot;</span>,
+                        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>,
+                        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">last_reviewed_version</span>
+                    )
+                }
+            }
             <span class="string">&quot;su_filter_crate&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/crate/{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
             <span class="string">&quot;su_filter_strong&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/crate/{}/crate/S&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
             <span class="string">&quot;su_filter_positive&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/crate/{}/crate/P&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),

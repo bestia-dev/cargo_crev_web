@@ -6,14 +6,15 @@
 // region: lmake_readme include "readme.md" //! A
 //! # Rust-reviews (working title cargo_crev_web)
 //!
-//! ***version: 2020.612.1317  date: 2020-06-12 authors: Luciano Bestia***  
+//! ***version: 2020.613.848  date: 2020-06-13 authors: Luciano Bestia***  
 //! **web server to query reviews from cargo-crev**
 //!
 //!
-//! | src code | doc comments | comments | examples | tests |
-//! | :------: | :----------: | :------: | :------: | :---: |
-//! |   lines  |    lines     |   lines  |   lines  | lines |
-//! |   3848   |     256      |   512    |    0     |  57   |
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4001-green.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-481-blue.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-565-purple.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-57-orange.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
 //!
 //! <img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
 //!
@@ -161,13 +162,16 @@
 //!
 //! Locally in development is the same, just the server is 127.0.0.1:8051/.  
 //!
-//! ## cargo crev reviews and advisory
+//! ## CREV - Rust code reviews - Raise awareness
 //!
-//! It is recommended to always use [cargo-crev](https://github.com/crev-dev/cargo-crev)  
-//! to verify the trustworthiness of each of your dependencies.  
-//! Please, spread this info.  
-//! On the web use this url to read crate reviews. Example:  
-//! <https://web.crev.dev/rust-reviews/crate/num-traits/>  
+//! Please, spread this info.\
+//! Open source code needs a community effort to express trustworthiness.\
+//! Start with reading the reviews of the crates you use.Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/)  
+//! Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md).
+//! On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
+//! Write a new review for the crates you trust. Or for the crate versions you think are dangerous.\
+//! Help other developers, inform them and share your opinion.\
+//! Use this webpage to help you: [web.crev.dev/rust-reviews/review_new](https::/web.crev.dev/rust-reviews/review_new)  
 //!
 //! ## html templating
 //!
@@ -217,6 +221,7 @@
 //! I am terrible in VIM, I confess.  
 //!
 //! ## TODO
+//!
 //! web form for entering a new review
 //!
 //! ## Stats
