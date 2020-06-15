@@ -201,7 +201,7 @@ impl HtmlServerTemplateRender for Review {
             "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
                     s!(
-                        "{} {}",
+                        "{}, {}",
                         review.thoroughness.to_string(),
                         review.understanding.to_string()
                     )
@@ -306,6 +306,27 @@ impl HtmlServerTemplateRender for Review {
             "su_crate_route" => url_u!("/rust-reviews/crate/{}/", &self.package.name),
             "su_author_route" => url_u!("/rust-reviews/author/{}/", &self.from.id),
             "su_author_url" => url_u!(&self.from.url, ""),
+            "su_advisories_ids" => {
+                if let Some(advisories) = &self.advisories {
+                    url_u!(&advisories[0].ids[0], "")
+                } else {
+                    url_u!("")
+                }
+            }
+            "su_alternative_source" => {
+                if let Some(alternatives) = &self.alternatives {
+                    url_u!(&alternatives[0].source, "")
+                } else {
+                    url_u!("")
+                }
+            }
+            "su_issue_id" => {
+                if let Some(issues) = &self.issues {
+                    url_u!(&issues[0].id, "")
+                } else {
+                    url_u!("")
+                }
+            }
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

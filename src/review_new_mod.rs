@@ -80,7 +80,7 @@ impl ReviewNew {
                     understanding: Level::None,
                     rating: Rating::None,
                 },
-                comment: "comment".to_string(),
+                comment: "unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:     ".to_string(),
             },
             yaml_text: s!(""),
         };
@@ -179,7 +179,9 @@ impl HtmlServerTemplateRender for ReviewNew {
         // dbg!(&placeholder);
         // list_fetched_author_id is Option and can be None or Some
         match placeholder {
+            "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_yaml_text" => s!(self.yaml_text),
+            "st_cmd_query" => s!("cargo crev repo query review {}", self.package_name),
             //"st_date" => s!(self.review_for_vim.date),
             "st_comment" => s!(self.review_for_vim.comment),
             "st_package_name" => s!(self.package_name),
@@ -210,6 +212,7 @@ impl HtmlServerTemplateRender for ReviewNew {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

@@ -125,8 +125,12 @@ impl HtmlServerTemplateRender for AuthorReviews {
     ) -> String {
         // dbg!(&placeholder);
         match placeholder {
+            "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_author_name" => s!(&self.author_name),
             "st_author_id" => s!(&self.author_id),
+            "st_author_url" => s!(&self.author_url),
+            "st_cmd_fetch" => s!("cargo crev repo fetch url {}", self.author_url),
+            "st_cmd_trust" => s!("cargo crev id trust {}", self.author_id),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -142,6 +146,7 @@ impl HtmlServerTemplateRender for AuthorReviews {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             "su_author_url" => url_u!(&self.author_url, ""),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }

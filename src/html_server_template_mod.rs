@@ -99,7 +99,7 @@ pub trait HtmlServerTemplateRender {
 
     /// render root template (not sub-templates) from file
     fn render_from_file(&self, template_file_name: &str) -> String {
-        dbg!(&template_file_name);
+        //dbg!(&template_file_name);
         let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
         // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
         // I will add <!DOCTYPE html> when the rendering ends, before returning the html.
@@ -404,6 +404,8 @@ pub trait HtmlServerTemplateRender {
                                 // the main goal of comments is to change the value of the next text node
                                 // with the result of a function
                                 // it must look like <!--st_get_text-->
+                                // one small exception is <textare> because it ignores the comment syntax.
+                                // It is still working, and it is not very ugly.
                                 if txt.starts_with("st_") {
                                     let repl_txt =
                                         self.replace_with_string(txt, subtemplate, pos_cursor);
@@ -658,7 +660,7 @@ pub fn replace_with_url_match_else(
     placeholder: &str,
 ) -> UrlUtf8EncodedString {
     let err_msg = format!(
-        "Error: Unrecognized {} replace_with_string: \"{}\"",
+        "Error: Unrecognized {} replace_with_url: \"{}\"",
         data_model_name, placeholder
     );
     eprintln!("{}", &err_msg);

@@ -340,6 +340,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             .item_at_cursor_2(subtemplate, pos_cursor)
             .unwrap_or(&only_author_empty);
         match placeholder {
+            "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_ordinal_number" => s!(pos_cursor + 1),
             "st_author_name_1" => s!(&item_at_cursor_1.author_name),
             "st_author_id" => s!(item_at_cursor_1.author_id),
@@ -372,6 +373,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             "su_author_url" => url_u!(&item_at_cursor_1.author_url, ""),
             "su_author_route" => url_u!("/rust-reviews/author/{}/", &item_at_cursor_1.author_id),
             "su_add_author_url_route" => url_u!(
@@ -383,7 +385,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
                     "https://github.com/{}/crev-proofs/",
                     &item_at_cursor_2.author_name
                 );
-                dbg!(&x);
+                //dbg!(&x);
                 //return
                 x
             }

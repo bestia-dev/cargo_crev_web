@@ -234,6 +234,9 @@
 <span id="234">234</span>
 <span id="235">235</span>
 <span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! review_mod</span>
 
@@ -317,7 +320,7 @@
                     <span class="ident">understanding</span>: <span class="ident">Level</span>::<span class="prelude-val">None</span>,
                     <span class="ident">rating</span>: <span class="ident">Rating</span>::<span class="prelude-val">None</span>,
                 },
-                <span class="ident">comment</span>: <span class="string">&quot;comment&quot;</span>.<span class="ident">to_string</span>(),
+                <span class="ident">comment</span>: <span class="string">&quot;unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:     &quot;</span>.<span class="ident">to_string</span>(),
             },
             <span class="ident">yaml_text</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>),
         };
@@ -416,7 +419,9 @@
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="comment">// list_fetched_author_id is Option and can be None or Some</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
+            <span class="string">&quot;st_cargo_crev_web_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>)),
             <span class="string">&quot;st_yaml_text&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">yaml_text</span>),
+            <span class="string">&quot;st_cmd_query&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;cargo crev repo query review {}&quot;</span>, <span class="self">self</span>.<span class="ident">package_name</span>),
             <span class="comment">//&quot;st_date&quot; =&gt; s!(self.review_for_vim.date),</span>
             <span class="string">&quot;st_comment&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">review_for_vim</span>.<span class="ident">comment</span>),
             <span class="string">&quot;st_package_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">package_name</span>),
@@ -447,6 +452,7 @@
             <span class="comment">// the href for css is good for static data. For dynamic route it must be different.</span>
             <span class="string">&quot;su_css_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/css/rust-reviews.css&quot;</span>),
             <span class="string">&quot;su_favicon_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/favicon.png&quot;</span>),
+            <span class="string">&quot;su_img_src_logo&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/images/Logo_02.png&quot;</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_url_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }

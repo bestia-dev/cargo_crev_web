@@ -176,6 +176,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
                 &self.crate_summary.last_reviewed_version
             ),
             //"st_last_version" => s!(&self.last_version),
+            "st_lib_rs_url" => s!("https://lib.rs/crates/{}/", &self.crate_name),
             "st_crate_review_number" => url_s_zero_to_empty(self.crate_summary.review_number),
             "st_crate_rating_strong" => url_s_zero_to_empty(self.crate_summary.rating_strong),
             "st_crate_rating_positive" => url_s_zero_to_empty(self.crate_summary.rating_positive),
@@ -200,8 +201,10 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
-            "su_crates_io_url" => url_u!("https://crates.io/crates/{}", &self.crate_name),
-            "su_lib_rs_url" => url_u!("https://lib.rs/crates/{}", &self.crate_name),
+            "su_crates_io_url" => url_u!("https://crates.io/crates/{}/", &self.crate_name),
+            "su_lib_rs_url" => url_u!("https://lib.rs/crates/{}/", &self.crate_name),
+            "su_docs_rs_url" => url_u!("https://docs.rs/{}/", &self.crate_name),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             "su_review_new" => {
                 if self.crate_name.is_empty() && self.crate_summary.last_reviewed_version.is_empty()
                 {

@@ -1,7 +1,7 @@
 [package]
 name = "cargo_crev_web"
 #no need for semver if it is not a library
-version = "2020.613.1656" 
+version = "2020.615.903" 
 description = "web server to query reviews from cargo-crev"
 authors = ["Luciano Bestia"]
 edition = "2018"
@@ -13,7 +13,7 @@ keywords = ["warp","crev","cargo-crev"]
 publish = false
 
 [dependencies]
-reader_for_microxml = "1.1.10"
+reader_for_microxml = "1.1.12"
 #reader_for_microxml = { path = "../reader_for_microxml" }
 
 futures = "0.3.5"

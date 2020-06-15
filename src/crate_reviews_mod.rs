@@ -178,6 +178,7 @@ impl HtmlServerTemplateRender for CrateReviews {
     ) -> String {
         // dbg!( &placeholder);
         match placeholder {
+            "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -193,6 +194,7 @@ impl HtmlServerTemplateRender for CrateReviews {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

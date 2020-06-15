@@ -5,43 +5,47 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>crate reviews</title>
     <meta name="Description" content="web app for reviews from cargo-crev" />
-    <link rel="stylesheet" data-su_css_route="href" href="../../web_content_folder/css/rust-reviews.css" />
+    <link rel="stylesheet" data-su_css_route="href" href="../web_content_folder/css/rust-reviews.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
     <link rel="shortcut icon" type="image/x-icon" data-su_favicon_route="href" href="../favicon.png" />
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 </head>
 
 <body>
     <!--stmplt_crate_version_summary start-->
     <div class="container_0">
         <div class="container0_content_not_grid">
-            <div style="display: grid;grid-template-columns: 40% 60% ;">
+            <div class="media_header_grid_02">
+                <div class="top" style="padding-right: 20%;">
+                    <a href="https://github.com/crev-dev/cargo-crev" target="_blank">
+                        <img style="width:100%;max-width:300px;min-width:150px;" alt="logo" data-su_img_src_logo="src" src="../web_content_folder/images/Logo_02.png" />
+                    </a>
+                </div>
                 <div class="middle">
-                    <h2><a class="white" href="/rust-reviews/">
-                    Rust code reviews</a></h2>
+                    <p class="big bold"><a class="white" href="/rust-reviews/">Rust code reviews</a></p>
+                    <p class="small white">Cryptographically verifiable, distributed, dependency reviews.</p>
+                    <p class="big h3y bold">crate:
+                        <!--st_crate_name-->num-traits</p>
+                    <p>lib.rs:
+                        <a class="white" data-su_lib_rs_url="href" href="" target="_blank">
+                            <!--st_lib_rs_url-->https://lib.rs/crates/num-traits/</a>
+                    </p>
                 </div>
-                <div class="middle right">
-                    <h3>reviews from <a class="white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
+                <div class="middle media_right">
+                    <p class="big bold"><a class="white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></p>
+                    <p class="media_right"><a class="white" href="https://www.rust-lang.org/" target="_blank">rust-lang.org</a></p>
+                    <p class="media_right"><a class="white" data-su_lib_rs_url="href" href="https://lib.rs/crates/num-traits/" target="_blank">lib.rs</a></p>
+                    <p class="media_right"><a class="white" data-su_crates_io_url="href" href="https://crates.io/crates/num-traits/" target="_blank">crates.io</a></p>
+                    <p class="media_right"><a class="white" data-su_docs_rs_url="href" href="https://docs.rs/num-traits/" target="_blank">docs.rs</a></p>
                 </div>
             </div>
-            <div style="display: grid;grid-template-columns: 70% 15% 15%;">
-                <div>
-                    <h3 class="h3y">crate:
-                        <!--st_crate_name-->num-traits</h3>
-                </div>
-                <div class="right"><a class="white" data-su_lib_rs_url="href" href="https://lib.rs/crates/num-traits" target="_blank">lib.rs</a></div>
-                <div class="right"><a class="white" data-su_crates_io_url="href" href="https://crates.io/crates/num-traits" target="_blank">crates.io</a></div>
-            </div>
-            Add to Cargo.toml / [dependencies] - Last reviewed version:
-            <code>
-                <!--st_cargo_toml_dependency-->reader_for_microxml = "0.1.6"
-            </code>
-            <!--
-            <p>Last version:
-                <!**st_last_version **>0.0.0
-            </p>
-            -->
+            <p>Add Last reviewed version to [dependencies]:</p>
+            Cargo.toml: <code data-st_cargo_toml_dependency="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy"><!--st_cargo_toml_dependency-->reader_for_microxml = "0.1.6"</code>
             <p><a class="white" data-su_review_new="href" href="/rust-reviews/review_new/">Write a new review !</a></p>
+            <p class="media_portrait_visible">Please, use mobile in landscape.</p>
+            <p>Legend of column names on <a class="white" href="/rust-reviews/">first page</a> and in tooltip hints.</p>
         </div>
+
         <div class="container0_content_grid_0" style="grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;">
             <div class="grid0_h_c bold"></div>
             <div class="grid0_h_c bold" title="reviews count">c</div>
@@ -144,9 +148,25 @@
         </div>
     </div>
     <!--stmplt_crate_version_summary end-->
+    <div class="container_0">
+        <div class="review_header_0" style="grid-template-columns: 20fr 20fr 20fr 20fr 20fr;">
+            <div class="review_header0_cell white">
+                crate version
+            </div>
+            <div class="review_header0_cell green bold">
+                rating</div>
+            <div class="review_header0_cell">
+                date</div>
+            <div class="review_header0_cell">
+                review author
+            </div>
+            <div class="review_header0_cell">
+                thoroughness, understanding</div>
+        </div>
+    </div>
     <!--stmplt_reviews start-->
     <div class="container_0">
-        <div class="review_header_0" style="grid-template-columns: auto auto auto auto auto;">
+        <div class="review_header_0" style="grid-template-columns: 20fr 20fr 20fr 20fr 20fr;">
             <div class="review_header0_cell">
                 <!--st_crate_name_version-->num-traits 0.2.11</div>
             <div data-st_rating_class_color="class" class="review_header0_cell green bold" title="rating">
@@ -213,7 +233,7 @@
             to see how it looks to have 2 or more reviews 
         In runtime it is not rendered.-->
     <div class="container_0">
-        <div class="review_header_0" style="grid-template-columns: auto auto auto auto auto;">
+        <div class="review_header_0" style="grid-template-columns: 20fr 20fr 20fr 20fr 20fr;">
             <div class="review_header0_cell">num-traits 0.2.6</div>
             <div class="review_header0_cell green bold">positive</div>
             <div class="review_header0_cell">2019-08-30</div>
@@ -226,6 +246,20 @@
         </div>
     </div>
     <!--stmplt_not_for_render end-->
+    <div class="container_0 ">
+        <div class="container0_content_not_grid ">
+            <p>GitHub repository:
+                <a class="white break-all " target="_blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
+                        https://github.com/LucianoBestia/cargo_crev_web/
+                  </a>
+            </p>
+            <p>Version:
+                <!--st_cargo_crev_web_version-->2020.05.05</p>
+        </div>
+    </div>
 </body>
+<script>
+    new ClipboardJS("[data-clipboard-text]");
+</script>
 
 </html>

@@ -14,50 +14,19 @@
 <body>
     <div class="container_0">
         <div class="container0_content_not_grid">
-            <div style="display: grid;grid-template-columns: 70% 30% ;">
+            <div style="display: grid;grid-template-columns: 60% 40% ;">
                 <div class="middle">
-                    <h2><a class="white" href="/rust-reviews/">
-                    Rust code reviews</a> - <span class="yellow">new review helper</span></h2>
+                    <p class="big bold"><a class="white" href="/rust-reviews/">
+                    Rust code reviews</a> - <span class="yellow">new review helper</span></p>
                 </div>
                 <div class="middle right">
                     <h3>reviews from <a class="white" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
                 </div>
             </div>
-
-            <form action="/rust-reviews/review_new/" method="POST">
-                <!--
-        <div class="container_0">
-            <div class="container0_content_not_grid">
-                <p><a class="white" target="_blank" href="https://crates.io/">Search</a> for crate and version on <a class="white" target="_blank" href="https://crates.io/">crates.io</a> and then copy the line for Cargo.toml.</p>
-                <p>Cargo.toml: <input style="width: 50%;" type="text" name="cargo_toml_line" />
-                    <input class="button" style="width: 150px;height: 35px;margin: 1%;" type="submit" value="Parse it" />
-                </p>
-                crate: <input style="width: 30%;" type="text" name="package_name" data-st_package_name="value" value="" /> version: <input style="width: 30%;" type="text" name="package_version" data-st_package_version="value" value="" />
-            </div>
-        </div>
-    -->
-
-                <input style="display:none" type="text" name="package_name" data-st_package_name="value" value="" />
-                <input style="display:none" type="text" name="package_version" data-st_package_version="value" value="" />
-                <pre>
-review:
-    thoroughness: <input type="radio" name="thoroughness" value="none" data-sb-checked="sb_thoroughness_none" checked="checked" />none     <input type="radio" name="thoroughness" value="low" data-sb-checked="sb_thoroughness_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="thoroughness" value="medium" data-sb-checked="sb_thoroughness_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="thoroughness" value="high" data-sb-checked="sb_thoroughness_high" checked="checked" /><span class="c_high">high     </span>
-    understanding: <input type="radio" name="understanding" value="none" data-sb-checked="sb_understanding_none" checked="checked"/>none     <input type="radio" name="understanding" value="low" data-sb-checked="sb_understanding_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="understanding" value="medium" data-sb-checked="sb_understanding_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="understanding" value="high" data-sb-checked="sb_understanding_high" checked="checked"/><span class="c_high">high     </span>
-    rating: <input type="radio" name="rating" value="none" data-sb-checked="sb_rating_none" checked="checked"/><span class="c_none">none     </span><input type="radio" name="rating" value="negative" data-sb-checked="sb_rating_negative" checked="checked"/><span class="c_negative">negative     </span><input type="radio" name="rating" value="neutral" data-sb-checked="sb_rating_neutral" checked="checked"/><span class="c_neutral">neutral     </span><input type="radio" name="rating" value="positive" data-sb-checked="sb_rating_positive" checked="checked"/><span class="c_positive">positive     </span><input type="radio" name="rating" value="strong" data-sb-checked="sb_rating_strong" checked="checked"/><span class="c_strong">strong     </span>
-</pre>
-                <textarea style="height: 220px;" name="comment"><!--st_comment-->Comment</textarea>
-                <input class="button" style="width: 200px;height: 60px;" type="submit" value="Export to yaml" />
-                <p>Click to Copy this yaml text and paste it in your VIM editor:</p>
-                <textarea readonly="readonly" style="height: 170px;" data-st_yaml_text="data-clipboard-text" data-clipboard-text="Click to copy" data-tooltip="Click to Copy"><!--st_yaml_text-->yaml_text</textarea>
-            </form>
-        </div>
-    </div>
-
-    <div class="container_0">
-        <div class="container0_content_not_grid">
             <pre>
-- run the bash command (copy on click) <code 
-data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to copy" 
+Please, first read prerequisite down the page.
+- run the bash command (Click to Copy) <code 
+data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to Copy" 
 data-tooltip="Click to Copy" >$ <!--st_bash_command-->cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code>.
 - type your crev passphrase to unlock
 - VIM will open in <code>Normal mode</code>
@@ -65,9 +34,32 @@ data-tooltip="Click to Copy" >$ <!--st_bash_command-->cargo crev crate review -u
 
 - in the browser on this webpage write a review 
 - click on Export to yaml
-- click on the yaml to <code>copy</code> on click the yaml text, 
+- click on the yaml to <code>copy</code> on click the yaml text</pre>
+        </div>
+    </div>
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <form action="/rust-reviews/review_new/#anchor" method="POST">
+                <input style="display:none" type="text" name="package_name" data-st_package_name="value" value="" />
+                <input style="display:none" type="text" name="package_version" data-st_package_version="value" value="" />
+                <pre>
+<a name="anchor">review:</a>
+    thoroughness: <input type="radio" name="thoroughness" value="none" data-sb-checked="sb_thoroughness_none" checked="checked" />none     <input type="radio" name="thoroughness" value="low" data-sb-checked="sb_thoroughness_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="thoroughness" value="medium" data-sb-checked="sb_thoroughness_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="thoroughness" value="high" data-sb-checked="sb_thoroughness_high" checked="checked" /><span class="c_high">high     </span>
+    understanding: <input type="radio" name="understanding" value="none" data-sb-checked="sb_understanding_none" checked="checked"/>none     <input type="radio" name="understanding" value="low" data-sb-checked="sb_understanding_low" checked="checked"/><span class="c_low">low     </span><input type="radio" name="understanding" value="medium" data-sb-checked="sb_understanding_medium" checked="checked"/><span class="c_medium">medium     </span><input type="radio" name="understanding" value="high" data-sb-checked="sb_understanding_high" checked="checked"/><span class="c_high">high     </span>
+    rating: <input type="radio" name="rating" value="none" data-sb-checked="sb_rating_none" checked="checked"/><span class="c_none">none     </span><input type="radio" name="rating" value="negative" data-sb-checked="sb_rating_negative" checked="checked"/><span class="c_negative">negative     </span><input type="radio" name="rating" value="neutral" data-sb-checked="sb_rating_neutral" checked="checked"/><span class="c_neutral">neutral     </span><input type="radio" name="rating" value="positive" data-sb-checked="sb_rating_positive" checked="checked"/><span class="c_positive">positive     </span><input type="radio" name="rating" value="strong" data-sb-checked="sb_rating_strong" checked="checked"/><span class="c_strong">strong     </span>
+</pre>
+                <textarea style="height: 220px;" name="comment"><!--st_comment-->Comment</textarea>
+                <input class="button" style="width: 200px;height: 60px;" type="submit" value="Export to yaml" />
+                <p><code>Click to Copy</code> this yaml text and paste it in your VIM editor:</p>
+                <textarea readonly="readonly" style="height: 170px;" data-st_yaml_text="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy"><!--st_yaml_text-->yaml_text</textarea>
+            </form>
+        </div>
+    </div>
 
-- in VIM type <code>i</code> to go into <code>VIM Insert Mode</code> 
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <pre>
+- now in VIM type <code>i</code> to go into <code>VIM Insert Mode</code> 
 - mouse <code>right click</code> to paste 
 - <code>Esc</code> to go to <code>VIM Normal mode</code>
 - type <code>:</code> to go into <code>VIM command mode</code>
@@ -79,8 +71,8 @@ Let's repeat it faster, only the part in Vim:
 <code>dd * 10 i r_click Esc :wq</code>
 It is not so bad.
 
-- check your new review locally <code>cargo crev repo query review <!--st_package_name-->reader_for_microxml</code>
-- publish (push to GitHub) <code>cargo crev publish</code>
+- check your new review locally <code data-st_cmd_query="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy">$ <!--st_cmd_query-->cargo crev repo query review reader_for_microxml</code>
+- publish (push to GitHub) <code data-clipboard-text="cargo crev publish" data-tooltip="Click to Copy">$ cargo crev publish</code>
 
 Now everybody can fetch and view your crev review.
 On this web site the new review will be fetched once in the next hour.
@@ -103,7 +95,17 @@ Read the <code><a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo
 </pre>
         </div>
     </div>
-
+    <div class="container_0 ">
+        <div class="container0_content_not_grid ">
+            <p>GitHub repository:
+                <a class="white break-all " target="_blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
+                        https://github.com/LucianoBestia/cargo_crev_web/
+                  </a>
+            </p>
+            <p>Version:
+                <!--st_cargo_crev_web_version-->2020.05.05</p>
+        </div>
+    </div>
 </body>
 
 <script>

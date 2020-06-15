@@ -251,6 +251,8 @@
 <span id="251">251</span>
 <span id="252">252</span>
 <span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! crate_reviews_mod</span>
 
@@ -432,6 +434,7 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// dbg!( &amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
+            <span class="string">&quot;st_cargo_crev_web_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
@@ -447,6 +450,7 @@
             <span class="comment">// the href for css is good for static data. For dynamic route it must be different.</span>
             <span class="string">&quot;su_css_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/css/rust-reviews.css&quot;</span>),
             <span class="string">&quot;su_favicon_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/favicon.png&quot;</span>),
+            <span class="string">&quot;su_img_src_logo&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/images/Logo_02.png&quot;</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_url_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }

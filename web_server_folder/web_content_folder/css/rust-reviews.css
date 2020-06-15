@@ -17,7 +17,7 @@
             --brd_color_02: #eaecef;
         }
         /*region: media dependent on screen size */
-        /*less then 450*/
+        /* less then 590px*/
         
         @media (max-width: 590px) {
             .media_header_grid_01 {
@@ -28,11 +28,14 @@
                 display: grid;
                 grid-template-columns: 1fr;
             }
-            div.media_right {
+            .media_right {
                 text-align: left;
             }
+            .media_portrait_visible {
+                visibility: visible;
+            }
         }
-        /*larger then 450*/
+        /* larger then 590px */
         
         @media (min-width: 590px) {
             .media_header_grid_01 {
@@ -41,10 +44,13 @@
             }
             .media_header_grid_02 {
                 display: grid;
-                grid-template-columns: 1fr 3fr 1fr;
+                grid-template-columns: 4fr 9fr 3fr;
             }
-            div.media_right {
+            .media_right {
                 text-align: right;
+            }
+            .media_portrait_visible {
+                visibility: hidden;
             }
         }
         /* region: basics */
@@ -369,18 +375,23 @@ A small difference to help search and replace refactoring.
             color: red;
         }
         
-        div.middle {
+        .middle {
             display: grid;
             align-items: center;
         }
         
-        div.center {
+        .top {
+            display: grid;
+            align-items: top;
+        }
+        
+        .center {
             display: block;
             margin-left: auto;
             margin-right: auto;
         }
         
-        div.right {
+        .right {
             text-align: right;
         }
         

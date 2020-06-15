@@ -109,7 +109,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
             // remove suffix .svg
             let trimmed_str: &str = crate_name.trim_end_matches(".svg");
             let data_model = badge_mod::Badge::crev_count(trimmed_str, state_global);
-            dbg!(&data_model);
+            // dbg!(&data_model);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
@@ -216,7 +216,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
                 let author_name = author_name.to_string();
                 // in this fragment are 2 parts delimited with /, so it must be encoded
                 // after decoding looks like "scott-wilson/crev-proofs"
-                dbg!(&author_name);
+                // dbg!(&author_name);
                 let data_model =
                     reserved_folder_mod::ReservedFolder::add_author_url(author_name, state_global)
                         .await;

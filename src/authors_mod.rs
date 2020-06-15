@@ -119,6 +119,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
     ) -> String {
         // dbg!( &placeholder);
         match placeholder {
+            "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             // this is a grid with repeated rows. Use the pos_cursor
             "st_ordinal_number" => s!(pos_cursor + 1),
             "st_author_name" => s!(&self.vec[pos_cursor].author_name),
@@ -161,6 +162,7 @@ impl HtmlServerTemplateRender for ReviewIndexByAuthor {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             "su_author_route" => {
                 url_u!("/rust-reviews/author/{}/", &self.vec[pos_cursor].author_id)
             }

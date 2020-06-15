@@ -512,7 +512,7 @@
             <span class="comment">// remove suffix .svg</span>
             <span class="kw">let</span> <span class="ident">trimmed_str</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="ident">crate_name</span>.<span class="ident">trim_end_matches</span>(<span class="string">&quot;.svg&quot;</span>);
             <span class="kw">let</span> <span class="ident">data_model</span> <span class="op">=</span> <span class="ident">badge_mod</span>::<span class="ident">Badge</span>::<span class="ident">crev_count</span>(<span class="ident">trimmed_str</span>, <span class="ident">state_global</span>);
-            <span class="macro">dbg</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">data_model</span>);
+            <span class="comment">// dbg!(&amp;data_model);</span>
             <span class="kw">let</span> <span class="ident">ns_new</span> <span class="op">=</span> <span class="ident">ns_print</span>(<span class="string">&quot;new()&quot;</span>, <span class="ident">ns_start</span>);
             <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">data_model</span>.<span class="ident">render_html_file</span>(<span class="string">&quot;templates/&quot;</span>);
             <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
@@ -619,7 +619,7 @@
                 <span class="kw">let</span> <span class="ident">author_name</span> <span class="op">=</span> <span class="ident">author_name</span>.<span class="ident">to_string</span>();
                 <span class="comment">// in this fragment are 2 parts delimited with /, so it must be encoded</span>
                 <span class="comment">// after decoding looks like &quot;scott-wilson/crev-proofs&quot;</span>
-                <span class="macro">dbg</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">author_name</span>);
+                <span class="comment">// dbg!(&amp;author_name);</span>
                 <span class="kw">let</span> <span class="ident">data_model</span> <span class="op">=</span>
                     <span class="ident">reserved_folder_mod</span>::<span class="ident">ReservedFolder</span>::<span class="ident">add_author_url</span>(<span class="ident">author_name</span>, <span class="ident">state_global</span>)
                         .<span class="kw">await</span>;

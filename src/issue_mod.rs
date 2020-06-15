@@ -63,6 +63,7 @@ impl HtmlServerTemplateRender for Issue {
     ) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
+            "su_issue_id" => url_u!(&self.id, ""),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

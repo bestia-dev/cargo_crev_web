@@ -268,6 +268,9 @@
 <span id="268">268</span>
 <span id="269">269</span>
 <span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! crate_version_summary_mod</span>
 
@@ -447,6 +450,7 @@
                 <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">last_reviewed_version</span>
             ),
             <span class="comment">//&quot;st_last_version&quot; =&gt; s!(&amp;self.last_version),</span>
+            <span class="string">&quot;st_lib_rs_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;https://lib.rs/crates/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
             <span class="string">&quot;st_crate_review_number&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">review_number</span>),
             <span class="string">&quot;st_crate_rating_strong&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">rating_strong</span>),
             <span class="string">&quot;st_crate_rating_positive&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">rating_positive</span>),
@@ -471,8 +475,10 @@
         <span class="comment">// dbg!( &amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="comment">// the href for css is good for static data. For dynamic route it must be different.</span>
-            <span class="string">&quot;su_crates_io_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;https://crates.io/crates/{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
-            <span class="string">&quot;su_lib_rs_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;https://lib.rs/crates/{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
+            <span class="string">&quot;su_crates_io_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;https://crates.io/crates/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),            
+            <span class="string">&quot;su_lib_rs_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;https://lib.rs/crates/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
+            <span class="string">&quot;su_docs_rs_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;https://docs.rs/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crate_name</span>),
+            <span class="string">&quot;su_img_src_logo&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/images/Logo_02.png&quot;</span>),
             <span class="string">&quot;su_review_new&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="self">self</span>.<span class="ident">crate_name</span>.<span class="ident">is_empty</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">crate_summary</span>.<span class="ident">last_reviewed_version</span>.<span class="ident">is_empty</span>()
                 {

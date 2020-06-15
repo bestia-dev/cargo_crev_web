@@ -123,6 +123,7 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
     ) -> String {
         // dbg!(&placeholder);
         match placeholder {
+            "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             // this is a grid with repeated rows. Use the pos_cursor
             "st_ordinal_number" => s!(pos_cursor + 1),
             "st_crate_name" => s!(&self.vec[pos_cursor].crate_name),
@@ -166,6 +167,7 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
+            "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             // "/rust-reviews/crate/{}/",
             "su_crate_route" => url_u!("/rust-reviews/crate/{}/", &self.vec[pos_cursor].crate_name),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),

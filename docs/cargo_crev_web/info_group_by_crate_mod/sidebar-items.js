@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["ByCrateItem",""],["ReviewIndexByCrate","only one field with a generic name vec"]]});
