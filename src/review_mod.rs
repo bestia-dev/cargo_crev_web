@@ -308,7 +308,16 @@ impl HtmlServerTemplateRender for Review {
             "su_author_url" => url_u!(&self.from.url, ""),
             "su_advisories_ids" => {
                 if let Some(advisories) = &self.advisories {
-                    url_u!(&advisories[0].ids[0], "")
+                    if advisories[0].ids[0].starts_with("RUSTSEC") {
+                        url_u!(
+                            "https://rustsec.org/advisories/{}.html",
+                            &advisories[0].ids[0]
+                        )
+                    } else if advisories[0].ids[0].starts_with("http") {
+                        url_u!(&advisories[0].ids[0], "")
+                    } else {
+                        url_u!("https://{}", &advisories[0].ids[0])
+                    }
                 } else {
                     url_u!("")
                 }
@@ -322,7 +331,11 @@ impl HtmlServerTemplateRender for Review {
             }
             "su_issue_id" => {
                 if let Some(issues) = &self.issues {
-                    url_u!(&issues[0].id, "")
+                    if issues[0].id.starts_with("http") {
+                        url_u!(&issues[0].id, "")
+                    } else {
+                        url_u!("https://{}", &issues[0].id)
+                    }
                 } else {
                     url_u!("")
                 }
