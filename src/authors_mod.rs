@@ -33,7 +33,7 @@ impl ReviewIndexByAuthor {
             .review_index
             .vec
             .sort_by(|a, b| Ord::cmp(&a.author_name, &b.author_name));
-        let mut old_author_name = s!("");
+        let mut old_author_name = s!();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut review_index_by_author = ReviewIndexByAuthor { vec: vec![] };
         for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {

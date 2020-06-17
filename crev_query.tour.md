@@ -4,8 +4,6 @@ The web server recognizes the route /crate/ and calls html_for_crev_query().
 
 ##### step 1 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/main.rs#L266)
 ```rust
-    // Rust is more idiomatic without return statement
-    clippy::implicit_return,
     // I have private function inside a function. Self does not work there.
     // clippy::use_self,
     // Cannot add #[inline] to the start function with #[wasm_bindgen(start)]
@@ -13,9 +11,11 @@ The web server recognizes the route /crate/ and calls html_for_crev_query().
     // clippy::missing_inline_in_public_items
     // Why is this bad : Doc is good. rustc has a MISSING_DOCS allowed-by-default lint for public members, but has no way to enforce documentation of private items. This lint fixes that.
     clippy::doc_markdown,
-#//---------------------- selection start ----------------------
 )]
 // endregion: (collapsed) Clippy
+#//---------------------- selection start ----------------------
+
+// region: (collapsed) use statements
 #//----------------------- selection end -----------------------
 ```
 ## data model  

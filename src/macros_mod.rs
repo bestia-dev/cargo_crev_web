@@ -3,6 +3,9 @@
 /// Equivalents: String::new(), x.to_string(), x.to_owned(),...
 #[macro_export]
 macro_rules! s {
+    () => {
+        String::new()
+    };
     ($my_str: expr) => {
         $my_str.to_string()
     };

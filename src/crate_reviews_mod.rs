@@ -31,7 +31,7 @@ impl CrateReviews {
             // nobody else should sort the data
             // search data in the index
             let mut many_file = ManyFileReviewsPk { vec: vec![] };
-            let mut old_file_path = s!("");
+            let mut old_file_path = s!();
             let mut one_file = OneFileReviewsPk {
                 file_path: s!("don't push the first row"),
                 reviews_pk: Some(vec![]),

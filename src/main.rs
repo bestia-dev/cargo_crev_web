@@ -6,15 +6,13 @@
 // region: lmake_readme include "readme.md" //! A
 //! # Rust-reviews (working title cargo_crev_web)
 //!
-//! ***version: 2020.615.903  date: 2020-06-15 authors: Luciano Bestia***  
+//! ***version: 2020.617.927  date: 2020-06-17 authors: Luciano Bestia***  
 //! **web server to query reviews from cargo-crev**
 //!
 //!
-//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4001-green.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-481-blue.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-565-purple.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-57-orange.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [comment]: # (lmake_lines_of_code start)
+//!
+//! [comment]: # (lmake_lines_of_code end)
 //!
 //! <img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
 //!

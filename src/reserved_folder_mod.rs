@@ -126,13 +126,13 @@ impl ReservedFolder {
                     author_name: if let Some(url) = &review_short.ids[0].url {
                         author_name_from_url(&url)
                     } else {
-                        s!("")
+                        s!()
                     },
                     author_id: review_short.ids[0].id.clone(),
                     author_url: if let Some(url) = &review_short.ids[0].url {
                         url.clone()
                     } else {
-                        s!("")
+                        s!()
                     },
                 });
                 //dbg!(&vec_of_new);
@@ -218,7 +218,7 @@ impl ReservedFolder {
         // the new format of proof
         // "name": "5X5SQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHax5cu3hjM",
         // "size": 0,
-        let mut author_id = s!("");
+        let mut author_id = s!();
         let mut pos_cursor: usize = 0;
         // dbg!(&resp_body);
         loop {

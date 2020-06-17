@@ -216,13 +216,13 @@
         <span class="comment">// nobody else should sort the data</span>
         <span class="comment">// search data in the index</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">many_file</span> <span class="op">=</span> <span class="ident">ManyFileReviewsPk</span> { <span class="ident">vec</span>: <span class="macro">vec</span><span class="macro">!</span>[] };
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">old_file_path</span> <span class="op">=</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">old_file_path</span> <span class="op">=</span> <span class="macro">s</span><span class="macro">!</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">one_file</span> <span class="op">=</span> <span class="ident">OneFileReviewsPk</span> {
             <span class="ident">file_path</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;don&#39;t push the first row&quot;</span>),
             <span class="ident">reviews_pk</span>: <span class="prelude-val">Some</span>(<span class="macro">vec</span><span class="macro">!</span>[]),
         };
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">author_name</span> <span class="op">=</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">author_url</span> <span class="op">=</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">author_name</span> <span class="op">=</span> <span class="macro">s</span><span class="macro">!</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">author_url</span> <span class="op">=</span> <span class="macro">s</span><span class="macro">!</span>();
         <span class="kw">for</span> <span class="ident">index_item</span> <span class="kw">in</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">state_global</span>.<span class="ident">lock</span>()).<span class="ident">review_index</span>.<span class="ident">vec</span>.<span class="ident">iter</span>() {
             <span class="kw">if</span> <span class="ident">index_item</span>.<span class="ident">author_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">author_id</span> {
                 <span class="kw">if</span> <span class="ident">index_item</span>.<span class="ident">file_path</span> <span class="op">!</span><span class="op">=</span> <span class="ident">old_file_path</span> {
@@ -323,8 +323,8 @@
             <span class="string">&quot;st_author_name&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">author_name</span>),
             <span class="string">&quot;st_author_id&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">author_id</span>),
             <span class="string">&quot;st_author_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">author_url</span>),
-            <span class="string">&quot;st_cmd_fetch&quot;</span> <span class="op">=</span><span class="op">&gt;</span><span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;cargo crev repo fetch url {}&quot;</span>, <span class="self">self</span>.<span class="ident">author_url</span>),
-            <span class="string">&quot;st_cmd_trust&quot;</span> <span class="op">=</span><span class="op">&gt;</span><span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;cargo crev id trust {}&quot;</span>, <span class="self">self</span>.<span class="ident">author_id</span>),
+            <span class="string">&quot;st_cmd_fetch&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;cargo crev repo fetch url {}&quot;</span>, <span class="self">self</span>.<span class="ident">author_url</span>),
+            <span class="string">&quot;st_cmd_trust&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;cargo crev id trust {}&quot;</span>, <span class="self">self</span>.<span class="ident">author_id</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }

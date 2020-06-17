@@ -30,10 +30,10 @@ pub struct VersionSummary {
 impl VersionSummary {
     pub fn new() -> Self {
         VersionSummary {
-            crate_name: s!(""),
-            version: s!(""),
-            version_for_sorting: s!(""),
-            last_reviewed_version: s!(""),
+            crate_name: s!(),
+            version: s!(),
+            version_for_sorting: s!(),
+            last_reviewed_version: s!(),
             review_number: 0,
             rating_strong: 0,
             rating_positive: 0,

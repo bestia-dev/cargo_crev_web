@@ -181,8 +181,7 @@
         }
         
         pre {
-            padding: 0;
-            margin: 0;
+            white-space: pre-wrap;
         }
         
         code {
@@ -315,6 +314,11 @@ A small difference to help search and replace refactoring.
             word-break: break-all;
             word-wrap: break-word;
             overflow-wrap: break-word;
+        }
+        
+        .word-wrap {
+            word-wrap: break-word;
+            overflow-wrap: break-all;
         }
         
         .bold {

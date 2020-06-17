@@ -177,7 +177,7 @@ impl CrateIndex {
             //println!(&quot;crate_name: {}&quot;, crate_name);
             crates.push(Crate {
                 crate_name: crate_name.to_string(),
-                last_version: s!(&quot;&quot;),
+                last_version: s!(),
                 versions: vec![],
             })
         }
@@ -222,7 +222,7 @@ impl CrateIndex {
             }
             return self.crates[cursor_pos].last_version.to_string();
         } else {
-            return s!(&quot;&quot;);
+            return s!();
         }
     }
 }

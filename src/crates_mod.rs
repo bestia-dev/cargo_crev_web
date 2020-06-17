@@ -33,7 +33,7 @@ impl ReviewIndexByCrate {
             .vec
             .sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
 
-        let mut old_crate_name = s!("");
+        let mut old_crate_name = s!();
         let mut for_unique_versions: Vec<String> = vec![];
         let mut for_unique_authors: Vec<String> = vec![];
         let mut review_index_by_crate = ReviewIndexByCrate { vec: vec![] };

@@ -19,12 +19,18 @@
 <span id="19">19</span>
 <span id="20">20</span>
 <span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// short macro `s!` for &amp;str.to_string or format!().</span>
 <span class="doccomment">/// because that is so common.</span>
 <span class="doccomment">/// Equivalents: String::new(), x.to_string(), x.to_owned(),...</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">s</span> {
+    () <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">String</span>::<span class="ident">new</span>()
+    };
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">my_str</span>: <span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">my_str</span>.<span class="ident">to_string</span>()
     };

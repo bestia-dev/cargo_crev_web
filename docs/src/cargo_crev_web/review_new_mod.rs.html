@@ -313,16 +313,16 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">review_new</span> <span class="op">=</span> <span class="ident">ReviewNew</span> {
             <span class="ident">package_name</span>: <span class="ident">crate_name</span>.<span class="ident">to_string</span>(),
             <span class="ident">package_version</span>: <span class="ident">version</span>.<span class="ident">to_string</span>(),
-            <span class="comment">//cargo_toml_line:s!(&quot;&quot;),</span>
+            <span class="comment">//cargo_toml_line:s!(),</span>
             <span class="ident">review_for_vim</span>: <span class="ident">ReviewForVim</span> {
                 <span class="ident">review</span>: <span class="ident">ReviewReview</span> {
                     <span class="ident">thoroughness</span>: <span class="ident">Level</span>::<span class="prelude-val">None</span>,
                     <span class="ident">understanding</span>: <span class="ident">Level</span>::<span class="prelude-val">None</span>,
                     <span class="ident">rating</span>: <span class="ident">Rating</span>::<span class="prelude-val">None</span>,
                 },
-                <span class="ident">comment</span>: <span class="string">&quot;unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:     &quot;</span>.<span class="ident">to_string</span>(),
+                <span class="ident">comment</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  &quot;</span>),
             },
-            <span class="ident">yaml_text</span>: <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;&quot;</span>),
+            <span class="ident">yaml_text</span>: <span class="macro">s</span><span class="macro">!</span>(),
         };
         <span class="ident">review_new</span>.<span class="ident">yaml_text</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">serde_yaml</span>::<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">review_new</span>.<span class="ident">review_for_vim</span>));
 

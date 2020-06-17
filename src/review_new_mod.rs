@@ -73,16 +73,16 @@ impl ReviewNew {
         let mut review_new = ReviewNew {
             package_name: crate_name.to_string(),
             package_version: version.to_string(),
-            //cargo_toml_line:s!(""),
+            //cargo_toml_line:s!(),
             review_for_vim: ReviewForVim {
                 review: ReviewReview {
                     thoroughness: Level::None,
                     understanding: Level::None,
                     rating: Rating::None,
                 },
-                comment: "unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:     ".to_string(),
+                comment: s!("unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  "),
             },
-            yaml_text: s!(""),
+            yaml_text: s!(),
         };
         review_new.yaml_text = unwrap!(serde_yaml::to_string(&review_new.review_for_vim));
 

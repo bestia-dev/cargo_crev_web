@@ -126,7 +126,7 @@ pub fn parse_semver(text: &str) -> (usize, usize, usize) {
 /// parse next characters until is numeric or end
 fn parse_next_number(text: &str, pos: usize) -> (usize, usize) {
     let mut pos = pos;
-    let mut number = s!("");
+    let mut number = s!();
     let mut one_char = text[pos..pos + 1].chars().next().unwrap();
     while one_char.is_numeric() {
         number.push(one_char);

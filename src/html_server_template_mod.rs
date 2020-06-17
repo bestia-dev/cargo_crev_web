@@ -114,7 +114,7 @@ pub trait HtmlServerTemplateRender {
         let nodes =
             unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, "", 0));
         // because this is the root template it must return one ElementNode
-        let mut html = s!("");
+        let mut html = s!();
         match &nodes[0] {
             Node::Element(temp_element_node) => {
                 html = unwrap!(Self::root_element_node_to_html_string(temp_element_node));
@@ -404,7 +404,7 @@ pub trait HtmlServerTemplateRender {
                                 // the main goal of comments is to change the value of the next text node
                                 // with the result of a function
                                 // it must look like <!--st_get_text-->
-                                // one small exception is <textare> because it ignores the comment syntax.
+                                // one small exception is <textarea> because it ignores the comment syntax.
                                 // It is still working, and it is not very ugly.
                                 if txt.starts_with("st_") {
                                     let repl_txt =
@@ -697,7 +697,7 @@ pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str
 /// to string, but zero converts to empty
 pub fn url_s_zero_to_empty(number: usize) -> String {
     if number == 0 {
-        s!("")
+        s!()
     } else {
         s!(number)
     }

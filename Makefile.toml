@@ -73,6 +73,8 @@ skip_core_tasks = true
         # Library version is semver
         # "echo $ lmake_semver --increment=patch",
         # "lmake_semver --increment=patch",
+        "echo $ cargo fmt",
+        "cargo fmt",
         "echo $ cargo build --release",
         "cargo build --release",
         "echo $ cp target/release/cargo_crev_web ./web_server_folder",

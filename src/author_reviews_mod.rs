@@ -22,13 +22,13 @@ impl AuthorReviews {
         // nobody else should sort the data
         // search data in the index
         let mut many_file = ManyFileReviewsPk { vec: vec![] };
-        let mut old_file_path = s!("");
+        let mut old_file_path = s!();
         let mut one_file = OneFileReviewsPk {
             file_path: s!("don't push the first row"),
             reviews_pk: Some(vec![]),
         };
-        let mut author_name = s!("");
-        let mut author_url = s!("");
+        let mut author_name = s!();
+        let mut author_url = s!();
         for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
             if index_item.author_id == author_id {
                 if index_item.file_path != old_file_path {

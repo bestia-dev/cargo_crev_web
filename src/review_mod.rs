@@ -182,7 +182,7 @@ impl HtmlServerTemplateRender for Review {
                 if let Some(review) = &self.review {
                     s!(review.rating)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_rating_class_color" => s!(
@@ -206,7 +206,7 @@ impl HtmlServerTemplateRender for Review {
                         review.understanding.to_string()
                     )
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_review_comment" => {
@@ -214,56 +214,56 @@ impl HtmlServerTemplateRender for Review {
                 if let Some(comment) = &self.comment {
                     s!(comment)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_alternative_source" => {
                 if let Some(alternatives) = &self.alternatives {
                     s!(&alternatives[0].source)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_alternative_name" => {
                 if let Some(alternatives) = &self.alternatives {
                     s!(&alternatives[0].name)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_issue_id" => {
                 if let Some(issues) = &self.issues {
                     s!(&issues[0].id)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_issue_severity" => {
                 if let Some(issues) = &self.issues {
                     s!(issues[0].severity)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_issue_comment" => {
                 if let Some(issues) = &self.issues {
                     s!(&issues[0].comment)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_advisories_ids" => {
                 if let Some(advisories) = &self.advisories {
                     s!(&advisories[0].ids[0])
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_advisories_severity" => {
                 if let Some(advisories) = &self.advisories {
                     s!(advisories[0].severity)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_advisories_range" => {
@@ -271,24 +271,24 @@ impl HtmlServerTemplateRender for Review {
                     if let Some(range) = &advisories[0].range {
                         s!(range)
                     } else {
-                        s!("")
+                        s!()
                     }
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_advisory_affected" => {
                 if let Some(advisory) = &self.advisory {
                     s!(&advisory.affected)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             "st_advisory_critical" => {
                 if let Some(advisory) = &self.advisory {
                     s!(&advisory.critical)
                 } else {
-                    s!("")
+                    s!()
                 }
             }
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
@@ -377,11 +377,11 @@ pub fn color_from_rating(rating: Option<&Rating>) -> String {
         match rating {
             Rating::Strong => s!("greener"),
             Rating::Positive => s!("green"),
-            Rating::Neutral => s!(""),
+            Rating::Neutral => s!(),
             Rating::Negative => s!("red"),
-            Rating::None => s!(""),
+            Rating::None => s!(),
         }
     } else {
-        s!("")
+        s!()
     }
 }

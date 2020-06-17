@@ -24,7 +24,7 @@ pub struct Badge {
 impl Badge {
     /// prepare the data
     pub fn new(subject_text: &str, status_text: &str, badge_color: &str) -> Self {
-        let padding = 20;
+        let padding = 10;
         let subject_width = Self::text_to_width(subject_text) + padding;
         let status_width = Self::text_to_width(status_text) + padding;
         let height = 20;
