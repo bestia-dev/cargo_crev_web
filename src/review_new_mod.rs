@@ -80,7 +80,7 @@ impl ReviewNew {
                     understanding: Level::None,
                     rating: Rating::None,
                 },
-                comment: s!("unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  "),
+                comment: s!("comment: unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  unmaintained:   "),
             },
             yaml_text: s!(),
         };
