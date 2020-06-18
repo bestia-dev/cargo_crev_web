@@ -502,7 +502,13 @@ A small difference to help search and replace refactoring.
         }
         
         @keyframes blinker {
+            0% {
+                opacity: 1.0;
+            }
             50% {
-                opacity: 0.2;
+                opacity: 1.0;
+            }
+            100% {
+                opacity: 0.1;
             }
         }
