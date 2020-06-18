@@ -211,6 +211,18 @@ It works only in VSCode. I made an export to md utility because is so much easie
 I used <https://clipboardjs.com/> for Click to Copy.  
 For tooltips I used <https://chrisbracco.com/a-simple-css-tooltip/>  
 
+## colors
+
+Every person on this planet would like to have different colors. That is human nature. Or just nature's statistical dispersion to increase chance of survival when the environment changes dramatically...  
+To build a website that satisfies everybody's taste for color is impossible.  
+Even hoping to satisfy a few close friends is mission impossible.  
+So there is this Chrome extension named User Css:  
+https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb  
+You write a css in your browser and while you are typing it immediately changes the look of the webpage.  
+In the webpage <https://web.crev.dev/rust-reviews/> you can find a basic css for the color palette. Just Click-to-Copy and try it in User Css. Then change colors to your liking.  
+At the end save the css for the next time you visit the website.  
+If somebody is very happy with his/her user css, please send it to me. I will make it available to other users. They will be happy. Humans love colors - different colors.  
+
 ## ideas
 
 The same web server can easily run on the local machine of the developer.  

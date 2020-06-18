@@ -34,7 +34,7 @@
                     <div class="media_right"><a class="white" href="https://docs.rs/" target="_blank">docs.rs</a></div>
                 </div>
             </div>
-            <p class="media_portrait_visible">Please, use mobile in landscape.</p>
+            <p class="media_portrait_visible blink">Please, use mobile in landscape.</p>
         </div>
         <div class="container0_content_grid_0" style="grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto;">
             <div class="grid0_h_c bold" title="unique crates count">c</div>
@@ -223,28 +223,29 @@ Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://w
             <p>You can easily change colors of this webpage with Chrome extension User Css:</p>
             <p><a class="white" href="https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb" target="_blank">https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb</a></p>
             <p>While you change the css, it automatically refreshes the webpage with new colors. Cool.</p>
+            <p>And then you can save it per website. Great.</p>
             <p>Copy and paste this css variables and then change their values (Click-to-Copy):</p>
             <textarea data-clipboard-text="/* css variables */
 :root {
 /* color palette */
 /* use of variables: var(--b_color_05); */
 /* background color */
---b_color_01: black; /*#24292E*/
---b_color_02: magenta; /*#1B1D23*/
---b_color_03: green; /*#181A1F*/
---b_color_04: darkblue; /*#333842*/
+--b_color_01: darkblue; /*#24292E*/
+--b_color_02: #1B1D23;
+--b_color_03: #181A1F;
+--b_color_04: #333842;
 --b_color_05: dodgerblue;
 /* front color */
---f_color_01: orange; /*#FBF462*/
+--f_color_01: #FBF462;
 --f_color_02: white; /*#9DA5B4*/
---f_color_03: cyan; /*#78C379*/
+--f_color_03: #78C379;
 --f_color_04: white;
 --f_color_05: yellow;
 --f_color_06: dark-white;
 --f_color_07: black;
 /* border color*/
---brd_color_01: red; /*#000*/
---brd_color_02: purple; /*#eaecef*/
+--brd_color_01: #000;
+--brd_color_02: #eaecef;
 /* color */
 --color_r_strong: Chartreuse;
 --color_r_positive: Green;
@@ -259,22 +260,22 @@ Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://w
 /* color palette */
 /* use of variables: var(--b_color_05); */
 /* background color */
---b_color_01: black; /*#24292E*/
---b_color_02: magenta; /*#1B1D23*/
---b_color_03: green; /*#181A1F*/
---b_color_04: darkblue; /*#333842*/
+--b_color_01: darkblue; /*#24292E*/
+--b_color_02: #1B1D23;
+--b_color_03: #181A1F;
+--b_color_04: #333842;
 --b_color_05: dodgerblue;
 /* front color */
---f_color_01: orange; /*#FBF462*/
+--f_color_01: #FBF462;
 --f_color_02: white; /*#9DA5B4*/
---f_color_03: cyan; /*#78C379*/
+--f_color_03: #78C379;
 --f_color_04: white;
 --f_color_05: yellow;
 --f_color_06: dark-white;
 --f_color_07: black;
 /* border color*/
---brd_color_01: red; /*#000*/
---brd_color_02: purple; /*#eaecef*/
+--brd_color_01: #000;
+--brd_color_02: #eaecef;
 /* color */
 --color_r_strong: Chartreuse;
 --color_r_positive: Green;
@@ -283,8 +284,7 @@ Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://w
 --color_tooltip_1: #000;
 --color_tooltip_2: hsla(0, 0%, 20%, 0.9);
 --color_tooltip_3: #fff;
-}
-            </textarea>
+}</textarea>
         </div>
     </div>
 

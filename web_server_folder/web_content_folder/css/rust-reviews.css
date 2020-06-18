@@ -495,3 +495,14 @@ A small difference to help search and replace refactoring.
             filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
             opacity: 1;
         }
+        /*special instructions*/
+        
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+        
+        @keyframes blinker {
+            50% {
+                opacity: 0.2;
+            }
+        }
