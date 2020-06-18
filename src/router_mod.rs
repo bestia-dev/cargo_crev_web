@@ -82,6 +82,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // /rust-reviews/review_new/
     // /rust-reviews/review_new/{crate}/
     // /rust-reviews/review_new/{crate}/{version}/
+    // /rust-reviews/people_of_rust/
     // /rust-reviews/reserved_folder/
     // /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/
     // /rust-reviews/reserved_folder/list_new_author_id/
@@ -375,6 +376,15 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
             },
         ));
 
+    let people_of_rust_route = warp::path!("rust-reviews" / "people_of_rust").map(|| {
+        let ns_start = ns_start("PeopleOfRust");
+        let data_model = people_of_rust_mod::PeopleOfRust::new();
+        let ns_new = ns_print("new()", ns_start);
+        let html_file = data_model.render_html_file("templates/");
+        ns_print("render_html_file()", ns_new);
+        warp::reply::html(html_file)
+    });
+
     // static file server (starts at rust-reviews)
     // route /rust-reviews/ get files from folder ./web_content_folder/
     // static files must not have trailing slash, no need for ends_with_slash_or_redirect()
@@ -390,6 +400,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
         reserved_folder_route,
         review_new_route,
         badge_route,
+        people_of_rust_route,
         fileserver
     );
 

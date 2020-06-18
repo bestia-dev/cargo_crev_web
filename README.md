@@ -1,7 +1,7 @@
 # Rust-reviews (working title cargo_crev_web)
 
 [comment]: # (lmake_readme cargo.toml data start)
-***version: 2020.617.1537  date: 2020-06-17 authors: Luciano Bestia***  
+***version: 2020.618.1207  date: 2020-06-18 authors: Luciano Bestia***  
 **web server to query reviews from cargo-crev**
 
 [comment]: # (lmake_readme cargo.toml data end)  
