@@ -168,6 +168,9 @@
 <span id="168">168</span>
 <span id="169">169</span>
 <span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! crate_version_summary_mod</span>
 
@@ -191,6 +194,7 @@
     <span class="kw">pub</span> <span class="ident">rating_positive</span>: <span class="ident">usize</span>,
     <span class="kw">pub</span> <span class="ident">rating_neutral</span>: <span class="ident">usize</span>,
     <span class="kw">pub</span> <span class="ident">rating_negative</span>: <span class="ident">usize</span>,
+    <span class="kw">pub</span> <span class="ident">rating_none</span>: <span class="ident">usize</span>,
     <span class="kw">pub</span> <span class="ident">alternatives</span>: <span class="ident">usize</span>,
     <span class="kw">pub</span> <span class="ident">issues</span>: <span class="ident">usize</span>,
     <span class="kw">pub</span> <span class="ident">advisories</span>: <span class="ident">usize</span>,
@@ -210,6 +214,7 @@
             <span class="ident">rating_positive</span>: <span class="number">0</span>,
             <span class="ident">rating_neutral</span>: <span class="number">0</span>,
             <span class="ident">rating_negative</span>: <span class="number">0</span>,
+            <span class="ident">rating_none</span>: <span class="number">0</span>,
             <span class="ident">alternatives</span>: <span class="number">0</span>,
             <span class="ident">issues</span>: <span class="number">0</span>,
             <span class="ident">advisories</span>: <span class="number">0</span>,
@@ -258,6 +263,7 @@
             <span class="string">&quot;st_rating_positive&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">rating_positive</span>),
             <span class="string">&quot;st_rating_neutral&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">rating_neutral</span>),
             <span class="string">&quot;st_rating_negative&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">rating_negative</span>),
+            <span class="string">&quot;st_rating_none&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">rating_none</span>),
             <span class="string">&quot;st_alternatives&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">alternatives</span>),
             <span class="string">&quot;st_issues&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">issues</span>),
             <span class="string">&quot;st_advisories&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">advisories</span>),
