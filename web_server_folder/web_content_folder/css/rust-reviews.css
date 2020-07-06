@@ -9,6 +9,8 @@
             --b_color_03: #181A1F;
             --b_color_04: #333842;
             --b_color_05: dodgerblue;
+            /* for ratings cells*/
+            --b_color_06: #23272D;
             /* front color */
             --f_color_01: #FBF462;
             --f_color_02: #9DA5B4;
@@ -24,7 +26,9 @@
             --color_r_strong: Chartreuse;
             --color_r_positive: Green;
             --color_r_medium: orange;
+            --color_r_neutral: #9DA5B4;
             --color_r_negative: red;
+            --color_r_none: #9DA5B4;
             --color_tooltip_1: #000;
             --color_tooltip_2: hsla(0, 0%, 20%, 0.9);
             --color_tooltip_3: #fff;
@@ -174,6 +178,7 @@
             background: transparent;
         }
         
+        /* no color */
         a:link,
         a:visited,
         a:hover,
@@ -265,6 +270,10 @@ A small difference to help search and replace refactoring.
             text-align: center;
         }
         
+        .grid0_c_r {
+            /* grid0 cell rating*/
+            background-color: var(--b_color_06);
+        }
         .container_0 {
             display: grid;
             background-color: var(--b_color_04);
@@ -337,61 +346,81 @@ A small difference to help search and replace refactoring.
         .bold {
             font-weight: bold;
         }
-        
-        .white,
-        a:link.white,
-        a:visited.white,
-        a:hover.white,
-        a:active.white {
+
+        /* links are mostly white */
+        .c_white,
+        .c_link_1,
+        a:link.c_link_1,
+        a:visited.c_link_1,
+        a:hover.c_link_1,
+        a:active.c_link_1
+        {
             color: var(--f_color_04);
         }
         
-        .dark_white .h2u {
+        /* dark_white */
+        .h2u {
             color: var(--f_color_06);
         }
         
-        .black {
+        .c_black {
             color: var(--f_color_07);
         }
         
-        .greener,
+        /* greener */
         .c_strong,
         .c_high,
         .sc_low {
             color: var(--color_r_strong);
         }
         
-        .green,
+        /* green */
         .c_positive {
             color: var(--color_r_positive);
         }
         
-        .yellow,
-        .alternative,
+        /* yellow */
+        .c_yellow,
+        .c_alternative,
         .sc_medium,
         .h3y,
-        a:link.yellow,
-        a:visited.yellow,
-        a:hover.yellow,
-        a:active.yellow {
+        .link_2,
+        a:link.link_2,
+        a:visited.link_2,
+        a:hover.link_2,
+        a:active.link_2
+        {
             color: var(--f_color_05);
         }
         
-        .orange,
+        /* orange */
         .c_medium,
         .c_neutral,
-        .color_issue {
+        .c_issue {
             color: var(--color_r_medium);
         }
         
-        .red,
+        /* red */
+        .c_alert,
         .c_negative,
         .c_low,
         .sc_high,
-        .color_advisory {
+        .c_advisory {
             color: var(--color_r_negative);
         }
         
+        /* none rating */
+        .c_none
+        {
+            color: var(--color_r_none);
+        }
+
+        /* neutral rating */
+        .c_neutral
+        {
+            color: var(--color_r_neutral);
+        }
+
         .middle {
             display: grid;
             align-items: center;

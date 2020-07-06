@@ -126,15 +126,6 @@ skip_core_tasks = true
         "echo after successful doc, run cargo make fmt msg_for_commit",
         ]
     
-    [tasks.sshadd]
-    description = "adds identity to ssh-agent for git and publish operations"
-    clear = true
-    script = [
-        "ssh-add /home/luciano/.ssh/luciano_googlecloud",
-        "ssh-add /home/luciano/.ssh/lucianobestia_mac",
-        "ssh-add -l",
-    ]
-
     [tasks.gitpush]
     description = "push the commits to github, uses ssh agent"
     clear = true
@@ -203,7 +194,7 @@ script= [
 "echo ",
 "echo 08. cargo make doc - includes from cargo.toml to readme.md and from readme.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
 "echo 09. cargo make fmt commit_message - cargo fmt and git commit ",
-"echo 10. cargo make sshadd - run only once - adds identity to ssh-agent for git and publish",
+
 "echo 11. cargo make gitpush - git push",
 "echo 12. cargo make publish_to_web",
 "echo ",

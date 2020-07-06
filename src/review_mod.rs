@@ -388,10 +388,10 @@ impl HtmlServerTemplateRender for Review {
 pub fn color_from_rating(rating: Option<&Rating>) -> String {
     if let Some(rating) = rating {
         match rating {
-            Rating::Strong => s!("greener"),
-            Rating::Positive => s!("green"),
+            Rating::Strong => s!("c_strong"),
+            Rating::Positive => s!("c_positive"),
             Rating::Neutral => s!(),
-            Rating::Negative => s!("red"),
+            Rating::Negative => s!("c_negative"),
             Rating::None => s!(),
         }
     } else {

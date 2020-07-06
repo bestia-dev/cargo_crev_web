@@ -36,6 +36,7 @@ impl CrateVersionSummary {
                 rating_positive: 0,
                 rating_neutral: 0,
                 rating_negative: 0,
+                rating_none: 0,
                 alternatives: 0,
                 issues: 0,
                 advisories: 0,
@@ -88,6 +89,10 @@ impl CrateVersionSummary {
                     crate_version_summary.crate_summary.rating_negative += 1;
                     version_summary.rating_negative += 1;
                 }
+                if review.rating == Rating::None {
+                    crate_version_summary.crate_summary.rating_none += 1;
+                    version_summary.rating_none += 1;
+                }
                 if review.thoroughness == Level::High {
                     crate_version_summary.crate_summary.thoroughness += 2;
                     version_summary.thoroughness += 2;
@@ -104,6 +109,9 @@ impl CrateVersionSummary {
                     crate_version_summary.crate_summary.understanding += 1;
                     version_summary.understanding += 1;
                 }
+            } else {
+                crate_version_summary.crate_summary.rating_none += 1;
+                version_summary.rating_none += 1;
             }
             if let Some(_alternative) = &review.alternatives {
                 crate_version_summary.crate_summary.alternatives += 1;
@@ -182,6 +190,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             "st_crate_rating_positive" => url_s_zero_to_empty(self.crate_summary.rating_positive),
             "st_crate_rating_neutral" => url_s_zero_to_empty(self.crate_summary.rating_neutral),
             "st_crate_rating_negative" => url_s_zero_to_empty(self.crate_summary.rating_negative),
+            "st_crate_rating_none" => url_s_zero_to_empty(self.crate_summary.rating_none),
             "st_crate_alternatives" => url_s_zero_to_empty(self.crate_summary.alternatives),
             "st_crate_issues" => url_s_zero_to_empty(self.crate_summary.issues),
             "st_crate_advisories" => url_s_zero_to_empty(self.crate_summary.advisories),
