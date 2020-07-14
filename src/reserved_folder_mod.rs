@@ -26,6 +26,7 @@ pub struct ReservedFolder {
     pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
     pub fetch_new_reviews: Option<String>,
+    pub blocklisted_repos: Option<Vec<String>>,
     pub list_new_author_id: Option<Vec<OnlyAuthor>>,
     pub add_author_url: Option<String>,
 }
@@ -83,7 +84,28 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
+
+    pub fn blocklisted_repos(_state_global: ArcMutStateGlobal) -> Self {
+        let mut reserved_folder = ReservedFolder {
+            ..Default::default()
+        };
+        reserved_folder.fill_blocklisted_repos();
+        //return
+        reserved_folder
+    }
+    /// read blocklisted_repos from json file
+    fn fill_blocklisted_repos(&mut self) {
+        let blocklisted_repos = unwrap!(fs::read_to_string("blocklisted_repos.json"));
+        let mut blocklisted_repos: Vec<String> = unwrap!(serde_json::from_str(&blocklisted_repos));
+
+        blocklisted_repos.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+        self.blocklisted_repos = Some(blocklisted_repos);
+    }
+
     pub async fn list_new_author_id(state_global: ArcMutStateGlobal) -> Self {
+        let mut reserved_folder = ReservedFolder {
+            ..Default::default()
+        };
         // The repo https://gitlab.com/crev-dev/auto-crev-proofs.git
         // is automated to have all the crev repos it can find. It is also
         // possible to add repos manually.
@@ -156,14 +178,7 @@ impl ReservedFolder {
         fetched_author_url.sort_by(|a, b| a.cmp(&b));
         // endregion: first I need the list of fetched authors
 
-        // read blacklist_author_url from json file
-        // TODO: make this editable from web UI
-
-        let blacklisted_author_url = unwrap!(fs::read_to_string("blacklist_author_url.json"));
-        let mut blacklisted_author_url: Vec<String> =
-            unwrap!(serde_json::from_str(&blacklisted_author_url));
-
-        blacklisted_author_url.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+        reserved_folder.fill_blocklisted_repos();
 
         for auto_crev in vec_of_auto_crev.iter() {
             // if author already exists in index, I don't need it.
@@ -171,7 +186,7 @@ impl ReservedFolder {
             if !fetched_author_url
                 .iter()
                 .any(|v| v == &auto_crev.author_url)
-                && !blacklisted_author_url
+                && !unwrap!(reserved_folder.blocklisted_repos.as_ref())
                     .iter()
                     .any(|v| v == &auto_crev.author_url)
             {
@@ -183,13 +198,9 @@ impl ReservedFolder {
             }
         }
 
-        // dbg!(vec_of_new.len());
-        // dbg!( &vec_of_new);
+        reserved_folder.list_new_author_id = Some(vec_of_new);
         // return
-        ReservedFolder {
-            list_new_author_id: Some(vec_of_new),
-            ..Default::default()
-        }
+        reserved_folder
     }
 
     pub async fn add_author_url(
@@ -312,6 +323,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "sb_is_reindex_after_fetch_new_reviews" => {
                 self.reindex_after_fetch_new_reviews.is_some()
             }
+            "sb_blocklisted_repos" => self.blocklisted_repos.is_some(),
             "sb_list_new_author_id" => self.list_new_author_id.is_some(),
             "sb_add_author_url" => self.add_author_url.is_some(),
             _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
@@ -351,6 +363,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             }
             "st_fetch_new_reviews" => s!(unwrap!(self.fetch_new_reviews.as_ref())),
             "st_add_author_url" => s!(unwrap!(self.add_author_url.as_ref())),
+            "st_repo_url" => s!(unwrap!(self.blocklisted_repos.as_ref())[pos_cursor]),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -375,6 +388,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
             "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             "su_author_url" => url_u!(&item_at_cursor_1.author_url, ""),
+            "su_repo_url" => url_u!(&unwrap!(self.blocklisted_repos.as_ref())[pos_cursor], ""),
             "su_author_route" => url_u!("/rust-reviews/author/{}/", &item_at_cursor_1.author_id),
             "su_add_author_url_route" => url_u!(
                 "/rust-reviews/reserved_folder/add_author_url/{}/",
@@ -422,6 +436,26 @@ impl HtmlServerTemplateRender for ReservedFolder {
                             HtmlOrSvg::Html,
                             template_name,
                             cursor_for_vec,
+                        ));
+                        nodes.extend_from_slice(&vec_node);
+                    }
+                }
+                // return
+                nodes
+            }
+            "stmplt_blocklisted_repos" => {
+                let mut nodes = vec![];
+                if let Some(list) = &self.blocklisted_repos {
+                    let sub_template = unwrap!(sub_templates
+                        .iter()
+                        .find(|&template| template.name == template_name));
+                    // sub-template repeatable
+                    for cursor_for_vec in 0..list.len() {
+                        let vec_node = unwrap!(self.render_template_raw_to_nodes(
+                            &sub_template.template,
+                            HtmlOrSvg::Html,
+                            template_name,
+                            cursor_for_vec
                         ));
                         nodes.extend_from_slice(&vec_node);
                     }

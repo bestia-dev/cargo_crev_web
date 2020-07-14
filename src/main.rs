@@ -147,7 +147,7 @@
 //! It is automated and maintained by @chrysn.  
 //! <https://github.com/crev-dev/cargo-crev/issues/336>  
 //! Other reference is <https://github.com/crev-dev/cargo-crev/wiki/List-of-Proof-Repositories>  
-//! For incomplete, obsolete or otherwise unwanted repos I will have an editable blacklist.  
+//! For incomplete, obsolete or otherwise unwanted repos I will have an editable list.  
 //!
 //! ## Linux scheduler
 //!
