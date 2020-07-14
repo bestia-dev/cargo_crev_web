@@ -148,6 +148,8 @@ impl HtmlServerTemplateRender for AuthorReviews {
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
             "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             "su_author_url" => url_u!(&self.author_url, ""),
+            "su_lib_rs_url" => url_u!("https://lib.rs/~{}", &self.author_name),
+            "su_crates_io_url" => url_u!("https://crates.io/users/{}", &self.author_name),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

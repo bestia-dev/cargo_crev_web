@@ -406,7 +406,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
 
     info!(
         "Entry point sub-directory: {} ",
-        Red.paint(s!("/rust-reviews/"))
+        Yellow.paint(s!("/rust-reviews/"))
     );
 
     warp::serve(routes).run(local_addr).await;
