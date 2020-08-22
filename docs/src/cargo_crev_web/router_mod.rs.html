@@ -411,6 +411,23 @@
 <span id="411">411</span>
 <span id="412">412</span>
 <span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! router_mod</span>
 
@@ -499,6 +516,7 @@
     <span class="comment">// /rust-reviews/people_of_rust/</span>
     <span class="comment">// /rust-reviews/reserved_folder/</span>
     <span class="comment">// /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/</span>
+    <span class="comment">// /rust-reviews/reserved_folder/blocklisted_repos/</span>
     <span class="comment">// /rust-reviews/reserved_folder/list_new_author_id/</span>
     <span class="comment">// /rust-reviews/reserved_folder/add_author_url/</span>
     <span class="comment">// /rust-reviews/reserved_folder/list_fetched_author_id/</span>
@@ -603,6 +621,22 @@
                         <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">data_model</span>.<span class="ident">render_html_file</span>(<span class="string">&quot;templates/&quot;</span>);
                         <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
                         <span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)
+                    }),
+            )
+            .<span class="ident">or</span>(
+                <span class="ident">warp</span>::<span class="macro">path</span><span class="macro">!</span>(<span class="string">&quot;rust-reviews&quot;</span> <span class="op">/</span> <span class="string">&quot;reserved_folder&quot;</span> <span class="op">/</span> <span class="string">&quot;blocklisted_repos&quot;</span>)
+                    .<span class="ident">and</span>(<span class="ident">state_global</span>.<span class="ident">clone</span>())
+                    .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">state_global</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
+                        <span class="kw">let</span> <span class="ident">ns_start</span> <span class="op">=</span> <span class="ident">ns_start</span>(<span class="string">&quot;blocklisted_repos&quot;</span>);
+                        <span class="kw">let</span> <span class="ident">data_model</span> <span class="op">=</span>
+                            <span class="ident">reserved_folder_mod</span>::<span class="ident">ReservedFolder</span>::<span class="ident">blocklisted_repos</span>(<span class="ident">state_global</span>);
+                        <span class="kw">let</span> <span class="ident">ns_new</span> <span class="op">=</span> <span class="ident">ns_print</span>(<span class="string">&quot;new()&quot;</span>, <span class="ident">ns_start</span>);
+                        <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">data_model</span>.<span class="ident">render_html_file</span>(<span class="string">&quot;templates/&quot;</span>);
+                        <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
+                        <span class="comment">// return crazy types</span>
+                        <span class="kw">let</span> <span class="ident">result</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">warp</span>::<span class="ident">Reply</span><span class="op">&gt;</span>, <span class="ident">warp</span>::<span class="ident">Rejection</span><span class="op">&gt;</span> <span class="op">=</span>
+                            <span class="prelude-val">Ok</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">warp</span>::<span class="ident">reply</span>::<span class="ident">html</span>(<span class="ident">html_file</span>)) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">warp</span>::<span class="ident">Reply</span><span class="op">&gt;</span>);
+                        <span class="ident">result</span>
                     }),
             )
             .<span class="ident">or</span>(
@@ -820,10 +854,10 @@
 
     <span class="macro">info</span><span class="macro">!</span>(
         <span class="string">&quot;Entry point sub-directory: {} &quot;</span>,
-        <span class="ident">Red</span>.<span class="ident">paint</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/&quot;</span>))
+        <span class="ident">Yellow</span>.<span class="ident">paint</span>(<span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;/rust-reviews/&quot;</span>))
     );
 
     <span class="ident">warp</span>::<span class="ident">serve</span>(<span class="ident">routes</span>).<span class="ident">run</span>(<span class="ident">local_addr</span>).<span class="kw">await</span>;
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -4,182 +4,13 @@
 [config]
 skip_core_tasks = true
 
-#region: public callable tasks/flows
-
 [tasks.default]
-    description = "show list of public callable tasks"
-    clear = true
-    dependencies = [
-        "help_command_order"
-    ]
-
-    [tasks.check]
-    description = "cargo check --release"
-    clear = true
-    command = "cargo"
-    args = ["check","--release"]
-    
-    [tasks.dev]
-    description = "cargo build development"
-    clear = true
-    script = [
-        "echo $ cargo build",
-        "cargo build",
-    ]
-
-    [tasks.dev_and_run]
-    description = "cargo build development and run"
-    clear = true
-    script = [
-        "echo $ cargo build",
-        "cargo build",
-        "echo $ cp target/debug/cargo_crev_web ./web_server_folder",
-        "cp target/debug/cargo_crev_web ./web_server_folder",
-        "echo $ cd web_server_folder",
-        "cd web_server_folder",
-        "echo $  ./cargo_crev_web",
-        " ./cargo_crev_web",
-    ]
-
-    [tasks.test]
-    description = "cargo test"
-    clear = true
-    script = [
-        "echo $ cargo test",
-        "cargo test",
-    ]                
-
-    [tasks.release]
-    description = "cargo build release"
-    clear = true
-    script = [
-        # Binaries version is date
-        "echo $ lmake_version_from_date",
-        "lmake_version_from_date",
-        # Library version is semver
-        # "echo $ lmake_semver --increment=patch",
-        # "lmake_semver --increment=patch",
-        "echo $ cargo build --release",
-        "cargo build --release",
-    ]
-
-    [tasks.release_and_run]
-    description = "cargo build release and run"
-    clear = true
-    script = [
-        # Binaries version is date
-        "echo $ lmake_version_from_date",
-        "lmake_version_from_date",
-        # Library version is semver
-        # "echo $ lmake_semver --increment=patch",
-        # "lmake_semver --increment=patch",
-        "echo $ cargo fmt",
-        "cargo fmt",
-        "echo $ cargo build --release",
-        "cargo build --release",
-        "echo $ cp target/release/cargo_crev_web ./web_server_folder",
-        "cp target/release/cargo_crev_web ./web_server_folder",
-        "echo $ cd web_server_folder",
-        "cd web_server_folder",
-        "echo $  ./cargo_crev_web",
-        " ./cargo_crev_web",
-    ]
-
-    [tasks.run_rel0]
-    description = "no-argument - target/release/${CARGO_MAKE_CRATE_NAME}"
-    clear = true
-    script = [
-        "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
-        "target/release/${CARGO_MAKE_CRATE_NAME} ",
-    ]
-
-    [tasks.fmt]
-    description = "format code and git commit before"
-    clear = true
-    dependencies = [
-        "commit_before_fmt",
-        "cargo_fmt", 
-    ]
- 
-    [tasks.audit]
-    description = "cargo audit - for warning dependencies"
-    clear = true
-    dependencies = [ "cargo_audit",]
-    
-    [tasks.doc]
-    description = "cargo doc - create docs from doc comments"
-    clear = true
-    script= [
-        "echo $ lmake_readme",
-        # copy data from cargo.toml to readme.md, then include text from readme.md into *.rs doc comments
-        "lmake_readme",
-        "echo $ cargo doc --no-deps --document-private-items",
-        # create doc from doc comments
-        "cargo doc --no-deps --document-private-items",
-        "echo $ codetour_export_to_md",
-        # export code tour to md
-        "codetour_export_to_md",
-        # copy to /docs/ because it is github standard
-        "echo $ rsync -a --info=progress2 --delete-after target/doc/ docs/",
-        "rsync -a --info=progress2 --delete-after target/doc/ docs/",
-        # message to help user with next move
-        "echo after successful doc, run cargo make fmt msg_for_commit",
-        ]
-    
-    [tasks.gitpush]
-    description = "push the commits to github, uses ssh agent"
-    clear = true
-    script = [
-        "echo $ git push",
-        "git push",
-        "echo after successful git push, use $ cargo make crates_io_dry_run or publish_to_web",
-    ]
-
-    [tasks.publish_to_web]
-    description = "publish to web server"
-    workspace = false
-    clear = true
-    # backslash is the escape character for all other special characters.
-    # and then another time I have to escape the backslash. So 4 backslash for one backslash.
-    script = [
-        "echo ",
-        "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-        "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
-        "echo $ rsync -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
-        "rsync -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
-        "echo $ rsync -e ssh -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
-        "rsync -e ssh -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
-        "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev /var/www/scripts/cargo_crev_web_publish.sh",
-        "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev /var/www/scripts/cargo_crev_web_publish.sh",
-    ]
-    # end of publish script
-    # end of publish script
-    # end of publish script
-
-    [tasks.increment_minor]
-    description = "increments semver minor"
-    clear = true
-    script = [
-        "lmake_semver --increment=minor",
-    ]
-
-    [tasks.loc]
-    description = "Lines Of Rust Code with tokei"
-    workspace = false
-    clear = true
-    script = [
-        "tokei  -t 'Rust'",
-    ]
-    
-# endregion
-
-[tasks.help_command_order]
+description = "help for prepared make tasks"
 clear = true
-private = true
-description = "help developer to understand the order of exec commands"
 script= [
 "echo ",
 "echo ORDER OF EXECUTING MAKE TASKS:",
+"echo ",
 "echo     clear - clear the screen",
 "echo     cargo make - this list",
 "echo 01. ..... change your code in the editor",
@@ -188,47 +19,218 @@ script= [
 "echo 03. cargo make run_dev0 - run the developer build",
 "echo 04. cargo make test - test the test code",
 "echo 05. cargo make increment_minor - if needed increment semver minor",
-"echo 06. cargo make release - build release version, increment semver patch incargo.toml",
-"echo 06a. or cargo make release_and_run - build and run release version, increment semver patch incargo.toml",
-"echo 07. cargo makr run_rel0 - run the release build",
+"echo 06. cargo make release - build release version, increment semver patch in Cargo.toml",
+"echo 06a. or cargo make release_and_run - build and run release version, increment semver patch in Cargo.toml",
+"echo 07. cargo make run_rel0 - run the release build",
 "echo ",
-"echo 08. cargo make doc - includes from cargo.toml to readme.md and from readme.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
-"echo 09. cargo make fmt commit_message - cargo fmt and git commit ",
-
+"echo 08. cargo make doc - includes from Cargo.toml to README.md and from README.md to main.rs or lib.rs, generates doc and copies to docs folder, exports codetour to .md.",
+"echo 09. cargo make commit commit_message - cargo fmt and git commit ",
+"echo 10. cargo make sshadd - run only once - adds identity to ssh-agent for git and publish",
 "echo 11. cargo make gitpush - git push",
 "echo 12. cargo make publish_to_web",
+"echo OR ",
+"echo 12. cargo make crates_io_dry_run - prepare publishing for crates.io",
+"echo 13. cargo make crates_io_publish - gittag and publish to crates.io",
 "echo ",
 "echo LIST PREPARED RUN WITH ARGUMENTS (separate debug and release versions)",
 "echo cargo make run_rel0 - no arguments - target/release/${CARGO_MAKE_CRATE_NAME}",
+"echo cargo make run_rel1 - target/release/${CARGO_MAKE_CRATE_NAME} argument1",
 "echo ",
 "echo CREV - always verify you dependencies",
 "echo cargo crev verify",
 "echo "
 ]
 
-[tasks.cargo_audit]
-description = "cargo audit - for security vulnerabilities"
-clear = true
-private = true
-#command = "cargo"
-#args = ["audit"]
+# end of help
+# end of help
+# end of help
 
-[tasks.commit_before_fmt]
-description = "git commit with message from argument"
+[tasks.check]
+description = "cargo check --release"
 clear = true
-private = true
+command = "cargo"
+args = ["check","--release"]
+
+[tasks.dev]
+description = "cargo build development"
+clear = true
 script = [
-    "git add -A",
-    "git commit -a -m \"${@}\""
+    "echo $ cargo build",
+    "cargo build",
 ]
 
-[tasks.cargo_fmt]
-description = "cargo fmt"
+[tasks.dev_and_run]
+description = "cargo build development and run"
 clear = true
-private = true
+script = [
+    "echo $ cargo build",
+    "cargo build",
+    "echo $ cp target/debug/cargo_crev_web ./web_server_folder",
+    "cp target/debug/cargo_crev_web ./web_server_folder",
+    "echo $ cd web_server_folder",
+    "cd web_server_folder",
+    "echo $  ./cargo_crev_web",
+    " ./cargo_crev_web",
+]
+
+[tasks.test]
+description = "cargo test"
+clear = true
+script = [
+    "echo $ cargo test",
+    "cargo test",
+]
+
+[tasks.release]
+description = "cargo build release"
+clear = true
+script = [
+    # Binaries version is date
+    "echo $ lmake_version_from_date",
+    "lmake_version_from_date",
+    # Library version is semver
+    # "echo $ lmake_semver --increment=patch",
+    # "lmake_semver --increment=patch",
+    "echo $ cargo build --release",
+    "cargo build --release",
+]
+
+[tasks.release_and_run]
+description = "cargo build release and run"
+clear = true
+script = [
+    # Binaries version is date
+    "echo $ lmake_version_from_date",
+    "lmake_version_from_date",
+    # Library version is semver
+    # "echo $ lmake_semver --increment=patch",
+    # "lmake_semver --increment=patch",
+    "echo $ cargo fmt",
+    "cargo fmt",
+    "echo $ cargo build --release",
+    "cargo build --release",
+    "echo $ cp target/release/cargo_crev_web ./web_server_folder",
+    "cp target/release/cargo_crev_web ./web_server_folder",
+    "echo $ cd web_server_folder",
+    "cd web_server_folder",
+    "echo $  ./cargo_crev_web",
+    " ./cargo_crev_web",
+]
+
+[tasks.run_rel0]
+description = "no-argument - target/release/${CARGO_MAKE_CRATE_NAME}"
+clear = true
+script = [
+    "echo $ target/release/${CARGO_MAKE_CRATE_NAME}",
+    "target/release/${CARGO_MAKE_CRATE_NAME}",
+]
+
+# end of run scripts
+# end of run scripts
+# end of run scripts
+
+[tasks.audit]
+description = "cargo audit - RustSec advisories"
+clear = true
+script = [
+    "cargo audit"
+]
+
+[tasks.doc]
+description = "cargo doc - create docs from doc comments"
+clear = true
+script= [
+    "echo $ lmake_lines_of_code",
+    "lmake_lines_of_code",
+    "echo $ lmake_cargo_toml_to_md",
+    "lmake_cargo_toml_to_md",
+    "echo $ lmake_md_to_doc_comments",
+    "lmake_md_to_doc_comments",
+    "echo $ cargo doc --no-deps --document-private-items",
+    # create doc from doc comments
+    "cargo doc --no-deps --document-private-items",
+    "echo $ codetour_export_to_md",
+    # export code tour to md
+    "codetour_export_to_md",
+    # copy to /docs/ because it is github standard
+    "echo $ rsync -a --info=progress2 --delete-after target/doc/ docs/",
+    "rsync -a --info=progress2 --delete-after target/doc/ docs/",
+    # message to help user with next move
+    "echo after successful doc, run cargo make fmt msg_for_commit",
+]
+
+[tasks.commit]
+description = "cargo fmt and commit"
+clear = true
 script = [
     "echo $ cargo fmt",
     "cargo fmt",
+    "echo $ git add -A",
+    "git add -A",
+    "echo $ git commit -a -m \"${@}\"",
+    "git commit -a -m \"${@}\"",
     "echo after successful fmt and git commit, run $ cargo make gitpush",
-    "echo if the fmt makes changes, just run the same command again."         
+]
+
+[tasks.sshadd]
+description = "adds identity to ssh-agent for git and publish operations"
+clear = true
+script = [
+    "bash ~/sshadd.sh",
+]
+
+[tasks.gitpush]
+description = "push the commits to github, uses ssh agent"
+clear = true
+script = [
+    "echo $ git push",
+    "git push",
+    "echo after successful git push, use $ cargo make crates_io_dry_run or publish_to_web",
+]
+
+[tasks.publish_to_web]
+description = "publish to web server"
+workspace = false
+clear = true
+# backslash is the escape character for all other special characters.
+# and then another time I have to escape the backslash. So 4 backslash for one backslash.
+script = [
+    "echo ",
+    "echo $ git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+    "git tag -f -a v${CARGO_MAKE_CRATE_VERSION} -m version_${CARGO_MAKE_CRATE_VERSION}",
+    "echo $ rsync -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+    "rsync -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/cargo_crev_web/web_server_folder/ /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/",
+    "echo $ rsync -e ssh -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
+    "rsync -e ssh -a --info=progress2 --delete-after /mnt/c/Users/Luciano/rustprojects/googlecloud/var/www/webapps/cargo_crev_web/ luciano_bestia@bestia.dev:/var/www/transfer_folder/webapps/cargo_crev_web/",
+    "echo $ ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev /var/www/scripts/cargo_crev_web_publish.sh",
+    "ssh -tt -i /home/luciano/.ssh/luciano_googlecloud luciano_bestia@bestia.dev /var/www/scripts/cargo_crev_web_publish.sh",
+]
+
+# end of publish script
+# end of publish script
+# end of publish script
+
+[tasks.crates_io_dry_run]
+clear = true
+description = "prepare before publishing to crates.io with dry-run"
+script = [
+    "echo $ not applicable",
+]
+
+[tasks.crates_io_publish]
+clear = true
+description = "gittag and publish to crates.io"
+script = [
+    "echo $ not applicable",
+]
+
+# end of crates.io publish script
+# end of crates.io publish script
+# end of crates.io publish script
+
+[tasks.increment_minor]
+description = "increments semver minor"
+clear = true
+script = [
+    "lmake_semver --increment=minor",
 ]

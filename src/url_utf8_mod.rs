@@ -12,7 +12,7 @@
 
 // region: use statements
 
-// cargo.toml:
+// Cargo.toml:
 // percent-encoding = "2.1.0"
 // anyhow = "1.0.31"
 // unwrap = "1.2.1"
@@ -21,7 +21,7 @@ use anyhow::Error;
 use core::str::FromStr;
 use percent_encoding::{percent_decode_str, AsciiSet, CONTROLS};
 use std::string::ToString;
-//use unwrap::unwrap;
+// use unwrap::unwrap;
 
 // endregion: use statements
 

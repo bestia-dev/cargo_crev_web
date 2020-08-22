@@ -93,7 +93,7 @@
         .<span class="ident">about</span>(<span class="macro">env</span><span class="macro">!</span>(<span class="string">&quot;CARGO_PKG_DESCRIPTION&quot;</span>))
         .<span class="ident">get_matches</span>();
 
-    <span class="kw">let</span> <span class="ident">local_ip</span> <span class="op">=</span> <span class="ident">IpAddr</span>::<span class="ident">V4</span>(<span class="string">&quot;127.0.0.1&quot;</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">Ipv4Addr</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;not an ip address&quot;</span>));
+    <span class="kw">let</span> <span class="ident">local_ip</span> <span class="op">=</span> <span class="ident">IpAddr</span>::<span class="ident">V4</span>(<span class="string">&quot;0.0.0.0&quot;</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">Ipv4Addr</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;not an ip address&quot;</span>));
     <span class="kw">let</span> <span class="ident">local_port</span> <span class="op">=</span> <span class="ident">u16</span>::<span class="ident">from_str_radix</span>(<span class="string">&quot;8051&quot;</span>, <span class="number">10</span>).<span class="ident">expect</span>(<span class="string">&quot;not a number&quot;</span>);
     <span class="kw">let</span> <span class="ident">local_addr</span> <span class="op">=</span> <span class="ident">SocketAddr</span>::<span class="ident">new</span>(<span class="ident">local_ip</span>, <span class="ident">local_port</span>);
 
@@ -112,4 +112,4 @@
     <span class="ident">router_mod</span>::<span class="ident">start_routes</span>(<span class="ident">state_global</span>, <span class="ident">local_addr</span>).<span class="kw">await</span>;
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

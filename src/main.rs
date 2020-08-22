@@ -3,16 +3,17 @@
 // It is then difficult to code with all this doc comments cluttering the text editor.
 // The actual code will go to a separate file/mod : main_code_mod.rs
 
-// region: lmake_readme include "readme.md" //! A
+// region: lmake_md_to_doc_comments include README.md A //!
 //! # Rust-reviews (working title cargo_crev_web)
 //!
-//! ***version: 2020.706.1331  date: 2020-07-06 authors: Luciano Bestia***  
+//! ***version: 2020.822.1757  date: 2020-08-22 authors: Luciano Bestia***  
 //! **web server to query reviews from cargo-crev**
 //!
-//!
-//! [comment]: # (lmake_lines_of_code start)
-//!
-//! [comment]: # (lmake_lines_of_code end)
+//! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4270-green.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-508-blue.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-588-purple.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+//! [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-57-orange.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
 //!
 //! <img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
 //!
@@ -147,7 +148,7 @@
 //! It is automated and maintained by @chrysn.  
 //! <https://github.com/crev-dev/cargo-crev/issues/336>  
 //! Other reference is <https://github.com/crev-dev/cargo-crev/wiki/List-of-Proof-Repositories>  
-//! For incomplete, obsolete or otherwise unwanted repos I will have an editable list.  
+//! For incomplete, obsolete or otherwise unwanted repos I will have an editable blacklist.  
 //!
 //! ## Linux scheduler
 //!
@@ -242,7 +243,8 @@
 //! ## References
 //!
 //! <https://github.com/rustomax/rust-iterators>  
-// endregion: lmake_readme include "readme.md" //! A
+//!
+// endregion: lmake_md_to_doc_comments include README.md A //!
 
 // region: (collapsed) Clippy
 #![warn(

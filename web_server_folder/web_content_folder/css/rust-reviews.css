@@ -4,18 +4,16 @@
             /* color palette */
             /* use of variables: var(--color_tooltip_1); */
             /* background color */
-            --b_color_01: #24292E;
-            --b_color_02: #1B1D23;
-            --b_color_03: #181A1F;
-            --b_color_04: #333842;
-            --b_color_05: dodgerblue;
-            /* for ratings cells*/
-            --b_color_06: #23272D;
+            --b_color_body: #24292E;
+            --b_color_code: #1B1D23;
+            --b_color_grid_header: #181A1F;
+            --b_color_container: #333842;
+            --b_color_button: dodgerblue;
+            --b_color_cell_rating: #23272D;
             /* front color */
-            --f_color_01: #FBF462;
-            --f_color_02: #9DA5B4;
-            --f_color_03: #78C379;
-            --f_color_04: white;
+            --f_color_body: #9DA5B4;
+            --f_color_code: #78C379;
+            --f_color_link: white;
             --f_color_05: yellow;
             --f_color_06: dark-white;
             --f_color_07: black;
@@ -85,9 +83,9 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
             box-sizing: border-box;
-            background-color: var(--b_color_01);
+            background-color: var(--b_color_body);
             line-height: 1.5;
-            color: var(--f_color_01);
+            color: var(--f_color_body);
             /*This is the base font-size. All other font-size 
   use rem units that are
   relative to this font-size.*/
@@ -103,8 +101,8 @@
             padding: 0;
             font-size: 60%;
             line-height: 1.5;
-            color: var(--f_color_02);
-            background-color: var(--b_color_01);
+            background-color: var(--b_color_body);
+            color: var(--f_color_body);
         }
         /*CSS Reset*/
         
@@ -206,15 +204,15 @@
             padding: .1em .4em;
             margin: 0;
             font-size: 85%;
-            background-color: var(--b_color_02);
-            color: var(--f_color_03);
+            background-color: var(--b_color_code);
+            color: var(--f_color_code);
             border-radius: 3px;
             font-family: Consolas, Liberation Mono, Courier, monospace;
         }
         
         input[type=text] {
-            background-color: var(--b_color_03);
-            color: var(--f_color_03);
+            background-color: var(--b_color_code);
+            color: var(--f_color_code);
             width: 600px;
             border: 1px;
             border-radius: 3px;
@@ -224,13 +222,13 @@
         }
         
         input.read_only {
-            background-color: var(--f_color_04);
-            color: var(--f_color_02);
+            background-color: var(--f_color_link);
+            color: var(--f_color_body);
         }
         
         textarea {
-            background-color: var(--b_color_03);
-            color: var(--f_color_03);
+            background-color: var(--b_color_code);
+            color: var(--f_color_code);
             width: 900px;
             height: 120px;
             border: 1px;
@@ -259,7 +257,7 @@ A small difference to help search and replace refactoring.
         
         .grid0_h_c {
             /* grid0 header cell */
-            background-color: var(--b_color_03);
+            background-color: var(--b_color_grid_header);
             border: 0.2px solid var(--brd_color_01);
             text-align: center;
         }
@@ -272,12 +270,12 @@ A small difference to help search and replace refactoring.
         
         .grid0_c_r {
             /* grid0 cell rating*/
-            background-color: var(--b_color_06);
+            background-color: var(--b_color_cell_rating);
         }
         .container_0 {
             display: grid;
-            background-color: var(--b_color_04);
-            border: 1px solid var(--b_color_03);
+            background-color: var(--b_color_container);
+            border: 1px solid var(--b_color_grid_header);
             border-radius: 5px;
             margin: 2%;
         }
@@ -289,7 +287,7 @@ A small difference to help search and replace refactoring.
         .review_header_0 {
             display: grid;
             justify-content: space-around;
-            background-color: var(--b_color_03);
+            background-color: var(--b_color_grid_header);
             padding: 10px;
         }
         
@@ -302,7 +300,7 @@ A small difference to help search and replace refactoring.
         .review_info_header {
             display: flex;
             justify-content: space-around;
-            background-color: var(--b_color_02);
+            background-color: var(--b_color_grid_header);
             padding: 10px;
         }
         
@@ -355,7 +353,7 @@ A small difference to help search and replace refactoring.
         a:hover.c_link_1,
         a:active.c_link_1
         {
-            color: var(--f_color_04);
+            color: var(--f_color_link);
         }
         
         /* dark_white */
@@ -370,7 +368,7 @@ A small difference to help search and replace refactoring.
         /* greener */
         .c_strong,
         .c_high,
-        .sc_low {
+        .c_low_severity {
             color: var(--color_r_strong);
         }
         
@@ -382,7 +380,7 @@ A small difference to help search and replace refactoring.
         /* yellow */
         .c_yellow,
         .c_alternative,
-        .sc_medium,
+        .c_medium_severity,
         .h3y,
         .link_2,
         a:link.link_2,
@@ -404,7 +402,7 @@ A small difference to help search and replace refactoring.
         .c_alert,
         .c_negative,
         .c_low,
-        .sc_high,
+        .c_high_severity,
         .c_advisory {
             color: var(--color_r_negative);
         }
@@ -456,7 +454,7 @@ A small difference to help search and replace refactoring.
         /* endregion: colors and attributes */
         
         .button {
-            background: var(--b_color_05);
+            background: var(--b_color_button);
             border-radius: 6px;
             font-size: 120%;
         }

@@ -1,12 +1,19 @@
+[comment]: # (lmake_md_to_doc_comments segment start A)
 # Rust-reviews (working title cargo_crev_web)
 
-[comment]: # (lmake_readme cargo.toml data start)
-***version: 2020.706.1331  date: 2020-07-06 authors: Luciano Bestia***  
+[comment]: # (lmake_cargo_toml_to_md start)
+
+***version: 2020.822.1757  date: 2020-08-22 authors: Luciano Bestia***  
 **web server to query reviews from cargo-crev**
 
-[comment]: # (lmake_readme cargo.toml data end)  
+[comment]: # (lmake_cargo_toml_to_md end)
 
 [comment]: # (lmake_lines_of_code start)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4270-green.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-508-blue.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-588-purple.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-57-orange.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
 
 [comment]: # (lmake_lines_of_code end)
 
@@ -238,3 +245,5 @@ This local server will ue crev-lib to access the crev functionality.
 ## References
 
 <https://github.com/rustomax/rust-iterators>  
+
+[comment]: # (lmake_md_to_doc_comments segment end A)

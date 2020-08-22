@@ -36,7 +36,7 @@ pub async fn main_code() {
         .about(env!("CARGO_PKG_DESCRIPTION"))
         .get_matches();
 
-    let local_ip = IpAddr::V4("127.0.0.1".parse::<Ipv4Addr>().expect("not an ip address"));
+    let local_ip = IpAddr::V4("0.0.0.0".parse::<Ipv4Addr>().expect("not an ip address"));
     let local_port = u16::from_str_radix("8051", 10).expect("not a number");
     let local_addr = SocketAddr::new(local_ip, local_port);
 

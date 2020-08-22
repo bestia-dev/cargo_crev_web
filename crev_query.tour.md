@@ -4,6 +4,8 @@ The web server recognizes the route /crate/ and calls html_for_crev_query().
 
 ##### step 1 of 22 [View code in GitHub](https://github.com/LucianoBestia/cargo_crev_web/blob/master/src/main.rs#L266)
 ```rust
+    clippy::nursery,
+    clippy::cargo,
     // variable shadowing is idiomatic to Rust, but unnatural to me.
     clippy::shadow_reuse,
     clippy::shadow_same,
@@ -11,11 +13,9 @@ The web server recognizes the route /crate/ and calls html_for_crev_query().
 )]
 #![allow(
     // library from dependencies have this clippy warnings. Not my code.
+#//---------------------- selection start ----------------------
     clippy::cargo_common_metadata,
     clippy::multiple_crate_versions,
-#//---------------------- selection start ----------------------
-    clippy::wildcard_dependencies,
-    // Rust is more idiomatic without return statement
 #//----------------------- selection end -----------------------
 ```
 ## data model  
