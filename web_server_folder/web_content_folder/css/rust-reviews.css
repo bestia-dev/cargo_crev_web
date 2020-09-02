@@ -382,11 +382,11 @@ A small difference to help search and replace refactoring.
         .c_alternative,
         .c_medium_severity,
         .h3y,
-        .link_2,
-        a:link.link_2,
-        a:visited.link_2,
-        a:hover.link_2,
-        a:active.link_2
+        .c_link_2,
+        a:link.c_link_2,
+        a:visited.c_link_2,
+        a:hover.c_link_2,
+        a:active.c_link_2
         {
             color: var(--f_color_05);
         }
