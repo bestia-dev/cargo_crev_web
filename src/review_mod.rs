@@ -210,19 +210,6 @@ impl HtmlServerTemplateRender for Review {
                     s!()
                 }
             }
-            "st_review_comment" => {
-                // dbg!(&self.comment);
-                if let Some(comment) = &self.comment {
-                    // convert md to html
-                    let comment = markdown_to_html(comment, &ComrakOptions::default());
-                    // TODO: it is not a string any more, it is "inner html"!
-                    // how to avoid manually inserted html? escape html first then convert to html.
-                    // transform to nodes, and add nodes to html.
-                    s!(comment)
-                } else {
-                    s!()
-                }
-            }
             "st_alternative_source" => {
                 if let Some(alternatives) = &self.alternatives {
                     s!(&alternatives[0].source)

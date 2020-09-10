@@ -233,6 +233,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             "su_filter_positive" => url_u!("/rust-reviews/crate/{}/crate/P", &self.crate_name),
             "su_filter_neutral" => url_u!("/rust-reviews/crate/{}/crate/E", &self.crate_name),
             "su_filter_negative" => url_u!("/rust-reviews/crate/{}/crate/N", &self.crate_name),
+            "su_filter_none" => url_u!("/rust-reviews/crate/{}/crate/0", &self.crate_name),
             "su_filter_alternatives" => url_u!("/rust-reviews/crate/{}/crate/v", &self.crate_name),
             "su_filter_issues" => url_u!("/rust-reviews/crate/{}/crate/i", &self.crate_name),
             "su_filter_advisories" => url_u!("/rust-reviews/crate/{}/crate/a", &self.crate_name),

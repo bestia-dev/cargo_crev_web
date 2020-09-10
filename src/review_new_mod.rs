@@ -80,7 +80,7 @@ impl ReviewNew {
                     understanding: Level::None,
                     rating: Rating::None,
                 },
-                comment: s!("Comment important aspects:  security:  unsafe:   FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  proc_macro:  maintainers/reviewers:  used in your project:  alternatives you explored:     "),
+                comment: s!("Comment important aspects:  security:  unsafe:   FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  proc_macro:  maintainers/authors:  used in your project:  alternatives you explored:     "),
             },
             yaml_text: s!(),
         };

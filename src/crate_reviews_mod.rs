@@ -132,6 +132,11 @@ fn filter_reviews(reviews: &mut Vec<Review>, version: &str, kind: &str) {
             reviews.retain(|x| {
                 x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Negative
             });
+        } else if kind == "0" {
+            reviews.retain(|x| {
+                x.review.is_none()
+                    || (x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::None)
+            });
         } else if kind == "v" {
             reviews.retain(|x| x.alternatives.is_some());
         } else if kind == "i" {

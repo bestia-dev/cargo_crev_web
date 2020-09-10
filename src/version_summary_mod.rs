@@ -132,6 +132,11 @@ impl HtmlServerTemplateRender for VersionSummary {
                 &self.crate_name,
                 &self.version
             ),
+            "su_filter_none" => url_u!(
+                "/rust-reviews/crate/{}/{}/0/",
+                &self.crate_name,
+                &self.version
+            ),
             "su_filter_alternatives" => url_u!(
                 "/rust-reviews/crate/{}/{}/v/",
                 &self.crate_name,
