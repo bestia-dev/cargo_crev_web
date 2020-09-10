@@ -6,7 +6,7 @@
 // region: lmake_md_to_doc_comments include README.md A //!
 //! # Rust-reviews (working title cargo_crev_web)
 //!
-//! ***version: 2020.822.1757  date: 2020-08-22 authors: Luciano Bestia***  
+//! ***version: 2020.822.1757  date: 2020-08-22 reviewers: Luciano Bestia***  
 //! **web server to query reviews from cargo-crev**
 //!
 //! [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4270-green.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
@@ -140,7 +140,7 @@
 //! At the end of editing the local data push:  
 //! `cargo crev repo publish`  
 //!
-//! ## trusted authors
+//! ## trusted reviewers
 //!
 //! For the purpose of showing most existing reviews, the cargo_rev_web will "trust" anybody.  
 //! It is not really trusting, it is just showing their reviews.  
@@ -276,8 +276,6 @@
 // endregion: (collapsed) Clippy
 
 // region: (collapsed) use statements
-mod author_reviews_mod;
-mod authors_mod;
 mod badge_mod;
 mod cargo_registry_index_mod;
 mod crate_reviews_mod;
@@ -294,6 +292,8 @@ mod review_index_mod;
 mod review_index_summary_mod;
 mod review_mod;
 mod review_new_mod;
+mod reviewer_reviews_mod;
+mod reviewers_mod;
 mod router_mod;
 mod state_mod;
 mod url_utf8_mod;

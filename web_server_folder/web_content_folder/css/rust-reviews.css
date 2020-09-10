@@ -237,6 +237,13 @@
             font-size: 100%;
             font-family: Consolas, Liberation Mono, Courier, monospace;
         }
+
+        ul {
+            margin-left: 0; 
+            padding-left: 40px;
+            list-style-position: inside;
+        }
+
         /* endregion: basics */
         /* region: css classes */
         /* When concatenating names that makes it hard to refactor later.

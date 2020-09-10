@@ -3,12 +3,12 @@
 
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>review author</title>
+    <title>reviewer</title>
     <meta name="Description" content="web app for viewing reviews from cargo-crev" />
     <link rel="stylesheet" data-su_css_route="href" href="../web_content_folder/css/rust-reviews.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
     <link rel="shortcut icon" type="image/x-icon" data-su_favicon_route="href" href="../favicon.png" />
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script src="script/clipboard.min.js"></script>
 </head>
 
 <body>
@@ -23,11 +23,11 @@
                 <div class="middle">
                     <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust code reviews</a></p>
                     <p class="small c_white">Cryptographically verifiable, distributed, dependency reviews.</p>
-                    <p class="big h3y bold">author name:
-                        <!--st_author_name-->AuthorName</p>
+                    <p class="big h3y bold">reviewer:
+                        <!--st_reviewer_name-->ReviewerName</p>
                         <p>lib.rs:
                             <a class="c_link_1" data-su_lib_rs_url="href" href="" target="_blank">
-                                https://lib.rs/~<!--st_author_name-->https://lib.rs/~BurntSushi</a>
+                                https://lib.rs/~<!--st_reviewer_name-->https://lib.rs/~BurntSushi</a>
                         </p>
                 </div>
                 <div class="middle media_right">
@@ -41,8 +41,8 @@
             <code data-st_cmd_fetch="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy">$ <!--st_cmd_fetch-->cargo crev repo fetch url https://gitlab.com/crev-dev/auto-crev-proofs</code><br/>
             <code data-st_cmd_trust="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy">$ <!--st_cmd_trust-->cargo crev id trust 24YKeuThJD_NFSlJy_xcl5diSZcKcRbh-0zXM0YxTOFJw</code>
             <p>repo:
-                <a class="c_link_1" data-su_author_url="href" href="" target="_blank">
-                    <!--st_author_url-->https://gitlab.com/crev-dev/auto-crev-proofs</a>
+                <a class="c_link_1" data-su_reviewer_url="href" href="" target="_blank">
+                    <!--st_reviewer_url-->https://gitlab.com/crev-dev/auto-crev-proofs</a>
             </p>
             <p class="media_portrait_visible blink c_alert">Please, use mobile in landscape.</p>
         </div>
@@ -55,7 +55,7 @@
             <div class="review_header0_cell">
                 date</div>
             <div class="review_header0_cell">
-                review author
+                reviewer
             </div>
             <div class="review_header0_cell">
                 thoroughness, understanding</div>
@@ -74,7 +74,7 @@
             <div class="review_header0_cell">
                 <!--st_review_date-->2020-01-18</div>
             <div class="review_header0_cell">
-                <!--st_review_author-->author_name
+                <!--st_review_reviewer-->reviewer_name
             </div>
             <div class="review_header0_cell" title="thoroughness understanding">
                 <!--st_crate_thoroughness_understanding-->none high</div>

@@ -56,7 +56,7 @@ impl CrateReviews {
                     // add data to reviews_pk
                     unwrap!(one_file.reviews_pk.as_mut()).push(ReviewPk {
                         crate_name: index_item.crate_name.clone(),
-                        author_id: index_item.author_id.clone(),
+                        reviewer_id: index_item.reviewer_id.clone(),
                         version: index_item.version.clone(),
                     });
                 }

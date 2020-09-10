@@ -9,7 +9,7 @@ use unwrap::unwrap;
 #[derive(Clone, Debug)]
 pub struct ReviewPk {
     pub crate_name: String,
-    pub author_id: String,
+    pub reviewer_id: String,
     pub version: String,
 }
 #[derive(Clone, Debug)]
@@ -118,7 +118,7 @@ pub fn get_vec_of_selected_reviews(review_pks: ManyFileReviewsPk) -> Vec<Review>
 }
 
 /// find one or more reviews from one file
-/// the review PK crate_name, author_id, version
+/// the review PK crate_name, reviewer_id, version
 /// if None than push all reviews
 fn get_vec_from_one_file(reviews: &mut Vec<Review>, one_file_review_pk: &OneFileReviewsPk) {
     let file_path = &one_file_review_pk.file_path;
@@ -145,7 +145,7 @@ fn push_this_review(review_string: &str, reviews: &mut Vec<Review>) {
     let mut review: Review = unwrap!(serde_yaml::from_str(review_string));
     review.package.version_for_sorting = Some(version_for_sorting(
         &review.package.version,
-        &review.get_author_name(),
+        &review.get_reviewer_name(),
     ));
     reviews.push(review);
 }
@@ -177,7 +177,7 @@ fn push_review_if_selected(
     for review_pk in review_pks {
         // push only if this review is in selected reviews pk
         if review_short.package.name == review_pk.crate_name
-            && review_short.from.id == review_pk.author_id
+            && review_short.from.id == review_pk.reviewer_id
             && review_short.package.version == review_pk.version
         {
             push_this_review(review_string, reviews);

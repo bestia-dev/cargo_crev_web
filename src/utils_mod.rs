@@ -236,19 +236,19 @@ pub fn ns_print(name: &str, ns_start: i64) -> i64 {
     Utc::now().timestamp_nanos()
 }
 
-pub fn author_name_from_url(url: &str) -> String {
-    let author_name = url
+pub fn reviewer_name_from_url(url: &str) -> String {
+    let reviewer_name = url
         .replace("https://github.com/", "")
         .replace("https://gitlab.com/", "")
         .replace("/crev-proofs", "");
     // return
-    author_name
+    reviewer_name
 }
 
 /// version for sorting
-pub fn version_for_sorting(version: &str, author_name: &str) -> String {
+pub fn version_for_sorting(version: &str, reviewer_name: &str) -> String {
     let (major, minor, patch) = parse_semver(version);
-    let version_for_sorting = format!("{:09}.{:09}.{:09}-{}", major, minor, patch, author_name,);
+    let version_for_sorting = format!("{:09}.{:09}.{:09}-{}", major, minor, patch, reviewer_name,);
     // return
     version_for_sorting
 }

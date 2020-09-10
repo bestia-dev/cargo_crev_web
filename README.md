@@ -142,7 +142,7 @@ it is possible also to trust a repo:
 At the end of editing the local data push:  
 `cargo crev repo publish`  
 
-## trusted authors
+## trusted reviewers
 
 For the purpose of showing most existing reviews, the cargo_rev_web will "trust" anybody.  
 It is not really trusting, it is just showing their reviews.  
@@ -186,6 +186,10 @@ The 2 files are on his local disk and don't need any server or configuration. Th
 Then I add comments that are commands where to insert the dynamic data. This comments don't destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.  
 On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.  
 The result is normal html and is sent to the browser.
+
+## markdown md to htmlž
+
+I use the rust comrak lib to convert the review comment from md to html.  
 
 ## Badges
 

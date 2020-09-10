@@ -14,21 +14,21 @@ use std::fs;
 use unwrap::unwrap;
 
 #[derive(Debug, Default)]
-pub struct OnlyAuthor {
-    pub author_name: String,
-    pub author_id: String,
-    pub author_url: String,
+pub struct OnlyReviewer {
+    pub reviewer_name: String,
+    pub reviewer_id: String,
+    pub reviewer_url: String,
 }
 
 //use unwrap::unwrap;
 #[derive(Debug, Default)]
 pub struct ReservedFolder {
-    pub list_fetched_author_id: Option<Vec<OnlyAuthor>>,
+    pub list_fetched_reviewer_id: Option<Vec<OnlyReviewer>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
     pub fetch_new_reviews: Option<String>,
     pub blocklisted_repos: Option<Vec<String>>,
-    pub list_new_author_id: Option<Vec<OnlyAuthor>>,
-    pub add_author_url: Option<String>,
+    pub list_new_reviewer_id: Option<Vec<OnlyReviewer>>,
+    pub add_reviewer_url: Option<String>,
 }
 
 impl ReservedFolder {
@@ -39,30 +39,30 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
-    pub fn list_fetched_author_id(state_global: ArcMutStateGlobal) -> Self {
-        // fills the field list_fetched_author_id
+    pub fn list_fetched_reviewer_id(state_global: ArcMutStateGlobal) -> Self {
+        // fills the field list_fetched_reviewer_id
         use itertools::Itertools;
-        let mut only_author: Vec<OnlyAuthor> = unwrap!(state_global.lock())
+        let mut only_reviewer: Vec<OnlyReviewer> = unwrap!(state_global.lock())
             .review_index
             .vec
             .iter()
-            .unique_by(|rev| &rev.author_name)
-            .map(|rev| OnlyAuthor {
-                author_name: rev.author_name.clone(),
-                author_id: rev.author_id.clone(),
-                author_url: rev.author_url.clone(),
+            .unique_by(|rev| &rev.reviewer_name)
+            .map(|rev| OnlyReviewer {
+                reviewer_name: rev.reviewer_name.clone(),
+                reviewer_id: rev.reviewer_id.clone(),
+                reviewer_url: rev.reviewer_url.clone(),
             })
             .collect();
-        only_author.sort_by(|a, b| {
-            a.author_name
+        only_reviewer.sort_by(|a, b| {
+            a.reviewer_name
                 .to_lowercase()
-                .cmp(&b.author_name.to_lowercase())
+                .cmp(&b.reviewer_name.to_lowercase())
         });
-        // dbg!(only_author);
+        // dbg!(only_reviewer);
 
         // return
         ReservedFolder {
-            list_fetched_author_id: Some(only_author),
+            list_fetched_reviewer_id: Some(only_reviewer),
             ..Default::default()
         }
     }
@@ -102,7 +102,7 @@ impl ReservedFolder {
         self.blocklisted_repos = Some(blocklisted_repos);
     }
 
-    pub async fn list_new_author_id(state_global: ArcMutStateGlobal) -> Self {
+    pub async fn list_new_reviewer_id(state_global: ArcMutStateGlobal) -> Self {
         let mut reserved_folder = ReservedFolder {
             ..Default::default()
         };
@@ -131,8 +131,8 @@ impl ReservedFolder {
         struct ReviewShort {
             pub ids: Vec<ReviewIdsShort>,
         }
-        let mut vec_of_auto_crev = Vec::<OnlyAuthor>::new();
-        let mut vec_of_new = Vec::<OnlyAuthor>::new();
+        let mut vec_of_auto_crev = Vec::<OnlyReviewer>::new();
+        let mut vec_of_new = Vec::<OnlyReviewer>::new();
         let path = path_of_remotes_folder().join("gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
         let path = path.to_string_lossy();
         //fill from all the files all the reviews
@@ -141,17 +141,17 @@ impl ReservedFolder {
             let reviews_in_one_file = ReviewsInOneFile::new(file_name);
             for review_string in reviews_in_one_file {
                 //dbg!(review_string);
-                //fn push_author(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
+                //fn push_reviewer(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
                 let review_short: ReviewShort = unwrap!(serde_yaml::from_str(&review_string));
 
-                vec_of_auto_crev.push(OnlyAuthor {
-                    author_name: if let Some(url) = &review_short.ids[0].url {
-                        author_name_from_url(&url)
+                vec_of_auto_crev.push(OnlyReviewer {
+                    reviewer_name: if let Some(url) = &review_short.ids[0].url {
+                        reviewer_name_from_url(&url)
                     } else {
                         s!()
                     },
-                    author_id: review_short.ids[0].id.clone(),
-                    author_url: if let Some(url) = &review_short.ids[0].url {
+                    reviewer_id: review_short.ids[0].id.clone(),
+                    reviewer_url: if let Some(url) = &review_short.ids[0].url {
                         url.clone()
                     } else {
                         s!()
@@ -162,66 +162,69 @@ impl ReservedFolder {
         }
         //dbg!(&vec_of_new);
 
-        // region: first I need the list of fetched authors
+        // region: first I need the list of fetched reviewers
         // I cannot construct this before await, because await can take a lot of time
         // and reference lifetime is in question?
         // so I must do it after await.
         // probably the Mutex is available everywhere, anytime ?
         use itertools::Itertools;
-        let mut fetched_author_url: Vec<String> = unwrap!(state_global.lock())
+        let mut fetched_reviewer_url: Vec<String> = unwrap!(state_global.lock())
             .review_index
             .vec
             .iter()
-            .unique_by(|rev| &rev.author_url)
-            .map(|rev| rev.author_url.clone())
+            .unique_by(|rev| &rev.reviewer_url)
+            .map(|rev| rev.reviewer_url.clone())
             .collect();
-        fetched_author_url.sort_by(|a, b| a.cmp(&b));
-        // endregion: first I need the list of fetched authors
+        fetched_reviewer_url.sort_by(|a, b| a.cmp(&b));
+        // endregion: first I need the list of fetched reviewers
 
         reserved_folder.fill_blocklisted_repos();
 
         for auto_crev in vec_of_auto_crev.iter() {
-            // if author already exists in index, I don't need it.
-            // if author repo is in the "incomplete" list, I don't need it
-            if !fetched_author_url
+            // if reviewer already exists in index, I don't need it.
+            // if reviewer repo is in the "incomplete" list, I don't need it
+            if !fetched_reviewer_url
                 .iter()
-                .any(|v| v == &auto_crev.author_url)
+                .any(|v| v == &auto_crev.reviewer_url)
                 && !unwrap!(reserved_folder.blocklisted_repos.as_ref())
                     .iter()
-                    .any(|v| v == &auto_crev.author_url)
+                    .any(|v| v == &auto_crev.reviewer_url)
             {
-                vec_of_new.push(OnlyAuthor {
-                    author_name: auto_crev.author_name.clone(),
-                    author_id: auto_crev.author_id.clone(),
-                    author_url: auto_crev.author_url.clone(),
+                vec_of_new.push(OnlyReviewer {
+                    reviewer_name: auto_crev.reviewer_name.clone(),
+                    reviewer_id: auto_crev.reviewer_id.clone(),
+                    reviewer_url: auto_crev.reviewer_url.clone(),
                 });
             }
         }
 
-        reserved_folder.list_new_author_id = Some(vec_of_new);
+        reserved_folder.list_new_reviewer_id = Some(vec_of_new);
         // return
         reserved_folder
     }
 
-    pub async fn add_author_url(
+    pub async fn add_reviewer_url(
         // this type guarantee that it has been decoded
-        author_name: String,
+        reviewer_name: String,
         _state_global: ArcMutStateGlobal,
     ) -> Self {
         // in this fragment are 2 parts delimited with /
         // let split it and use parts one by one
-        // dbg!(&author_name);
-        let author_new = OnlyAuthor {
-            author_name: s!(author_name),
-            ..OnlyAuthor::default()
+        // dbg!(&reviewer_name);
+        let reviewer_new = OnlyReviewer {
+            reviewer_name: s!(reviewer_name),
+            ..OnlyReviewer::default()
         };
-        let author_url = url_u!("https://github.com/{}/crev-proofs", &author_new.author_name);
-        let author_url = author_url.to_string();
+        let reviewer_url = url_u!(
+            "https://github.com/{}/crev-proofs",
+            &reviewer_new.reviewer_name
+        );
+        let reviewer_url = reviewer_url.to_string();
 
         // find github content
         let gh_content_url = url_u!(
             "https://api.github.com/repos/{}/crev-proofs/contents",
-            &author_new.author_name
+            &reviewer_new.reviewer_name
         );
         let gh_content_url = gh_content_url.to_string();
         // dbg!(&gh_content_url);
@@ -229,7 +232,7 @@ impl ReservedFolder {
         // the new format of proof
         // "name": "5X5SQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHax5cu3hjM",
         // "size": 0,
-        let mut author_id = s!();
+        let mut reviewer_id = s!();
         let mut pos_cursor: usize = 0;
         // dbg!(&resp_body);
         loop {
@@ -247,7 +250,7 @@ impl ReservedFolder {
                 if let Some(range_size) = range_size {
                     // dbg!(&range_size);
                     if &resp_body[range_size] == "0" {
-                        author_id = s!(&resp_body[range_name]);
+                        reviewer_id = s!(&resp_body[range_name]);
                         break;
                     }
                 } else {
@@ -257,27 +260,27 @@ impl ReservedFolder {
                 break;
             }
         }
-        let add_author_url = if author_id.is_empty() {
+        let add_reviewer_url = if reviewer_id.is_empty() {
             format!(
-                "add author with these commands:<br/>
+                "add reviewer with these commands:<br/>
             cargo crev repo fetch url {}<br/>
             cargo crev id trust {}<br/>",
-                &author_url.to_string(),
-                &author_id
+                &reviewer_url.to_string(),
+                &reviewer_id
             )
         } else {
             s!("This repo is incomplete.")
         };
         // return
         ReservedFolder {
-            add_author_url: Some(add_author_url),
+            add_reviewer_url: Some(add_reviewer_url),
             ..Default::default()
         }
     }
     /// return the item at cursor or default
-    fn item_at_cursor_1(&self, subtemplate: &str, pos_cursor: usize) -> Option<&OnlyAuthor> {
-        if subtemplate == "stmplt_authors" {
-            if let Some(list) = &self.list_fetched_author_id {
+    fn item_at_cursor_1(&self, subtemplate: &str, pos_cursor: usize) -> Option<&OnlyReviewer> {
+        if subtemplate == "stmplt_reviewers" {
+            if let Some(list) = &self.list_fetched_reviewer_id {
                 Some(&list[pos_cursor])
             } else {
                 None
@@ -287,9 +290,9 @@ impl ReservedFolder {
         }
     }
 
-    fn item_at_cursor_2(&self, subtemplate: &str, pos_cursor: usize) -> Option<&OnlyAuthor> {
-        if subtemplate == "stmplt_authors_new" {
-            if let Some(list) = &self.list_new_author_id {
+    fn item_at_cursor_2(&self, subtemplate: &str, pos_cursor: usize) -> Option<&OnlyReviewer> {
+        if subtemplate == "stmplt_reviewers_new" {
+            if let Some(list) = &self.list_new_reviewer_id {
                 Some(&list[pos_cursor])
             } else {
                 None
@@ -318,14 +321,16 @@ impl HtmlServerTemplateRender for ReservedFolder {
     fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
-            "sb_is_list_fetched_author_id" => self.list_fetched_author_id.is_some(),
+            "sb_is_list_fetched_reviewer_id" => self.list_fetched_reviewer_id.is_some(),
             "sb_is_fetch_new_reviews" => self.fetch_new_reviews.is_some(),
             "sb_is_reindex_after_fetch_new_reviews" => {
                 self.reindex_after_fetch_new_reviews.is_some()
             }
-            "sb_blocklisted_repos" => self.blocklisted_repos.is_some(),
-            "sb_list_new_author_id" => self.list_new_author_id.is_some(),
-            "sb_add_author_url" => self.add_author_url.is_some(),
+            "sb_blocklisted_repos" => {
+                self.blocklisted_repos.is_some() && self.list_new_reviewer_id.is_none()
+            }
+            "sb_list_new_reviewer_id" => self.list_new_reviewer_id.is_some(),
+            "sb_add_reviewer_url" => self.add_reviewer_url.is_some(),
             _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -343,26 +348,26 @@ impl HtmlServerTemplateRender for ReservedFolder {
         pos_cursor: usize,
     ) -> String {
         // dbg!(&placeholder);
-        // list_fetched_author_id is Option and can be None or Some
-        let only_author_empty = OnlyAuthor::default();
+        // list_fetched_reviewer_id is Option and can be None or Some
+        let only_reviewer_empty = OnlyReviewer::default();
         let item_at_cursor_1 = self
             .item_at_cursor_1(subtemplate, pos_cursor)
-            .unwrap_or(&only_author_empty);
+            .unwrap_or(&only_reviewer_empty);
         let item_at_cursor_2 = self
             .item_at_cursor_2(subtemplate, pos_cursor)
-            .unwrap_or(&only_author_empty);
+            .unwrap_or(&only_reviewer_empty);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_ordinal_number" => s!(pos_cursor + 1),
-            "st_author_name_1" => s!(&item_at_cursor_1.author_name),
-            "st_author_id" => s!(item_at_cursor_1.author_id),
+            "st_reviewer_name_1" => s!(&item_at_cursor_1.reviewer_name),
+            "st_reviewer_id" => s!(item_at_cursor_1.reviewer_id),
             // same name from different data model is not allowed
-            "st_author_name_2" => s!(item_at_cursor_2.author_name),
+            "st_reviewer_name_2" => s!(item_at_cursor_2.reviewer_name),
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
             }
             "st_fetch_new_reviews" => s!(unwrap!(self.fetch_new_reviews.as_ref())),
-            "st_add_author_url" => s!(unwrap!(self.add_author_url.as_ref())),
+            "st_add_reviewer_url" => s!(unwrap!(self.add_reviewer_url.as_ref())),
             "st_repo_url" => s!(unwrap!(self.blocklisted_repos.as_ref())[pos_cursor]),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
@@ -374,30 +379,32 @@ impl HtmlServerTemplateRender for ReservedFolder {
         subtemplate: &str,
         pos_cursor: usize,
     ) -> UrlUtf8EncodedString {
-        let only_author_empty = OnlyAuthor::default();
+        let only_reviewer_empty = OnlyReviewer::default();
         let item_at_cursor_1 = self
             .item_at_cursor_1(subtemplate, pos_cursor)
-            .unwrap_or(&only_author_empty);
+            .unwrap_or(&only_reviewer_empty);
         let item_at_cursor_2 = self
             .item_at_cursor_2(subtemplate, pos_cursor)
-            .unwrap_or(&only_author_empty);
+            .unwrap_or(&only_reviewer_empty);
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
             "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
-            "su_author_url" => url_u!(&item_at_cursor_1.author_url, ""),
+            "su_reviewer_url" => url_u!(&item_at_cursor_1.reviewer_url, ""),
             "su_repo_url" => url_u!(&unwrap!(self.blocklisted_repos.as_ref())[pos_cursor], ""),
-            "su_author_route" => url_u!("/rust-reviews/author/{}/", &item_at_cursor_1.author_id),
-            "su_add_author_url_route" => url_u!(
-                "/rust-reviews/reserved_folder/add_author_url/{}/",
-                &item_at_cursor_2.author_name
+            "su_reviewer_route" => {
+                url_u!("/rust-reviews/reviewer/{}/", &item_at_cursor_1.reviewer_id)
+            }
+            "su_add_reviewer_url_route" => url_u!(
+                "/rust-reviews/reserved_folder/add_reviewer_url/{}/",
+                &item_at_cursor_2.reviewer_name
             ),
-            "su_author_url_2" => {
+            "su_reviewer_url_2" => {
                 let x = url_u!(
                     "https://github.com/{}/crev-proofs/",
-                    &item_at_cursor_2.author_name
+                    &item_at_cursor_2.reviewer_name
                 );
                 //dbg!(&x);
                 //return
@@ -423,9 +430,9 @@ impl HtmlServerTemplateRender for ReservedFolder {
     ) -> Vec<Node> {
         // dbg!( &placeholder);
         match template_name {
-            "stmplt_authors" => {
+            "stmplt_reviewers" => {
                 let mut nodes = vec![];
-                if let Some(list) = &self.list_fetched_author_id {
+                if let Some(list) = &self.list_fetched_reviewer_id {
                     let sub_template = unwrap!(sub_templates
                         .iter()
                         .find(|&template| template.name == template_name));
@@ -463,9 +470,9 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 // return
                 nodes
             }
-            "stmplt_authors_new" => {
+            "stmplt_reviewers_new" => {
                 let mut nodes = vec![];
-                if let Some(list) = &self.list_new_author_id {
+                if let Some(list) = &self.list_new_reviewer_id {
                     let sub_template = unwrap!(sub_templates
                         .iter()
                         .find(|&template| template.name == template_name));

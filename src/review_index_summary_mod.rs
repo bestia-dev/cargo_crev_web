@@ -7,7 +7,7 @@ use unwrap::unwrap;
 #[derive(Clone, Debug)]
 pub struct ReviewIndexSummary {
     pub unique_crates: usize,
-    pub unique_authors: usize,
+    pub unique_reviewers: usize,
     pub count_of_reviews: usize,
     pub count_of_rating_strong: usize,
     pub count_of_rating_positive: usize,
@@ -23,10 +23,10 @@ impl ReviewIndexSummary {
     /// prepares the data
     pub fn new(state_global: ArcMutStateGlobal) -> Self {
         let mut for_unique_crates: Vec<String> = vec![];
-        let mut for_unique_authors: Vec<String> = vec![];
+        let mut for_unique_reviewers: Vec<String> = vec![];
         let mut summary = ReviewIndexSummary {
             unique_crates: 0,
-            unique_authors: 0,
+            unique_reviewers: 0,
             count_of_reviews: 0,
             count_of_rating_strong: 0,
             count_of_rating_positive: 0,
@@ -39,7 +39,7 @@ impl ReviewIndexSummary {
         };
         for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
             for_unique_crates.push(s!(&index_item.crate_name));
-            for_unique_authors.push(s!(&index_item.author_name));
+            for_unique_reviewers.push(s!(&index_item.reviewer_name));
             summary.count_of_reviews += 1;
             summary.count_of_rating_strong += index_item.rating_strong;
             summary.count_of_rating_positive += index_item.rating_positive;
@@ -53,7 +53,7 @@ impl ReviewIndexSummary {
         // dbg!( crates);
         use itertools::Itertools;
         summary.unique_crates = for_unique_crates.into_iter().unique().count();
-        summary.unique_authors = for_unique_authors.into_iter().unique().count();
+        summary.unique_reviewers = for_unique_reviewers.into_iter().unique().count();
 
         // return
         summary
@@ -98,7 +98,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_unique_crates" => s!(self.unique_crates),
-            "st_unique_authors" => s!(self.unique_authors),
+            "st_unique_reviewers" => s!(self.unique_reviewers),
             "st_count_of_reviews" => s!(self.count_of_reviews),
             "st_count_of_rating_strong" => s!(self.count_of_rating_strong),
             "st_count_of_rating_positive" => s!(self.count_of_rating_positive),

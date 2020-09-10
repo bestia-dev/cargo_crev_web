@@ -80,7 +80,7 @@ impl ReviewNew {
                     understanding: Level::None,
                     rating: Rating::None,
                 },
-                comment: s!("comment: unsafe:     FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  unmaintained:   "),
+                comment: s!("Comment important aspects:  security:  unsafe:   FFI:     asm!:     file-read:    file-write:     network-access:    build.rs:   macro_rules:  proc_macro:  maintainers/reviewers:  used in your project:  alternatives you explored:     "),
             },
             yaml_text: s!(),
         };
@@ -177,7 +177,7 @@ impl HtmlServerTemplateRender for ReviewNew {
         _pos_cursor: usize,
     ) -> String {
         // dbg!(&placeholder);
-        // list_fetched_author_id is Option and can be None or Some
+        // list_fetched_reviewer_id is Option and can be None or Some
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_yaml_text" => s!(self.yaml_text),

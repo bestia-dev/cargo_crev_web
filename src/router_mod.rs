@@ -72,13 +72,13 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // dynamic content:
     // /rust-reviews/
     // /rust-reviews/index.html
-    // /rust-reviews/author/{author_id}/
+    // /rust-reviews/reviewer/{reviewer_id}/
     // /rust-reviews/badge/crev_count/{crate_name}.svg
     // /rust-reviews/crate/{crate_name}/
     // /rust-reviews/crate/{crate_name}/{version}/
     // /rust-reviews/crate/{crate_name}/{version}/{kind}/
     // /rust-reviews/crates/
-    // /rust-reviews/authors/
+    // /rust-reviews/reviewers/
     // /rust-reviews/review_new/
     // /rust-reviews/review_new/{crate}/
     // /rust-reviews/review_new/{crate}/{version}/
@@ -86,9 +86,9 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // /rust-reviews/reserved_folder/
     // /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/
     // /rust-reviews/reserved_folder/blocklisted_repos/
-    // /rust-reviews/reserved_folder/list_new_author_id/
-    // /rust-reviews/reserved_folder/add_author_url/
-    // /rust-reviews/reserved_folder/list_fetched_author_id/
+    // /rust-reviews/reserved_folder/list_new_reviewer_id/
+    // /rust-reviews/reserved_folder/add_reviewer_url/
+    // /rust-reviews/reserved_folder/list_fetched_reviewer_id/
 
     // this looks like a file and does not need ends_with_slash_or_redirect()
     let index_html_route = warp::path!("rust-reviews" / "index.html")
@@ -209,12 +209,12 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
                     }),
             )
             .or(
-                warp::path!("rust-reviews" / "reserved_folder" / "list_new_author_id")
+                warp::path!("rust-reviews" / "reserved_folder" / "list_new_reviewer_id")
                     .and(state_global.clone())
                     .and_then(|state_global| async move {
-                        let ns_start = ns_start("list_new_author_id");
+                        let ns_start = ns_start("list_new_reviewer_id");
                         let data_model =
-                            reserved_folder_mod::ReservedFolder::list_new_author_id(state_global)
+                            reserved_folder_mod::ReservedFolder::list_new_reviewer_id(state_global)
                                 .await;
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
@@ -226,33 +226,37 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
                     }),
             )
             .or(warp::path!(
-                "rust-reviews" / "reserved_folder" / "add_author_url" / UrlPartUtf8Decoded
+                "rust-reviews" / "reserved_folder" / "add_reviewer_url" / UrlPartUtf8Decoded
             )
             .and(state_global.clone())
-            .and_then(|author_name: UrlPartUtf8Decoded, state_global| async move {
-                let ns_start = ns_start("add_author_url");
-                let author_name = author_name.to_string();
-                // in this fragment are 2 parts delimited with /, so it must be encoded
-                // after decoding looks like "scott-wilson/crev-proofs"
-                // dbg!(&author_name);
-                let data_model =
-                    reserved_folder_mod::ReservedFolder::add_author_url(author_name, state_global)
-                        .await;
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                // return crazy types
-                let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
-                    Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
-                result
-            }))
+            .and_then(
+                |reviewer_name: UrlPartUtf8Decoded, state_global| async move {
+                    let ns_start = ns_start("add_reviewer_url");
+                    let reviewer_name = reviewer_name.to_string();
+                    // in this fragment are 2 parts delimited with /, so it must be encoded
+                    // after decoding looks like "scott-wilson/crev-proofs"
+                    // dbg!(&reviewer_name);
+                    let data_model = reserved_folder_mod::ReservedFolder::add_reviewer_url(
+                        reviewer_name,
+                        state_global,
+                    )
+                    .await;
+                    let ns_new = ns_print("new()", ns_start);
+                    let html_file = data_model.render_html_file("templates/");
+                    ns_print("render_html_file()", ns_new);
+                    // return crazy types
+                    let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
+                        Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
+                    result
+                },
+            ))
             .or(
-                warp::path!("rust-reviews" / "reserved_folder" / "list_fetched_author_id")
+                warp::path!("rust-reviews" / "reserved_folder" / "list_fetched_reviewer_id")
                     .and(state_global.clone())
                     .map(|state_global| {
-                        let ns_start = ns_start("list_fetched_author_id");
+                        let ns_start = ns_start("list_fetched_reviewer_id");
                         let data_model =
-                            reserved_folder_mod::ReservedFolder::list_fetched_author_id(
+                            reserved_folder_mod::ReservedFolder::list_fetched_reviewer_id(
                                 state_global,
                             );
                         let ns_new = ns_print("new()", ns_start);
@@ -293,26 +297,26 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
                 ns_print("render_html_file()", ns_new);
                 warp::reply::html(html_file)
             }))
-        .or(warp::path!("rust-reviews" / "authors")
+        .or(warp::path!("rust-reviews" / "reviewers")
             .and(state_global.clone())
             .map(|state_global| {
-                let ns_start = ns_start("ReviewIndexByAuthor");
-                let data_model = authors_mod::ReviewIndexByAuthor::new(state_global);
+                let ns_start = ns_start("ReviewIndexByReviewer");
+                let data_model = reviewers_mod::ReviewIndexByReviewer::new(state_global);
                 let ns_new = ns_print("new()", ns_start);
                 let html_file = data_model.render_html_file("templates/");
                 ns_print("render_html_file()", ns_new);
                 warp::reply::html(html_file)
             }));
 
-    let author_route = warp::path!("rust-reviews" / "author" / UrlPartUtf8Decoded)
+    let reviewer_route = warp::path!("rust-reviews" / "reviewer" / UrlPartUtf8Decoded)
         .and(state_global.clone())
-        .map(|author_id: UrlPartUtf8Decoded, state_global| {
-            let author_id = author_id.to_string();
+        .map(|reviewer_id: UrlPartUtf8Decoded, state_global| {
+            let reviewer_id = reviewer_id.to_string();
             let ns_start = ns_start(&format!(
-                "AuthorReviews author_name: '{}'",
-                Yellow.paint(&author_id),
+                "ReviewerReviews reviewer_name: '{}'",
+                Yellow.paint(&reviewer_id),
             ));
-            let data_model = author_reviews_mod::AuthorReviews::new(state_global, &author_id);
+            let data_model = reviewer_reviews_mod::ReviewerReviews::new(state_global, &reviewer_id);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
@@ -413,7 +417,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
         index_html_route,
         root_route,
         crate_route,
-        author_route,
+        reviewer_route,
         reserved_folder_route,
         review_new_route,
         badge_route,

@@ -3,6 +3,7 @@
 use crate::issue_mod::Issue;
 use crate::*;
 
+use comrak::{markdown_to_html, ComrakOptions};
 use serde_derive::{Deserialize, Serialize};
 use strum_macros;
 use unwrap::unwrap;
@@ -118,16 +119,16 @@ impl Default for Level {
 }
 
 impl Review {
-    /// naive method to extract author_name
-    pub fn get_author_name(&self) -> String {
-        let author_name = author_name_from_url(&self.from.url);
+    /// naive method to extract reviewer_name
+    pub fn get_reviewer_name(&self) -> String {
+        let reviewer_name = reviewer_name_from_url(&self.from.url);
 
         // return
-        author_name
+        reviewer_name
     }
     /// version for sorting
     pub fn version_for_sorting(&self) -> String {
-        version_for_sorting(&self.package.version, &self.get_author_name())
+        version_for_sorting(&self.package.version, &self.get_reviewer_name())
     }
     /// get rating even when review in none
     pub fn get_rating(&self) -> Rating {
@@ -194,9 +195,9 @@ impl HtmlServerTemplateRender for Review {
                 })
             ),
             "st_review_date" => s!(&self.date[..10]),
-            "st_review_author" => {
-                // naive method to extract author_name
-                s!(self.get_author_name())
+            "st_review_reviewer" => {
+                // naive method to extract reviewer_name
+                s!(self.get_reviewer_name())
             }
             "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
@@ -212,6 +213,11 @@ impl HtmlServerTemplateRender for Review {
             "st_review_comment" => {
                 // dbg!(&self.comment);
                 if let Some(comment) = &self.comment {
+                    // convert md to html
+                    let comment = markdown_to_html(comment, &ComrakOptions::default());
+                    // TODO: it is not a string any more, it is "inner html"!
+                    // how to avoid manually inserted html? escape html first then convert to html.
+                    // transform to nodes, and add nodes to html.
                     s!(comment)
                 } else {
                     s!()
@@ -304,8 +310,8 @@ impl HtmlServerTemplateRender for Review {
         // dbg!( &placeholder);
         match placeholder {
             "su_crate_route" => url_u!("/rust-reviews/crate/{}/", &self.package.name),
-            "su_author_route" => url_u!("/rust-reviews/author/{}/", &self.from.id),
-            "su_author_url" => url_u!(&self.from.url, ""),
+            "su_reviewer_route" => url_u!("/rust-reviews/reviewer/{}/", &self.from.id),
+            "su_reviewer_url" => url_u!(&self.from.url, ""),
             "su_advisories_ids" => {
                 if let Some(advisories) = &self.advisories {
                     if advisories[0].ids[0].starts_with("RUSTSEC") {
@@ -348,6 +354,41 @@ impl HtmlServerTemplateRender for Review {
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node> {
         // dbg!( &placeholder);
         match placeholder {
+            "sn_review_comment" => {
+                //dbg!(&self.comment);
+                if let Some(comment) = &self.comment {
+                    // TODO: convert md markdown to html
+                    // example cargo-edit. Table is not rendered!
+                    let mut options = ComrakOptions::default();
+                    options.extension.table = true;
+                    options.extension.strikethrough = true;
+                    options.extension.tagfilter = true;
+                    options.extension.autolink = true;
+                    options.extension.description_lists = true;
+                    options.extension.tasklist = true;
+                    options.render.github_pre_lang = true;
+                    options.render.hardbreaks = true;
+
+                    let comment = markdown_to_html(comment, &options);
+                    let comment = format!("<div>{}</div>", comment);
+                    // dbg!(&self.comment);
+                    // convert html to node
+                    let vec_node = unwrap!(self.render_template_raw_to_nodes(
+                        &comment,
+                        HtmlOrSvg::Html,
+                        "",
+                        0
+                    ));
+                    return vec_node;
+                } else {
+                    let node = Node::Element(ElementNode {
+                        tag_name: s!("div"),
+                        children: vec![Node::Text(s!())],
+                        ..Default::default()
+                    });
+                    return vec![node];
+                }
+            }
             _ => replace_with_nodes_match_else(&self.data_model_name(), placeholder),
         }
     }

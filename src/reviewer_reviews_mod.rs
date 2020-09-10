@@ -1,4 +1,4 @@
-//! author_reviews_mod
+//! reviewers_reviews_mod
 
 use crate::data_file_scan_mod::*;
 use crate::review_mod::*;
@@ -7,15 +7,15 @@ use crate::*;
 use unwrap::unwrap;
 
 //use unwrap::unwrap;
-pub struct AuthorReviews {
-    pub author_name: String,
-    pub author_url: String,
-    pub author_id: String,
+pub struct ReviewerReviews {
+    pub reviewer_name: String,
+    pub reviewer_url: String,
+    pub reviewer_id: String,
     pub reviews: Vec<Review>,
 }
 
-impl AuthorReviews {
-    pub fn new(state_global: ArcMutStateGlobal, author_id: &str) -> Self {
+impl ReviewerReviews {
+    pub fn new(state_global: ArcMutStateGlobal, reviewer_id: &str) -> Self {
         let ns_start = ns_start("");
         // sort data by file_path
         // the data is sorted by path_file in ReviewIndex.new()
@@ -27,17 +27,17 @@ impl AuthorReviews {
             file_path: s!("don't push the first row"),
             reviews_pk: Some(vec![]),
         };
-        let mut author_name = s!();
-        let mut author_url = s!();
+        let mut reviewer_name = s!();
+        let mut reviewer_url = s!();
         for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
-            if index_item.author_id == author_id {
+            if index_item.reviewer_id == reviewer_id {
                 if index_item.file_path != old_file_path {
                     old_file_path = index_item.file_path.clone();
                     if &one_file.file_path == "don't push the first row" {
-                        // only once read the author_name
+                        // only once read the reviewer_name
                         // but don't push the dummy
-                        author_name = index_item.author_name.clone();
-                        author_url = index_item.author_url.clone();
+                        reviewer_name = index_item.reviewer_name.clone();
+                        reviewer_url = index_item.reviewer_url.clone();
                     } else {
                         // push the old one before creating the new one
                         many_file.vec.push(one_file);
@@ -51,7 +51,7 @@ impl AuthorReviews {
                 // add data to reviews_pk
                 unwrap!(one_file.reviews_pk.as_mut()).push(ReviewPk {
                     crate_name: index_item.crate_name.clone(),
-                    author_id: index_item.author_id.clone(),
+                    reviewer_id: index_item.reviewer_id.clone(),
                     version: index_item.version.clone(),
                 });
             }
@@ -81,24 +81,24 @@ impl AuthorReviews {
         });
         reviews.sort_by(|a, b| a.package.name.cmp(&b.package.name));
         // return
-        AuthorReviews {
-            author_name: author_name,
-            author_url: author_url,
-            author_id: s!(author_id),
+        ReviewerReviews {
+            reviewer_name: reviewer_name,
+            reviewer_url: reviewer_url,
+            reviewer_id: s!(reviewer_id),
             reviews,
         }
     }
 }
 
-impl HtmlServerTemplateRender for AuthorReviews {
+impl HtmlServerTemplateRender for ReviewerReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         // return
-        s!("AuthorReviews")
+        s!("ReviewerReviews")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!("{}author_reviews_template.html", templates_folder_name);
+        let template_file_name = format!("{}reviewer_reviews_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
         // return
         html
@@ -126,11 +126,11 @@ impl HtmlServerTemplateRender for AuthorReviews {
         // dbg!(&placeholder);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
-            "st_author_name" => s!(&self.author_name),
-            "st_author_id" => s!(&self.author_id),
-            "st_author_url" => s!(&self.author_url),
-            "st_cmd_fetch" => s!("cargo crev repo fetch url {}", self.author_url),
-            "st_cmd_trust" => s!("cargo crev id trust {}", self.author_id),
+            "st_reviewer_name" => s!(&self.reviewer_name),
+            "st_reviewer_id" => s!(&self.reviewer_id),
+            "st_reviewer_url" => s!(&self.reviewer_url),
+            "st_cmd_fetch" => s!("cargo crev repo fetch url {}", self.reviewer_url),
+            "st_cmd_trust" => s!("cargo crev id trust {}", self.reviewer_id),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -147,9 +147,9 @@ impl HtmlServerTemplateRender for AuthorReviews {
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
             "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
-            "su_author_url" => url_u!(&self.author_url, ""),
-            "su_lib_rs_url" => url_u!("https://lib.rs/~{}", &self.author_name),
-            "su_crates_io_url" => url_u!("https://crates.io/users/{}", &self.author_name),
+            "su_reviewer_url" => url_u!(&self.reviewer_url, ""),
+            "su_lib_rs_url" => url_u!("https://lib.rs/~{}", &self.reviewer_name),
+            "su_crates_io_url" => url_u!("https://crates.io/users/{}", &self.reviewer_name),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }

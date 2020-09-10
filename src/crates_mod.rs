@@ -14,7 +14,7 @@ pub struct ByCrateItem {
     pub crate_name: String,
     pub count_of_reviews: usize,
     pub unique_versions: usize,
-    pub unique_authors: usize,
+    pub unique_reviewers: usize,
     pub count_of_rating_strong: usize,
     pub count_of_rating_positive: usize,
     pub count_of_rating_neutral: usize,
@@ -35,7 +35,7 @@ impl ReviewIndexByCrate {
 
         let mut old_crate_name = s!();
         let mut for_unique_versions: Vec<String> = vec![];
-        let mut for_unique_authors: Vec<String> = vec![];
+        let mut for_unique_reviewers: Vec<String> = vec![];
         let mut review_index_by_crate = ReviewIndexByCrate { vec: vec![] };
         for index_item in unwrap!(state_global.lock()).review_index.vec.iter() {
             // the reviews are already sorted by crate_name
@@ -46,15 +46,15 @@ impl ReviewIndexByCrate {
                     let mut last = unwrap!(review_index_by_crate.vec.last_mut());
                     last.unique_versions = for_unique_versions.into_iter().unique().count();
                     for_unique_versions = vec![];
-                    last.unique_authors = for_unique_authors.into_iter().unique().count();
-                    for_unique_authors = vec![];
+                    last.unique_reviewers = for_unique_reviewers.into_iter().unique().count();
+                    for_unique_reviewers = vec![];
                 }
                 // a new group begins
                 let last = ByCrateItem {
                     crate_name: index_item.crate_name.clone(),
                     count_of_reviews: 0,
                     unique_versions: 0,
-                    unique_authors: 0,
+                    unique_reviewers: 0,
                     count_of_rating_strong: 0,
                     count_of_rating_positive: 0,
                     count_of_rating_neutral: 0,
@@ -71,7 +71,7 @@ impl ReviewIndexByCrate {
             let mut last = unwrap!(review_index_by_crate.vec.last_mut());
             last.count_of_reviews += 1;
             for_unique_versions.push(s!(&index_item.version));
-            for_unique_authors.push(s!(&index_item.author_name));
+            for_unique_reviewers.push(s!(&index_item.reviewer_name));
             last.count_of_rating_strong += index_item.rating_strong;
             last.count_of_rating_positive += index_item.rating_positive;
             last.count_of_rating_neutral += index_item.rating_neutral;
@@ -129,7 +129,7 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
             "st_crate_name" => s!(&self.vec[pos_cursor].crate_name),
             "st_count_of_reviews" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
             "st_unique_versions" => url_s_zero_to_empty(self.vec[pos_cursor].unique_versions),
-            "st_unique_authors" => url_s_zero_to_empty(self.vec[pos_cursor].unique_authors),
+            "st_unique_reviewers" => url_s_zero_to_empty(self.vec[pos_cursor].unique_reviewers),
             "st_count_of_rating_strong" => {
                 url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong)
             }
