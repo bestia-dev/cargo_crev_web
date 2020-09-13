@@ -47,7 +47,7 @@ pub struct AdvisoryOld {
     pub critical: String,
 }
 
-#[derive(Serialize, Deserialize, Clone, Default)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Review {
     pub kind: Option<String>,
     pub version: String,
@@ -60,6 +60,24 @@ pub struct Review {
     pub advisory: Option<AdvisoryOld>,
     pub advisories: Option<Vec<Advisory>>,
     pub comment: Option<String>,
+}
+
+impl Default for Review {
+    fn default() -> Self {
+        Review {
+            kind: None,
+            version: s!(),
+            date: s!(),
+            from: ReviewFrom::default(),
+            package: ReviewPackage::default(),
+            review: None,
+            alternatives: None,
+            issues: None,
+            advisory: None,
+            advisories: None,
+            comment: None,
+        }
+    }
 }
 
 #[derive(

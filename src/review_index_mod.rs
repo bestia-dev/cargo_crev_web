@@ -18,6 +18,7 @@ pub struct ReviewIndexItem {
     pub crate_name: String,
     pub version: String,
     pub version_for_sorting: String,
+    pub date: chrono::DateTime<chrono::Utc>,
     pub reviewer_name: String,
     pub reviewer_url: String,
     pub reviewer_id: String,
@@ -73,10 +74,14 @@ impl ReviewIndex {
         //dbg!(review_string);
         let review: crate::review_mod::Review = unwrap!(serde_yaml::from_str(review_string));
         // use only some of the data for the index
+        // convert to Utc for comparison
+        let date: chrono::DateTime<chrono::Utc> =
+            chrono::DateTime::from(unwrap!(chrono::DateTime::parse_from_rfc3339(&review.date)));
         let review_index_item = ReviewIndexItem {
             crate_name: s!(&review.package.name),
             version: s!(&review.package.version),
             version_for_sorting: review.version_for_sorting(),
+            date: date,
             reviewer_name: review.get_reviewer_name(),
             reviewer_url: s!(&review.from.url),
             reviewer_id: s!(&review.from.id),

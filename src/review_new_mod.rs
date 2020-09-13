@@ -182,7 +182,6 @@ impl HtmlServerTemplateRender for ReviewNew {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_yaml_text" => s!(self.yaml_text),
             "st_cmd_query" => s!("cargo crev repo query review {}", self.package_name),
-            //"st_date" => s!(self.review_for_vim.date),
             "st_comment" => s!(self.review_for_vim.comment),
             "st_package_name" => s!(self.package_name),
             "st_package_version" => s!(self.package_version),

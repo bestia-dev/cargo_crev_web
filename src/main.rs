@@ -284,6 +284,7 @@ mod crates_mod;
 mod data_file_scan_mod;
 mod html_server_template_mod;
 mod issue_mod;
+mod last_reviews_mod;
 mod macros_mod;
 mod main_code_mod;
 mod people_of_rust_mod;

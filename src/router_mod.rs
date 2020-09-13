@@ -78,6 +78,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // /rust-reviews/crate/{crate_name}/{version}/
     // /rust-reviews/crate/{crate_name}/{version}/{kind}/
     // /rust-reviews/crates/
+    // /rust-reviews/last_reviews/
     // /rust-reviews/reviewers/
     // /rust-reviews/review_new/
     // /rust-reviews/review_new/{crate}/
@@ -287,6 +288,16 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
             ns_print("render_html_file()", ns_new);
             warp::reply::html(html_file)
         })
+        .or(warp::path!("rust-reviews" / "last_reviews")
+            .and(state_global.clone())
+            .map(|state_global| {
+                let ns_start = ns_start("last_reviews");
+                let data_model = last_reviews_mod::LastReviews::new(state_global);
+                let ns_new = ns_print("new()", ns_start);
+                let html_file = data_model.render_html_file("templates/");
+                ns_print("render_html_file()", ns_new);
+                warp::reply::html(html_file)
+            }))
         .or(warp::path!("rust-reviews" / "crates")
             .and(state_global.clone())
             .map(|state_global| {

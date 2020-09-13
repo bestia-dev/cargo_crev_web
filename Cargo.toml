@@ -1,7 +1,7 @@
 [package]
 name = "cargo_crev_web"
 #no need for semver if it is not a library
-version = "2020.910.1509"
+version = "2020.913.1245"
 description = "web server to query reviews from cargo-crev"
 authors = ["Luciano Bestia"]
 edition = "2018"
