@@ -40,7 +40,7 @@
                 <div class="middle">
                     <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust open source code reviews</a></p>
                     <p class="small c_white">Cryptographically verifiable, distributed dependency reviews</p>
-                    <h3 class="h3y">crates, reviewers, reviews, ratings,...</h3>
+                    <p>CREV is a scalable, social, distributed Code REView and recommendation system that we desperately need for establishing trust in Open Source code.</p>
                 </div>
                 <div class="middle media_right">
                     <div class="media_right">Rust links:</div>
@@ -50,6 +50,7 @@
                     <div class="media_right"><a class="c_link_1" href="https://docs.rs/" target="_blank">docs.rs</a></div>
                 </div>
             </div>
+            <p>Cargo-crev is a cryptographically verifiable code review system for the cargo (Rust) package manager.</p>
             <p class="media_portrait_visible blink c_alert">Please, use mobile in landscape.</p>
         </div>
         <div class="container0_content_grid_0" style="grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto;">
@@ -99,15 +100,14 @@
     <div class="container_0">
         <div class="container0_content_not_grid">
             <h1>Crev Vision</h1>
-            <a class="c_link_1" href="https://web.crev.dev/">Crev</a> is a scalable, social, distributed Code REView and recommendation system that we desperately need for establishing trust in Open Source code.
-            <br/>It is designed to be used with many different languages and ecosystems.
+            <a class="c_link_2" href="https://github.com/crev-dev/crev" target="_blank">Crev</a> is a scalable, social, distributed Code REView and recommendation system that we desperately need for establishing trust in Open Source code.
             <br/>At its core Crev defines a simple, human-readable data format to communicate trust in code (results of code review) and people (reputation).
             <ul>Fundamental beliefs of Crev design:
-                <li>- Trust is about people and community, not automatic scans, arbitrary metrics, process or bureaucracy. You can't replace a human judgment with an algorithm. Tools can only help make such a judgment.</li>
-                <li>- Code quality, risk management and trust requirements are subjective, contextual and personal. Islands of Trust must grow organically.</li>
-                <li>- Not many people can review all their dependencies, but if every user at least skimmed through a couple of them, and shared that information with others, we would be in a much better situation.</li>
-                <li>- Trust should be spread redundantly between many people, so one compromised or malicious actor can't abuse the system.</li>
-                <li>- Crev does not have to be perfect. Instead it should be robust, simple and flexible, so it can evolve to be good enough.</li>
+                <li>Trust is about people and community, not automatic scans, arbitrary metrics, process or bureaucracy. You can't replace a human judgment with an algorithm. Tools can only help make such a judgment.</li>
+                <li>Code quality, risk management and trust requirements are subjective, contextual and personal. Islands of Trust must grow organically.</li>
+                <li>Not many people can review all their dependencies, but if every user at least skimmed through a couple of them, and shared that information with others, we would be in a much better situation.</li>
+                <li>Trust should be spread redundantly between many people, so one compromised or malicious actor can't abuse the system.</li>
+                <li>Crev does not have to be perfect. Instead it should be robust, simple and flexible, so it can evolve to be good enough.</li>
             </ul>
             <img style="display: block;width:50%;min-width:280px" src="https://camo.githubusercontent.com/393488619f1eb9789edf622ec40de553d3bebdb954b1117b13c3e99d474cf823/68747470733a2f2f692e696d67666c69702e636f6d2f3562386671642e6a7067" />
         </div>
@@ -115,10 +115,10 @@
     <div class="container_0">
         <div class="container0_content_not_grid">
             <h2 class="h2u">cargo-crev</h2>
-            <p><code>cargo-crev</code> is a cryptographically verifiable code review system for the cargo (Rust) package manager.</p>
-            <p>It is open source on GitHub: <a class="c_link_1" target="_blank" href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a></p>
+            <p>Cargo-crev is a cryptographically verifiable code review system for the cargo (Rust) package manager.</p>
+            <p>It is open source on GitHub: <a class="c_link_2" target="_blank" href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a></p>
             <p>It is a CLI program that is installed and runs locally on the developer computer.</p>
-            <p>Read the <a class="c_link_1" href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Getting Started Guide</a></p>
+            <p>Read the <a class="c_link_2" href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Getting Started Guide</a></p>
             <p>It is recommended to always verify the trustworthiness of each of the dependencies in your Rust project.</p>
             <p>There can be hundreds of transient dependencies. Do you trust them all?</p>
             <p>Simply run <code data-clipboard-text="cargo crev verify" data-tooltip="Click to Copy">$ cargo crev verify</code> in your Rust project folder.</p>
