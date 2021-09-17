@@ -316,16 +316,16 @@ pub trait HtmlServerTemplateRender {
                                     // add attribute to Node
                                     if let Some(repl) = replace_string {
                                         if name != &unwrap!(replace_attr_name) {
-                                            panic!(format!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
-                                            unwrap!(replace_attr_repl_name), name,  self.data_model_name(), dom_path));
+                                            panic!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
+                                            unwrap!(replace_attr_repl_name), name,  self.data_model_name(), dom_path);
                                         // replace_attr_name = None;
                                         // replace_attr_repl_name=None;
                                         } else {
                                             // exclusively href and src must contain url
                                             if name == "href" || name == "src" {
                                                 // error it is NOT encoded
-                                                panic!(format!("Error: Repl of  {} name {} is NOT created as url, but as string: {}  data-model:{} dom_path: {:?}", 
-                                                unwrap!(replace_attr_repl_name), name, repl, self.data_model_name(), dom_path));
+                                                panic!("Error: Repl of  {} name {} is NOT created as url, but as string: {}  data-model:{} dom_path: {:?}", 
+                                                unwrap!(replace_attr_repl_name), name, repl, self.data_model_name(), dom_path);
                                             } else {
                                                 element.attributes.push(Attribute {
                                                     name: s!(name),
@@ -339,8 +339,8 @@ pub trait HtmlServerTemplateRender {
                                         }
                                     } else if let Some(repl) = replace_url {
                                         if name != unwrap!(replace_attr_name.as_ref()) {
-                                            panic!(format!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
-                                             unwrap!(replace_attr_repl_name), name, self.data_model_name(), dom_path));
+                                            panic!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
+                                             unwrap!(replace_attr_repl_name), name, self.data_model_name(), dom_path);
                                         // replace_attr_name = None;
                                         // replace_attr_repl_name = None;
                                         } else {
@@ -353,8 +353,8 @@ pub trait HtmlServerTemplateRender {
                                                 });
                                             } else {
                                                 //error. it is encoded for other attributes
-                                                panic!(format!("Repl of {} name {} is mistakenly url encoded: {} data-model:{} dom_path: {:?}", 
-                                            unwrap!(replace_attr_repl_name), name, repl.to_string(), self.data_model_name(), dom_path));
+                                                panic!("Repl of {} name {} is mistakenly url encoded: {} data-model:{} dom_path: {:?}", 
+                                            unwrap!(replace_attr_repl_name), name, repl.to_string(), self.data_model_name(), dom_path);
                                             }
                                         }
                                         // empty the replace_string for the next node

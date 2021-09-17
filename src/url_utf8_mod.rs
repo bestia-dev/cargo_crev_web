@@ -21,7 +21,6 @@ use anyhow::Error;
 use core::str::FromStr;
 use percent_encoding::{percent_decode_str, AsciiSet, CONTROLS};
 use std::string::ToString;
-// use unwrap::unwrap;
 
 // endregion: use statements
 
@@ -197,6 +196,7 @@ impl ToString for UrlPartUtf8Decoded {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use unwrap::unwrap;
 
     #[test]
     fn test_decode_01() {
@@ -207,30 +207,21 @@ mod tests {
     #[test]
     fn test_encode_02() {
         let s = url_u!("/one/two/{}/", "a b<c>d'e\"f");
-        let norm_str = match s {
-            UrlEnumString::UrlUtf8EncodedString(url_str) => url_str.to_string(),
-            UrlEnumString::String(str) => "".to_string(),
-        };
+        let norm_str = s.to_string();
         assert_eq!(&norm_str, "/one/two/a%20b%3Cc%3Ed\'e%22f/");
     }
 
     #[test]
     fn test_03() {
         let s = url_u!("/one/two/{}/{}/", "a b<ccc", ">ddd'e\"f");
-        let norm_str = match s {
-            UrlEnumString::UrlUtf8EncodedString(url_str) => url_str.to_string(),
-            UrlEnumString::String(str) => "".to_string(),
-        };
+        let norm_str = s.to_string();
         assert_eq!(norm_str, "/one/two/a%20b%3Cccc/%3Eddd\'e%22f/");
     }
 
     #[test]
     fn test_04() {
         let s = url_u!("/one{}one/two/{}/{}/", "1 1 ", "a b<ccc", ">ddd'e\"f");
-        let norm_str = match s {
-            UrlEnumString::UrlUtf8EncodedString(url_str) => url_str.to_string(),
-            UrlEnumString::String(str) => "".to_string(),
-        };
+        let norm_str = s.to_string();
         assert_eq!(norm_str, "/one1%201%20one/two/a%20b%3Cccc/%3Eddd\'e%22f/");
     }
     #[test]
@@ -242,10 +233,7 @@ mod tests {
             "a b<ccc",
             ">ddd'e\"f"
         );
-        let norm_str = match s {
-            UrlEnumString::UrlUtf8EncodedString(url_str) => url_str.to_string(),
-            UrlEnumString::String(str) => "".to_string(),
-        };
+        let norm_str =  s.to_string();
         assert_eq!(
             norm_str,
             "/one1%201%20one/two%202%202two/a%20b%3Cccc/%3Eddd\'e%22f/"

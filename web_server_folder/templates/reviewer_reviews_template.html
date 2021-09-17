@@ -13,25 +13,39 @@
 
 <body>
     <div class="container_0">
+        <ul class="nav">
+            <a href="/rust-reviews/">
+                <li class="nav" id="button_review_new">Home</li>
+            </a>
+            <a href="/rust-reviews/crates/">
+                <li class="nav" id="button_review_publish">List of crates</li>
+            </a>
+            <a href="/rust-reviews/reviewers/">
+                <li class="nav" id="button_update_registry_index">List of reviewers</li>
+            </a>
+            <a href="/rust-reviews/people_of_rust/">
+                <li class="nav" id="button_update_registry_index">People of rust</li>
+            </a>
+        </ul>
         <div class="container0_content_not_grid">
             <div class="media_header_grid_02">
                 <div class="top" style="padding-right: 20%;">
-                    <a href="https://github.com/crev-dev/cargo-crev" target="_blank">
+                    <a href="https://web.crev.dev/rust-reviews/crates/" target="_blank">
                         <img style="width:100%;max-width:300px;min-width:150px;" alt="logo" data-su_img_src_logo="src" src="../web_content_folder/images/Logo_02.png" />
                     </a>
                 </div>
                 <div class="middle">
-                    <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust code reviews</a></p>
-                    <p class="small c_white">Cryptographically verifiable, distributed, dependency reviews.</p>
+                    <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust open source code reviews</a></p>
+                    <p class="small c_white">Cryptographically verifiable, distributed dependency reviews</p>
                     <p class="big h3y bold">reviewer:
                         <!--st_reviewer_name-->ReviewerName</p>
-                        <p>lib.rs:
-                            <a class="c_link_1" data-su_lib_rs_url="href" href="" target="_blank">
-                                https://lib.rs/~<!--st_reviewer_name-->https://lib.rs/~BurntSushi</a>
-                        </p>
+                    <p>
+                        <a class="c_link_1" data-su_lib_rs_url="href" href="" target="_blank">
+                                https://lib.rs/<!--st_reviewer_name-->BurntSushi</a>
+                    </p>
                 </div>
                 <div class="middle media_right">
-                    <p class="big bold"><a class="c_link_1" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></p>
+                    <div class="media_right">Rust links:</div>
                     <p class="media_right"><a class="c_link_1" href="https://www.rust-lang.org/" target="_blank">rust-lang.org</a></p>
                     <p class="media_right"><a class="c_link_1" data-su_lib_rs_url="href" href="https://lib.rs/" target="_blank">lib.rs</a></p>
                     <p class="media_right"><a class="c_link_1" data-su_crates_io_url="href" href="https://crates.io/" target="_blank">crates.io</a></p>
@@ -123,8 +137,9 @@
                 <!--st_advisory_critical-->major</div>
         </div>
         <div class="review_comment" style="word-wrap: break-word;overflow-wrap:break-word;">
-            <!--sn_review_comment--><div>num-traits provides traits for writing code generic over numeric types and implementations for built-in numeric types. I exclusively reviewed unsafe code. num-traits uses some instances of unsafe code. Each unsafe block has a comment explaining
-            why it is required and why it is sound. The blocks are easy to understand and check locally.</div>
+            <!--sn_review_comment-->
+            <div>num-traits provides traits for writing code generic over numeric types and implementations for built-in numeric types. I exclusively reviewed unsafe code. num-traits uses some instances of unsafe code. Each unsafe block has a comment explaining
+                why it is required and why it is sound. The blocks are easy to understand and check locally.</div>
         </div>
     </div>
     <!--stmplt_reviews end-->
@@ -148,14 +163,14 @@
     <!--stmplt_not_for_render end-->
     <div>
         <div class="container0_content_not_grid ">
-            <p class="small">© Luciano Bestia 2020,  MIT Licence, Version:
-                <!--st_cargo_crev_web_version-->2020.05.05</p>
+            <p class="small">© Luciano Bestia 2021, MIT Licence, Version:
+                <!--st_cargo_crev_web_version-->2021.05.05</p>
             <p class="small">Open source repository for this web app:
-                <a class="c_link_1 break-all small" target="blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
+                <a class="c_link_1 break-all" target="blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
                         https://github.com/LucianoBestia/cargo_crev_web/
                   </a>
             </p>
-            
+
         </div>
     </div>
 

@@ -14,7 +14,7 @@ impl LastReviews {
     pub fn new(state_global: ArcMutStateGlobal) -> LastReviews {
         let ns_start = ns_start("");
         let mut many_file = ManyFileReviewsPk { vec: vec![] };
-        let mut old_file_path = s!();
+        //let mut old_file_path = s!();
         let mut one_file = OneFileReviewsPk {
             file_path: s!("don't push the first row"),
             reviews_pk: Some(vec![]),
@@ -33,7 +33,7 @@ impl LastReviews {
         a.sort_by(|a, b| Ord::cmp(&a.file_path, &b.file_path));
 
         for index_item in a {
-            old_file_path = index_item.file_path.clone();
+            //old_file_path = index_item.file_path.clone();
             if &one_file.file_path == "don't push the first row" {
                 // only once read
                 // but don't push the dummy

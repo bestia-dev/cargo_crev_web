@@ -13,21 +13,34 @@
 
 <body>
     <div class="container_0">
+        <ul class="nav">
+            <a href="/rust-reviews/">
+                <li class="nav" id="button_review_new">Home</li>
+            </a>
+            <a href="/rust-reviews/crates/">
+                <li class="nav" id="button_review_publish">List of crates</li>
+            </a>
+            <a href="/rust-reviews/reviewers/">
+                <li class="nav" id="button_update_registry_index">List of reviewers</li>
+            </a>
+            <a href="/rust-reviews/people_of_rust/">
+                <li class="nav" id="button_update_registry_index">People of rust</li>
+            </a>
+        </ul>
         <div class="container0_content_not_grid">
             <div class="media_header_grid_02">
                 <div class="top" style="padding-right: 20%;">
-                    <a href="https://github.com/crev-dev/cargo-crev" target="_blank">
+                    <a href="https://web.crev.dev/rust-reviews/crates/" target="_blank">
                         <img style="width:100%;max-width:300px;min-width:150px;" alt="logo" data-su_img_src_logo="src" src="../web_content_folder/images/Logo_02.png" />
                     </a>
                 </div>
                 <div class="middle">
-                    <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust code reviews</a></p>
-                    <p class="small c_white">Cryptographically verifiable, distributed, dependency reviews.</p>
+                    <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust open source code reviews</a></p>
+                    <p class="small c_white">Cryptographically verifiable, distributed dependency reviews</p>
                     <h3 class="h3y">crates, reviewers, reviews, ratings,...</h3>
-                    <p>Jump to crate (press Enter): <input type="text" style="width:300px" value="num-traits" onkeyup="if (event.key === 'Enter') {window.location.href='/rust-reviews/crate/'+this.value+'/';}" /></p>
                 </div>
                 <div class="middle media_right">
-                    <h3>reviews from <a class="c_link_1" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
+                    <div class="media_right">Rust links:</div>
                     <div class="media_right"><a class="c_link_1" href="https://www.rust-lang.org/" target="_blank">rust-lang.org</a></div>
                     <div class="media_right"><a class="c_link_1" href="https://lib.rs/" target="_blank">lib.rs</a></div>
                     <div class="media_right"><a class="c_link_1" href="https://crates.io/" target="_blank">crates.io</a></div>
@@ -53,11 +66,9 @@
             <div class="grid0_h_c c_issue" title="issues">iss</div>
             <div class="grid0_h_c c_advisory" title="advisories">adv</div>
 
-            <div class="grid0_c bold">
-                <a title="unique crates count" href="/rust-reviews/crates/">
-                    <!--st_unique_crates-->222</a>
-            </div>
-            <div class="grid0_c bold" title="unique reviewers count" href="/rust-reviews/reviewers/">
+            <div class="grid0_c bold" title="unique crates count">
+                <!--st_unique_crates-->222</div>
+            <div class="grid0_c bold" title="unique reviewers count">
                 <!--st_unique_reviewers-->45</div>
             <div class="grid0_c bold" title="reviews count">
                 <!--st_count_of_reviews-->333</div>
@@ -78,61 +89,8 @@
             <div class="grid0_c c_advisory" title="advisories">
                 <!--st_count_of_advisories-->1</div>
         </div>
-    </div>
-    <div class="container_0">
         <div class="container0_content_not_grid">
-            <img style="display: block;margin-left:auto;margin-right:auto;width:100%;min-width:250px;max-width:600px;" alt="legend" src="/rust-reviews/images/legend01.svg" />
-            <p>The on_mouse_over tooltip hint also shows the full column names.</p>
-            <h2 class="h2u">Try it out</h2>
-            <p>
-                <a class="c_link_1" href="/rust-reviews/crates/">
-                        /rust-reviews/crates/
-                  </a>
-            </p>
-            <p>
-                <a class="c_link_1" href="/rust-reviews/reviewers/">
-                        /rust-reviews/reviewers/
-                  </a>
-            </p>
-            <p>
-                <a class="c_link_1" href="/rust-reviews/people_of_rust/">
-                    /rust-reviews/people_of_rust/
-                  </a>
-            </p>
-            <p>Examples:</p>
-            <p>
-                <a class="c_link_1 break-all" href="/rust-reviews/reviewer/FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE/">
-                        /rust-reviews/reviewer/FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE/
-                  </a>
-            </p>
-            <p>
-                <a class="c_link_1" href="/rust-reviews/crate/num-traits/">
-                        /rust-reviews/crate/num-traits/
-                  </a>
-            </p>
-            <p>
-                <a class="c_link_1" href="/rust-reviews/crate/cargo-edit/">
-                        /rust-reviews/crate/cargo-edit/
-                  </a>
-            </p>
-            <p>Helper to write a new review:</p>
-            <p>
-                <a class="c_link_1" href="/rust-reviews/review_new/reader_for_microxml/1.1.11/">
-                    /rust-reviews/review_new/reader_for_microxml/1.1.11/
-                  </a>
-            </p>
-            <p>Read questions and answers in discussions:</p>
-            <p>
-                <a class="c_link_1" target="_blank" href="https://www.reddit.com/r/rust/comments/hl54ye/cargo_crev_online/">
-                    https://www.reddit.com/r/rust/comments/hl54ye/cargo_crev_online/
-                </a>
-            </p>
-            <p>
-                <a class="c_link_1" target="_blank" href="https://users.rust-lang.org/t/rust-code-reviews-web-site-for-cargo-crev/44480">
-                    https://users.rust-lang.org/t/rust-code-reviews-web-site-for-cargo-crev/44480
-                </a>
-            </p>
-
+            <p class="small">Full column names in tooltip hints: unique crates count, unique reviewers count, reviews count, rating Strong, rating Positive, rating Neutral, rating Negative, rating None, alternatives, issues, advisories.</p>
         </div>
     </div>
     <div class="container_0">
@@ -147,35 +105,6 @@
             <br/>- Not many people can review all their dependencies, but if every user at least skimmed through a couple of them, and shared that information with others, we would be in a much better situation.
             <br/>- Trust should be spread redundantly between many people, so one compromised or malicious actor can't abuse the system.
             <br/>- Crev does not have to be perfect. Instead it should be robust, simple and flexible, so it can evolve to be good enough.
-        </div>
-    </div>
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <h2 class="h2u">CREV - Rust code reviews - Raise awareness</h2>
-            <p>Add this text to your project's readme.md (Click-to-Copy):</p>
-            <textarea style="height:420px;width:95%" data-tooltip="Click to Copy" data-clipboard-text="
-## CREV - Rust code reviews - Raise awareness
-
-Please, spread this info !\
-Open source code needs a community effort to express trustworthiness.\
-Start with reading the reviews of the crates you use. Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/) \
-Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \
-On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
-Write a new review ! \
-Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
-Help other developers, inform them and share your opinion.\
-Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://web.crev.dev/rust-reviews/review_new)
-">## CREV - Rust code reviews - Raise awareness
-
-Please, spread this info !\
-Open source code needs a community effort to express trustworthiness.\
-Start with reading the reviews of the crates you use. Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/) \
-Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \
-On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
-Write a new review ! \
-Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
-Help other developers, inform them and share your opinion.\
-Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://web.crev.dev/rust-reviews/review_new)</textarea>
         </div>
     </div>
     <div class="container_0">
@@ -236,6 +165,35 @@ Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://w
                 <br />It is common in every day life that the friends of our friends are probably also our friends.
                 <br/>This can be configured in your local personal cargo-crev CLI program.
             </p>
+        </div>
+    </div>
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <h2 class="h2u">CREV - Rust code reviews - Raise awareness</h2>
+            <p>Add this text to your project's readme.md (Click-to-Copy):</p>
+            <textarea style="height:420px;width:95%" data-tooltip="Click to Copy" data-clipboard-text="
+## CREV - Rust code reviews - Raise awareness
+
+Please, spread this info !\
+Open source code needs a community effort to express trustworthiness.\
+Start with reading the reviews of the crates you use on [web.crev.dev/rust-reviews/crates/](https://web.crev.dev/rust-reviews/crates/) \
+Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Follow the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \
+On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
+Write a new review ! \
+Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
+Help other developers, inform them and share your opinion.\
+Use [cargo_crev_reviews](https://crates.io/crates/cargo_crev_reviews) to write reviews easily.
+">## CREV - Rust code reviews - Raise awareness
+
+Please, spread this info !\
+Open source code needs a community effort to express trustworthiness.\
+Start with reading the reviews of the crates you use on [web.crev.dev/rust-reviews/crates/](https://web.crev.dev/rust-reviews/crates/) \
+Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Follow the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \
+On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
+Write a new review ! \
+Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
+Help other developers, inform them and share your opinion.\
+Use [cargo_crev_reviews](https://crates.io/crates/cargo_crev_reviews) to write reviews easily.</textarea>
         </div>
     </div>
     <div class="container_0 ">
@@ -322,14 +280,14 @@ Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://w
 
     <div>
         <div class="container0_content_not_grid ">
-            <p class="small">© Luciano Bestia 2020,  MIT Licence, Version:
-                <!--st_cargo_crev_web_version-->2020.05.05</p>
+            <p class="small">© Luciano Bestia 2021, MIT Licence, Version:
+                <!--st_cargo_crev_web_version-->2021.05.05</p>
             <p class="small">Open source repository for this web app:
-                <a class="c_link_1 break-all small" target="blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
+                <a class="c_link_1 break-all" target="blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
                         https://github.com/LucianoBestia/cargo_crev_web/
                   </a>
             </p>
-            
+
         </div>
     </div>
 

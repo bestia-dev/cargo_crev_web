@@ -175,8 +175,8 @@
             vertical-align: baseline;
             background: transparent;
         }
-        
         /* no color */
+        
         a:link,
         a:visited,
         a:hover,
@@ -237,13 +237,12 @@
             font-size: 100%;
             font-family: Consolas, Liberation Mono, Courier, monospace;
         }
-
+        
         ul {
-            margin-left: 0; 
+            margin-left: 0;
             padding-left: 40px;
             list-style-position: inside;
         }
-
         /* endregion: basics */
         /* region: css classes */
         /* When concatenating names that makes it hard to refactor later.
@@ -279,6 +278,7 @@ A small difference to help search and replace refactoring.
             /* grid0 cell rating*/
             background-color: var(--b_color_cell_rating);
         }
+        
         .container_0 {
             display: grid;
             background-color: var(--b_color_container);
@@ -351,19 +351,18 @@ A small difference to help search and replace refactoring.
         .bold {
             font-weight: bold;
         }
-
         /* links are mostly white */
+        
         .c_white,
         .c_link_1,
         a:link.c_link_1,
         a:visited.c_link_1,
         a:hover.c_link_1,
-        a:active.c_link_1
-        {
+        a:active.c_link_1 {
             color: var(--f_color_link);
         }
-        
         /* dark_white */
+        
         .h2u {
             color: var(--f_color_06);
         }
@@ -371,20 +370,20 @@ A small difference to help search and replace refactoring.
         .c_black {
             color: var(--f_color_07);
         }
-        
         /* greener */
+        
         .c_strong,
         .c_high,
         .c_low_severity {
             color: var(--color_r_strong);
         }
-        
         /* green */
+        
         .c_positive {
             color: var(--color_r_positive);
         }
-        
         /* yellow */
+        
         .c_yellow,
         .c_alternative,
         .c_medium_severity,
@@ -393,19 +392,18 @@ A small difference to help search and replace refactoring.
         a:link.c_link_2,
         a:visited.c_link_2,
         a:hover.c_link_2,
-        a:active.c_link_2
-        {
+        a:active.c_link_2 {
             color: var(--f_color_05);
         }
-        
         /* orange */
+        
         .c_medium,
         .c_neutral,
         .c_issue {
             color: var(--color_r_medium);
         }
-        
         /* red */
+        
         .c_alert,
         .c_negative,
         .c_low,
@@ -413,19 +411,17 @@ A small difference to help search and replace refactoring.
         .c_advisory {
             color: var(--color_r_negative);
         }
-        
         /* none rating */
-        .c_none
-        {
+        
+        .c_none {
             color: var(--color_r_none);
         }
-
         /* neutral rating */
-        .c_neutral
-        {
+        
+        .c_neutral {
             color: var(--color_r_neutral);
         }
-
+        
         .middle {
             display: grid;
             align-items: center;
@@ -459,12 +455,6 @@ A small difference to help search and replace refactoring.
             font-size: 80%;
         }
         /* endregion: colors and attributes */
-        
-        .button {
-            background: var(--b_color_button);
-            border-radius: 6px;
-            font-size: 120%;
-        }
         /*** Tooltip Styles */
         /* Add this attribute to the element that needs a tooltip */
         
@@ -546,3 +536,34 @@ A small difference to help search and replace refactoring.
                 opacity: 0.1;
             }
         }
+        /* region: Navigation menu */
+        
+        ul.nav {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--b_color_grid_header);
+        }
+        
+        button,
+        li.nav {
+            cursor: pointer;
+            background-color: var(--b_color_grid_header);
+            color: var(--f_color_link);
+            border: none;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li.nav {
+            float: left;
+            display: block;
+        }
+        
+        button:hover,
+        li.nav:hover {
+            background-color: var(--b_color_button);
+        }
+        /* end region: Navigation menu */
