@@ -26,25 +26,41 @@
             <a href="/rust-reviews/people_of_rust/">
                 <li class="nav" id="button_update_registry_index">People of rust</li>
             </a>
+            <a href="/rust-reviews/review_new/">
+                <li class="nav" id="button_update_registry_index">Write new review</li>
+            </a>
         </ul>
         <div class="container0_content_not_grid">
             <div style="display: grid;grid-template-columns: 60% 40% ;">
                 <div class="middle">
-                    <p class="big bold"><a class="c_link_1" href="/rust-reviews/">
-                    Rust open source code reviews</a> - <span class="c_yellow">new simple review helper</span></p>
-                </div>
-                <div class="middle right">
-                    <h3>reviews from <a class="c_link_1" href="https://github.com/crev-dev/cargo-crev" target="_blank">cargo-crev</a></h3>
+                    <p class="big bold c_yellow">Write new review</p>
                 </div>
             </div>
-            <pre>
-Please, first read prerequisite down on the page.
-Change uri to choose crate name and version like this <code>/rust-reviews/review_new/{crate_name}/{version}/</code>
-</pre>
+            <p>NEW! Freshly baked new GUI program: <a class="c_link_2" href="https://crates.io/crates/cargo_crev_reviews" target="_blank">cargo_crev_reviews</a></p>
+            <p>Write cargo-crev reviews in a Graphical User Interface with a cross-platform app written in rust.</p>
+            <code>$ cargo install cargo_crev_reviews</code><br/>
+            <code>$ cargo_crev_reviews</code>
         </div>
     </div>
     <div class="container_0">
         <div class="container0_content_not_grid">
+            <h2>Prerequisites</h2>
+            To write new <code>crev reviews</code>:
+            <br/>1. on your developer machine install <code>$ cargo install cargo-crev</code>,
+            <br/>2. create your personal crev ID <code>$ cargo crev id new</code>
+            <br/>3. on GitHub or GitLab fork the repo <code>https://github.com/crev-dev/crev-proofs</code>
+
+            <br/>Everything is cryptographically signed, so be careful to not forget the passphrase, there's no way to recover it.
+            <br/>Read the <a class="c_link_2" href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Getting Started Guide</a> to know better.
+        </div>
+    </div>
+    <div class="container_0">
+        <div class="container0_content_not_grid">
+            <h2>Obsolete old helper to write reviews in VIM</h2>
+            <pre>
+Please, first read prerequisites.
+Change uri to choose crate name and version like this <code>/rust-reviews/review_new/{crate_name}/{version}/</code>
+                </pre>
             <pre>- run the bash command (Click to Copy): 
 <code 
 data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to Copy" 
@@ -99,20 +115,6 @@ Now everybody can fetch and view your crev review.
 On this web site the new review will be fetched once in the next hour.
 
 By the way when you panic in VIM, type <code>Esc</code> and <code>:q</code> or <code>:q!</code> to exit or quit VIM ;-) 
-</pre>
-        </div>
-    </div>
-
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <pre>
-<span class="c_white">Prerequisites</span> to write new <code>crev reviews</code> for a crate version:
-- on your developer machine install <code>$ cargo install cargo-crev</code>,
-- on GitHub or GitLab fork the repo <code>https://github.com/crev-dev/crev-proofs</code> 
-- clone it to your local machine
-- create your personal crev ID <code>$ cargo crev id new</code>
-Everything is encrypted, so be careful with the secrets, keys, passphrase,... There's no way to recover them.
-Read the <code><a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Get Start Guide</a></code> to know better. 
 </pre>
         </div>
     </div>
