@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["cargo_crev_web"];

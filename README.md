@@ -21,7 +21,7 @@
 
 ## Try it out
 
-https://web.crev.dev/rust-reviews/crate/num-traits/  
+<https://web.crev.dev/rust-reviews/crate/num-traits/>  
 
 ## cargo-crev
 
@@ -158,7 +158,7 @@ I need to call every hour:
 `cargo crev repo fetch all`
 to have fresh reviews available locally in `~/.cache/crev/`.  
 The Linux scheduler `crontab` is ok, but I miss something more visual.  
-I wrote <https://github.com/LucianoBestia/  foreground_scheduler> to do this.  
+I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
 It is a normal CLI and it is easy to see the output on the screen.  
 To make this run indefinitely in another terminal session I use `screen`.
 The script is in /var/www/scripts/cargo_crev_web_fetch_reindex.sh\

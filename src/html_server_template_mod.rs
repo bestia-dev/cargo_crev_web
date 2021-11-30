@@ -606,11 +606,11 @@ pub fn decode_html_script_node(input: &str) -> String {
 }
 
 /// private fn - decode 5 xml control characters : " ' & < >
-/// https://www.liquid-technologies.com/XML/EscapingData.aspx
+/// <https://www.liquid-technologies.com/XML/EscapingData.aspx>
 /// I will ignore all html entities, to keep things simple,
 /// because all others characters can be written as utf-8 characters.
 /// it is mandatory that text is valid utf-8.
-/// https://www.tutorialspoint.com/html5/html5_entities.htm
+/// <https://www.tutorialspoint.com/html5/html5_entities.htm>
 /// TODO: find a faster method // The standard library replace() function makes allocation,
 fn decode_5_xml_control_characters(input: &str) -> String {
     input

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["OnlyAuthor",""],["ReservedFolder",""]]});
+initSidebarItems({"struct":[["OnlyReviewer",""],["ReservedFolder",""]]});

@@ -28,7 +28,7 @@ use std::string::ToString;
 
 /// returns UrlUtf8EncodedString::new_x
 /// Constructor macro for UrlUtf8EncodedString
-/// The attribute [macro_export] "moves" the macro in the main module.
+/// The attribute macro_export "moves" the macro in the main module.
 /// Macros cannot be inside impl like fn.
 /// The module names must be added to the code to work properly.
 /// TODO: use macro repetition to avoid having 4 different fn.
@@ -139,7 +139,7 @@ impl ToString for UrlUtf8EncodedString {
 // end region: url encoding
 
 // region: url part decoding
-/// https://url.spec.whatwg.org/#fragment-percent-encode-set
+/// <https://url.spec.whatwg.org/#fragment-percent-encode-set>
 const FRAGMENT: &AsciiSet = &CONTROLS.add(b' ').add(b'"').add(b'<').add(b'>').add(b'`');
 
 /// the url must be utf 8. Only the 5 control characters are encoded.
@@ -233,7 +233,7 @@ mod tests {
             "a b<ccc",
             ">ddd'e\"f"
         );
-        let norm_str =  s.to_string();
+        let norm_str = s.to_string();
         assert_eq!(
             norm_str,
             "/one1%201%20one/two%202%202two/a%20b%3Cccc/%3Eddd\'e%22f/"

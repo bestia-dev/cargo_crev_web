@@ -1,3 +1,5 @@
+// macros_mod.rs
+
 /// short macro `s!` for &str.to_string or format!().
 /// because that is so common.
 /// Equivalents: String::new(), x.to_string(), x.to_owned(),...

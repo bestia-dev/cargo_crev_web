@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/data_file_scan_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>data_file_scan_mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../cargo_crev_web/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/data_file_scan_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>data_file_scan_mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../cargo_crev_web/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -186,19 +188,19 @@
 <span id="186">186</span>
 <span id="187">187</span>
 <span id="188">188</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="doccomment">//! data_file_scan_mod</span>
 
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">review_mod</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="kw">crate</span><span class="ident">::review_mod</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">path</span>::<span class="ident">Path</span>, <span class="ident">path</span>::<span class="ident">PathBuf</span>};
-<span class="kw">use</span> <span class="ident">unwrap</span>::<span class="ident">unwrap</span>;
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fs</span>, <span class="ident">path::Path</span>, <span class="ident">path::PathBuf</span>};
+<span class="kw">use</span> <span class="ident">unwrap::unwrap</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReviewPk</span> {
     <span class="kw">pub</span> <span class="ident">crate_name</span>: <span class="ident">String</span>,
-    <span class="kw">pub</span> <span class="ident">author_id</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">reviewer_id</span>: <span class="ident">String</span>,
     <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">String</span>,
 }
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
@@ -215,7 +217,7 @@
     <span class="comment">// original cache crev folder: /home/luciano/.cache/crev/remotes</span>
     <span class="comment">// on the google vm bestia02: /home/luciano_bestia/.cache/crev/remotes</span>
     <span class="comment">// local webfolder example &quot;../sample_data/cache/crev/remotes&quot;</span>
-    <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">dirs</span>::<span class="ident">home_dir</span>());
+    <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">dirs::home_dir</span>());
     <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">join</span>(<span class="string">&quot;.cache/crev/remotes&quot;</span>);
     <span class="comment">// dbg!(path);</span>
     <span class="comment">//return</span>
@@ -225,11 +227,11 @@
 <span class="doccomment">/// all file names</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">crev_files</span>(<span class="ident">folder_path</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="comment">// return</span>
-    <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">traverse_dir_with_exclude_dir</span>(
-        <span class="ident">Path</span>::<span class="ident">new</span>(<span class="ident">folder_path</span>),
+    <span class="macro">unwrap!</span>(<span class="ident">traverse_dir_with_exclude_dir</span>(
+        <span class="ident">Path::new</span>(<span class="ident">folder_path</span>),
         <span class="string">&quot;/*.crev&quot;</span>,
         <span class="comment">// avoid big folders and other folders with *.crev</span>
-        <span class="kw-2">&amp;</span><span class="macro">vec</span><span class="macro">!</span>[<span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;/.git&quot;</span>), <span class="macro">s</span><span class="macro">!</span>(<span class="string">&quot;/trust&quot;</span>)]
+        <span class="kw-2">&amp;</span><span class="macro">vec!</span>[<span class="macro">s!</span>(<span class="string">&quot;/.git&quot;</span>), <span class="macro">s!</span>(<span class="string">&quot;/trust&quot;</span>)]
     ))
 }
 
@@ -244,7 +246,7 @@
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path_of_remotes_folder</span>().<span class="ident">join</span>(<span class="ident">file_name</span>);
         <span class="comment">//dbg!(&amp;path);</span>
         <span class="comment">// read crev file</span>
-        <span class="kw">let</span> <span class="ident">crev_text</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">fs</span>::<span class="ident">read_to_string</span>(<span class="ident">path</span>));
+        <span class="kw">let</span> <span class="ident">crev_text</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">fs::read_to_string</span>(<span class="ident">path</span>));
         <span class="comment">//return</span>
         <span class="ident">ReviewsInOneFile</span> {
             <span class="ident">crev_text</span>,
@@ -259,7 +261,7 @@
 <span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">ReviewsInOneFile</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">String</span>;
     <span class="doccomment">/// returns the next review text</span>
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span><span class="ident">::Item</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_old_format</span> <span class="op">=</span><span class="op">=</span> <span class="bool-val">false</span> {
             <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">find_range_between_delimiters</span>(
                 <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">crev_text</span>,
@@ -298,7 +300,7 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_vec_of_selected_reviews</span>(<span class="ident">review_pks</span>: <span class="ident">ManyFileReviewsPk</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Review</span><span class="op">&gt;</span> {
     <span class="comment">// dbg!(review_pks);</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reviews</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reviews</span> <span class="op">=</span> <span class="macro">vec!</span>[];
     <span class="kw">for</span> <span class="ident">one_file</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">review_pks</span>.<span class="ident">vec</span> {
         <span class="ident">get_vec_from_one_file</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">reviews</span>, <span class="kw-2">&amp;</span><span class="ident">one_file</span>);
     }
@@ -307,7 +309,7 @@
 }
 
 <span class="doccomment">/// find one or more reviews from one file</span>
-<span class="doccomment">/// the review PK crate_name, author_id, version</span>
+<span class="doccomment">/// the review PK crate_name, reviewer_id, version</span>
 <span class="doccomment">/// if None than push all reviews</span>
 <span class="kw">fn</span> <span class="ident">get_vec_from_one_file</span>(<span class="ident">reviews</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Review</span><span class="op">&gt;</span>, <span class="ident">one_file_review_pk</span>: <span class="kw-2">&amp;</span><span class="ident">OneFileReviewsPk</span>) {
     <span class="kw">let</span> <span class="ident">file_path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">one_file_review_pk</span>.<span class="ident">file_path</span>;
@@ -317,7 +319,7 @@
     <span class="comment">//dbg!(&amp;path);</span>
     <span class="comment">// read crev file</span>
     <span class="comment">// iterator for reviews return &amp;str</span>
-    <span class="kw">let</span> <span class="ident">reviews_in_one_file</span> <span class="op">=</span> <span class="ident">ReviewsInOneFile</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>);
+    <span class="kw">let</span> <span class="ident">reviews_in_one_file</span> <span class="op">=</span> <span class="ident">ReviewsInOneFile::new</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>);
     <span class="kw">for</span> <span class="ident">review_string</span> <span class="kw">in</span> <span class="ident">reviews_in_one_file</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">reviews_pk</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">one_file_review_pk</span>.<span class="ident">reviews_pk</span> {
             <span class="comment">// push this review if it is in selected reviews</span>
@@ -331,10 +333,10 @@
 
 <span class="kw">fn</span> <span class="ident">push_this_review</span>(<span class="ident">review_string</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">reviews</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Review</span><span class="op">&gt;</span>) {
     <span class="comment">// version for sorting</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">review</span>: <span class="ident">Review</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">serde_yaml</span>::<span class="ident">from_str</span>(<span class="ident">review_string</span>));
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">review</span>: <span class="ident">Review</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">serde_yaml::from_str</span>(<span class="ident">review_string</span>));
     <span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version_for_sorting</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">version_for_sorting</span>(
         <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version</span>,
-        <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">get_author_name</span>(),
+        <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">get_reviewer_name</span>(),
     ));
     <span class="ident">reviews</span>.<span class="ident">push</span>(<span class="ident">review</span>);
 }
@@ -361,13 +363,13 @@
         <span class="kw">pub</span> <span class="ident">package</span>: <span class="ident">ReviewPackageShort</span>,
     }
     <span class="comment">// if yaml takes long. First yaml only 2 data.</span>
-    <span class="kw">let</span> <span class="ident">review_short</span>: <span class="ident">ReviewShort</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">serde_yaml</span>::<span class="ident">from_str</span>(<span class="ident">review_string</span>));
+    <span class="kw">let</span> <span class="ident">review_short</span>: <span class="ident">ReviewShort</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">serde_yaml::from_str</span>(<span class="ident">review_string</span>));
 
     <span class="kw">for</span> <span class="ident">review_pk</span> <span class="kw">in</span> <span class="ident">review_pks</span> {
         <span class="comment">// push only if this review is in selected reviews pk</span>
         <span class="kw">if</span> <span class="ident">review_short</span>.<span class="ident">package</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">review_pk</span>.<span class="ident">crate_name</span>
-            <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">review_short</span>.<span class="ident">from</span>.<span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">review_pk</span>.<span class="ident">author_id</span>
-            <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">review_short</span>.<span class="ident">package</span>.<span class="ident">version</span> <span class="op">=</span><span class="op">=</span> <span class="ident">review_pk</span>.<span class="ident">version</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">review_short</span>.<span class="ident">from</span>.<span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">review_pk</span>.<span class="ident">reviewer_id</span>
+            <span class="op">&amp;&amp;</span> <span class="ident">review_short</span>.<span class="ident">package</span>.<span class="ident">version</span> <span class="op">=</span><span class="op">=</span> <span class="ident">review_pk</span>.<span class="ident">version</span>
         {
             <span class="ident">push_this_review</span>(<span class="ident">review_string</span>, <span class="ident">reviews</span>);
             <span class="kw">break</span>;
@@ -376,4 +378,4 @@
     <span class="comment">// dbg!(&amp;reviews[0].comment);</span>
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_crev_web" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

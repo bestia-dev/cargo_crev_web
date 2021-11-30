@@ -1,5 +1,7 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `cargo_crev_web` crate."><meta name="keywords" content="rust, rustlang, rust-lang, cargo_crev_web"><title>cargo_crev_web - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../cargo_crev_web/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate cargo_crev_web</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all cargo_crev_web's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'cargo_crev_web', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/cargo_crev_web/main.rs.html#7-318' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>cargo_crev_web</a></span></h1><div class='docblock'><h1 id="rust-reviews-working-title-cargo_crev_web" class="section-header"><a href="#rust-reviews-working-title-cargo_crev_web">Rust-reviews (working title cargo_crev_web)</a></h1>
-<p><em><strong>version: 2020.822.1757  date: 2020-08-22 authors: Luciano Bestia</strong></em><br />
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Rust-reviews (working title cargo_crev_web)"><meta name="keywords" content="rust, rustlang, rust-lang, cargo_crev_web"><title>cargo_crev_web - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script id="default-settings"></script><script src="../storage.js"></script><script src="../crates.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../cargo_crev_web/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><h2 class="location">Crate cargo_crev_web</h2><div class="block version"><p>Version 2021.1130.1347</p></div><div class="sidebar-elems"><a id="all-types" href="all.html"><p>See all cargo_crev_web's items</p></a><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li><li><a href="#types">Type Definitions</a></li></ul></div><div id="sidebar-vars" data-name="cargo_crev_web" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img src="../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../settings.html" title="settings"><img src="../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">cargo_crev_web</a><button id="copy-path" onclick="copy_path(this)" title="copy path"><img src="../clipboard.svg" width="19" height="18" alt="Copy item import" title="Copy item import to clipboard"></button></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../src/cargo_crev_web/main.rs.html#7-319" title="goto source code">[src]</a></span></h1><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h1 id="rust-reviews-working-title-cargo_crev_web" class="section-header"><a href="#rust-reviews-working-title-cargo_crev_web">Rust-reviews (working title cargo_crev_web)</a></h1>
+<p><em><strong>version: 2020.822.1757  date: 2020-08-22 reviewers: Luciano Bestia</strong></em><br />
 <strong>web server to query reviews from cargo-crev</strong></p>
 <p><a href="https://github.com/LucianoBestia/cargo_crev_web/"><img src="https://img.shields.io/badge/Lines_in_Rust-4270-green.svg" alt="Lines in Rust code" /></a>
 <a href="https://github.com/LucianoBestia/cargo_crev_web/"><img src="https://img.shields.io/badge/Lines_in_Doc_comments-508-blue.svg" alt="Lines in Doc comments" /></a>
@@ -8,7 +10,7 @@
 <a href="https://github.com/LucianoBestia/cargo_crev_web/"><img src="https://img.shields.io/badge/Lines_in_tests-57-orange.svg" alt="Lines in tests" /></a></p>
 <p><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/></p>
 <h2 id="try-it-out" class="section-header"><a href="#try-it-out">Try it out</a></h2>
-<p>https://web.crev.dev/rust-reviews/crate/num-traits/</p>
+<p><a href="https://web.crev.dev/rust-reviews/crate/num-traits/">https://web.crev.dev/rust-reviews/crate/num-traits/</a></p>
 <h2 id="cargo-crev" class="section-header"><a href="#cargo-crev">cargo-crev</a></h2>
 <p>Cargo-crev is a system of review for rust crates in crates.io.<br />
 <a href="https://github.com/crev-dev/cargo-crev">https://github.com/crev-dev/cargo-crev</a><br />
@@ -61,7 +63,7 @@ In sites-available/default I added this lines:</p>
     }
   #endregion
 </code></pre>
-<p>The application will be in background with the command &quot;screen&quot; with a session_name.<br />
+<p>The application will be in background with the command “screen” with a session_name.<br />
 So I can see all the stdout of the application easily.<br />
 create a new session<br />
 <code>screen -S cargo_crev_web_8051</code>,<br />
@@ -78,7 +80,7 @@ My first attempt was to install rust and cargo with rustup with minimal profile.
 <code>curl https://sh.rustup.rs -sSf | sh -s -- --profile minimal</code><br />
 Then I tried to install cargo-crev with cargo:<br />
 <code>cargo install cargo-crev</code><br />
-It was a disaster. I have the smallest, tiniest possible VM and it looks that compiling the source code of cargo-crev is too much for it. I tried 3 times, waited for a few hours and it didn't succeed.<br />
+It was a disaster. I have the smallest, tiniest possible VM and it looks that compiling the source code of cargo-crev is too much for it. I tried 3 times, waited for a few hours and it didn’t succeed.<br />
 Fortunately there is a binary release already compiled here:<br />
 <code>https://github.com/crev-dev/cargo-crev/releases/download/v0.16.1/cargo-crev-v0.16.1-x86_64-unknown-linux-musl.tar.gz</code><br />
 I unzip it twice and saved the binary file <code>cargo-crev</code> in:<br />
@@ -91,7 +93,7 @@ On web server 2 MB
 It looks that it is not extremely big.</p>
 <h2 id="github-crev-proofs" class="section-header"><a href="#github-crev-proofs">GitHub crev-proofs</a></h2>
 <p>I followed the instructions <a href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md</a><br />
-I created a new GitHub user: <code>cargo-crev-web</code>. I wanted cargo_crev_web, but I couldn't. So I have inconsistent name here.<br />
+I created a new GitHub user: <code>cargo-crev-web</code>. I wanted cargo_crev_web, but I couldn’t. So I have inconsistent name here.<br />
 I used my second email, because my first email is used for my personal GitHub LucianoBestia.<br />
 On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.<br />
 I forked the template <a href="https://github.com/crev-dev/crev-proofs">https://github.com/crev-dev/crev-proofs</a>.<br />
@@ -111,8 +113,8 @@ it is possible also to trust a repo:<br />
 <code>cargo crev trust &lt;url of someone's crev-proofs repo&gt;</code><br />
 At the end of editing the local data push:<br />
 <code>cargo crev repo publish</code></p>
-<h2 id="trusted-authors" class="section-header"><a href="#trusted-authors">trusted authors</a></h2>
-<p>For the purpose of showing most existing reviews, the cargo_rev_web will &quot;trust&quot; anybody.<br />
+<h2 id="trusted-reviewers" class="section-header"><a href="#trusted-reviewers">trusted reviewers</a></h2>
+<p>For the purpose of showing most existing reviews, the cargo_rev_web will “trust” anybody.<br />
 It is not really trusting, it is just showing their reviews.<br />
 The repo <a href="https://gitlab.com/crev-dev/auto-crev-proofs">https://gitlab.com/crev-dev/auto-crev-proofs</a> contains all of the proof repos.<br />
 It is automated and maintained by @chrysn.<br />
@@ -124,7 +126,7 @@ For incomplete, obsolete or otherwise unwanted repos I will have an editable bla
 <code>cargo crev repo fetch all</code>
 to have fresh reviews available locally in <code>~/.cache/crev/</code>.<br />
 The Linux scheduler <code>crontab</code> is ok, but I miss something more visual.<br />
-I wrote &lt;https://github.com/LucianoBestia/  foreground_scheduler&gt; to do this.<br />
+I wrote <a href="https://github.com/LucianoBestia/foreground_scheduler">https://github.com/LucianoBestia/foreground_scheduler</a> to do this.<br />
 It is a normal CLI and it is easy to see the output on the screen.<br />
 To make this run indefinitely in another terminal session I use <code>screen</code>.
 The script is in /var/www/scripts/cargo_crev_web_fetch_reindex.sh<br />
@@ -138,13 +140,13 @@ I run it:<br />
 <a href="https://web.crev.dev/rust-reviews/crate/inventory">https://web.crev.dev/rust-reviews/crate/inventory</a>   advisories</p>
 <p>Locally in development is the same, just the server is 127.0.0.1:8051/.</p>
 <h2 id="html-templating" class="section-header"><a href="#html-templating">html templating</a></h2>
-<p>Like many developers I also suffer from &quot;graphical designitis&quot;.<br />
+<p>Like many developers I also suffer from “graphical designitis”.<br />
 It is very hard for me to find the exact color variations and shape proportions and subtle font differences to make a web page beautiful. It is not lack of knowledge of html and css. It is lack of style and taste.<br />
 Simply unrepairable!<br />
 So I created a simple html templating system to separate the graphical designer work from the developer work. As much as possible.<br />
 First the graphical designer prepares a nice html+css with static data, that looks awesome.<br />
-The 2 files are on his local disk and don't need any server or configuration. The static data must be as realistic as possible.<br />
-Then I add comments that are commands where to insert the dynamic data. This comments don't destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.<br />
+The 2 files are on his local disk and don’t need any server or configuration. The static data must be as realistic as possible.<br />
+Then I add comments that are commands where to insert the dynamic data. This comments don’t destroy the original html. That html can still be visualized statically from the disk. It is easy to add to or modify the design. Just avoid to touch the comments.<br />
 On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.<br />
 The result is normal html and is sent to the browser.</p>
 <h2 id="badges" class="section-header"><a href="#badges">Badges</a></h2>
@@ -157,7 +159,7 @@ https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg
 )](https://web.crev.dev/rust-reviews/crate/reader_for_microxml/)
 </code></pre>
 <h3 id="xhtml-validator" class="section-header"><a href="#xhtml-validator">xhtml validator</a></h3>
-<p>Manually coded xhtml can be full of &quot;bugs&quot;.<br />
+<p>Manually coded xhtml can be full of “bugs”.<br />
 The validator will quickly find them out.<br />
 I would like to have this tool inside VsCode.<br />
 <a href="https://www.liquid-technologies.com/online-xml-validator">https://www.liquid-technologies.com/online-xml-validator</a></p>
@@ -170,11 +172,11 @@ It works only in VSCode. I made an export to md utility because is so much easie
 <p>I used <a href="https://clipboardjs.com/">https://clipboardjs.com/</a> for Click to Copy.<br />
 For tooltips I used <a href="https://chrisbracco.com/a-simple-css-tooltip/">https://chrisbracco.com/a-simple-css-tooltip/</a></p>
 <h2 id="colors" class="section-header"><a href="#colors">colors</a></h2>
-<p>Every person on this planet would like to have different colors. That is human nature. Or just nature's statistical dispersion to increase chance of survival when the environment changes dramatically...<br />
-To build a website that satisfies everybody's taste for color is impossible.<br />
+<p>Every person on this planet would like to have different colors. That is human nature. Or just nature’s statistical dispersion to increase chance of survival when the environment changes dramatically…<br />
+To build a website that satisfies everybody’s taste for color is impossible.<br />
 Even hoping to satisfy a few close friends is mission impossible.<br />
 So there is this Chrome extension named User Css:<br />
-https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb<br />
+<a href="https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb">https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb</a><br />
 You write a css in your browser and while you are typing it immediately changes the look of the webpage.<br />
 In the webpage <a href="https://web.crev.dev/rust-reviews/">https://web.crev.dev/rust-reviews/</a> you can find a basic css for the color palette. Just Click-to-Copy and try it in User Css. Then change colors to your liking.<br />
 At the end save the css for the next time you visit the website.<br />
@@ -188,36 +190,37 @@ This local server will ue crev-lib to access the crev functionality.</p>
 <h2 id="stats" class="section-header"><a href="#stats">Stats</a></h2>
 <p><a href="https://github.com/LucianoBestia/cargo_crev_web/issues/4">https://github.com/LucianoBestia/cargo_crev_web/issues/4</a></p>
 <h2 id="references" class="section-header"><a href="#references">References</a></h2>
-<p><a href="https://github.com/rustomax/rust-iterators">https://github.com/rustomax/rust-iterators</a>  </p>
-</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
-<table><tr class='module-item'><td><a class="mod" href="author_reviews_mod/index.html" title='cargo_crev_web::author_reviews_mod mod'>author_reviews_mod</a></td><td class='docblock-short'><p>author_reviews_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="authors_mod/index.html" title='cargo_crev_web::authors_mod mod'>authors_mod</a></td><td class='docblock-short'><p>authors_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="badge_mod/index.html" title='cargo_crev_web::badge_mod mod'>badge_mod</a></td><td class='docblock-short'><p>badge_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="cargo_registry_index_mod/index.html" title='cargo_crev_web::cargo_registry_index_mod mod'>cargo_registry_index_mod</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="mod" href="crate_reviews_mod/index.html" title='cargo_crev_web::crate_reviews_mod mod'>crate_reviews_mod</a></td><td class='docblock-short'><p>crate_reviews_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="crate_version_summary_mod/index.html" title='cargo_crev_web::crate_version_summary_mod mod'>crate_version_summary_mod</a></td><td class='docblock-short'><p>crate_version_summary_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="crates_mod/index.html" title='cargo_crev_web::crates_mod mod'>crates_mod</a></td><td class='docblock-short'><p>crates_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="data_file_scan_mod/index.html" title='cargo_crev_web::data_file_scan_mod mod'>data_file_scan_mod</a></td><td class='docblock-short'><p>data_file_scan_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="html_server_template_mod/index.html" title='cargo_crev_web::html_server_template_mod mod'>html_server_template_mod</a></td><td class='docblock-short'><p>html_server_template_mod
+<p><a href="https://github.com/rustomax/rust-iterators">https://github.com/rustomax/rust-iterators</a></p>
+</div></details><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
+<table><tr class="module-item"><td><a class="mod" href="badge_mod/index.html" title="cargo_crev_web::badge_mod mod">badge_mod</a></td><td class="docblock-short"><p>badge_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="cargo_registry_index_mod/index.html" title="cargo_crev_web::cargo_registry_index_mod mod">cargo_registry_index_mod</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="mod" href="crate_reviews_mod/index.html" title="cargo_crev_web::crate_reviews_mod mod">crate_reviews_mod</a></td><td class="docblock-short"><p>crate_reviews_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="crate_version_summary_mod/index.html" title="cargo_crev_web::crate_version_summary_mod mod">crate_version_summary_mod</a></td><td class="docblock-short"><p>crate_version_summary_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="crates_mod/index.html" title="cargo_crev_web::crates_mod mod">crates_mod</a></td><td class="docblock-short"><p>crates_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="data_file_scan_mod/index.html" title="cargo_crev_web::data_file_scan_mod mod">data_file_scan_mod</a></td><td class="docblock-short"><p>data_file_scan_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="html_server_template_mod/index.html" title="cargo_crev_web::html_server_template_mod mod">html_server_template_mod</a></td><td class="docblock-short"><p>html_server_template_mod
 html templating library for the web server
 should be compatible also with svg, because of namespaces</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="issue_mod/index.html" title='cargo_crev_web::issue_mod mod'>issue_mod</a></td><td class='docblock-short'><p>issue_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="macros_mod/index.html" title='cargo_crev_web::macros_mod mod'>macros_mod</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="mod" href="main_code_mod/index.html" title='cargo_crev_web::main_code_mod mod'>main_code_mod</a></td><td class='docblock-short'><p>main.rs</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="people_of_rust_mod/index.html" title='cargo_crev_web::people_of_rust_mod mod'>people_of_rust_mod</a></td><td class='docblock-short'><p>people_of_rust_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="reserved_folder_mod/index.html" title='cargo_crev_web::reserved_folder_mod mod'>reserved_folder_mod</a></td><td class='docblock-short'><p>reserved_folder_mod
+</td></tr><tr class="module-item"><td><a class="mod" href="issue_mod/index.html" title="cargo_crev_web::issue_mod mod">issue_mod</a></td><td class="docblock-short"><p>issue_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="last_reviews_mod/index.html" title="cargo_crev_web::last_reviews_mod mod">last_reviews_mod</a></td><td class="docblock-short"><p>last_reviews_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="macros_mod/index.html" title="cargo_crev_web::macros_mod mod">macros_mod</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="mod" href="main_code_mod/index.html" title="cargo_crev_web::main_code_mod mod">main_code_mod</a></td><td class="docblock-short"><p>main.rs</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="people_of_rust_mod/index.html" title="cargo_crev_web::people_of_rust_mod mod">people_of_rust_mod</a></td><td class="docblock-short"><p>people_of_rust_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="reserved_folder_mod/index.html" title="cargo_crev_web::reserved_folder_mod mod">reserved_folder_mod</a></td><td class="docblock-short"><p>reserved_folder_mod
 This is only one module/html page, but can execute different actions.
 The data model must have fields for every action as Option&lt;&gt;.
 Because only this data can influence the html render.
-There are different &quot;new&quot; functions for different actions, to prepare adequate data.
+There are different “new” functions for different actions, to prepare adequate data.
 If field is is_some(), then render the html part dedicated to this action.</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="review_index_mod/index.html" title='cargo_crev_web::review_index_mod mod'>review_index_mod</a></td><td class='docblock-short'><p>review_index_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="review_index_summary_mod/index.html" title='cargo_crev_web::review_index_summary_mod mod'>review_index_summary_mod</a></td><td class='docblock-short'><p>review_index_summary_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="review_mod/index.html" title='cargo_crev_web::review_mod mod'>review_mod</a></td><td class='docblock-short'><p>review_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="review_new_mod/index.html" title='cargo_crev_web::review_new_mod mod'>review_new_mod</a></td><td class='docblock-short'><p>review_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="router_mod/index.html" title='cargo_crev_web::router_mod mod'>router_mod</a></td><td class='docblock-short'><p>router_mod</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="state_mod/index.html" title='cargo_crev_web::state_mod mod'>state_mod</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="mod" href="url_utf8_mod/index.html" title='cargo_crev_web::url_utf8_mod mod'>url_utf8_mod</a></td><td class='docblock-short'><p>url_utf8_mod
+</td></tr><tr class="module-item"><td><a class="mod" href="review_index_mod/index.html" title="cargo_crev_web::review_index_mod mod">review_index_mod</a></td><td class="docblock-short"><p>review_index_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="review_index_summary_mod/index.html" title="cargo_crev_web::review_index_summary_mod mod">review_index_summary_mod</a></td><td class="docblock-short"><p>review_index_summary_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="review_mod/index.html" title="cargo_crev_web::review_mod mod">review_mod</a></td><td class="docblock-short"><p>review_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="review_new_mod/index.html" title="cargo_crev_web::review_new_mod mod">review_new_mod</a></td><td class="docblock-short"><p>review_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="reviewer_reviews_mod/index.html" title="cargo_crev_web::reviewer_reviews_mod mod">reviewer_reviews_mod</a></td><td class="docblock-short"><p>reviewers_reviews_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="reviewers_mod/index.html" title="cargo_crev_web::reviewers_mod mod">reviewers_mod</a></td><td class="docblock-short"><p>reviewers_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="router_mod/index.html" title="cargo_crev_web::router_mod mod">router_mod</a></td><td class="docblock-short"><p>router_mod</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="state_mod/index.html" title="cargo_crev_web::state_mod mod">state_mod</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="mod" href="url_utf8_mod/index.html" title="cargo_crev_web::url_utf8_mod mod">url_utf8_mod</a></td><td class="docblock-short"><p>url_utf8_mod
 <strong>url encoding and decoding on the web server</strong>
 This module is strictly limited to utf8 urls.<br />
-Url is made of parts, fragments or segments mostly delimited by slash &quot;/&quot;.<br />
+Url is made of parts, fragments or segments mostly delimited by slash “/”.<br />
 They must be separately encoded/decoded, not as a whole string.<br />
 It is impossible to guarantee that the whole string is correctly encoded/decoded.<br />
 But is possible to minimize the misuse of the String type for Url.<br />
@@ -225,57 +228,57 @@ With the normal String it is not possible to force the developer to encode/decod
 With special wrapper types around String is possible to help the coder to write properly and not forget about it.<br />
 TODO: analyze if is possible to use more &amp;str and Cow instead of always allocating String.<br />
 But urls are usually small and this is not a priority.</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="utils_mod/index.html" title='cargo_crev_web::utils_mod mod'>utils_mod</a></td><td class='docblock-short'><p>utils_mod.rs</p>
-</td></tr><tr class='module-item'><td><a class="mod" href="version_summary_mod/index.html" title='cargo_crev_web::version_summary_mod mod'>version_summary_mod</a></td><td class='docblock-short'><p>crate_version_summary_mod</p>
-</td></tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
-<table><tr class='module-item'><td><a class="macro" href="macro.s.html" title='cargo_crev_web::s macro'>s</a></td><td class='docblock-short'><p>short macro <code>s!</code> for &amp;str.to_string or format!().
+</td></tr><tr class="module-item"><td><a class="mod" href="utils_mod/index.html" title="cargo_crev_web::utils_mod mod">utils_mod</a></td><td class="docblock-short"><p>utils_mod.rs</p>
+</td></tr><tr class="module-item"><td><a class="mod" href="version_summary_mod/index.html" title="cargo_crev_web::version_summary_mod mod">version_summary_mod</a></td><td class="docblock-short"><p>crate_version_summary_mod</p>
+</td></tr></table><h2 id="macros" class="section-header"><a href="#macros">Macros</a></h2>
+<table><tr class="module-item"><td><a class="macro" href="macro.s.html" title="cargo_crev_web::s macro">s</a></td><td class="docblock-short"><p>short macro <code>s!</code> for &amp;str.to_string or format!().
 because that is so common.
-Equivalents: String::new(), x.to_string(), x.to_owned(),...</p>
-</td></tr><tr class='module-item'><td><a class="macro" href="macro.url_u.html" title='cargo_crev_web::url_u macro'>url_u</a></td><td class='docblock-short'><p>returns UrlUtf8EncodedString::new_x
+Equivalents: String::new(), x.to_string(), x.to_owned(),…</p>
+</td></tr><tr class="module-item"><td><a class="macro" href="macro.url_u.html" title="cargo_crev_web::url_u macro">url_u</a></td><td class="docblock-short"><p>returns UrlUtf8EncodedString::new_x
 Constructor macro for UrlUtf8EncodedString
-The attribute [macro_export] &quot;moves&quot; the macro in the main module.
+The attribute macro_export “moves” the macro in the main module.
 Macros cannot be inside impl like fn.
 The module names must be added to the code to work properly.
 TODO: use macro repetition to avoid having 4 different fn.</p>
-</td></tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
-<table><tr class='module-item'><td><a class="struct" href="struct.Attribute.html" title='cargo_crev_web::Attribute struct'>Attribute</a></td><td class='docblock-short'><p>An attribute on a DOM node, such as <code>id=&quot;my-thing&quot;</code></p>
-</td></tr><tr class='module-item'><td><a class="struct" href="struct.ElementNode.html" title='cargo_crev_web::ElementNode struct'>ElementNode</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="struct" href="struct.SubTemplate.html" title='cargo_crev_web::SubTemplate struct'>SubTemplate</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="struct" href="struct.UrlPartUtf8Decoded.html" title='cargo_crev_web::UrlPartUtf8Decoded struct'>UrlPartUtf8Decoded</a></td><td class='docblock-short'><p>the url must be utf 8. Only the 5 control characters are encoded.
+</td></tr></table><h2 id="structs" class="section-header"><a href="#structs">Structs</a></h2>
+<table><tr class="module-item"><td><a class="struct" href="struct.Attribute.html" title="cargo_crev_web::Attribute struct">Attribute</a></td><td class="docblock-short"><p>An attribute on a DOM node, such as <code>id=&quot;my-thing&quot;</code></p>
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.ElementNode.html" title="cargo_crev_web::ElementNode struct">ElementNode</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="struct" href="struct.SubTemplate.html" title="cargo_crev_web::SubTemplate struct">SubTemplate</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="struct" href="struct.UrlPartUtf8Decoded.html" title="cargo_crev_web::UrlPartUtf8Decoded struct">UrlPartUtf8Decoded</a></td><td class="docblock-short"><p>the url must be utf 8. Only the 5 control characters are encoded.
 url has parts or fragments or segments delimited mostly by slash /
 every part must be encoded/decoded separately,
 to maintain the control character slash /</p>
-</td></tr><tr class='module-item'><td><a class="struct" href="struct.UrlUtf8EncodedString.html" title='cargo_crev_web::UrlUtf8EncodedString struct'>UrlUtf8EncodedString</a></td><td class='docblock-short'><p>Type UrlUtf8EncodedString explicitly informs that the content has been url encoded.
+</td></tr><tr class="module-item"><td><a class="struct" href="struct.UrlUtf8EncodedString.html" title="cargo_crev_web::UrlUtf8EncodedString struct">UrlUtf8EncodedString</a></td><td class="docblock-short"><p>Type UrlUtf8EncodedString explicitly informs that the content has been url encoded.
 It contains a string with the whole url.
 The url is constructed with a special macro, where the dynamic parts are always encoded.
 It is impossible to force the developer to properly encode the static part of the url.
 But this special type is making this kind of errors difficult, obvious and traceable.
 TODO: the macro could use repetition to avoid having 4 fn with different number of parameters.</p>
-</td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
-<table><tr class='module-item'><td><a class="enum" href="enum.HtmlOrSvg.html" title='cargo_crev_web::HtmlOrSvg enum'>HtmlOrSvg</a></td><td class='docblock-short'><p>Svg elements are different because they have a namespace</p>
-</td></tr><tr class='module-item'><td><a class="enum" href="enum.Node.html" title='cargo_crev_web::Node enum'>Node</a></td><td class='docblock-short'></td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
-<table><tr class='module-item'><td><a class="trait" href="trait.HtmlServerTemplateRender.html" title='cargo_crev_web::HtmlServerTemplateRender trait'>HtmlServerTemplateRender</a></td><td class='docblock-short'></td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table><tr class='module-item'><td><a class="fn" href="fn.author_name_from_url.html" title='cargo_crev_web::author_name_from_url fn'>author_name_from_url</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="fn" href="fn.conditional_usize.html" title='cargo_crev_web::conditional_usize fn'>conditional_usize</a></td><td class='docblock-short'><p>similar to ternary operator</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.decode_html_script_node.html" title='cargo_crev_web::decode_html_script_node fn'>decode_html_script_node</a></td><td class='docblock-short'><p>in html the <script> element is decoded differently</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.encode_html_script_node.html" title='cargo_crev_web::encode_html_script_node fn'>encode_html_script_node</a></td><td class='docblock-short'><p>in html the <script> element is encoded differently</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.find_from.html" title='cargo_crev_web::find_from fn'>find_from</a></td><td class='docblock-short'><p>find str from pos_cursor low level</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.find_pos_after_delimiter.html" title='cargo_crev_web::find_pos_after_delimiter fn'>find_pos_after_delimiter</a></td><td class='docblock-short'><p>return the position after the delimiter or None
+</td></tr></table><h2 id="enums" class="section-header"><a href="#enums">Enums</a></h2>
+<table><tr class="module-item"><td><a class="enum" href="enum.HtmlOrSvg.html" title="cargo_crev_web::HtmlOrSvg enum">HtmlOrSvg</a></td><td class="docblock-short"><p>Svg elements are different because they have a namespace</p>
+</td></tr><tr class="module-item"><td><a class="enum" href="enum.Node.html" title="cargo_crev_web::Node enum">Node</a></td><td class="docblock-short"></td></tr></table><h2 id="traits" class="section-header"><a href="#traits">Traits</a></h2>
+<table><tr class="module-item"><td><a class="trait" href="trait.HtmlServerTemplateRender.html" title="cargo_crev_web::HtmlServerTemplateRender trait">HtmlServerTemplateRender</a></td><td class="docblock-short"></td></tr></table><h2 id="functions" class="section-header"><a href="#functions">Functions</a></h2>
+<table><tr class="module-item"><td><a class="fn" href="fn.conditional_usize.html" title="cargo_crev_web::conditional_usize fn">conditional_usize</a></td><td class="docblock-short"><p>similar to ternary operator</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.decode_html_script_node.html" title="cargo_crev_web::decode_html_script_node fn">decode_html_script_node</a></td><td class="docblock-short"><p>in html the <script> element is decoded differently</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.encode_html_script_node.html" title="cargo_crev_web::encode_html_script_node fn">encode_html_script_node</a></td><td class="docblock-short"><p>in html the <script> element is encoded differently</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.find_from.html" title="cargo_crev_web::find_from fn">find_from</a></td><td class="docblock-short"><p>find str from pos_cursor low level</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.find_pos_after_delimiter.html" title="cargo_crev_web::find_pos_after_delimiter fn">find_pos_after_delimiter</a></td><td class="docblock-short"><p>return the position after the delimiter or None
 Does NOT mutate the pos_cursor, because that is for a higher level logic to decide.</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.find_pos_before_delimiter.html" title='cargo_crev_web::find_pos_before_delimiter fn'>find_pos_before_delimiter</a></td><td class='docblock-short'><p>return the position before the delimiter or None
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.find_pos_before_delimiter.html" title="cargo_crev_web::find_pos_before_delimiter fn">find_pos_before_delimiter</a></td><td class="docblock-short"><p>return the position before the delimiter or None
 Does NOT mutate the pos_cursor, because that is for a higher level logic to decide.</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.find_range_between_delimiters.html" title='cargo_crev_web::find_range_between_delimiters fn'>find_range_between_delimiters</a></td><td class='docblock-short'><p>find and return the range of the first occurrence between start and end delimiters
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.find_range_between_delimiters.html" title="cargo_crev_web::find_range_between_delimiters fn">find_range_between_delimiters</a></td><td class="docblock-short"><p>find and return the range of the first occurrence between start and end delimiters
 Success: mutates also the cursor position, so the next find will continue from there
-Fail: return None if not found and don't mutate pos_cursor
+Fail: return None if not found and don’t mutate pos_cursor
 I use type Range to avoid references &amp;str and lifetimes. But the programmer can make
 the error to apply the range to the wrong vector.</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.main.html" title='cargo_crev_web::main fn'>main</a></td><td class='docblock-short'><p>main function of the binary</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.main_code.html" title='cargo_crev_web::main_code fn'>main_code</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="fn" href="fn.ns_elapsed.html" title='cargo_crev_web::ns_elapsed fn'>ns_elapsed</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="fn" href="fn.ns_print.html" title='cargo_crev_web::ns_print fn'>ns_print</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="fn" href="fn.ns_start.html" title='cargo_crev_web::ns_start fn'>ns_start</a></td><td class='docblock-short'></td></tr><tr class='module-item'><td><a class="fn" href="fn.parse_semver.html" title='cargo_crev_web::parse_semver fn'>parse_semver</a></td><td class='docblock-short'><p>parse semver ex. 12.99.88alpha</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.render_sub_template_match_else.html" title='cargo_crev_web::render_sub_template_match_else fn'>render_sub_template_match_else</a></td><td class='docblock-short'><p>boilerplate</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.replace_with_nodes_match_else.html" title='cargo_crev_web::replace_with_nodes_match_else fn'>replace_with_nodes_match_else</a></td><td class='docblock-short'><p>boilerplate</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.replace_with_string_match_else.html" title='cargo_crev_web::replace_with_string_match_else fn'>replace_with_string_match_else</a></td><td class='docblock-short'><p>boilerplate</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.replace_with_url_match_else.html" title='cargo_crev_web::replace_with_url_match_else fn'>replace_with_url_match_else</a></td><td class='docblock-short'><p>boilerplate</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.retain_next_node_or_attribute_match_else.html" title='cargo_crev_web::retain_next_node_or_attribute_match_else fn'>retain_next_node_or_attribute_match_else</a></td><td class='docblock-short'><p>boilerplate</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.traverse_dir_with_exclude_dir.html" title='cargo_crev_web::traverse_dir_with_exclude_dir fn'>traverse_dir_with_exclude_dir</a></td><td class='docblock-short'><p>traverse dir (sub-dir) with exclude dir
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.main.html" title="cargo_crev_web::main fn">main</a></td><td class="docblock-short"><p>main function of the binary</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.main_code.html" title="cargo_crev_web::main_code fn">main_code</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="fn" href="fn.ns_elapsed.html" title="cargo_crev_web::ns_elapsed fn">ns_elapsed</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="fn" href="fn.ns_print.html" title="cargo_crev_web::ns_print fn">ns_print</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="fn" href="fn.ns_start.html" title="cargo_crev_web::ns_start fn">ns_start</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="fn" href="fn.parse_semver.html" title="cargo_crev_web::parse_semver fn">parse_semver</a></td><td class="docblock-short"><p>parse semver ex. 12.99.88alpha</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.render_sub_template_match_else.html" title="cargo_crev_web::render_sub_template_match_else fn">render_sub_template_match_else</a></td><td class="docblock-short"><p>boilerplate</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.replace_with_nodes_match_else.html" title="cargo_crev_web::replace_with_nodes_match_else fn">replace_with_nodes_match_else</a></td><td class="docblock-short"><p>boilerplate</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.replace_with_string_match_else.html" title="cargo_crev_web::replace_with_string_match_else fn">replace_with_string_match_else</a></td><td class="docblock-short"><p>boilerplate</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.replace_with_url_match_else.html" title="cargo_crev_web::replace_with_url_match_else fn">replace_with_url_match_else</a></td><td class="docblock-short"><p>boilerplate</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.retain_next_node_or_attribute_match_else.html" title="cargo_crev_web::retain_next_node_or_attribute_match_else fn">retain_next_node_or_attribute_match_else</a></td><td class="docblock-short"><p>boilerplate</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.reviewer_name_from_url.html" title="cargo_crev_web::reviewer_name_from_url fn">reviewer_name_from_url</a></td><td class="docblock-short"></td></tr><tr class="module-item"><td><a class="fn" href="fn.traverse_dir_with_exclude_dir.html" title="cargo_crev_web::traverse_dir_with_exclude_dir fn">traverse_dir_with_exclude_dir</a></td><td class="docblock-short"><p>traverse dir (sub-dir) with exclude dir
 the find_file and the exclude dir strings must start with /</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.url_s_zero_to_empty.html" title='cargo_crev_web::url_s_zero_to_empty fn'>url_s_zero_to_empty</a></td><td class='docblock-short'><p>to string, but zero converts to empty</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.version_for_sorting.html" title='cargo_crev_web::version_for_sorting fn'>version_for_sorting</a></td><td class='docblock-short'><p>version for sorting</p>
-</td></tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
-<table><tr class='module-item'><td><a class="type" href="type.ArcMutStateGlobal.html" title='cargo_crev_web::ArcMutStateGlobal type'>ArcMutStateGlobal</a></td><td class='docblock-short'></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "cargo_crev_web";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.url_s_zero_to_empty.html" title="cargo_crev_web::url_s_zero_to_empty fn">url_s_zero_to_empty</a></td><td class="docblock-short"><p>to string, but zero converts to empty</p>
+</td></tr><tr class="module-item"><td><a class="fn" href="fn.version_for_sorting.html" title="cargo_crev_web::version_for_sorting fn">version_for_sorting</a></td><td class="docblock-short"><p>version for sorting</p>
+</td></tr></table><h2 id="types" class="section-header"><a href="#types">Type Definitions</a></h2>
+<table><tr class="module-item"><td><a class="type" href="type.ArcMutStateGlobal.html" title="cargo_crev_web::ArcMutStateGlobal type">ArcMutStateGlobal</a></td><td class="docblock-short"></td></tr></table></section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="cargo_crev_web" data-search-index-js="../search-index.js" data-search-js="../search.js"></div><script src="../main.js"></script></body></html>

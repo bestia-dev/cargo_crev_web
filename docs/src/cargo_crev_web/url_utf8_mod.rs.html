@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `src/url_utf8_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>url_utf8_mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../cargo_crev_web/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/url_utf8_mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>url_utf8_mod.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings"></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../cargo_crev_web/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img src="../../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img src="../../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -240,19 +242,7 @@
 <span id="240">240</span>
 <span id="241">241</span>
 <span id="242">242</span>
-<span id="243">243</span>
-<span id="244">244</span>
-<span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
-<span id="248">248</span>
-<span id="249">249</span>
-<span id="250">250</span>
-<span id="251">251</span>
-<span id="252">252</span>
-<span id="253">253</span>
-<span id="254">254</span>
-</pre><div class="example-wrap"><pre class="rust ">
+</pre><pre class="rust">
 <span class="doccomment">//! url_utf8_mod</span>
 <span class="doccomment">//! **url encoding and decoding on the web server**</span>
 <span class="doccomment">//! This module is strictly limited to utf8 urls.\</span>
@@ -272,11 +262,10 @@
 <span class="comment">// anyhow = &quot;1.0.31&quot;</span>
 <span class="comment">// unwrap = &quot;1.2.1&quot;</span>
 
-<span class="kw">use</span> <span class="ident">anyhow</span>::<span class="ident">Error</span>;
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">str</span>::<span class="ident">FromStr</span>;
+<span class="kw">use</span> <span class="ident">anyhow::Error</span>;
+<span class="kw">use</span> <span class="ident">core::str::FromStr</span>;
 <span class="kw">use</span> <span class="ident">percent_encoding</span>::{<span class="ident">percent_decode_str</span>, <span class="ident">AsciiSet</span>, <span class="ident">CONTROLS</span>};
-<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">string</span>::<span class="ident">ToString</span>;
-<span class="comment">// use unwrap::unwrap;</span>
+<span class="kw">use</span> <span class="ident">std::string::ToString</span>;
 
 <span class="comment">// endregion: use statements</span>
 
@@ -284,36 +273,36 @@
 
 <span class="doccomment">/// returns UrlUtf8EncodedString::new_x</span>
 <span class="doccomment">/// Constructor macro for UrlUtf8EncodedString</span>
-<span class="doccomment">/// The attribute [macro_export] &quot;moves&quot; the macro in the main module.</span>
+<span class="doccomment">/// The attribute macro_export &quot;moves&quot; the macro in the main module.</span>
 <span class="doccomment">/// Macros cannot be inside impl like fn.</span>
 <span class="doccomment">/// The module names must be added to the code to work properly.</span>
 <span class="doccomment">/// TODO: use macro repetition to avoid having 4 different fn.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">url_u</span> {
+<span class="macro">macro_rules!</span> <span class="ident">url_u</span> {
     <span class="comment">// 1 arguments, 0 fragment to encode</span>
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>:<span class="ident">literal</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="comment">// The macro will expand into the contents of this block.</span>
-        <span class="kw">crate</span>::<span class="ident">url_utf8_mod</span>::<span class="ident">UrlUtf8EncodedString</span>::<span class="ident">new_0</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>)
+        <span class="kw">crate</span><span class="ident">::url_utf8_mod::UrlUtf8EncodedString::new_0</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>)
     };
     <span class="comment">// 2 arguments, 1 fragment to encode</span>
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="comment">// The macro will expand into the contents of this block.</span>
-        <span class="kw">crate</span>::<span class="ident">url_utf8_mod</span>::<span class="ident">UrlUtf8EncodedString</span>::<span class="ident">new_1</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>)
+        <span class="kw">crate</span><span class="ident">::url_utf8_mod::UrlUtf8EncodedString::new_1</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>)
     };
     <span class="comment">// 3 arguments, 2 fragments to encode</span>
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="comment">// The macro will expand into the contents of this block.</span>
-        <span class="kw">crate</span>::<span class="ident">url_utf8_mod</span>::<span class="ident">UrlUtf8EncodedString</span>::<span class="ident">new_2</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>)
+        <span class="kw">crate</span><span class="ident">::url_utf8_mod::UrlUtf8EncodedString::new_2</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>)
     };
     <span class="comment">// 4 arguments, 3 fragments to encode</span>
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_3</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="comment">// The macro will expand into the contents of this block.</span>
-        <span class="kw">crate</span>::<span class="ident">url_utf8_mod</span>::<span class="ident">UrlUtf8EncodedString</span>::<span class="ident">new_3</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_3</span>)
+        <span class="kw">crate</span><span class="ident">::url_utf8_mod::UrlUtf8EncodedString::new_3</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_3</span>)
     };
     <span class="comment">// 5 arguments, 4 fragments to encode</span>
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_3</span>:<span class="ident">expr</span>,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_4</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
         <span class="comment">// The macro will expand into the contents of this block.</span>
-        <span class="kw">crate</span>::<span class="ident">url_utf8_mod</span>::<span class="ident">UrlUtf8EncodedString</span>::<span class="ident">new_4</span>(
+        <span class="kw">crate</span><span class="ident">::url_utf8_mod::UrlUtf8EncodedString::new_4</span>(
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">literal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_1</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_2</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_3</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">part_4</span>,
         )
     };
@@ -341,24 +330,24 @@
     <span class="doccomment">/// constructor with 1 dynamic fragment</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_1</span>(<span class="ident">literal</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">part_1</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
         <span class="ident">UrlUtf8EncodedString</span> {
-            <span class="ident">s</span>: <span class="ident">literal</span>.<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>),
+            <span class="ident">s</span>: <span class="ident">literal</span>.<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>),
         }
     }
     <span class="doccomment">/// constructor with 2 dynamic fragment</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_2</span>(<span class="ident">literal</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">part_1</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">part_2</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
         <span class="ident">UrlUtf8EncodedString</span> {
             <span class="ident">s</span>: <span class="ident">literal</span>
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>)
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_2</span>), <span class="number">1</span>),
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>)
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_2</span>), <span class="number">1</span>),
         }
     }
     <span class="doccomment">/// constructor with 3 dynamic fragment</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_3</span>(<span class="ident">literal</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">part_1</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">part_2</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">part_3</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
         <span class="ident">UrlUtf8EncodedString</span> {
             <span class="ident">s</span>: <span class="ident">literal</span>
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>)
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_2</span>), <span class="number">1</span>)
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_3</span>), <span class="number">1</span>),
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>)
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_2</span>), <span class="number">1</span>)
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_3</span>), <span class="number">1</span>),
         }
     }
     <span class="doccomment">/// constructor with 4 dynamic fragment</span>
@@ -371,16 +360,16 @@
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
         <span class="ident">UrlUtf8EncodedString</span> {
             <span class="ident">s</span>: <span class="ident">literal</span>
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>)
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_2</span>), <span class="number">1</span>)
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_3</span>), <span class="number">1</span>)
-                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">encode_fragment</span>(<span class="ident">part_4</span>), <span class="number">1</span>),
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_1</span>), <span class="number">1</span>)
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_2</span>), <span class="number">1</span>)
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_3</span>), <span class="number">1</span>)
+                .<span class="ident">replacen</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">Self</span><span class="ident">::encode_fragment</span>(<span class="ident">part_4</span>), <span class="number">1</span>),
         }
     }
     <span class="doccomment">/// encode fragment / part - associated fn</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">encode_fragment</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// return</span>
-        <span class="ident">percent_encoding</span>::<span class="ident">utf8_percent_encode</span>(<span class="ident">s</span>, <span class="ident">FRAGMENT</span>).<span class="ident">to_string</span>()
+        <span class="ident">percent_encoding::utf8_percent_encode</span>(<span class="ident">s</span>, <span class="ident">FRAGMENT</span>).<span class="ident">to_string</span>()
     }
 }
 <span class="kw">impl</span> <span class="ident">ToString</span> <span class="kw">for</span> <span class="ident">UrlUtf8EncodedString</span> {
@@ -395,7 +384,7 @@
 <span class="comment">// end region: url encoding</span>
 
 <span class="comment">// region: url part decoding</span>
-<span class="doccomment">/// https://url.spec.whatwg.org/#fragment-percent-encode-set</span>
+<span class="doccomment">/// &lt;https://url.spec.whatwg.org/#fragment-percent-encode-set&gt;</span>
 <span class="kw">const</span> <span class="ident">FRAGMENT</span>: <span class="kw-2">&amp;</span><span class="ident">AsciiSet</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">CONTROLS</span>.<span class="ident">add</span>(<span class="string">b&#39; &#39;</span>).<span class="ident">add</span>(<span class="string">b&#39;&quot;&#39;</span>).<span class="ident">add</span>(<span class="string">b&#39;&lt;&#39;</span>).<span class="ident">add</span>(<span class="string">b&#39;&gt;&#39;</span>).<span class="ident">add</span>(<span class="string">b&#39;`&#39;</span>);
 
 <span class="doccomment">/// the url must be utf 8. Only the 5 control characters are encoded.</span>
@@ -423,7 +412,7 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused</span>)]</span>
     <span class="doccomment">/// rarely needed get encoded string</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_encoded_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="ident">UrlUtf8EncodedString</span>::<span class="ident">encode_fragment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">s</span>)
+        <span class="ident">UrlUtf8EncodedString::encode_fragment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">s</span>)
     }
 }
 <span class="doccomment">/// implementing FromStr because of path! in warp web server router</span>
@@ -435,7 +424,7 @@
     <span class="doccomment">/// It can error.</span>
     <span class="doccomment">/// It is used for path! in warp web server router.</span>
     <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="ident">UrlPartUtf8Decoded</span>::<span class="ident">new</span>(<span class="ident">s</span>)
+        <span class="ident">UrlPartUtf8Decoded::new</span>(<span class="ident">s</span>)
     }
 }
 <span class="kw">impl</span> <span class="ident">ToString</span> <span class="kw">for</span> <span class="ident">UrlPartUtf8Decoded</span> {
@@ -452,60 +441,49 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use</span> <span class="ident">unwrap::unwrap</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_decode_01</span>() {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">UrlPartUtf8Decoded</span>::<span class="ident">new</span>(<span class="string">&quot;a%20b%3Cc&quot;</span>)).<span class="ident">to_string</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="string">&quot;a b&lt;c&quot;</span>);
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">UrlPartUtf8Decoded::new</span>(<span class="string">&quot;a%20b%3Cc&quot;</span>)).<span class="ident">to_string</span>();
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">s</span>, <span class="string">&quot;a b&lt;c&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_encode_02</span>() {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/one/two/{}/&quot;</span>, <span class="string">&quot;a b&lt;c&gt;d&#39;e\&quot;f&quot;</span>);
-        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span> {
-            <span class="ident">UrlEnumString</span>::<span class="ident">UrlUtf8EncodedString</span>(<span class="ident">url_str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_str</span>.<span class="ident">to_string</span>(),
-            <span class="ident">UrlEnumString</span>::<span class="ident">String</span>(<span class="ident">str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
-        };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">norm_str</span>, <span class="string">&quot;/one/two/a%20b%3Cc%3Ed\&#39;e%22f/&quot;</span>);
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u!</span>(<span class="string">&quot;/one/two/{}/&quot;</span>, <span class="string">&quot;a b&lt;c&gt;d&#39;e\&quot;f&quot;</span>);
+        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
+        <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span><span class="ident">norm_str</span>, <span class="string">&quot;/one/two/a%20b%3Cc%3Ed\&#39;e%22f/&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_03</span>() {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/one/two/{}/{}/&quot;</span>, <span class="string">&quot;a b&lt;ccc&quot;</span>, <span class="string">&quot;&gt;ddd&#39;e\&quot;f&quot;</span>);
-        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span> {
-            <span class="ident">UrlEnumString</span>::<span class="ident">UrlUtf8EncodedString</span>(<span class="ident">url_str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_str</span>.<span class="ident">to_string</span>(),
-            <span class="ident">UrlEnumString</span>::<span class="ident">String</span>(<span class="ident">str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
-        };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">norm_str</span>, <span class="string">&quot;/one/two/a%20b%3Cccc/%3Eddd\&#39;e%22f/&quot;</span>);
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u!</span>(<span class="string">&quot;/one/two/{}/{}/&quot;</span>, <span class="string">&quot;a b&lt;ccc&quot;</span>, <span class="string">&quot;&gt;ddd&#39;e\&quot;f&quot;</span>);
+        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">norm_str</span>, <span class="string">&quot;/one/two/a%20b%3Cccc/%3Eddd\&#39;e%22f/&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_04</span>() {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u</span><span class="macro">!</span>(<span class="string">&quot;/one{}one/two/{}/{}/&quot;</span>, <span class="string">&quot;1 1 &quot;</span>, <span class="string">&quot;a b&lt;ccc&quot;</span>, <span class="string">&quot;&gt;ddd&#39;e\&quot;f&quot;</span>);
-        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span> {
-            <span class="ident">UrlEnumString</span>::<span class="ident">UrlUtf8EncodedString</span>(<span class="ident">url_str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_str</span>.<span class="ident">to_string</span>(),
-            <span class="ident">UrlEnumString</span>::<span class="ident">String</span>(<span class="ident">str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
-        };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">norm_str</span>, <span class="string">&quot;/one1%201%20one/two/a%20b%3Cccc/%3Eddd\&#39;e%22f/&quot;</span>);
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u!</span>(<span class="string">&quot;/one{}one/two/{}/{}/&quot;</span>, <span class="string">&quot;1 1 &quot;</span>, <span class="string">&quot;a b&lt;ccc&quot;</span>, <span class="string">&quot;&gt;ddd&#39;e\&quot;f&quot;</span>);
+        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">norm_str</span>, <span class="string">&quot;/one1%201%20one/two/a%20b%3Cccc/%3Eddd\&#39;e%22f/&quot;</span>);
     }
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_05</span>() {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u</span><span class="macro">!</span>(
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">url_u!</span>(
             <span class="string">&quot;/one{}one/two{}two/{}/{}/&quot;</span>,
             <span class="string">&quot;1 1 &quot;</span>,
             <span class="string">&quot; 2 2&quot;</span>,
             <span class="string">&quot;a b&lt;ccc&quot;</span>,
             <span class="string">&quot;&gt;ddd&#39;e\&quot;f&quot;</span>
         );
-        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span> {
-            <span class="ident">UrlEnumString</span>::<span class="ident">UrlUtf8EncodedString</span>(<span class="ident">url_str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_str</span>.<span class="ident">to_string</span>(),
-            <span class="ident">UrlEnumString</span>::<span class="ident">String</span>(<span class="ident">str</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>(),
-        };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="kw">let</span> <span class="ident">norm_str</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">to_string</span>();
+        <span class="macro">assert_eq!</span>(
             <span class="ident">norm_str</span>,
             <span class="string">&quot;/one1%201%20one/two%202%202two/a%20b%3Cccc/%3Eddd\&#39;e%22f/&quot;</span>
         );
     }
 }
 </pre></div>
-</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "cargo_crev_web";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>
+</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_crev_web" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

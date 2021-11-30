@@ -19,7 +19,7 @@
 //!
 //! ## Try it out
 //!
-//! https://web.crev.dev/rust-reviews/crate/num-traits/  
+//! <https://web.crev.dev/rust-reviews/crate/num-traits/>  
 //!
 //! ## cargo-crev
 //!
@@ -156,7 +156,7 @@
 //! `cargo crev repo fetch all`
 //! to have fresh reviews available locally in `~/.cache/crev/`.  
 //! The Linux scheduler `crontab` is ok, but I miss something more visual.  
-//! I wrote <https://github.com/LucianoBestia/  foreground_scheduler> to do this.  
+//! I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
 //! It is a normal CLI and it is easy to see the output on the screen.  
 //! To make this run indefinitely in another terminal session I use `screen`.
 //! The script is in /var/www/scripts/cargo_crev_web_fetch_reindex.sh\
@@ -222,7 +222,7 @@
 //! To build a website that satisfies everybody's taste for color is impossible.  
 //! Even hoping to satisfy a few close friends is mission impossible.  
 //! So there is this Chrome extension named User Css:  
-//! https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb  
+//! <https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb>  
 //! You write a css in your browser and while you are typing it immediately changes the look of the webpage.  
 //! In the webpage <https://web.crev.dev/rust-reviews/> you can find a basic css for the color palette. Just Click-to-Copy and try it in User Css. Then change colors to your liking.  
 //! At the end save the css for the next time you visit the website.  
