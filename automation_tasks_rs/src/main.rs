@@ -30,6 +30,8 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
                 println!("Running automation task: {}", &task);
                 if &task == "build" {
                     task_build();
+                } else if &task == "build_and_run" {
+                    task_build_and_run();
                 } else if &task == "release" {
                     task_release();
                 } else if &task == "test" {
@@ -56,6 +58,7 @@ fn print_help() {
         r#"
 User defined tasks in automation_tasks_rs:
 cargo auto build - builds the crate in debug mode, fmt
+cargo auto build_and_run - builds the crate in debug mode, fmt and runs the server
 cargo auto release - builds the crate in release mode, version from date, fmt
 cargo auto test - runs all the tests
 cargo auto doc - builds the docs, copy to docs directory
@@ -74,7 +77,7 @@ fn completion() {
     let last_word = args[3].as_str();
 
     if last_word == "cargo-auto" || last_word == "auto" {
-        let sub_commands = vec!["build", "release","test", "doc", "commit_and_push", "publish_to_web"];
+        let sub_commands = vec!["build", "build_and_run", "release","test", "doc", "commit_and_push", "publish_to_web"];
         completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
     /*
@@ -105,6 +108,28 @@ run `cargo auto release`
     );
 }
 
+/// cargo build and run
+fn task_build_and_run() {
+    task_build();
+    // copy the bin to web_server_folder
+    run_shell_command("cp target/debug/cargo_crev_web ./web_server_folder");
+    let cargo_toml = CargoToml::read();
+    // open browser with xdg-open
+    // for WSL2 in Win10 I used my project https://crates.io/crates/wsl_open_browser
+    let x = std::process::Command::new("xdg-open")
+        .arg("http://127.0.0.1:8051/rust-reviews/")
+        .spawn()
+        .expect("Failed to open default browser using `xdg-open`. Probably it is not preinstalled on your Linux distro. Try to instal it with `xdg-utils`.");
+    drop(x);
+    // start server
+    run_shell_command(&format!("cd web_server_folder; ./{}", cargo_toml.package_name()));
+    println!(
+        r#"
+After `cargo auto build_and_run` close the CLI with ctrl+c and close the browser.
+"#
+    );
+}
+
 /// cargo build --release
 fn task_release() {
     auto_version_from_date();
@@ -116,7 +141,7 @@ fn task_release() {
     let cargo_toml = CargoToml::read();
     // uncomment if you want smaller binary files
     run_shell_command(&format!("strip target/release/{}", cargo_toml.package_name()));
-
+    run_shell_command("cp target/release/cargo_crev_web ./web_server_folder");
     println!(
         r#"
 After `cargo auto release`, 

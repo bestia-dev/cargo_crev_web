@@ -1,6 +1,8 @@
 
 # TODO
 
+auto-crev-proofs is not working lately. Copy the functionality here.
+
 add comrak lib for md-to-html
 new reviews page - add crate and version
 

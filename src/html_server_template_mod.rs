@@ -99,7 +99,7 @@ pub trait HtmlServerTemplateRender {
 
     /// render root template (not sub-templates) from file
     fn render_from_file(&self, template_file_name: &str) -> String {
-        //dbg!(&template_file_name);
+        // log::debug!("template_file_name {}", &template_file_name);
         let mut template_raw = unwrap!(fs::read_to_string(&template_file_name));
         // find node <html >, jump over <!DOCTYPE html> because it is not microXml compatible
         // I will add <!DOCTYPE html> when the rendering ends, before returning the html.
