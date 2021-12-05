@@ -32,7 +32,12 @@ impl ReviewIndexByReviewer {
         unwrap!(state_global.lock())
             .review_index
             .vec
-            .sort_by(|a, b| Ord::cmp(&a.reviewer_name, &b.reviewer_name));
+            .sort_by(|a, b| {
+                Ord::cmp(
+                    &a.reviewer_name.to_lowercase(),
+                    &b.reviewer_name.to_lowercase(),
+                )
+            });
         let mut old_reviewer_name = s!();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut review_index_by_reviewer = ReviewIndexByReviewer { vec: vec![] };

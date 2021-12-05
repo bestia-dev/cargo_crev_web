@@ -111,6 +111,7 @@ run `cargo auto release`
 /// cargo build and run
 fn task_build_and_run() {
     task_build();
+    // TODO: how to stop execution if there is error?
     // copy the bin to web_server_folder
     run_shell_command("cp target/debug/cargo_crev_web ./web_server_folder");
     let cargo_toml = CargoToml::read();
@@ -212,6 +213,16 @@ fn task_publish_to_web() {
     );
     run_shell_command(&shell_command);
 
+    // copy sh scripts
+    // 1. sync files from the rust project to a local copy of the web folder
+    let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/var_www_scripts/"#, package_name = cargo_toml.package_name());
+    let local_copy_of_web_folder = format!(r#"~/rustprojects/googlecloud/var/www/scripts/{package_name}/"#,package_name = cargo_toml.package_name());
+    run_shell_command(&format!(r#"rsync -a --info=progress2 --delete-after {} {}"#,project_folder_to_publish, local_copy_of_web_folder));
+    // 2. sync files from the local copy to a transfer folder on the remote server
+    let ssh_user_and_server = "luciano_bestia@bestia.dev";
+    let web_folder_over_ssh = format!(r#"{ssh_user_and_server}:/var/www/scripts/"#,ssh_user_and_server =ssh_user_and_server);
+    run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after {} {}"#,local_copy_of_web_folder, web_folder_over_ssh));
+   
     // cargo publish in 3 steps
     // 1. sync files from the rust project to a local copy of the web folder
     let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/web_server_folder/"#, package_name = cargo_toml.package_name());

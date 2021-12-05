@@ -5,10 +5,10 @@
 //! There are different "new" functions for different actions, to prepare adequate data.
 //! If field is is_some(), then render the html part dedicated to this action.
 
-use crate::data_file_scan_mod::*;
 use crate::review_index_mod;
 use crate::*;
 
+use log::debug;
 use serde_derive::{Deserialize, Serialize};
 use std::fs;
 use unwrap::unwrap;
@@ -23,12 +23,11 @@ pub struct OnlyReviewer {
 //use unwrap::unwrap;
 #[derive(Debug, Default)]
 pub struct ReservedFolder {
-    pub list_fetched_reviewer_id: Option<Vec<OnlyReviewer>>,
+    pub list_trusted_reviewer_id: Option<Vec<OnlyReviewer>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
     pub fetch_new_reviews: Option<String>,
     pub blocklisted_repos: Option<Vec<String>>,
     pub list_new_reviewer_id: Option<Vec<OnlyReviewer>>,
-    pub add_reviewer_url: Option<String>,
 }
 
 impl ReservedFolder {
@@ -39,18 +38,16 @@ impl ReservedFolder {
             ..Default::default()
         }
     }
-    pub fn list_fetched_reviewer_id(state_global: ArcMutStateGlobal) -> Self {
-        // fills the field list_fetched_reviewer_id
-        use itertools::Itertools;
+    pub fn list_trusted_reviewer_id(state_global: ArcMutStateGlobal) -> Self {
+        // dbg!(reviewer_index);
         let mut only_reviewer: Vec<OnlyReviewer> = unwrap!(state_global.lock())
-            .review_index
+            .reviewer_index
             .vec
             .iter()
-            .unique_by(|rev| &rev.reviewer_name)
-            .map(|rev| OnlyReviewer {
-                reviewer_name: rev.reviewer_name.clone(),
-                reviewer_id: rev.reviewer_id.clone(),
-                reviewer_url: rev.reviewer_url.clone(),
+            .map(|r| OnlyReviewer {
+                reviewer_name: r.name.clone(),
+                reviewer_id: r.id.clone(),
+                reviewer_url: r.url.clone(),
             })
             .collect();
         only_reviewer.sort_by(|a, b| {
@@ -58,16 +55,15 @@ impl ReservedFolder {
                 .to_lowercase()
                 .cmp(&b.reviewer_name.to_lowercase())
         });
-        // dbg!(only_reviewer);
-
         // return
         ReservedFolder {
-            list_fetched_reviewer_id: Some(only_reviewer),
+            list_trusted_reviewer_id: Some(only_reviewer),
             ..Default::default()
         }
     }
     pub fn reindex_after_fetch_new_reviews(state_global: ArcMutStateGlobal) -> Self {
         unwrap!(state_global.lock()).review_index = review_index_mod::ReviewIndex::new();
+        unwrap!(state_global.lock()).reviewer_index = reviewer_index_mod::ReviewerIndex::new();
         // return
         ReservedFolder {
             reindex_after_fetch_new_reviews: Some(s!("Reindex finished.")),
@@ -102,20 +98,104 @@ impl ReservedFolder {
         self.blocklisted_repos = Some(blocklisted_repos);
     }
 
+    /// The command `cargo crev id query all` returns a list of repos found in
+    /// all trust crev files: mine (/home/me/.config/crev) and from all the remotes (/home/me/.cache/crev/remotes).
+    /// I used for some time the repo https://gitlab.com/crev-dev/auto-crev-proofs.git.
+    /// It finds new repos automatically, but it looks that it is not working any more.
+    /// I will do it myself: find all forked crev-proofs on github and gitlab and `cargo crev id query all`.
+    /// There are also some manually added repos in:
+    /// <https://github.com/crev-dev/cargo-crev/wiki/List-of-Proof-Repositories>
+    /// But it looks that this list is obsolete.
+    /// I will add all the new repos with `cargo crev trust --level low <url>`.
+    /// Ajooj: this automatically fetches the proofs with all transient. I don't want that.
+    /// Warning: `cargo crev id trust --level low <hash>` sounds very similar, but it accepts only hash, not url!
+    /// And without url it is not possible to find the hash.
+    /// For list only directly trusted identities:
+    /// `cargo crev id query trusted --high-cost 1 --medium-cost 1 --low-cost 1 --depth 1`
+    /// This way I can then use `cargo crev repo fetch trusted --high-cost 1 --medium-cost 1 --low-cost 1 --depth 1`
+    ///
+    /// Warning: never put passwords, passphrases ot tokens inside the code and publish it to Github !
+    /// If you wrote some secret in the bash like `export PASS=my_secret`, delete it from the history with this command:
+    /// history | tac | grep export | cut -d ' ' -f 2 | awk '{printf "history -d " $1 "; "}'
+    ///
+    /// Warning: for `cargo crev trust` to work I need the crev passphrase.
+    /// I will paste the passphrase from the clipboard to the env variable before starting the server:
+    /// `export CREV_PASSPHRASE=$(pbpaste)`
+    /// To use pbpaste and pbcopy in Debian on WSL2 use this instructions: <https://www.techtronic.us/pbcopy-pbpaste-for-wsl/>.
+    /// But if `clip.exe` does not work you need to do this first to your /etc/profile file: <https://github.com/microsoft/WSL/issues/5779#issuecomment-675574471>
+    /// Use `sudo nano /etc/profile`. I rather comment the lines with #. And after that, restart wsl in Administrative mode Cmd in Win10: `wsl -shutdown`.
+    ///
+    /// For unauthenticated requests on Github, the rate limit allows for up to 60 requests per hour.
+    /// So I need to be authenticated for Github api with [github PAT (personal access token)](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+    /// Before running the web server I store it in the environment variable:  
+    /// `export GITHUB_TOKEN=$(pbpaste)`    
     pub async fn list_new_reviewer_id(state_global: ArcMutStateGlobal) -> Self {
+        fn check_repo_on_github(
+            forked_repo: &ForkedRepo,
+            client: &reqwest::blocking::Client,
+            url_for_content: &str,
+            blocklisted_repos: &mut Vec<String>,
+            vec_of_new_repo: &mut Vec<OnlyReviewer>,
+        ) {
+            // dbg!(&forked_repo.html_url);
+            if !forked_repo.html_url.starts_with("https://github.com") {
+                println!("Not on github: {}", &forked_repo.html_url);
+                vec_of_new_repo.push(OnlyReviewer {
+                    reviewer_name: "".to_string(),
+                    reviewer_id: "".to_string(),
+                    reviewer_url: forked_repo.html_url.clone(),
+                });
+            } else {
+                let response = client
+                    .get(url_for_content)
+                    .header(
+                        "User-Agent",
+                        "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)",
+                    )
+                    .header(
+                        "authorization",
+                        &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))),
+                    )
+                    .send()
+                    .unwrap();
+                let response_text = response.text().unwrap_or("".to_string());
+                if response_text.is_empty() {
+                    // add this url to blocklist.json
+                    blocklisted_repos.push(forked_repo.html_url.to_string());
+                    println!("Error for call to url: {}", &url_for_content);
+                } else {
+                    let rsl = serde_json::from_str::<Vec<RepoContent>>(&response_text);
+                    match rsl {
+                        Err(_err) => debug!("Cannot deserialize: {:?}", &response_text),
+                        Ok(vec_repo_content) => {
+                            let mut count_ids = 0;
+                            for content in vec_repo_content.iter() {
+                                // "name": "24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw",
+                                // "type": "dir",
+                                if content.name.len() == 43 && content.r#type == "dir" {
+                                    count_ids += 1;
+                                    // dbg!("    {} {}", content.name, forked_repo.html_url);
+                                    vec_of_new_repo.push(OnlyReviewer {
+                                        reviewer_name: reviewer_name_from_url(
+                                            &forked_repo.html_url,
+                                        ),
+                                        reviewer_id: content.name.clone(),
+                                        reviewer_url: forked_repo.html_url.clone(),
+                                    });
+                                }
+                            }
+                            // if there is no id in the repo then add it to blocklisted
+                            if count_ids == 0 {
+                                blocklisted_repos.push(forked_repo.html_url.to_string());
+                            }
+                        }
+                    }
+                }
+            }
+        }
         let mut reserved_folder = ReservedFolder {
             ..Default::default()
         };
-        // The repo https://gitlab.com/crev-dev/auto-crev-proofs.git
-        // is automated to have all the crev repos it can find. It is also
-        // possible to add repos manually.
-        // I will clone and fetch that repo periodically
-        // I will extract the data for adding new repos to rust-reviews.
-        // on my local disk it is cached as:
-        // .cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust/
-        // in the sample folder it is:
-        // sample_data/cache/crev/remotes/gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust/
-
         /*
         ids:
           - id-type: crev
@@ -127,160 +207,153 @@ impl ReservedFolder {
             pub id: String,
             pub url: Option<String>,
         }
-        #[derive(Serialize, Deserialize, Clone, Debug)]
-        struct ReviewShort {
-            pub ids: Vec<ReviewIdsShort>,
+        #[derive(Serialize, Deserialize, Debug)]
+        struct ForkedRepo {
+            html_url: String,
+            contents_url: String,
         }
-        let mut vec_of_auto_crev = Vec::<OnlyReviewer>::new();
-        let mut vec_of_new = Vec::<OnlyReviewer>::new();
-        let path = path_of_remotes_folder().join("gitlab_com_chrysn_auto-crev-proofs-SQMK-9lvFGG0TNopVnQ0uQ/W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI/trust");
-        let path = path.to_string_lossy();
-        //fill from all the files all the reviews
-        for file_name in crev_files(&path).iter() {
-            // iterator for reviews return &str
-            let reviews_in_one_file = ReviewsInOneFile::new(file_name);
-            for review_string in reviews_in_one_file {
-                //dbg!(review_string);
-                //fn push_reviewer(review_string:&str, vec_of_new:&mut Vec<ReviewIdsShort>){
-                let review_short: ReviewShort = unwrap!(serde_yaml::from_str(&review_string));
-
-                vec_of_auto_crev.push(OnlyReviewer {
-                    reviewer_name: if let Some(url) = &review_short.ids[0].url {
-                        reviewer_name_from_url(&url)
-                    } else {
-                        s!()
-                    },
-                    reviewer_id: review_short.ids[0].id.clone(),
-                    reviewer_url: if let Some(url) = &review_short.ids[0].url {
-                        url.clone()
-                    } else {
-                        s!()
-                    },
-                });
-                //dbg!(&vec_of_new);
-            }
+        #[derive(Serialize, Deserialize, Debug)]
+        struct VecOfForkedRepos {
+            vec: Vec<ForkedRepo>,
         }
-        //dbg!(&vec_of_new);
-
-        // region: first I need the list of fetched reviewers
-        // I cannot construct this before await, because await can take a lot of time
-        // and reference lifetime is in question?
-        // so I must do it after await.
-        // probably the Mutex is available everywhere, anytime ?
-        use itertools::Itertools;
-        let mut fetched_reviewer_url: Vec<String> = unwrap!(state_global.lock())
-            .review_index
-            .vec
-            .iter()
-            .unique_by(|rev| &rev.reviewer_url)
-            .map(|rev| rev.reviewer_url.clone())
-            .collect();
-        fetched_reviewer_url.sort_by(|a, b| a.cmp(&b));
-        // endregion: first I need the list of fetched reviewers
+        #[derive(Serialize, Deserialize, Debug)]
+        struct RepoContent {
+            name: String,
+            r#type: String,
+        }
 
         reserved_folder.fill_blocklisted_repos();
+        let mut blocklisted_repos = reserved_folder.blocklisted_repos.as_ref().unwrap().clone();
 
-        for auto_crev in vec_of_auto_crev.iter() {
-            // if reviewer already exists in index, I don't need it.
-            // if reviewer repo is in the "incomplete" list, I don't need it
-            if !fetched_reviewer_url
-                .iter()
-                .any(|v| v == &auto_crev.reviewer_url)
-                && !unwrap!(reserved_folder.blocklisted_repos.as_ref())
-                    .iter()
-                    .any(|v| v == &auto_crev.reviewer_url)
-            {
-                vec_of_new.push(OnlyReviewer {
-                    reviewer_name: auto_crev.reviewer_name.clone(),
-                    reviewer_id: auto_crev.reviewer_id.clone(),
-                    reviewer_url: auto_crev.reviewer_url.clone(),
-                });
+        let client = reqwest::blocking::Client::new();
+        let mut vec_of_new_repo = Vec::<OnlyReviewer>::new();
+        let mut page = 1;
+        loop {
+            // there can be more pages. Max per_page is 100
+            let url_for_page = &format!(
+                "https://api.github.com/repos/crev-dev/crev-proofs/forks?per_page=100&page={}",
+                page
+            );
+
+            let response = client
+                .get(url_for_page)
+                .header(
+                    "User-Agent",
+                    "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)",
+                )
+                .header(
+                    "authorization",
+                    &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))),
+                )
+                .send()
+                .unwrap();
+            let response_text = response.text().unwrap_or("".to_string());
+            if response_text.is_empty() {
+                println!("Error for call to url: {}", &url_for_page);
+                break;
+            } else {
+                let vec_forked_repo: Vec<ForkedRepo> =
+                    serde_json::from_str(&response_text).unwrap();
+                for forked_repo in vec_forked_repo.iter() {
+                    // "html_url": "https://github.com/dcsommer/crev-proofs",
+                    // "contents_url": "https://api.github.com/repos/dcsommer/crev-proofs/contents/{+path}",
+                    let url_for_content = forked_repo.contents_url.trim_end_matches("/{+path}");
+
+                    // control in reviewer_index and blocklist to avoid futile calls to api
+                    if unwrap!(state_global.lock())
+                        .reviewer_index
+                        .vec
+                        .iter()
+                        .any(|x| x.url == forked_repo.html_url)
+                    {
+                        // println!("Reviewer_index already contains: {}", forked_repo.html_url);
+                    } else if blocklisted_repos.iter().any(|x| x == &forked_repo.html_url) {
+                        //println!("Blocklisted already contains: {}", forked_repo.html_url);
+                    } else {
+                        check_repo_on_github(
+                            forked_repo,
+                            &client,
+                            url_for_content,
+                            &mut blocklisted_repos,
+                            &mut vec_of_new_repo,
+                        );
+                    }
+                }
+                // the last page has less then 100 items
+                if vec_forked_repo.len() < 100 {
+                    break;
+                }
+                page += 1;
             }
         }
 
-        reserved_folder.list_new_reviewer_id = Some(vec_of_new);
+        let mut query_vec: Vec<String> = vec![];
+        let output = unwrap!(std::process::Command::new("cargo")
+            .args(["crev", "id", "query", "all"])
+            .output());
+        let query_all = output.stdout;
+        let query_all = unwrap!(String::from_utf8(query_all));
+        for line in query_all.lines() {
+            let splitted: Vec<&str> = line.split_whitespace().collect();
+            query_vec.push(splitted[3].to_string());
+        }
+        for html_url in query_vec.iter() {
+            let url_for_content = format!(
+                "https://api.github.com/repos/{}/contents/",
+                html_url.trim_start_matches("https://github.com/")
+            );
+            let query_all_repo = ForkedRepo {
+                html_url: html_url.to_string(),
+                contents_url: url_for_content.to_string(),
+            };
+            // "html_url": "https://github.com/dcsommer/crev-proofs",
+            // "contents_url": "https://api.github.com/repos/dcsommer/crev-proofs/contents/",
+
+            // control in reviewer_index and blocklist to avoid futile calls to api
+            if unwrap!(state_global.lock())
+                .reviewer_index
+                .vec
+                .iter()
+                .any(|x| x.url == query_all_repo.html_url)
+            {
+                // println!("Reviewer_index already contains: {}", forked_repo.html_url);
+            } else if blocklisted_repos
+                .iter()
+                .any(|x| x == &query_all_repo.html_url)
+            {
+                // println!("Blocklisted already contains: {}", forked_repo.html_url);
+            } else {
+                dbg!(&query_all_repo.html_url);
+                check_repo_on_github(
+                    &query_all_repo,
+                    &client,
+                    &url_for_content,
+                    &mut blocklisted_repos,
+                    &mut vec_of_new_repo,
+                );
+            }
+        }
+
+        // save the blocklist.json
+        blocklisted_repos.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+        let blocklisted_repos_json = unwrap!(serde_json::to_string_pretty(&blocklisted_repos));
+        unwrap!(fs::write("blocklisted_repos.json", &blocklisted_repos_json));
+
+        vec_of_new_repo.sort_by(|a, b| {
+            a.reviewer_name
+                .to_lowercase()
+                .cmp(&b.reviewer_name.to_lowercase())
+        });
+
+        reserved_folder.list_new_reviewer_id = Some(vec_of_new_repo);
         // return
         reserved_folder
     }
 
-    pub async fn add_reviewer_url(
-        // this type guarantee that it has been decoded
-        reviewer_name: String,
-        _state_global: ArcMutStateGlobal,
-    ) -> Self {
-        // in this fragment are 2 parts delimited with /
-        // let split it and use parts one by one
-        // dbg!(&reviewer_name);
-        let reviewer_new = OnlyReviewer {
-            reviewer_name: s!(reviewer_name),
-            ..OnlyReviewer::default()
-        };
-        let reviewer_url = url_u!(
-            "https://github.com/{}/crev-proofs",
-            &reviewer_new.reviewer_name
-        );
-        let reviewer_url = reviewer_url.to_string();
-
-        // find github content
-        let gh_content_url = url_u!(
-            "https://api.github.com/repos/{}/crev-proofs/contents",
-            &reviewer_new.reviewer_name
-        );
-        let gh_content_url = gh_content_url.to_string();
-        // dbg!(&gh_content_url);
-        let resp_body = unwrap!(surf::get(&gh_content_url).recv_string().await);
-        // the new format of proof
-        // "name": "5X5SQsMDSEeY_uFOh9UOkkUiq8nt8ThA5ZJCHax5cu3hjM",
-        // "size": 0,
-        let mut reviewer_id = s!();
-        let mut pos_cursor: usize = 0;
-        // dbg!(&resp_body);
-        loop {
-            // first get the name, then get the size
-            let range_name =
-                find_range_between_delimiters(&resp_body, &mut pos_cursor, r#""name": ""#, r#"""#);
-            if let Some(range_name) = range_name {
-                // dbg!(&range_name);
-                let range_size = find_range_between_delimiters(
-                    &resp_body,
-                    &mut pos_cursor,
-                    r#""size": "#,
-                    r#","#,
-                );
-                if let Some(range_size) = range_size {
-                    // dbg!(&range_size);
-                    if &resp_body[range_size] == "0" {
-                        reviewer_id = s!(&resp_body[range_name]);
-                        break;
-                    }
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-        let add_reviewer_url = if reviewer_id.is_empty() {
-            format!(
-                "add reviewer with these commands:<br/>
-            cargo crev repo fetch url {}<br/>
-            cargo crev id trust {}<br/>",
-                &reviewer_url.to_string(),
-                &reviewer_id
-            )
-        } else {
-            s!("This repo is incomplete.")
-        };
-        // return
-        ReservedFolder {
-            add_reviewer_url: Some(add_reviewer_url),
-            ..Default::default()
-        }
-    }
     /// return the item at cursor or default
     fn item_at_cursor_1(&self, subtemplate: &str, pos_cursor: usize) -> Option<&OnlyReviewer> {
         if subtemplate == "stmplt_reviewers" {
-            if let Some(list) = &self.list_fetched_reviewer_id {
+            if let Some(list) = &self.list_trusted_reviewer_id {
                 Some(&list[pos_cursor])
             } else {
                 None
@@ -321,7 +394,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
     fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool {
         // dbg!(&placeholder);
         match placeholder {
-            "sb_is_list_fetched_reviewer_id" => self.list_fetched_reviewer_id.is_some(),
+            "sb_is_list_trusted_reviewer_id" => self.list_trusted_reviewer_id.is_some(),
             "sb_is_fetch_new_reviews" => self.fetch_new_reviews.is_some(),
             "sb_is_reindex_after_fetch_new_reviews" => {
                 self.reindex_after_fetch_new_reviews.is_some()
@@ -330,7 +403,6 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 self.blocklisted_repos.is_some() && self.list_new_reviewer_id.is_none()
             }
             "sb_list_new_reviewer_id" => self.list_new_reviewer_id.is_some(),
-            "sb_add_reviewer_url" => self.add_reviewer_url.is_some(),
             _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -348,7 +420,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
         pos_cursor: usize,
     ) -> String {
         // dbg!(&placeholder);
-        // list_fetched_reviewer_id is Option and can be None or Some
+        // list_trusted_reviewer_id is Option and can be None or Some
         let only_reviewer_empty = OnlyReviewer::default();
         let item_at_cursor_1 = self
             .item_at_cursor_1(subtemplate, pos_cursor)
@@ -363,11 +435,12 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "st_reviewer_id" => s!(item_at_cursor_1.reviewer_id),
             // same name from different data model is not allowed
             "st_reviewer_name_2" => s!(item_at_cursor_2.reviewer_name),
+            "st_reviewer_url_2" => s!(item_at_cursor_2.reviewer_url),
+            "st_reviewer_id_2" => s!(item_at_cursor_2.reviewer_id),
             "st_reindex_after_fetch_new_reviews" => {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
             }
             "st_fetch_new_reviews" => s!(unwrap!(self.fetch_new_reviews.as_ref())),
-            "st_add_reviewer_url" => s!(unwrap!(self.add_reviewer_url.as_ref())),
             "st_repo_url" => s!(unwrap!(self.blocklisted_repos.as_ref())[pos_cursor]),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
@@ -397,15 +470,8 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "su_reviewer_route" => {
                 url_u!("/rust-reviews/reviewer/{}/", &item_at_cursor_1.reviewer_id)
             }
-            "su_add_reviewer_url_route" => url_u!(
-                "/rust-reviews/reserved_folder/add_reviewer_url/{}/",
-                &item_at_cursor_2.reviewer_name
-            ),
             "su_reviewer_url_2" => {
-                let x = url_u!(
-                    "https://github.com/{}/crev-proofs/",
-                    &item_at_cursor_2.reviewer_name
-                );
+                let x = url_u!(&item_at_cursor_2.reviewer_url, "");
                 //dbg!(&x);
                 //return
                 x
@@ -432,7 +498,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
         match template_name {
             "stmplt_reviewers" => {
                 let mut nodes = vec![];
-                if let Some(list) = &self.list_fetched_reviewer_id {
+                if let Some(list) = &self.list_trusted_reviewer_id {
                     let sub_template = unwrap!(sub_templates
                         .iter()
                         .find(|&template| template.name == template_name));

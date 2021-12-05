@@ -1,0 +1,17 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2020-07-25T04:10:12.498913488+00:00"
+from:
+  id-type: crev
+  id: W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI
+  url: "https://gitlab.com/chrysn/auto-crev-proofs"
+ids:
+  - id-type: crev
+    id: wsciW9LusJ8gwJSJmopR7SSuCOHupklIy-64ABXXysU
+    url: "https://github.com/conradgrobler/crev-proofs"
+trust: none
+----- SIGN CREV PROOF -----
+Oft4oYqHeMDu6STWNS1jw10KEoETcgw9NiJDL7RXKg6fCKEzy3cCoL3FuchzYqMHypDBHmbGn6ShEq-HBWwgCQ
+----- END CREV PROOF -----
+

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["start_routes",""]]});
+initSidebarItems({"fn":[["start_routes",""]],"macro":[["boxed_on_debug",""],["combine","Helper to combine the multiple filters together with Filter::or, possibly boxing the types in the process. This greatly helps the build times for `ipfs-http`."]]});

@@ -52,12 +52,14 @@
     <div class="container_0">
         <div class="container0_content_not_grid">
             <div class="menu_item">Actions:</div>
-            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/last_reviews/">- last reviews</a></div>
-            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/list_fetched_reviewer_id/">- list_fetched_reviewer_id</a></div>
-            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/blocklisted_repos/">- incomplete, obsolete or blocklisted repos</a></div>
-            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/list_new_reviewer_id/">- list_new_reviewer_id from https://gitlab.com/crev-dev/auto-crev-proofs</a></div>
-            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/fetch_new_reviews/">- fetch_new_reviews</a></div>
-            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/">- reindex_after_fetch_new_reviews</a></div>
+            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/last_reviews/">- last 60 reviews</a></div>
+            <div class="menu_item">-</div>
+            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/list_trusted_reviewer_id/">- list trusted reviewers</a></div>
+            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/blocklisted_repos/">- list blocklisted reviewers (because incomplete or obsolete)</a></div>
+            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/list_new_reviewer_id/">- list new reviewers</a></div>
+            <div class="menu_item">-</div>
+            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/fetch_new_reviews/">- fetch new reviews</a></div>
+            <div class="menu_item"><a class="c_link_1" href="/rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/">- reindex reviews and reviewers (after fetch)</a></div>
         </div>
     </div>
     <!--sb_is_reindex_after_fetch_new_reviews-->
@@ -74,9 +76,9 @@
                 <!--st_fetch_new_reviews-->fetch will finish in a minute</div>
         </div>
     </div>
-    <!--sb_is_list_fetched_reviewer_id-->
+    <!--sb_is_list_trusted_reviewer_id-->
     <div class="container_0">
-        <div class="container0_content_grid_0" style="grid-template-columns: 10% 30% 30% 30% ;">
+        <div class="container0_content_grid_0" style="grid-template-columns: 5% 20% 40% 35% ;">
             <div class="grid0_h_c bold" title="ordinal number">o</div>
             <div class="grid0_h_c bold">reviewer_name</div>
             <div class="grid0_h_c bold">reviewer_id</div>
@@ -89,11 +91,11 @@
                 <a data-su_reviewer_route="href" href="">
                     <!--st_reviewer_name_1-->reviewer_name</a>
             </div>
-            <div class="grid0_c break-all">
+            <div class="grid0_c break-all small">
                 <!--st_reviewer_id-->verylongverylongverylongverylongverylongverylongverylongverylongverylongverylongverylongverylongverylong
             </div>
             <div class="grid0_c break-all">
-                <a class="c_link_1" target="_blank" data-su_reviewer_url="href" href=" ">
+                <a class="c_link_1 small" target="_blank" data-su_reviewer_url="href" href=" ">
                     <!--su_reviewer_url-->verylongverylongverylongverylongverylongverylongverylongverylongverylongverylongverylongverylong
                 </a>
             </div>
@@ -119,32 +121,16 @@
     </div>
     <!--sb_list_new_reviewer_id-->
     <div class="container_0">
-        <div class="container0_content_grid_0" style="grid-template-columns: 10% 10% 80% ;">
-            <div class="grid0_h_c bold" title="ordinal number">o</div>
-            <div class="grid0_h_c bold" title="add to trusted reviewers">add</div>
-            <div class="grid0_h_c bold">reviewer_name</div>
+        <div class="container0_content_grid_0" style="grid-template-columns: 100% ;">
+            <div class="grid0_h_c bold" title="add to trusted reviewers">code to add reviewer url</div>
 
             <!--stmplt_reviewers_new start-->
-            <div class="grid0_c" title="ordinal_number">
-                <!--st_ordinal_number-->1</div>
             <div class="grid0_c">
-                <a class="c_link_1" target="_blank" data-su_add_reviewer_url_route="href" href=" ">
-                    add
-                </a>
-            </div>
-            <div class="grid0_c break-all">
-                <a class="c_link_1" target="_blank" data-su_reviewer_url_2="href" href=" ">
-                    <!--st_reviewer_name_2-->reviewerName
+                <a class="c_link_1" target="_blank">
+                    cargo crev trust --level low <!--st_reviewer_url_2-->reviewerUrl
                 </a>
             </div>
             <!--stmplt_reviewers_new end-->
-        </div>
-    </div>
-    <!--sb_add_reviewer_url-->
-    <div class="container_0">
-        <div class="container0_content_grid_0" style="grid-template-columns: auto ;">
-            <div class="grid0_h_c bold" title="ordinal number">
-                <!--st_add_reviewer_url-->add reviewer_finished</div>
         </div>
     </div>
     <div>
@@ -156,7 +142,6 @@
                         https://github.com/LucianoBestia/cargo_crev_web/
                   </a>
             </p>
-
         </div>
     </div>
 </body>

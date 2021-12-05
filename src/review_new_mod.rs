@@ -177,7 +177,7 @@ impl HtmlServerTemplateRender for ReviewNew {
         _pos_cursor: usize,
     ) -> String {
         // dbg!(&placeholder);
-        // list_fetched_reviewer_id is Option and can be None or Some
+        // list_trusted_reviewer_id is Option and can be None or Some
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_yaml_text" => s!(self.yaml_text),

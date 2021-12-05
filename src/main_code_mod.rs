@@ -43,12 +43,14 @@ pub async fn main_code() {
     // endregion
 
     // I will cache the review index
-    let review_index = review_index_mod::ReviewIndex::new();
+    let review_index = crate::review_index_mod::ReviewIndex::new();
+    let reviewer_index = crate::reviewer_index_mod::ReviewerIndex::new();
     // I don't have a solution yet. I'm waiting if maybe they make an api for minimal data.
     //let crate_index = cargo_registry_index_mod::CrateIndex::new();
     let state_global = state_mod::StateGlobal {
         //crate_index,
         review_index,
+        reviewer_index,
     };
     let state_global = Arc::new(Mutex::new(state_global));
 

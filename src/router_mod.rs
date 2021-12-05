@@ -88,8 +88,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/
     // /rust-reviews/reserved_folder/blocklisted_repos/
     // /rust-reviews/reserved_folder/list_new_reviewer_id/
-    // /rust-reviews/reserved_folder/add_reviewer_url/
-    // /rust-reviews/reserved_folder/list_fetched_reviewer_id/
+    // /rust-reviews/reserved_folder/list_trusted_reviewer_id/
 
     // this looks like a file and does not need ends_with_slash_or_redirect()
     let index_html_route = warp::path!("rust-reviews" / "index.html")
@@ -226,38 +225,13 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
                         result
                     }),
             )
-            .or(warp::path!(
-                "rust-reviews" / "reserved_folder" / "add_reviewer_url" / UrlPartUtf8Decoded
-            )
-            .and(state_global.clone())
-            .and_then(
-                |reviewer_name: UrlPartUtf8Decoded, state_global| async move {
-                    let ns_start = ns_start("add_reviewer_url");
-                    let reviewer_name = reviewer_name.to_string();
-                    // in this fragment are 2 parts delimited with /, so it must be encoded
-                    // after decoding looks like "scott-wilson/crev-proofs"
-                    // dbg!(&reviewer_name);
-                    let data_model = reserved_folder_mod::ReservedFolder::add_reviewer_url(
-                        reviewer_name,
-                        state_global,
-                    )
-                    .await;
-                    let ns_new = ns_print("new()", ns_start);
-                    let html_file = data_model.render_html_file("templates/");
-                    ns_print("render_html_file()", ns_new);
-                    // return crazy types
-                    let result: Result<Box<dyn warp::Reply>, warp::Rejection> =
-                        Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
-                    result
-                },
-            ))
             .or(
-                warp::path!("rust-reviews" / "reserved_folder" / "list_fetched_reviewer_id")
+                warp::path!("rust-reviews" / "reserved_folder" / "list_trusted_reviewer_id")
                     .and(state_global.clone())
                     .map(|state_global| {
-                        let ns_start = ns_start("list_fetched_reviewer_id");
+                        let ns_start = ns_start("list_trusted_reviewer_id");
                         let data_model =
-                            reserved_folder_mod::ReservedFolder::list_fetched_reviewer_id(
+                            reserved_folder_mod::ReservedFolder::list_trusted_reviewer_id(
                                 state_global,
                             );
                         let ns_new = ns_print("new()", ns_start);

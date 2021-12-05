@@ -153,7 +153,7 @@
 //! ## Linux scheduler
 //!
 //! I need to call every hour:  
-//! `cargo crev repo fetch all`
+//! `cargo crev repo fetch trusted`
 //! to have fresh reviews available locally in `~/.cache/crev/`.  
 //! The Linux scheduler `crontab` is ok, but I miss something more visual.  
 //! I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
@@ -293,6 +293,7 @@ mod review_index_mod;
 mod review_index_summary_mod;
 mod review_mod;
 mod review_new_mod;
+mod reviewer_index_mod;
 mod reviewer_reviews_mod;
 mod reviewers_mod;
 mod router_mod;

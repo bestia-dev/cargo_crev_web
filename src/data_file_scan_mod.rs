@@ -34,7 +34,7 @@ pub fn path_of_remotes_folder() -> PathBuf {
 }
 
 /// all file names
-pub fn crev_files(folder_path: &str) -> Vec<String> {
+pub fn reviews_crev_files(folder_path: &str) -> Vec<String> {
     // return
     unwrap!(traverse_dir_with_exclude_dir(
         Path::new(folder_path),
@@ -44,20 +44,19 @@ pub fn crev_files(folder_path: &str) -> Vec<String> {
     ))
 }
 
-pub struct ReviewsInOneFile {
+pub struct ProofsInOneFile {
     crev_text: String,
     pos_cursor: usize,
     is_old_format: bool,
 }
 
-impl ReviewsInOneFile {
-    pub fn new(file_name: &str) -> Self {
-        let path = path_of_remotes_folder().join(file_name);
-        //dbg!(&path);
+impl ProofsInOneFile {
+    pub fn new(file_path: &str) -> Self {
+        // dbg!(&file_path);
         // read crev file
-        let crev_text = unwrap!(fs::read_to_string(path));
+        let crev_text = unwrap!(fs::read_to_string(file_path));
         //return
-        ReviewsInOneFile {
+        ProofsInOneFile {
             crev_text,
             pos_cursor: 0,
             is_old_format: false,
@@ -67,7 +66,7 @@ impl ReviewsInOneFile {
 
 // todo: I want to return &str, but the lifetimes are super confusing
 // or at least use only one buffer to avoid repeated allocation
-impl Iterator for ReviewsInOneFile {
+impl Iterator for ProofsInOneFile {
     type Item = String;
     /// returns the next review text
     fn next(&mut self) -> Option<Self::Item> {
@@ -125,10 +124,10 @@ fn get_vec_from_one_file(reviews: &mut Vec<Review>, one_file_review_pk: &OneFile
     // first fill a vector with reviews, because I need to filter and sort them
     let path = path_of_remotes_folder().join(file_path);
     let path = path.to_string_lossy();
-    //dbg!(&path);
+    // dbg!(&path);
     // read crev file
     // iterator for reviews return &str
-    let reviews_in_one_file = ReviewsInOneFile::new(&path);
+    let reviews_in_one_file = ProofsInOneFile::new(&path);
     for review_string in reviews_in_one_file {
         if let Some(reviews_pk) = &one_file_review_pk.reviews_pk {
             // push this review if it is in selected reviews

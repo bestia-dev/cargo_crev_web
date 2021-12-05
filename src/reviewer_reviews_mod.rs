@@ -79,7 +79,12 @@ impl ReviewerReviews {
                 .version_for_sorting
                 .cmp(&a.package.version_for_sorting)
         });
-        reviews.sort_by(|a, b| a.package.name.cmp(&b.package.name));
+        reviews.sort_by(|a, b| {
+            a.package
+                .name
+                .to_lowercase()
+                .cmp(&b.package.name.to_lowercase())
+        });
         // return
         ReviewerReviews {
             reviewer_name: reviewer_name,

@@ -1,4 +1,5 @@
 [comment]: # (lmake_md_to_doc_comments segment start A)
+
 # Rust-reviews (working title cargo_crev_web)
 
 [comment]: # (lmake_cargo_toml_to_md start)
@@ -21,7 +22,7 @@
 
 ## Try it out
 
-<https://web.crev.dev/rust-reviews/crate/num-traits/>  
+<https://web.crev.dev/rust-reviews/crates>  
 
 ## cargo-crev
 
@@ -39,7 +40,7 @@ The same machine will have the web server and the git repository for cargo-crev.
 
 Please, spread this info !\
 Open source code needs a community effort to express trustworthiness.\
-Start with reading the reviews of the crates you use. Example: [web.crev.dev/rust-reviews/crate/num-traits/](https://web.crev.dev/rust-reviews/crate/num-traits/) \
+Start with reading the reviews of the crates you use. Example: [web.crev.dev/rust-reviews/crates](https://web.crev.dev/rust-reviews/crates) \
 Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \
 On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
 Write a new review ! \
@@ -93,6 +94,8 @@ create a new session
 `screen -S cargo_crev_web_8051`,  
 connect to an existing session  
 `screen -r cargo_crev_web_8051`,  
+Set the credentials for cargo-crev CLI in the env variable:
+`export CREV_PASSPHRASE=your_passphrase`
 start the web server  
 `cd /var/www/webapps/cargo_crev_web; ./cargo_crev_web`
 detach the session
@@ -107,6 +110,7 @@ My first attempt was to install rust and cargo with rustup with minimal profile.
 Then I tried to install cargo-crev with cargo:  
 `cargo install cargo-crev`  
 It was a disaster. I have the smallest, tiniest possible VM and it looks that compiling the source code of cargo-crev is too much for it. I tried 3 times, waited for a few hours and it didn't succeed.  
+I then deleted the folder `~/.cargo/registry/src` to free some disk space.  
 Fortunately there is a binary release already compiled here:  
 `https://github.com/crev-dev/cargo-crev/releases/download/v0.16.1/cargo-crev-v0.16.1-x86_64-unknown-linux-musl.tar.gz`  
 I unzip it twice and saved the binary file `cargo-crev` in:  
@@ -115,7 +119,7 @@ I could use it already and fetch all the repos, but that is not super safe. Bett
 For this I need to create a crev Id and for that I need to have a GitHub repo.  
 Size of .cache/crev
 On my local machine is 7 MB
-On web server 2 MB
+On web server is now 22 MB
 It looks that it is not extremely big.
 
 ## GitHub crev-proofs
@@ -125,7 +129,7 @@ I created a new GitHub user: `cargo-crev-web`. I wanted cargo_crev_web, but I co
 I used my second email, because my first email is used for my personal GitHub LucianoBestia.  
 On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.  
 I forked the template <https://github.com/crev-dev/crev-proofs>.  
-For fetch I will open a new screen session:  
+For git fetch and reindex I will open a new screen session:  
 `screen -S cargo_crev_web_git`  
 to reconnect later: `screen -r cargo_crev_web_git`  
 I will need the credentials for ssh for GitHub:  
@@ -134,15 +138,18 @@ I will need the credentials for ssh for GitHub:
 create new crev id with my new github repo:  
 `cargo crev id new --url https://github.com/cargo-crev-web/crev-proofs`  
 add a trusted user:  
-`crev id trust <hash>`  
+`cargo crev id trust <hash>`  
 example for dpc - Dawid Ciężarkiewicz, the author of cargo-crev. I trust him:  
 `cargo crev id trust FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE`  
 it is possible also to trust a repo:  
-`cargo crev trust <url of someone's crev-proofs repo>`  
+`cargo crev trust --level medium <url of someone's crev-proofs repo>`  
 At the end of editing the local data push:  
 `cargo crev repo publish`  
 
 ## trusted reviewers
+
+TODO: trust and untrust will be made calling `cargo crev trust --level low <url>` or  
+`cargo crev id untrust --level none xxx` from the program.  
 
 For the purpose of showing most existing reviews, the cargo_rev_web will "trust" anybody.  
 It is not really trusting, it is just showing their reviews.  
@@ -155,7 +162,7 @@ For incomplete, obsolete or otherwise unwanted repos I will have an editable bla
 ## Linux scheduler
 
 I need to call every hour:  
-`cargo crev repo fetch all`
+`cargo crev repo fetch trusted`
 to have fresh reviews available locally in `~/.cache/crev/`.  
 The Linux scheduler `crontab` is ok, but I miss something more visual.  
 I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
@@ -187,7 +194,7 @@ Then I add comments that are commands where to insert the dynamic data. This com
 On the web server the HtmlTemplating trait takes the template and inserts the dynamic data.  
 The result is normal html and is sent to the browser.
 
-## markdown md to htmlž
+## markdown md to html
 
 I use the rust comrak lib to convert the review comment from md to html.  
 

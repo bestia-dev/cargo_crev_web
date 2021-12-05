@@ -56,7 +56,7 @@
                 </div>
             </div>
             <code data-st_cmd_fetch="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy">$ <!--st_cmd_fetch-->cargo crev repo fetch url https://gitlab.com/crev-dev/auto-crev-proofs</code><br/>
-            <code data-st_cmd_trust="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy">$ <!--st_cmd_trust-->cargo crev id trust 24YKeuThJD_NFSlJy_xcl5diSZcKcRbh-0zXM0YxTOFJw</code>
+            <code data-st_cmd_trust="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy">$ <!--st_cmd_trust-->cargo crev trust --level medium 24YKeuThJD_NFSlJy_xcl5diSZcKcRbh-0zXM0YxTOFJw</code>
             <p>repo:
                 <a class="c_link_1" data-su_reviewer_url="href" href="" target="_blank">
                     <!--st_reviewer_url-->https://gitlab.com/crev-dev/auto-crev-proofs</a>
@@ -159,8 +159,7 @@
             <div class="review_header0_cell">medium high</div>
         </div>
 
-        <div class="review_comment">Not quite ready for untrusted input due to panics and not fuzzed. Minor soundness concerns for floating point operations, rooted in Rust language `as` operator not having fully specified behavior (yet). All is well for the integer part of the
-            library.
+        <div class="review_comment">comment
         </div>
     </div>
     <!--stmplt_not_for_render end-->

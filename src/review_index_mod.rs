@@ -47,16 +47,13 @@ impl ReviewIndex {
         let path_of_remotes_folder = path_of_remotes_folder();
         let path_of_remotes_folder = path_of_remotes_folder.to_string_lossy() + "/";
         //fill from all the files all the reviews
-        for file_name in crev_files(&path_of_remotes_folder).iter() {
-            // I don't want too long file names
-            //dbg!(file_name);
-            let file_name = file_name.trim_start_matches(&path_of_remotes_folder.to_string());
-            //dbg!(file_name);
+        for file_name in reviews_crev_files(&path_of_remotes_folder).iter() {
             // iterator for reviews return &str
-            let reviews_in_one_file = ReviewsInOneFile::new(file_name);
+            let reviews_in_one_file = ProofsInOneFile::new(file_name);
+            let file_name_short = file_name.trim_start_matches(&path_of_remotes_folder.to_string());
             for review_string in reviews_in_one_file {
                 // use only data for index
-                Self::push_review_index(&review_string, &mut review_index, file_name);
+                Self::push_review_index(&review_string, &mut review_index, file_name_short);
             }
         }
         // sort by file_path
@@ -71,49 +68,66 @@ impl ReviewIndex {
     /// mutates review_index
     fn push_review_index(review_string: &str, review_index: &mut ReviewIndex, file_path: &str) {
         // deserialize one review
-        //dbg!(review_string);
-        let review: crate::review_mod::Review = unwrap!(serde_yaml::from_str(review_string));
-        // use only some of the data for the index
-        // convert to Utc for comparison
-        let date: chrono::DateTime<chrono::Utc> =
-            chrono::DateTime::from(unwrap!(chrono::DateTime::parse_from_rfc3339(&review.date)));
-        let review_index_item = ReviewIndexItem {
-            crate_name: s!(&review.package.name),
-            version: s!(&review.package.version),
-            version_for_sorting: review.version_for_sorting(),
-            date: date,
-            reviewer_name: review.get_reviewer_name(),
-            reviewer_url: s!(&review.from.url),
-            reviewer_id: s!(&review.from.id),
-            file_path: file_path.to_string(),
-            rating_strong: conditional_usize(review.get_rating() == Rating::Strong, 1, 0),
-            rating_positive: conditional_usize(review.get_rating() == Rating::Positive, 1, 0),
-            rating_neutral: conditional_usize(review.get_rating() == Rating::Neutral, 1, 0),
-            rating_negative: conditional_usize(review.get_rating() == Rating::Negative, 1, 0),
-            rating_none: conditional_usize(review.get_rating() == Rating::None, 1, 0),
+        // dbg!(review_string);
+        // if the review cannot be deserialized, just write an error:
+        let rsl = serde_yaml::from_str::<crate::review_mod::Review>(review_string);
+        match rsl {
+            Err(_err) => {
+                println!("error parsing: {}", review_string.replace("\\n", "\n"));
+            }
+            Ok(review) => {
+                // use only some of the data for the index
+                // convert to Utc for comparison
+                let date: chrono::DateTime<chrono::Utc> = chrono::DateTime::from(unwrap!(
+                    chrono::DateTime::parse_from_rfc3339(&review.date)
+                ));
+                let review_index_item = ReviewIndexItem {
+                    crate_name: s!(&review.package.name),
+                    version: s!(&review.package.version),
+                    version_for_sorting: review.version_for_sorting(),
+                    date: date,
+                    reviewer_name: review.get_reviewer_name(),
+                    reviewer_url: s!(&review.from.url),
+                    reviewer_id: s!(&review.from.id),
+                    file_path: file_path.to_string(),
+                    rating_strong: conditional_usize(review.get_rating() == Rating::Strong, 1, 0),
+                    rating_positive: conditional_usize(
+                        review.get_rating() == Rating::Positive,
+                        1,
+                        0,
+                    ),
+                    rating_neutral: conditional_usize(review.get_rating() == Rating::Neutral, 1, 0),
+                    rating_negative: conditional_usize(
+                        review.get_rating() == Rating::Negative,
+                        1,
+                        0,
+                    ),
+                    rating_none: conditional_usize(review.get_rating() == Rating::None, 1, 0),
 
-            alternatives: {
-                if let Some(alternatives) = review.alternatives {
-                    alternatives.len()
-                } else {
-                    0
-                }
-            },
-            issues: {
-                if let Some(issues) = review.issues {
-                    issues.len()
-                } else {
-                    0
-                }
-            },
-            advisories: {
-                if let Some(advisories) = review.advisories {
-                    advisories.len()
-                } else {
-                    0
-                }
-            },
-        };
-        review_index.vec.push(review_index_item);
+                    alternatives: {
+                        if let Some(alternatives) = review.alternatives {
+                            alternatives.len()
+                        } else {
+                            0
+                        }
+                    },
+                    issues: {
+                        if let Some(issues) = review.issues {
+                            issues.len()
+                        } else {
+                            0
+                        }
+                    },
+                    advisories: {
+                        if let Some(advisories) = review.advisories {
+                            advisories.len()
+                        } else {
+                            0
+                        }
+                    },
+                };
+                review_index.vec.push(review_index_item);
+            }
+        }
     }
 }

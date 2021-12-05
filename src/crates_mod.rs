@@ -31,7 +31,7 @@ impl ReviewIndexByCrate {
         unwrap!(state_global.lock())
             .review_index
             .vec
-            .sort_by(|a, b| Ord::cmp(&a.crate_name, &b.crate_name));
+            .sort_by(|a, b| Ord::cmp(&a.crate_name.to_lowercase(), &b.crate_name.to_lowercase()));
 
         let mut old_crate_name = s!();
         let mut for_unique_versions: Vec<String> = vec![];

@@ -240,7 +240,8 @@ pub fn reviewer_name_from_url(url: &str) -> String {
     let reviewer_name = url
         .replace("https://github.com/", "")
         .replace("https://gitlab.com/", "")
-        .replace("/crev-proofs", "");
+        .replace("/crev-proofs", "")
+        .replace("https://", "");
     // return
     reviewer_name
 }

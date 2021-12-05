@@ -8,4 +8,4 @@ git log --decorate
 
 git remote add bot-origin https://gitlab-ci-token:"${PUSHER_TOKEN}"@gitlab.com/crev-dev/auto-crev-proofs.git
 
-git push bot-origin HEAD:"${CI_COMMIT_BRANCH}"
+git push -o ci.skip bot-origin HEAD:"${CI_COMMIT_BRANCH}"

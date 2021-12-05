@@ -1,0 +1,34 @@
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2021-04-14T04:19:33.053347020+00:00"
+from:
+  id-type: crev
+  id: W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI
+  url: "https://gitlab.com/chrysn/auto-crev-proofs"
+ids:
+  - id-type: crev
+    id: kQ1fVKX-nZhluPcz1Wj7PGsAgUe7sEeNXPCi0qDJQCw
+    url: "https://github.com/Minoru/crev-proofs.git"
+trust: none
+----- SIGN CREV PROOF -----
+bMUytXbFFVI8rtS8bbEySK57HnBa67c4jd1ggVkUd6S8FSaFLJlos3d59f5m-CXLnRcGKS7PEfUMeolI_E7pDQ
+----- END CREV PROOF -----
+
+----- BEGIN CREV PROOF -----
+kind: trust
+version: -1
+date: "2021-04-14T04:20:35.135809821+00:00"
+from:
+  id-type: crev
+  id: W-RXYmWCrsXJWinxMMdjCjR9ywGlH9srvMi0cmYL2rI
+  url: "https://gitlab.com/chrysn/auto-crev-proofs"
+ids:
+  - id-type: crev
+    id: iZKzlACNhyCqaUVxheq9FiWY4LNs-ftAySKPwxh0kKM
+    url: "https://github.com/hunger/crev-proofs.git"
+trust: none
+----- SIGN CREV PROOF -----
+mQLoMKW8d2Euw98HSBjWe8hKX0lllISIHE5IFyEkcR8y2LfL7p5M06JXBhKJTRoJUnBjrDuUb2Mw0l9gOQOnDA
+----- END CREV PROOF -----
+
