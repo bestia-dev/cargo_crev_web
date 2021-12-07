@@ -281,6 +281,7 @@ mod cargo_registry_index_mod;
 mod crate_reviews_mod;
 mod crate_version_summary_mod;
 mod crates_mod;
+mod daily_visitors_mod;
 mod data_file_scan_mod;
 mod html_server_template_mod;
 mod issue_mod;

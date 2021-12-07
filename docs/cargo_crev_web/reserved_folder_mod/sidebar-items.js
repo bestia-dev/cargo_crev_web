@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["OnlyReviewer",""],["ReservedFolder",""]]});
+initSidebarItems({"struct":[["DailyVisitors",""],["OnlyReviewer",""],["ReservedFolder",""]]});

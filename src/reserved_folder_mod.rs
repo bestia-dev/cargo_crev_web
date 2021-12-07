@@ -20,6 +20,13 @@ pub struct OnlyReviewer {
     pub reviewer_url: String,
 }
 
+#[derive(Debug, Default)]
+pub struct DailyVisitors {
+    pub date: String,
+    pub visitors: String,
+    pub requests: String,
+}
+
 //use unwrap::unwrap;
 #[derive(Debug, Default)]
 pub struct ReservedFolder {
@@ -28,6 +35,7 @@ pub struct ReservedFolder {
     pub fetch_new_reviews: Option<String>,
     pub blocklisted_repos: Option<Vec<String>>,
     pub list_new_reviewer_id: Option<Vec<OnlyReviewer>>,
+    pub daily_visitors: Option<Vec<DailyVisitors>>,
 }
 
 impl ReservedFolder {
@@ -100,7 +108,7 @@ impl ReservedFolder {
 
     /// The command `cargo crev id query all` returns a list of repos found in
     /// all trust crev files: mine (/home/me/.config/crev) and from all the remotes (/home/me/.cache/crev/remotes).
-    /// I used for some time the repo https://gitlab.com/crev-dev/auto-crev-proofs.git.
+    /// I used for some time the repo <https://gitlab.com/crev-dev/auto-crev-proofs.git>.
     /// It finds new repos automatically, but it looks that it is not working any more.
     /// I will do it myself: find all forked crev-proofs on github and gitlab and `cargo crev id query all`.
     /// There are also some manually added repos in:
@@ -350,6 +358,16 @@ impl ReservedFolder {
         reserved_folder
     }
 
+    pub fn daily_visitors(_state_global: ArcMutStateGlobal) -> Self {
+        // dbg!(reviewer_index);
+        let daily_visitors = crate::daily_visitors_mod::read_nginx_log_and_fill_daily_visitors();
+        // return
+        ReservedFolder {
+            daily_visitors: Some(daily_visitors),
+            ..Default::default()
+        }
+    }
+
     /// return the item at cursor or default
     fn item_at_cursor_1(&self, subtemplate: &str, pos_cursor: usize) -> Option<&OnlyReviewer> {
         if subtemplate == "stmplt_reviewers" {
@@ -366,6 +384,18 @@ impl ReservedFolder {
     fn item_at_cursor_2(&self, subtemplate: &str, pos_cursor: usize) -> Option<&OnlyReviewer> {
         if subtemplate == "stmplt_reviewers_new" {
             if let Some(list) = &self.list_new_reviewer_id {
+                Some(&list[pos_cursor])
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    }
+
+    fn item_at_cursor_3(&self, subtemplate: &str, pos_cursor: usize) -> Option<&DailyVisitors> {
+        if subtemplate == "stmplt_daily_visitors" {
+            if let Some(list) = &self.daily_visitors {
                 Some(&list[pos_cursor])
             } else {
                 None
@@ -403,6 +433,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 self.blocklisted_repos.is_some() && self.list_new_reviewer_id.is_none()
             }
             "sb_list_new_reviewer_id" => self.list_new_reviewer_id.is_some(),
+            "sb_daily_visitors" => self.daily_visitors.is_some(),
             _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -422,12 +453,16 @@ impl HtmlServerTemplateRender for ReservedFolder {
         // dbg!(&placeholder);
         // list_trusted_reviewer_id is Option and can be None or Some
         let only_reviewer_empty = OnlyReviewer::default();
+        let daily_visitors_empty = DailyVisitors::default();
         let item_at_cursor_1 = self
             .item_at_cursor_1(subtemplate, pos_cursor)
             .unwrap_or(&only_reviewer_empty);
         let item_at_cursor_2 = self
             .item_at_cursor_2(subtemplate, pos_cursor)
             .unwrap_or(&only_reviewer_empty);
+        let item_at_cursor_3 = self
+            .item_at_cursor_3(subtemplate, pos_cursor)
+            .unwrap_or(&daily_visitors_empty);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_ordinal_number" => s!(pos_cursor + 1),
@@ -442,6 +477,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
             }
             "st_fetch_new_reviews" => s!(unwrap!(self.fetch_new_reviews.as_ref())),
             "st_repo_url" => s!(unwrap!(self.blocklisted_repos.as_ref())[pos_cursor]),
+
+            "st_date" => s!(item_at_cursor_3.date),
+            "st_visitors" => s!(item_at_cursor_3.visitors),
+            "st_requests" => s!(item_at_cursor_3.requests),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -539,6 +578,26 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "stmplt_reviewers_new" => {
                 let mut nodes = vec![];
                 if let Some(list) = &self.list_new_reviewer_id {
+                    let sub_template = unwrap!(sub_templates
+                        .iter()
+                        .find(|&template| template.name == template_name));
+                    // sub-template repeatable
+                    for cursor_for_vec in 0..list.len() {
+                        let vec_node = unwrap!(self.render_template_raw_to_nodes(
+                            &sub_template.template,
+                            HtmlOrSvg::Html,
+                            template_name,
+                            cursor_for_vec
+                        ));
+                        nodes.extend_from_slice(&vec_node);
+                    }
+                }
+                // return
+                nodes
+            }
+            "stmplt_daily_visitors" => {
+                let mut nodes = vec![];
+                if let Some(list) = &self.daily_visitors {
                     let sub_template = unwrap!(sub_templates
                         .iter()
                         .find(|&template| template.name == template_name));

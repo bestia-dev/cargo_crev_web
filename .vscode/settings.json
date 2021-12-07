@@ -21,6 +21,7 @@
         "Eddd\\'e",
         "filedate",
         "fileserver",
+        "flate2",
         "htmlescape",
         "ipfs",
         "itertools",

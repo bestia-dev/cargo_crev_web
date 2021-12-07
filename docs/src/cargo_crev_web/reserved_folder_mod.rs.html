@@ -560,6 +560,65 @@
 <span id="560">560</span>
 <span id="561">561</span>
 <span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
 </pre><pre class="rust"><code><span class="doccomment">//! reserved_folder_mod</span>
 <span class="doccomment">//! This is only one module/html page, but can execute different actions.</span>
 <span class="doccomment">//! The data model must have fields for every action as Option&lt;&gt;.</span>
@@ -582,6 +641,13 @@
     <span class="kw">pub</span> <span class="ident">reviewer_url</span>: <span class="ident">String</span>,
 }
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DailyVisitors</span> {
+    <span class="kw">pub</span> <span class="ident">date</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">visitors</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">requests</span>: <span class="ident">String</span>,
+}
+
 <span class="comment">//use unwrap::unwrap;</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReservedFolder</span> {
@@ -590,6 +656,7 @@
     <span class="kw">pub</span> <span class="ident">fetch_new_reviews</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">blocklisted_repos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">list_new_reviewer_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OnlyReviewer</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">daily_visitors</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DailyVisitors</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">ReservedFolder</span> {
@@ -662,7 +729,7 @@
 
     <span class="doccomment">/// The command `cargo crev id query all` returns a list of repos found in</span>
     <span class="doccomment">/// all trust crev files: mine (/home/me/.config/crev) and from all the remotes (/home/me/.cache/crev/remotes).</span>
-    <span class="doccomment">/// I used for some time the repo https://gitlab.com/crev-dev/auto-crev-proofs.git.</span>
+    <span class="doccomment">/// I used for some time the repo &lt;https://gitlab.com/crev-dev/auto-crev-proofs.git&gt;.</span>
     <span class="doccomment">/// It finds new repos automatically, but it looks that it is not working any more.</span>
     <span class="doccomment">/// I will do it myself: find all forked crev-proofs on github and gitlab and `cargo crev id query all`.</span>
     <span class="doccomment">/// There are also some manually added repos in:</span>
@@ -912,6 +979,16 @@
         <span class="ident">reserved_folder</span>
     }
 
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">daily_visitors</span>(<span class="ident">_state_global</span>: <span class="ident">ArcMutStateGlobal</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="comment">// dbg!(reviewer_index);</span>
+        <span class="kw">let</span> <span class="ident">daily_visitors</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::daily_visitors_mod::read_nginx_log_and_fill_daily_visitors</span>();
+        <span class="comment">// return</span>
+        <span class="ident">ReservedFolder</span> {
+            <span class="ident">daily_visitors</span>: <span class="prelude-val">Some</span>(<span class="ident">daily_visitors</span>),
+            ..<span class="ident">Default::default</span>()
+        }
+    }
+
     <span class="doccomment">/// return the item at cursor or default</span>
     <span class="kw">fn</span> <span class="ident">item_at_cursor_1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">OnlyReviewer</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">subtemplate</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;stmplt_reviewers&quot;</span> {
@@ -928,6 +1005,18 @@
     <span class="kw">fn</span> <span class="ident">item_at_cursor_2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">OnlyReviewer</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">subtemplate</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;stmplt_reviewers_new&quot;</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">list_new_reviewer_id</span> {
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">list</span>[<span class="ident">pos_cursor</span>])
+            } <span class="kw">else</span> {
+                <span class="prelude-val">None</span>
+            }
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
+        }
+    }
+
+    <span class="kw">fn</span> <span class="ident">item_at_cursor_3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">DailyVisitors</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">subtemplate</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;stmplt_daily_visitors&quot;</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">daily_visitors</span> {
                 <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">list</span>[<span class="ident">pos_cursor</span>])
             } <span class="kw">else</span> {
                 <span class="prelude-val">None</span>
@@ -965,6 +1054,7 @@
                 <span class="self">self</span>.<span class="ident">blocklisted_repos</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">list_new_reviewer_id</span>.<span class="ident">is_none</span>()
             }
             <span class="string">&quot;sb_list_new_reviewer_id&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">list_new_reviewer_id</span>.<span class="ident">is_some</span>(),
+            <span class="string">&quot;sb_daily_visitors&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">daily_visitors</span>.<span class="ident">is_some</span>(),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">retain_next_node_or_attribute_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
@@ -984,12 +1074,16 @@
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="comment">// list_trusted_reviewer_id is Option and can be None or Some</span>
         <span class="kw">let</span> <span class="ident">only_reviewer_empty</span> <span class="op">=</span> <span class="ident">OnlyReviewer::default</span>();
+        <span class="kw">let</span> <span class="ident">daily_visitors_empty</span> <span class="op">=</span> <span class="ident">DailyVisitors::default</span>();
         <span class="kw">let</span> <span class="ident">item_at_cursor_1</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">item_at_cursor_1</span>(<span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>)
             .<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">only_reviewer_empty</span>);
         <span class="kw">let</span> <span class="ident">item_at_cursor_2</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">item_at_cursor_2</span>(<span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>)
             .<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">only_reviewer_empty</span>);
+        <span class="kw">let</span> <span class="ident">item_at_cursor_3</span> <span class="op">=</span> <span class="self">self</span>
+            .<span class="ident">item_at_cursor_3</span>(<span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>)
+            .<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">daily_visitors_empty</span>);
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="string">&quot;st_cargo_crev_web_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>)),
             <span class="string">&quot;st_ordinal_number&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="ident">pos_cursor</span> <span class="op">+</span> <span class="number">1</span>),
@@ -1004,6 +1098,10 @@
             }
             <span class="string">&quot;st_fetch_new_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">fetch_new_reviews</span>.<span class="ident">as_ref</span>())),
             <span class="string">&quot;st_repo_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">blocklisted_repos</span>.<span class="ident">as_ref</span>())[<span class="ident">pos_cursor</span>]),
+
+            <span class="string">&quot;st_date&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="ident">item_at_cursor_3</span>.<span class="ident">date</span>),
+            <span class="string">&quot;st_visitors&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="ident">item_at_cursor_3</span>.<span class="ident">visitors</span>),
+            <span class="string">&quot;st_requests&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="ident">item_at_cursor_3</span>.<span class="ident">requests</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
@@ -1101,6 +1199,26 @@
             <span class="string">&quot;stmplt_reviewers_new&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">nodes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">list_new_reviewer_id</span> {
+                    <span class="kw">let</span> <span class="ident">sub_template</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">sub_templates</span>
+                        .<span class="ident">iter</span>()
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">template</span><span class="op">|</span> <span class="ident">template</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">template_name</span>));
+                    <span class="comment">// sub-template repeatable</span>
+                    <span class="kw">for</span> <span class="ident">cursor_for_vec</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">list</span>.<span class="ident">len</span>() {
+                        <span class="kw">let</span> <span class="ident">vec_node</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">render_template_raw_to_nodes</span>(
+                            <span class="kw-2">&amp;</span><span class="ident">sub_template</span>.<span class="ident">template</span>,
+                            <span class="ident">HtmlOrSvg::Html</span>,
+                            <span class="ident">template_name</span>,
+                            <span class="ident">cursor_for_vec</span>
+                        ));
+                        <span class="ident">nodes</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">vec_node</span>);
+                    }
+                }
+                <span class="comment">// return</span>
+                <span class="ident">nodes</span>
+            }
+            <span class="string">&quot;stmplt_daily_visitors&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">nodes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">list</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">daily_visitors</span> {
                     <span class="kw">let</span> <span class="ident">sub_template</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">sub_templates</span>
                         .<span class="ident">iter</span>()
                         .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">template</span><span class="op">|</span> <span class="ident">template</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">template_name</span>));

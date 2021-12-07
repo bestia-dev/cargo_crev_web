@@ -1,6 +1,6 @@
 #!/bin/sh
-echo "rsync -avz --delete-after /var/www/transfer_folder/webapps/cargo_crev_web/ /var/www/webapps/cargo_crev_web/"
-rsync -avz --delete-after /var/www/transfer_folder/webapps/cargo_crev_web/ /var/www/webapps/cargo_crev_web/
+echo "rsync -avz --delete-after --exclude 'blocklisted_repos.json' /var/www/transfer_folder/webapps/cargo_crev_web/ /var/www/webapps/cargo_crev_web/"
+rsync -avz --delete-after --exclude 'blocklisted_repos.json' /var/www/transfer_folder/webapps/cargo_crev_web/ /var/www/webapps/cargo_crev_web/
 echo "screen -dr cargo_crev_web_8051 -X stuff $'\003'"
 screen -dr cargo_crev_web_8051 -X stuff $'\003'
 echo "screen -dr cargo_crev_web_8051 -X stuff 'cd /var/www/webapps/cargo_crev_web\n'"

@@ -89,6 +89,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // /rust-reviews/reserved_folder/blocklisted_repos/
     // /rust-reviews/reserved_folder/list_new_reviewer_id/
     // /rust-reviews/reserved_folder/list_trusted_reviewer_id/
+    // /rust-reviews/reserved_folder/daily_visitors/
 
     // this looks like a file and does not need ends_with_slash_or_redirect()
     let index_html_route = warp::path!("rust-reviews" / "index.html")
@@ -234,6 +235,19 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
                             reserved_folder_mod::ReservedFolder::list_trusted_reviewer_id(
                                 state_global,
                             );
+                        let ns_new = ns_print("new()", ns_start);
+                        let html_file = data_model.render_html_file("templates/");
+                        ns_print("render_html_file()", ns_new);
+                        warp::reply::html(html_file)
+                    }),
+            )
+            .or(
+                warp::path!("rust-reviews" / "reserved_folder" / "daily_visitors")
+                    .and(state_global.clone())
+                    .map(|state_global| {
+                        let ns_start = ns_start("daily_visitors");
+                        let data_model =
+                            reserved_folder_mod::ReservedFolder::daily_visitors(state_global);
                         let ns_new = ns_print("new()", ns_start);
                         let html_file = data_model.render_html_file("templates/");
                         ns_print("render_html_file()", ns_new);

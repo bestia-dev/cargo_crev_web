@@ -417,6 +417,20 @@
 <span id="417">417</span>
 <span id="418">418</span>
 <span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
 </pre><pre class="rust"><code><span class="doccomment">//! router_mod</span>
 
 <span class="comment">// region: (collapsed) use statements</span>
@@ -508,6 +522,7 @@
     <span class="comment">// /rust-reviews/reserved_folder/blocklisted_repos/</span>
     <span class="comment">// /rust-reviews/reserved_folder/list_new_reviewer_id/</span>
     <span class="comment">// /rust-reviews/reserved_folder/list_trusted_reviewer_id/</span>
+    <span class="comment">// /rust-reviews/reserved_folder/daily_visitors/</span>
 
     <span class="comment">// this looks like a file and does not need ends_with_slash_or_redirect()</span>
     <span class="kw">let</span> <span class="ident">index_html_route</span> <span class="op">=</span> <span class="macro">warp::path!</span>(<span class="string">&quot;rust-reviews&quot;</span> <span class="op">/</span> <span class="string">&quot;index.html&quot;</span>)
@@ -653,6 +668,19 @@
                             <span class="ident">reserved_folder_mod::ReservedFolder::list_trusted_reviewer_id</span>(
                                 <span class="ident">state_global</span>,
                             );
+                        <span class="kw">let</span> <span class="ident">ns_new</span> <span class="op">=</span> <span class="ident">ns_print</span>(<span class="string">&quot;new()&quot;</span>, <span class="ident">ns_start</span>);
+                        <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">data_model</span>.<span class="ident">render_html_file</span>(<span class="string">&quot;templates/&quot;</span>);
+                        <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
+                        <span class="ident">warp::reply::html</span>(<span class="ident">html_file</span>)
+                    }),
+            )
+            .<span class="ident">or</span>(
+                <span class="macro">warp::path!</span>(<span class="string">&quot;rust-reviews&quot;</span> <span class="op">/</span> <span class="string">&quot;reserved_folder&quot;</span> <span class="op">/</span> <span class="string">&quot;daily_visitors&quot;</span>)
+                    .<span class="ident">and</span>(<span class="ident">state_global</span>.<span class="ident">clone</span>())
+                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">state_global</span><span class="op">|</span> {
+                        <span class="kw">let</span> <span class="ident">ns_start</span> <span class="op">=</span> <span class="ident">ns_start</span>(<span class="string">&quot;daily_visitors&quot;</span>);
+                        <span class="kw">let</span> <span class="ident">data_model</span> <span class="op">=</span>
+                            <span class="ident">reserved_folder_mod::ReservedFolder::daily_visitors</span>(<span class="ident">state_global</span>);
                         <span class="kw">let</span> <span class="ident">ns_new</span> <span class="op">=</span> <span class="ident">ns_print</span>(<span class="string">&quot;new()&quot;</span>, <span class="ident">ns_start</span>);
                         <span class="kw">let</span> <span class="ident">html_file</span> <span class="op">=</span> <span class="ident">data_model</span>.<span class="ident">render_html_file</span>(<span class="string">&quot;templates/&quot;</span>);
                         <span class="ident">ns_print</span>(<span class="string">&quot;render_html_file()&quot;</span>, <span class="ident">ns_new</span>);
