@@ -619,6 +619,15 @@
 <span id="619">619</span>
 <span id="620">620</span>
 <span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
 </pre><pre class="rust"><code><span class="doccomment">//! reserved_folder_mod</span>
 <span class="doccomment">//! This is only one module/html page, but can execute different actions.</span>
 <span class="doccomment">//! The data model must have fields for every action as Option&lt;&gt;.</span>
@@ -654,7 +663,7 @@
     <span class="kw">pub</span> <span class="ident">list_trusted_reviewer_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OnlyReviewer</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">reindex_after_fetch_new_reviews</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">fetch_new_reviews</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">blocklisted_repos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">blocklisted_repos</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">list_new_reviewer_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OnlyReviewer</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">daily_visitors</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DailyVisitors</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
@@ -721,9 +730,10 @@
     <span class="doccomment">/// read blocklisted_repos from json file</span>
     <span class="kw">fn</span> <span class="ident">fill_blocklisted_repos</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">let</span> <span class="ident">blocklisted_repos</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">fs::read_to_string</span>(<span class="string">&quot;blocklisted_repos.json&quot;</span>));
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">blocklisted_repos</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">serde_json::from_str</span>(<span class="kw-2">&amp;</span><span class="ident">blocklisted_repos</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">blocklisted_repos</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span> <span class="op">=</span>
+            <span class="macro">unwrap!</span>(<span class="ident">serde_json::from_str</span>(<span class="kw-2">&amp;</span><span class="ident">blocklisted_repos</span>));
 
-        <span class="ident">blocklisted_repos</span>.<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">to_lowercase</span>().<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>.<span class="ident">to_lowercase</span>()));
+        <span class="ident">blocklisted_repos</span>.<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">a</span>.<span class="number">0</span>.<span class="ident">to_lowercase</span>().<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>.<span class="number">0</span>.<span class="ident">to_lowercase</span>()));
         <span class="self">self</span>.<span class="ident">blocklisted_repos</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">blocklisted_repos</span>);
     }
 
@@ -763,7 +773,7 @@
             <span class="ident">forked_repo</span>: <span class="kw-2">&amp;</span><span class="ident">ForkedRepo</span>,
             <span class="ident">client</span>: <span class="kw-2">&amp;</span><span class="ident">reqwest::blocking::Client</span>,
             <span class="ident">url_for_content</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-            <span class="ident">blocklisted_repos</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
+            <span class="ident">blocklisted_repos</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span>,
             <span class="ident">vec_of_new_repo</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">OnlyReviewer</span><span class="op">&gt;</span>,
         ) {
             <span class="comment">// dbg!(&amp;forked_repo.html_url);</span>
@@ -790,7 +800,10 @@
                 <span class="kw">let</span> <span class="ident">response_text</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">text</span>().<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>());
                 <span class="kw">if</span> <span class="ident">response_text</span>.<span class="ident">is_empty</span>() {
                     <span class="comment">// add this url to blocklist.json</span>
-                    <span class="ident">blocklisted_repos</span>.<span class="ident">push</span>(<span class="ident">forked_repo</span>.<span class="ident">html_url</span>.<span class="ident">to_string</span>());
+                    <span class="ident">blocklisted_repos</span>.<span class="ident">push</span>((
+                        <span class="ident">forked_repo</span>.<span class="ident">html_url</span>.<span class="ident">to_string</span>(),
+                        <span class="string">&quot;url not exist&quot;</span>.<span class="ident">to_string</span>(),
+                    ));
                     <span class="macro">println!</span>(<span class="string">&quot;Error for call to url: {}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">url_for_content</span>);
                 } <span class="kw">else</span> {
                     <span class="kw">let</span> <span class="ident">rsl</span> <span class="op">=</span> <span class="ident">serde_json::from_str</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">RepoContent</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">response_text</span>);
@@ -815,7 +828,8 @@
                             }
                             <span class="comment">// if there is no id in the repo then add it to blocklisted</span>
                             <span class="kw">if</span> <span class="ident">count_ids</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-                                <span class="ident">blocklisted_repos</span>.<span class="ident">push</span>(<span class="ident">forked_repo</span>.<span class="ident">html_url</span>.<span class="ident">to_string</span>());
+                                <span class="ident">blocklisted_repos</span>
+                                    .<span class="ident">push</span>((<span class="ident">forked_repo</span>.<span class="ident">html_url</span>.<span class="ident">to_string</span>(), <span class="string">&quot;no id&quot;</span>.<span class="ident">to_string</span>()));
                             }
                         }
                     }
@@ -896,7 +910,10 @@
                         .<span class="ident">any</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="ident">url</span> <span class="op">=</span><span class="op">=</span> <span class="ident">forked_repo</span>.<span class="ident">html_url</span>)
                     {
                         <span class="comment">// println!(&quot;Reviewer_index already contains: {}&quot;, forked_repo.html_url);</span>
-                    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">blocklisted_repos</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">forked_repo</span>.<span class="ident">html_url</span>) {
+                    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">blocklisted_repos</span>
+                        .<span class="ident">iter</span>()
+                        .<span class="ident">any</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">forked_repo</span>.<span class="ident">html_url</span>)
+                    {
                         <span class="comment">//println!(&quot;Blocklisted already contains: {}&quot;, forked_repo.html_url);</span>
                     } <span class="kw">else</span> {
                         <span class="ident">check_repo_on_github</span>(
@@ -948,7 +965,7 @@
                 <span class="comment">// println!(&quot;Reviewer_index already contains: {}&quot;, forked_repo.html_url);</span>
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">blocklisted_repos</span>
                 .<span class="ident">iter</span>()
-                .<span class="ident">any</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">query_all_repo</span>.<span class="ident">html_url</span>)
+                .<span class="ident">any</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">query_all_repo</span>.<span class="ident">html_url</span>)
             {
                 <span class="comment">// println!(&quot;Blocklisted already contains: {}&quot;, forked_repo.html_url);</span>
             } <span class="kw">else</span> {
@@ -964,7 +981,7 @@
         }
 
         <span class="comment">// save the blocklist.json</span>
-        <span class="ident">blocklisted_repos</span>.<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">to_lowercase</span>().<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>.<span class="ident">to_lowercase</span>()));
+        <span class="ident">blocklisted_repos</span>.<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">a</span>.<span class="number">0</span>.<span class="ident">to_lowercase</span>().<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>.<span class="number">0</span>.<span class="ident">to_lowercase</span>()));
         <span class="kw">let</span> <span class="ident">blocklisted_repos_json</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">serde_json::to_string_pretty</span>(<span class="kw-2">&amp;</span><span class="ident">blocklisted_repos</span>));
         <span class="macro">unwrap!</span>(<span class="ident">fs::write</span>(<span class="string">&quot;blocklisted_repos.json&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">blocklisted_repos_json</span>));
 
@@ -1097,7 +1114,8 @@
                 <span class="macro">s!</span>(<span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">reindex_after_fetch_new_reviews</span>.<span class="ident">as_ref</span>()))
             }
             <span class="string">&quot;st_fetch_new_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">fetch_new_reviews</span>.<span class="ident">as_ref</span>())),
-            <span class="string">&quot;st_repo_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">blocklisted_repos</span>.<span class="ident">as_ref</span>())[<span class="ident">pos_cursor</span>]),
+            <span class="string">&quot;st_repo_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">blocklisted_repos</span>.<span class="ident">as_ref</span>())[<span class="ident">pos_cursor</span>].<span class="number">0</span>),
+            <span class="string">&quot;st_blocklist_note&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">blocklisted_repos</span>.<span class="ident">as_ref</span>())[<span class="ident">pos_cursor</span>].<span class="number">1</span>),
 
             <span class="string">&quot;st_date&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="ident">item_at_cursor_3</span>.<span class="ident">date</span>),
             <span class="string">&quot;st_visitors&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="ident">item_at_cursor_3</span>.<span class="ident">visitors</span>),
@@ -1126,7 +1144,7 @@
             <span class="string">&quot;su_favicon_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u!</span>(<span class="string">&quot;/rust-reviews/favicon.png&quot;</span>),
             <span class="string">&quot;su_img_src_logo&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u!</span>(<span class="string">&quot;/rust-reviews/images/Logo_02.png&quot;</span>),
             <span class="string">&quot;su_reviewer_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u!</span>(<span class="kw-2">&amp;</span><span class="ident">item_at_cursor_1</span>.<span class="ident">reviewer_url</span>, <span class="string">&quot;&quot;</span>),
-            <span class="string">&quot;su_repo_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u!</span>(<span class="kw-2">&amp;</span><span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">blocklisted_repos</span>.<span class="ident">as_ref</span>())[<span class="ident">pos_cursor</span>], <span class="string">&quot;&quot;</span>),
+            <span class="string">&quot;su_repo_url&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">url_u!</span>(<span class="kw-2">&amp;</span><span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">blocklisted_repos</span>.<span class="ident">as_ref</span>())[<span class="ident">pos_cursor</span>].<span class="number">0</span>, <span class="string">&quot;&quot;</span>),
             <span class="string">&quot;su_reviewer_route&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="macro">url_u!</span>(<span class="string">&quot;/rust-reviews/reviewer/{}/&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">item_at_cursor_1</span>.<span class="ident">reviewer_id</span>)
             }

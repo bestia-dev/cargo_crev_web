@@ -33,7 +33,7 @@ pub struct ReservedFolder {
     pub list_trusted_reviewer_id: Option<Vec<OnlyReviewer>>,
     pub reindex_after_fetch_new_reviews: Option<String>,
     pub fetch_new_reviews: Option<String>,
-    pub blocklisted_repos: Option<Vec<String>>,
+    pub blocklisted_repos: Option<Vec<(String, String)>>,
     pub list_new_reviewer_id: Option<Vec<OnlyReviewer>>,
     pub daily_visitors: Option<Vec<DailyVisitors>>,
 }
@@ -100,9 +100,10 @@ impl ReservedFolder {
     /// read blocklisted_repos from json file
     fn fill_blocklisted_repos(&mut self) {
         let blocklisted_repos = unwrap!(fs::read_to_string("blocklisted_repos.json"));
-        let mut blocklisted_repos: Vec<String> = unwrap!(serde_json::from_str(&blocklisted_repos));
+        let mut blocklisted_repos: Vec<(String, String)> =
+            unwrap!(serde_json::from_str(&blocklisted_repos));
 
-        blocklisted_repos.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+        blocklisted_repos.sort_by(|a, b| a.0.to_lowercase().cmp(&b.0.to_lowercase()));
         self.blocklisted_repos = Some(blocklisted_repos);
     }
 
@@ -142,7 +143,7 @@ impl ReservedFolder {
             forked_repo: &ForkedRepo,
             client: &reqwest::blocking::Client,
             url_for_content: &str,
-            blocklisted_repos: &mut Vec<String>,
+            blocklisted_repos: &mut Vec<(String, String)>,
             vec_of_new_repo: &mut Vec<OnlyReviewer>,
         ) {
             // dbg!(&forked_repo.html_url);
@@ -169,7 +170,10 @@ impl ReservedFolder {
                 let response_text = response.text().unwrap_or("".to_string());
                 if response_text.is_empty() {
                     // add this url to blocklist.json
-                    blocklisted_repos.push(forked_repo.html_url.to_string());
+                    blocklisted_repos.push((
+                        forked_repo.html_url.to_string(),
+                        "url not exist".to_string(),
+                    ));
                     println!("Error for call to url: {}", &url_for_content);
                 } else {
                     let rsl = serde_json::from_str::<Vec<RepoContent>>(&response_text);
@@ -194,7 +198,8 @@ impl ReservedFolder {
                             }
                             // if there is no id in the repo then add it to blocklisted
                             if count_ids == 0 {
-                                blocklisted_repos.push(forked_repo.html_url.to_string());
+                                blocklisted_repos
+                                    .push((forked_repo.html_url.to_string(), "no id".to_string()));
                             }
                         }
                     }
@@ -275,7 +280,10 @@ impl ReservedFolder {
                         .any(|x| x.url == forked_repo.html_url)
                     {
                         // println!("Reviewer_index already contains: {}", forked_repo.html_url);
-                    } else if blocklisted_repos.iter().any(|x| x == &forked_repo.html_url) {
+                    } else if blocklisted_repos
+                        .iter()
+                        .any(|x| x.0 == forked_repo.html_url)
+                    {
                         //println!("Blocklisted already contains: {}", forked_repo.html_url);
                     } else {
                         check_repo_on_github(
@@ -327,7 +335,7 @@ impl ReservedFolder {
                 // println!("Reviewer_index already contains: {}", forked_repo.html_url);
             } else if blocklisted_repos
                 .iter()
-                .any(|x| x == &query_all_repo.html_url)
+                .any(|x| x.0 == query_all_repo.html_url)
             {
                 // println!("Blocklisted already contains: {}", forked_repo.html_url);
             } else {
@@ -343,7 +351,7 @@ impl ReservedFolder {
         }
 
         // save the blocklist.json
-        blocklisted_repos.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+        blocklisted_repos.sort_by(|a, b| a.0.to_lowercase().cmp(&b.0.to_lowercase()));
         let blocklisted_repos_json = unwrap!(serde_json::to_string_pretty(&blocklisted_repos));
         unwrap!(fs::write("blocklisted_repos.json", &blocklisted_repos_json));
 
@@ -476,7 +484,8 @@ impl HtmlServerTemplateRender for ReservedFolder {
                 s!(unwrap!(self.reindex_after_fetch_new_reviews.as_ref()))
             }
             "st_fetch_new_reviews" => s!(unwrap!(self.fetch_new_reviews.as_ref())),
-            "st_repo_url" => s!(unwrap!(self.blocklisted_repos.as_ref())[pos_cursor]),
+            "st_repo_url" => s!(unwrap!(self.blocklisted_repos.as_ref())[pos_cursor].0),
+            "st_blocklist_note" => s!(unwrap!(self.blocklisted_repos.as_ref())[pos_cursor].1),
 
             "st_date" => s!(item_at_cursor_3.date),
             "st_visitors" => s!(item_at_cursor_3.visitors),
@@ -505,7 +514,7 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
             "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
             "su_reviewer_url" => url_u!(&item_at_cursor_1.reviewer_url, ""),
-            "su_repo_url" => url_u!(&unwrap!(self.blocklisted_repos.as_ref())[pos_cursor], ""),
+            "su_repo_url" => url_u!(&unwrap!(self.blocklisted_repos.as_ref())[pos_cursor].0, ""),
             "su_reviewer_route" => {
                 url_u!("/rust-reviews/reviewer/{}/", &item_at_cursor_1.reviewer_id)
             }
