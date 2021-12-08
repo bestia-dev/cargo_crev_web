@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>new review</title>
+    <title>your personal reviews</title>
     <meta name="Description" content="web app for viewing reviews from cargo-crev" />
     <link rel="stylesheet" data-su_css_route="href" href="../web_content_folder/css/rust-reviews.css" />
     <meta name="viewport" content="width = device-width,initial-scale = 1.0" />
@@ -27,7 +27,7 @@
                 <li class="nav" id="button_update_registry_index">People of rust</li>
             </a>
             <a href="/rust-reviews/review_new/">
-                <li class="nav" id="button_update_registry_index">Write new review</li>
+                <li class="nav" id="button_update_registry_index">Your personal reviews</li>
             </a>
         </ul>
         <div class="container0_content_not_grid">
@@ -38,9 +38,9 @@
                     </a>
                 </div>
                 <div class="middle">
-                    <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust open source code reviews</a></p>
+                    <p class="big bold"><a class="c_link_1" href="/rust-reviews/">Rust crates reviews</a></p>
                     <p class="small c_white">Cryptographically verifiable, distributed dependency reviews</p>
-                    <p class="big bold c_yellow">Write new review</p>
+                    <p class="big bold c_yellow">Your personal reviews</p>
                 </div>
                 <div class="middle media_right">
                     <div class="media_right">Rust links:</div>
@@ -50,162 +50,33 @@
                     <div class="media_right"><a class="c_link_1" href="https://docs.rs/" target="_blank">docs.rs</a></div>
                 </div>
             </div>
-            <p>NEW! Freshly baked new GUI program: <a class="c_link_2" href="https://crates.io/crates/cargo_crev_reviews" target="_blank">cargo_crev_reviews</a></p>
+            <p>Your personal reviews are the most important.</p>
+            <p>You want to know that the dependencies your program is using are not malicious or unsound.</p>
+            <p>Ideally, you want to personally review every crate in you dependencies.</p>
+            <p>If you have a boss, he will sooner or later ask you to show your reviews for all that dependencies.</p>
+            <p>With the application <a class="c_link_2" href="https://github.com/LucianoBestia/cargo_crev_reviews_workspace/tree/main/cargo_crev_reviews" target="_blank">cargo_crev_reviews</a> you have a basic tool to do that.</p>
+        </div>
+        <div class="container0_content_not_grid">
             <p>Write cargo-crev reviews in a Graphical User Interface with a cross-platform app written in rust.</p>
+            <p>Install cargo_crev_reviews in Linux or WSL on Windows:</p>
             <code>$ cargo install cargo_crev_reviews</code><br/>
+            <p>Go `cd` to your rust project (where the Cargo.toml file is) and start:</p>
             <code>$ cargo_crev_reviews</code>
+            <p>and follow the instructions...</p>
         </div>
 
-
-
-    </div>
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <h2>Prerequisites</h2>
-            To write new <code>crev reviews</code>:
-            <br/>1. on your developer machine install <code>$ cargo install cargo-crev</code>,
-            <br/>2. create your personal crev ID <code>$ cargo crev id new</code>
-            <br/>3. on GitHub or GitLab fork the repo <code>https://github.com/crev-dev/crev-proofs</code>
-
-            <br/>Everything is cryptographically signed, so be careful to not forget the passphrase, there's no way to recover it.
-            <br/>Read the <a class="c_link_2" href="https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md">Getting Started Guide</a> to know better.
-        </div>
-    </div>
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <h2>Obsolete old helper to write reviews in VIM</h2>
-            <pre>
-Please, first read prerequisites.
-Change uri to choose crate name and version like this <code>/rust-reviews/review_new/{crate_name}/{version}/</code>
-                </pre>
-            <pre>- run the bash command (Click to Copy): 
-<code 
-data-st_bash_command="data-clipboard-text" data-clipboard-text="Click to Copy" 
-data-tooltip="Click to Copy" >$ <!--st_bash_command-->cargo crev crate review -u --skip-activity-check reader_for_microxml 1.1.11</code>.
-- type your crev passphrase to unlock
-- VIM will open in <code>Normal mode</code>
-- delete the first cc 11 lines with repeating the VIM shortcut <code>dd</code> for delete line 
-
-- in the browser on this webpage write a review in markdown 
-- click on Export to yaml
-- click on the yaml to <code>copy</code> on click the yaml text</pre>
-        </div>
-    </div>
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <form action="/rust-reviews/review_new/#anchor" method="POST">
-                <input style="display:none" type="text" name="package_name" data-st_package_name="value" value="" />
-                <input style="display:none" type="text" name="package_version" data-st_package_version="value" value="" />
-                <pre>
-<a name="anchor">review:</a>
-    thoroughness: <label><input type="radio" name="thoroughness" value="none" data-sb-checked="sb_thoroughness_none" checked="checked" />none     </label><label class="c_low"><input type="radio" name="thoroughness" value="low" data-sb-checked="sb_thoroughness_low" checked="checked"/>low     </label><label class="c_medium"><input type="radio" name="thoroughness" value="medium" data-sb-checked="sb_thoroughness_medium" checked="checked"/>medium     </label><label class="c_high"><input type="radio" name="thoroughness" value="high" data-sb-checked="sb_thoroughness_high" checked="checked" />high     </label>
-    understanding: <label><input type="radio" name="understanding" value="none" data-sb-checked="sb_understanding_none" checked="checked"/>none     </label><label class="c_low"><input type="radio" name="understanding" value="low" data-sb-checked="sb_understanding_low" checked="checked"/>low     </label><label class="c_medium"><input type="radio" name="understanding" value="medium" data-sb-checked="sb_understanding_medium" checked="checked"/>medium     </label><label class="c_high"><input type="radio" name="understanding" value="high" data-sb-checked="sb_understanding_high" checked="checked"/>high     </label>
-    rating: <label class="c_none"><input type="radio" name="rating" value="none" data-sb-checked="sb_rating_none" checked="checked"/>none     </label><label class="c_negative"><input type="radio" name="rating" value="negative" data-sb-checked="sb_rating_negative" checked="checked"/>negative     </label><label class="c_neutral"><input type="radio" name="rating" value="neutral" data-sb-checked="sb_rating_neutral" checked="checked"/>neutral     </label><label class="c_positive"><input type="radio" name="rating" value="positive" data-sb-checked="sb_rating_positive" checked="checked"/>positive     </label><label class="c_strong"><input type="radio" name="rating" value="strong" data-sb-checked="sb_rating_strong" checked="checked"/>strong     </label>
-</pre>
-                <textarea style="height: 220px;" name="comment"><!--st_comment-->Comment</textarea>
-                <input class="button" style="width: 200px;height: 60px;" type="submit" value="Export to yaml" />
-                <p><code>Click to Copy</code> this yaml text and paste it in your VIM editor:</p>
-                <textarea readonly="readonly" style="height: 170px;" data-st_yaml_text="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy"><!--st_yaml_text-->yaml_text</textarea>
-            </form>
-        </div>
-    </div>
-
-    <div class="container_0">
-        <div class="container0_content_not_grid">
-            <pre>
-- now in VIM type <code>i</code> to go into <code>VIM Insert Mode</code> 
-- mouse <code>right click</code> to paste 
-- <code>Esc</code> to go to <code>VIM Normal mode</code>
-- type <code>:</code> to go into <code>VIM command mode</code>
-- type <code>wq</code> to write and quit 
-- now the encryption will kick in 
-- Done. Easy?!
-
-Let's repeat it faster, only the part in Vim:
-<code>dd * 10 i r_click Esc :wq</code>
-It is not so bad.
-
-- check your new review locally <code data-st_cmd_query="data-clipboard-text" data-clipboard-text="Click to Copy" data-tooltip="Click to Copy">$ <!--st_cmd_query-->cargo crev repo query review reader_for_microxml</code>
-- publish (push to GitHub) <code data-clipboard-text="cargo crev publish" data-tooltip="Click to Copy">$ cargo crev publish</code>
-
-Now everybody can fetch and view your crev review.
-On this web site the new review will be fetched once in the next hour.
-
-By the way when you panic in VIM, type <code>Esc</code> and <code>:q</code> or <code>:q!</code> to exit or quit VIM ;-) 
-</pre>
-        </div>
-    </div>
-
-    <div class="container_0 ">
-        <div class="container0_content_not_grid ">
-            <pre>
-Creating Package Review Proof
-
-A Package Review Proof records results of your review of a version/release of a software package.
-
-Responsibility
-
-It is important that your review is truthful. At the very least, make sure to adjust the `thoroughness` and `understanding` correctly.
-Other users might use information you provide, to judge software quality and trustworthiness.
-Your Proofs are cryptographically signed and will circulate in the ecosystem.
-While there is no explicit or implicitly legal responsibility attached to using `crev` system, other people will most probably use it to judge you, your other work, etc.
-By creating and publishing proofs, you implicitly agree to other people freely using them.
-
-Data fields
-
-* `review` - review of particular version of the crate; 
-  * `thoroughness` - time and effort spent on the review
-    * `high` - long, deep, focused review - possibly as a part of a formal
-               security review; "hour or more per file"
-    * `medium` - a standard, focused code review of a decent depth;
-                 "~15 minutes per file"
-    * `low` - low intensity review: "~2 minutes per file"
-    * `none` - no review, or just skimming; "seconds per file";
-               still useful for a trusted or reputable project
-               or when proof is created to warn about problems
-  * `understanding`
-    * `high` - complete understanding
-    * `medium` - good understanding
-    * `low` - some parts are unclear
-    * `none` - lack of understanding
-  * `rating`
-    * `negative` - severe flaws and not ok for production usage
-    * `neutral` - secure but with flaws
-    * `positive` - secure and ok to use; possibly minor issues
-    * `strong` - secure and good in all respects, for all applications
-    
-* `comment` - human-readable information about this review
-              (e.g. why it was done, how, and `rating` explanation)
-
-Other information
-
-More recent proofs overwrite older ones.
-This webpage currently helps write a simple review. 
-More complex review can be crated in VIM with alternatives, issues and advisories and flags.
-Eventually I will add this functionality also to this webpage.
-
-Further reading
-
-See 
-https://github.com/crev-dev/cargo-crev/wiki/Howto:-Create-Review-Proofs 
-wiki page for more information and Frequently Asked Questions, or join
-https://gitter.im/dpc/crev 
-discussion channel.
-            </pre>
-        </div>
-    </div>
-    <div>
-        <div class="container0_content_not_grid ">
-            <p class="small">© Luciano Bestia 2021, MIT Licence, Version:
-                <!--st_cargo_crev_web_version-->2021.05.05</p>
-            <p class="small">Open source repository for this web app:
-                <a class="c_link_1 break-all" target="blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
+        <div>
+            <div class="container0_content_not_grid ">
+                <p class="small">© Luciano Bestia 2021, MIT Licence, Version:
+                    <!--st_cargo_crev_web_version-->2021.05.05</p>
+                <p class="small">Open source repository for this web app:
+                    <a class="c_link_1 break-all" target="blank " href="https://github.com/LucianoBestia/cargo_crev_web/ ">
                         https://github.com/LucianoBestia/cargo_crev_web/
                   </a>
-            </p>
+                </p>
 
+            </div>
         </div>
-    </div>
 </body>
 
 <script>
