@@ -57,9 +57,7 @@ macro_rules! url_u {
     // 5 arguments, 4 fragments to encode
     ($literal:expr,$part_1:expr,$part_2:expr,$part_3:expr,$part_4:expr) => {
         // The macro will expand into the contents of this block.
-        crate::url_utf8_mod::UrlUtf8EncodedString::new_4(
-            $literal, $part_1, $part_2, $part_3, $part_4,
-        )
+        crate::url_utf8_mod::UrlUtf8EncodedString::new_4($literal, $part_1, $part_2, $part_3, $part_4)
     };
 }
 
@@ -78,9 +76,7 @@ pub struct UrlUtf8EncodedString {
 impl UrlUtf8EncodedString {
     /// constructor with 0 dynamic fragment
     pub fn new_0(literal: &str) -> UrlUtf8EncodedString {
-        UrlUtf8EncodedString {
-            s: literal.to_string(),
-        }
+        UrlUtf8EncodedString { s: literal.to_string() }
     }
     /// constructor with 1 dynamic fragment
     pub fn new_1(literal: &str, part_1: &str) -> UrlUtf8EncodedString {
@@ -106,13 +102,7 @@ impl UrlUtf8EncodedString {
         }
     }
     /// constructor with 4 dynamic fragment
-    pub fn new_4(
-        literal: &str,
-        part_1: &str,
-        part_2: &str,
-        part_3: &str,
-        part_4: &str,
-    ) -> UrlUtf8EncodedString {
+    pub fn new_4(literal: &str, part_1: &str, part_2: &str, part_3: &str, part_4: &str) -> UrlUtf8EncodedString {
         UrlUtf8EncodedString {
             s: literal
                 .replacen("{}", &Self::encode_fragment(part_1), 1)
@@ -226,17 +216,8 @@ mod tests {
     }
     #[test]
     fn test_05() {
-        let s = url_u!(
-            "/one{}one/two{}two/{}/{}/",
-            "1 1 ",
-            " 2 2",
-            "a b<ccc",
-            ">ddd'e\"f"
-        );
+        let s = url_u!("/one{}one/two{}two/{}/{}/", "1 1 ", " 2 2", "a b<ccc", ">ddd'e\"f");
         let norm_str = s.to_string();
-        assert_eq!(
-            norm_str,
-            "/one1%201%20one/two%202%202two/a%20b%3Cccc/%3Eddd\'e%22f/"
-        );
+        assert_eq!(norm_str, "/one1%201%20one/two%202%202two/a%20b%3Cccc/%3Eddd\'e%22f/");
     }
 }

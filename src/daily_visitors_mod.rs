@@ -42,10 +42,7 @@ pub fn read_nginx_log_and_fill_daily_visitors() -> Vec<crate::reserved_folder_mo
         // endregion: read text or decompress gz
 
         // region: capture groups with regex
-        let re = regex::Regex::new(
-            r#"([0-9.]+) - - \[(.{20}) \+0000] "GET (.+) HTTP/2.0" ([0-9]{3}) ([0-9]+)"#,
-        )
-        .unwrap();
+        let re = regex::Regex::new(r#"([0-9.]+) - - \[(.{20}) \+0000] "GET (.+) HTTP/2.0" ([0-9]{3}) ([0-9]+)"#).unwrap();
         // 51.222.253.19 - - [06/Dec/2021:23:21:24 +0000] "GET /rust-reviews/crate/regex-automata/crate/N HTTP/2.0" 200 1690 "-" "Mozilla/5.0 (compatible; xxxBot/7.0; +http://ahrefs.com/robot/)"
         for line in text.lines() {
             for caps in re.captures_iter(line) {
@@ -66,13 +63,7 @@ pub fn read_nginx_log_and_fill_daily_visitors() -> Vec<crate::reserved_folder_mo
                     "Dec" => "12",
                     _ => "",
                 };
-                let date = format!(
-                    "{}-{}-{} {}",
-                    &date[7..11],
-                    month,
-                    &date[0..2],
-                    &date[12..20]
-                );
+                let date = format!("{}-{}-{} {}", &date[7..11], month, &date[0..2], &date[12..20]);
                 let url = caps.get(3).unwrap().as_str().to_string();
                 // limit url for only /rust-reviews/
                 if url.starts_with("/rust-reviews/") {
@@ -148,9 +139,7 @@ fn group_visits_by_day(log_lines: &mut Vec<LogLine>) -> Vec<GroupRequestsByDay> 
 fn group_visitors_by_day(log_lines: &mut Vec<LogLine>) -> Vec<GroupVisitorsByDay> {
     let mut vec_gr: Vec<GroupVisitorsByDay> = vec![];
     // sort by day + ip
-    log_lines.sort_by(|a, b| {
-        format!("{}{}", &a.date[..10], a.ip).cmp(&format!("{}{}", &b.date[..10], b.ip))
-    });
+    log_lines.sort_by(|a, b| format!("{}{}", &a.date[..10], a.ip).cmp(&format!("{}{}", &b.date[..10], b.ip)));
     let mut old_day = "".to_string();
     let mut old_ip = "".to_string();
     let mut count_visitors = 0;

@@ -43,7 +43,6 @@
 //! Write a new review ! \
 //! Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
 //! Help other developers, inform them and share your opinion.\
-//! Use the helper on this webpage: [web.crev.dev/rust-reviews/review_new](https://web.crev.dev/rust-reviews/review_new)
 //!
 //! ## crates.io and lib.rs
 //!
@@ -293,7 +292,6 @@ mod reserved_folder_mod;
 mod review_index_mod;
 mod review_index_summary_mod;
 mod review_mod;
-mod review_new_mod;
 mod reviewer_index_mod;
 mod reviewer_reviews_mod;
 mod reviewers_mod;
@@ -302,6 +300,7 @@ mod state_mod;
 mod url_utf8_mod;
 mod utils_mod;
 mod version_summary_mod;
+mod your_personal_reviews_mod;
 
 // `pub use` statements her are propagated to every other module
 // when they use `crate::*;`

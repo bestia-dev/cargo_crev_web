@@ -178,13 +178,6 @@
 <span id="178">178</span>
 <span id="179">179</span>
 <span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
 </pre><pre class="rust"><code><span class="doccomment">//! data_file_scan_mod</span>
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::review_mod</span>::<span class="kw-2">*</span>;
@@ -329,18 +322,11 @@
 <span class="kw">fn</span> <span class="ident">push_this_review</span>(<span class="ident">review_string</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">reviews</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Review</span><span class="op">&gt;</span>) {
     <span class="comment">// version for sorting</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">review</span>: <span class="ident">Review</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">serde_yaml::from_str</span>(<span class="ident">review_string</span>));
-    <span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version_for_sorting</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">version_for_sorting</span>(
-        <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version</span>,
-        <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">get_reviewer_name</span>(),
-    ));
+    <span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version_for_sorting</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">version_for_sorting</span>(<span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">package</span>.<span class="ident">version</span>, <span class="kw-2">&amp;</span><span class="ident">review</span>.<span class="ident">get_reviewer_name</span>()));
     <span class="ident">reviews</span>.<span class="ident">push</span>(<span class="ident">review</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">push_review_if_selected</span>(
-    <span class="ident">review_string</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">reviews</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Review</span><span class="op">&gt;</span>,
-    <span class="ident">review_pks</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ReviewPk</span><span class="op">&gt;</span>,
-) {
+<span class="kw">fn</span> <span class="ident">push_review_if_selected</span>(<span class="ident">review_string</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">reviews</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Review</span><span class="op">&gt;</span>, <span class="ident">review_pks</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ReviewPk</span><span class="op">&gt;</span>) {
     <span class="kw">use</span> <span class="ident">serde_derive</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>)]</span>

@@ -130,24 +130,6 @@
 <span id="130">130</span>
 <span id="131">131</span>
 <span id="132">132</span>
-<span id="133">133</span>
-<span id="134">134</span>
-<span id="135">135</span>
-<span id="136">136</span>
-<span id="137">137</span>
-<span id="138">138</span>
-<span id="139">139</span>
-<span id="140">140</span>
-<span id="141">141</span>
-<span id="142">142</span>
-<span id="143">143</span>
-<span id="144">144</span>
-<span id="145">145</span>
-<span id="146">146</span>
-<span id="147">147</span>
-<span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
 </pre><pre class="rust"><code><span class="doccomment">//! review_index_summary_mod</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
@@ -233,17 +215,8 @@
     }
 
     <span class="doccomment">/// returns a String to replace the next text-node</span>
-    <span class="attribute">#[<span class="ident">allow</span>(
-        <span class="ident">clippy::needless_return</span>,
-        <span class="ident">clippy::integer_arithmetic</span>,
-        <span class="ident">clippy::indexing_slicing</span>
-    )]</span>
-    <span class="kw">fn</span> <span class="ident">replace_with_string</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">_pos_cursor</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::needless_return</span>, <span class="ident">clippy::integer_arithmetic</span>, <span class="ident">clippy::indexing_slicing</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">replace_with_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="string">&quot;st_cargo_crev_web_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>)),
@@ -262,12 +235,7 @@
         }
     }
     <span class="doccomment">/// exclusive url encoded for href and src</span>
-    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">_pos_cursor</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
+    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
         <span class="comment">// dbg!( &amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="comment">// the href for css is good for static data. For dynamic route it must be different.</span>
@@ -287,11 +255,7 @@
     }
     <span class="doccomment">/// renders sub-template</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::needless_return</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">render_sub_template</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">template_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">_sub_templates</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SubTemplate</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">render_sub_template</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">template_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_sub_templates</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SubTemplate</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">template_name</span> {
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">render_sub_template_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">template_name</span>),

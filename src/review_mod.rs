@@ -80,18 +80,7 @@ impl Default for Review {
     }
 }
 
-#[derive(
-    strum_macros::EnumString,
-    strum_macros::Display,
-    Clone,
-    Debug,
-    Serialize,
-    Deserialize,
-    PartialOrd,
-    Ord,
-    PartialEq,
-    Eq,
-)]
+#[derive(strum_macros::EnumString, strum_macros::Display, Clone, Debug, Serialize, Deserialize, PartialOrd, Ord, PartialEq, Eq)]
 #[strum(serialize_all = "lowercase")]
 #[serde(rename_all = "lowercase")]
 pub enum Rating {
@@ -109,19 +98,7 @@ impl Default for Rating {
     }
 }
 
-#[derive(
-    strum_macros::EnumString,
-    strum_macros::Display,
-    Debug,
-    Copy,
-    Clone,
-    Serialize,
-    Deserialize,
-    PartialEq,
-    Eq,
-    PartialOrd,
-    Ord,
-)]
+#[derive(strum_macros::EnumString, strum_macros::Display, Debug, Copy, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 #[strum(serialize_all = "lowercase")]
 #[serde(rename_all = "lowercase")]
 pub enum Level {
@@ -183,17 +160,8 @@ impl HtmlServerTemplateRender for Review {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!( &placeholder);
         match placeholder {
             "st_crate_name_version" => s!("{} {}", self.package.name, self.package.version),
@@ -206,11 +174,7 @@ impl HtmlServerTemplateRender for Review {
             }
             "st_rating_class_color" => s!(
                 "review_header0_cell {} bold",
-                color_from_rating(if let Some(review) = &self.review {
-                    Some(&review.rating)
-                } else {
-                    None
-                })
+                color_from_rating(if let Some(review) = &self.review { Some(&review.rating) } else { None })
             ),
             "st_review_date" => s!(&self.date[..10]),
             "st_review_reviewer" => {
@@ -219,11 +183,7 @@ impl HtmlServerTemplateRender for Review {
             }
             "st_crate_thoroughness_understanding" => {
                 if let Some(review) = &self.review {
-                    s!(
-                        "{}, {}",
-                        review.thoroughness.to_string(),
-                        review.understanding.to_string()
-                    )
+                    s!("{}, {}", review.thoroughness.to_string(), review.understanding.to_string())
                 } else {
                     s!()
                 }
@@ -306,12 +266,7 @@ impl HtmlServerTemplateRender for Review {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             "su_crate_route" => url_u!("/rust-reviews/crate/{}/", &self.package.name),
@@ -320,10 +275,7 @@ impl HtmlServerTemplateRender for Review {
             "su_advisories_ids" => {
                 if let Some(advisories) = &self.advisories {
                     if advisories[0].ids[0].starts_with("RUSTSEC") {
-                        url_u!(
-                            "https://rustsec.org/advisories/{}.html",
-                            &advisories[0].ids[0]
-                        )
+                        url_u!("https://rustsec.org/advisories/{}.html", &advisories[0].ids[0])
                     } else if advisories[0].ids[0].starts_with("http") {
                         url_u!(&advisories[0].ids[0], "")
                     } else {
@@ -378,12 +330,7 @@ impl HtmlServerTemplateRender for Review {
                     let comment = format!("<div>{}</div>", comment);
                     // dbg!(&self.comment);
                     // convert html to node
-                    let vec_node = unwrap!(self.render_template_raw_to_nodes(
-                        &comment,
-                        HtmlOrSvg::Html,
-                        "",
-                        0
-                    ));
+                    let vec_node = unwrap!(self.render_template_raw_to_nodes(&comment, HtmlOrSvg::Html, "", 0));
                     return vec_node;
                 } else {
                     let node = Node::Element(ElementNode {
@@ -399,27 +346,16 @@ impl HtmlServerTemplateRender for Review {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbf!( &placeholder);
         match template_name {
             "stmplt_issues" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
                 if let Some(issues) = &self.issues {
                     for issue in issues {
-                        let vec_node = unwrap!(issue.render_template_raw_to_nodes(
-                            &sub_template.template,
-                            HtmlOrSvg::Html,
-                            template_name,
-                            0
-                        ));
+                        let vec_node = unwrap!(issue.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, template_name, 0));
                         nodes.extend_from_slice(&vec_node);
                     }
                 }

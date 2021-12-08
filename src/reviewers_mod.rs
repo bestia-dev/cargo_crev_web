@@ -32,12 +32,7 @@ impl ReviewIndexByReviewer {
         unwrap!(state_global.lock())
             .review_index
             .vec
-            .sort_by(|a, b| {
-                Ord::cmp(
-                    &a.reviewer_name.to_lowercase(),
-                    &b.reviewer_name.to_lowercase(),
-                )
-            });
+            .sort_by(|a, b| Ord::cmp(&a.reviewer_name.to_lowercase(), &b.reviewer_name.to_lowercase()));
         let mut old_reviewer_name = s!();
         let mut for_unique_crates: Vec<String> = vec![];
         let mut review_index_by_reviewer = ReviewIndexByReviewer { vec: vec![] };
@@ -111,17 +106,8 @@ impl HtmlServerTemplateRender for ReviewIndexByReviewer {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, pos_cursor: usize) -> String {
         // dbg!( &placeholder);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
@@ -130,48 +116,26 @@ impl HtmlServerTemplateRender for ReviewIndexByReviewer {
             "st_reviewer_name" => s!(&self.vec[pos_cursor].reviewer_name),
             "st_count_of_reviews" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
             "st_unique_crates" => url_s_zero_to_empty(self.vec[pos_cursor].unique_crates),
-            "st_count_of_rating_strong" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong)
-            }
-            "st_count_of_rating_positive" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_positive)
-            }
-            "st_count_of_rating_neutral" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_neutral)
-            }
-            "st_count_of_rating_negative" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_negative)
-            }
-            "st_count_of_rating_none" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_none)
-            }
-            "st_count_of_alternatives" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_alternatives)
-            }
+            "st_count_of_rating_strong" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong),
+            "st_count_of_rating_positive" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_positive),
+            "st_count_of_rating_neutral" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_neutral),
+            "st_count_of_rating_negative" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_negative),
+            "st_count_of_rating_none" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_none),
+            "st_count_of_alternatives" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_alternatives),
             "st_count_of_issues" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_issues),
-            "st_count_of_advisories" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_advisories)
-            }
+            "st_count_of_advisories" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_advisories),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
             "su_css_route" => url_u!("/rust-reviews/css/rust-reviews.css"),
             "su_favicon_route" => url_u!("/rust-reviews/favicon.png"),
             "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
-            "su_reviewer_route" => url_u!(
-                "/rust-reviews/reviewer/{}/",
-                &self.vec[pos_cursor].reviewer_id
-            ),
+            "su_reviewer_route" => url_u!("/rust-reviews/reviewer/{}/", &self.vec[pos_cursor].reviewer_id),
             "su_reviewer_url" => url_u!(&self.vec[pos_cursor].reviewer_url, ""),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
@@ -187,26 +151,16 @@ impl HtmlServerTemplateRender for ReviewIndexByReviewer {
     }
     // render sub-template into Vec<Node>
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!(&placeholder));
         match template_name {
             "stmplt_reviewer_summary" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
                 for cursor_for_vec in 0..self.vec.len() {
-                    let vec_node = unwrap!(self.render_template_raw_to_nodes(
-                        &sub_template.template,
-                        HtmlOrSvg::Html,
-                        "stmplt_reviewer_summary",
-                        cursor_for_vec
-                    ));
+                    let vec_node =
+                        unwrap!(self.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, "stmplt_reviewer_summary", cursor_for_vec));
                     nodes.extend_from_slice(&vec_node);
                 }
                 // return

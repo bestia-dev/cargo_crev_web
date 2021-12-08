@@ -660,49 +660,6 @@
 <span id="660">660</span>
 <span id="661">661</span>
 <span id="662">662</span>
-<span id="663">663</span>
-<span id="664">664</span>
-<span id="665">665</span>
-<span id="666">666</span>
-<span id="667">667</span>
-<span id="668">668</span>
-<span id="669">669</span>
-<span id="670">670</span>
-<span id="671">671</span>
-<span id="672">672</span>
-<span id="673">673</span>
-<span id="674">674</span>
-<span id="675">675</span>
-<span id="676">676</span>
-<span id="677">677</span>
-<span id="678">678</span>
-<span id="679">679</span>
-<span id="680">680</span>
-<span id="681">681</span>
-<span id="682">682</span>
-<span id="683">683</span>
-<span id="684">684</span>
-<span id="685">685</span>
-<span id="686">686</span>
-<span id="687">687</span>
-<span id="688">688</span>
-<span id="689">689</span>
-<span id="690">690</span>
-<span id="691">691</span>
-<span id="692">692</span>
-<span id="693">693</span>
-<span id="694">694</span>
-<span id="695">695</span>
-<span id="696">696</span>
-<span id="697">697</span>
-<span id="698">698</span>
-<span id="699">699</span>
-<span id="700">700</span>
-<span id="701">701</span>
-<span id="702">702</span>
-<span id="703">703</span>
-<span id="704">704</span>
-<span id="705">705</span>
 </pre><pre class="rust"><code><span class="doccomment">//! html_server_template_mod</span>
 <span class="doccomment">//! html templating library for the web server</span>
 <span class="doccomment">//! should be compatible also with svg, because of namespaces</span>
@@ -769,34 +726,20 @@
     <span class="kw">fn</span> <span class="ident">data_model_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
     <span class="doccomment">/// returns a String to replace the next text-node or attribute value</span>
     <span class="doccomment">/// use macro s!() for a normal string</span>
-    <span class="kw">fn</span> <span class="ident">replace_with_string</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">pos_cursor</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
+    <span class="kw">fn</span> <span class="ident">replace_with_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span>;
     <span class="doccomment">/// same as replace_with_string, but return url</span>
     <span class="doccomment">/// exclusively for attributes value of href and src</span>
     <span class="doccomment">/// the url must be encoded in the beginning because it encodes segments of</span>
     <span class="doccomment">/// url prior to being composed together.</span>
     <span class="doccomment">/// use macro url_u!() to create an url, very like format!</span>
     <span class="doccomment">/// I try to avoid String here to force the developer to not forget to url_encode</span>
-    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">pos_cursor</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span>;
+    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span>;
     <span class="doccomment">/// boolean : is the next node rendered or not</span>
     <span class="kw">fn</span> <span class="ident">retain_next_node_or_attribute</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
     <span class="doccomment">/// returns a vector of Nodes to replace the next Node</span>
     <span class="kw">fn</span> <span class="ident">replace_with_nodes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span>;
     <span class="doccomment">/// renders sub-template</span>
-    <span class="kw">fn</span> <span class="ident">render_sub_template</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">template_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">sub_templates</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SubTemplate</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">render_sub_template</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">template_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">sub_templates</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SubTemplate</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span>;
     <span class="comment">// endregion: methods must be implemented for a specific project</span>
 
     <span class="comment">// region: this other methods should be private</span>
@@ -816,8 +759,7 @@
     }
     <span class="doccomment">/// render for root template (not subtemplates) from string</span>
     <span class="kw">fn</span> <span class="ident">render</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">html_template_raw</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="ident">nodes</span> <span class="op">=</span>
-            <span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">render_template_raw_to_nodes</span>(<span class="kw-2">&amp;</span><span class="ident">html_template_raw</span>, <span class="ident">HtmlOrSvg::Html</span>, <span class="string">&quot;&quot;</span>, <span class="number">0</span>));
+        <span class="kw">let</span> <span class="ident">nodes</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">render_template_raw_to_nodes</span>(<span class="kw-2">&amp;</span><span class="ident">html_template_raw</span>, <span class="ident">HtmlOrSvg::Html</span>, <span class="string">&quot;&quot;</span>, <span class="number">0</span>));
         <span class="comment">// because this is the root template it must return one ElementNode</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">html</span> <span class="op">=</span> <span class="macro">s!</span>();
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">nodes</span>[<span class="number">0</span>] {
@@ -989,11 +931,7 @@
                                     <span class="comment">// example: data-st_placeholder=&quot;href&quot; href=&quot;x&quot;</span>
                                     <span class="comment">// The replace_string will always be applied to the next attribute. No matter the name.</span>
                                     <span class="kw">let</span> <span class="ident">placeholder</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">trim_start_matches</span>(<span class="string">&quot;data-&quot;</span>);
-                                    <span class="kw">let</span> <span class="ident">repl_txt</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">replace_with_string</span>(
-                                        <span class="ident">placeholder</span>,
-                                        <span class="ident">subtemplate</span>,
-                                        <span class="ident">pos_cursor</span>,
-                                    );
+                                    <span class="kw">let</span> <span class="ident">repl_txt</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">replace_with_string</span>(<span class="ident">placeholder</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s!</span>(<span class="ident">value</span>));
                                     <span class="ident">replace_attr_repl_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s!</span>(<span class="ident">name</span>));
                                     <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_txt</span>);
@@ -1001,8 +939,7 @@
                                     <span class="comment">// the same as data-st_, but exclusive to href and src</span>
                                     <span class="comment">// because they must use an url encoded string</span>
                                     <span class="kw">let</span> <span class="ident">placeholder</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">trim_start_matches</span>(<span class="string">&quot;data-&quot;</span>);
-                                    <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span>
-                                        <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">placeholder</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
+                                    <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">placeholder</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_attr_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s!</span>(<span class="ident">value</span>));
                                     <span class="ident">replace_attr_repl_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="macro">s!</span>(<span class="ident">name</span>));
                                     <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_url</span>);
@@ -1021,21 +958,29 @@
                                     <span class="comment">// add attribute to Node</span>
                                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_string</span> {
                                         <span class="kw">if</span> <span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro">unwrap!</span>(<span class="ident">replace_attr_name</span>) {
-                                            <span class="macro">panic!</span>(<span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>, 
-                                            <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>,  <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>);
+                                            <span class="macro">panic!</span>(
+                                                <span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>,
+                                                <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>),
+                                                <span class="ident">name</span>,
+                                                <span class="self">self</span>.<span class="ident">data_model_name</span>(),
+                                                <span class="ident">dom_path</span>
+                                            );
                                         <span class="comment">// replace_attr_name = None;</span>
                                         <span class="comment">// replace_attr_repl_name=None;</span>
                                         } <span class="kw">else</span> {
                                             <span class="comment">// exclusively href and src must contain url</span>
                                             <span class="kw">if</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;href&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;src&quot;</span> {
                                                 <span class="comment">// error it is NOT encoded</span>
-                                                <span class="macro">panic!</span>(<span class="string">&quot;Error: Repl of  {} name {} is NOT created as url, but as string: {}  data-model:{} dom_path: {:?}&quot;</span>, 
-                                                <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>, <span class="ident">repl</span>, <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>);
+                                                <span class="macro">panic!</span>(
+                                                    <span class="string">&quot;Error: Repl of  {} name {} is NOT created as url, but as string: {}  data-model:{} dom_path: {:?}&quot;</span>,
+                                                    <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>),
+                                                    <span class="ident">name</span>,
+                                                    <span class="ident">repl</span>,
+                                                    <span class="self">self</span>.<span class="ident">data_model_name</span>(),
+                                                    <span class="ident">dom_path</span>
+                                                );
                                             } <span class="kw">else</span> {
-                                                <span class="ident">element</span>.<span class="ident">attributes</span>.<span class="ident">push</span>(<span class="ident">Attribute</span> {
-                                                    <span class="ident">name</span>: <span class="macro">s!</span>(<span class="ident">name</span>),
-                                                    <span class="ident">value</span>: <span class="ident">repl</span>,
-                                                });
+                                                <span class="ident">element</span>.<span class="ident">attributes</span>.<span class="ident">push</span>(<span class="ident">Attribute</span> { <span class="ident">name</span>: <span class="macro">s!</span>(<span class="ident">name</span>), <span class="ident">value</span>: <span class="ident">repl</span> });
                                             }
                                             <span class="comment">// empty the replace_string for the next node</span>
                                             <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">None</span>;
@@ -1044,8 +989,13 @@
                                         }
                                     } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">repl</span>) <span class="op">=</span> <span class="ident">replace_url</span> {
                                         <span class="kw">if</span> <span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">replace_attr_name</span>.<span class="ident">as_ref</span>()) {
-                                            <span class="macro">panic!</span>(<span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>, 
-                                             <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>, <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>);
+                                            <span class="macro">panic!</span>(
+                                                <span class="string">&quot;Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} &quot;</span>,
+                                                <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>),
+                                                <span class="ident">name</span>,
+                                                <span class="self">self</span>.<span class="ident">data_model_name</span>(),
+                                                <span class="ident">dom_path</span>
+                                            );
                                         <span class="comment">// replace_attr_name = None;</span>
                                         <span class="comment">// replace_attr_repl_name = None;</span>
                                         } <span class="kw">else</span> {
@@ -1058,8 +1008,14 @@
                                                 });
                                             } <span class="kw">else</span> {
                                                 <span class="comment">//error. it is encoded for other attributes</span>
-                                                <span class="macro">panic!</span>(<span class="string">&quot;Repl of {} name {} is mistakenly url encoded: {} data-model:{} dom_path: {:?}&quot;</span>, 
-                                            <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>), <span class="ident">name</span>, <span class="ident">repl</span>.<span class="ident">to_string</span>(), <span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">dom_path</span>);
+                                                <span class="macro">panic!</span>(
+                                                    <span class="string">&quot;Repl of {} name {} is mistakenly url encoded: {} data-model:{} dom_path: {:?}&quot;</span>,
+                                                    <span class="macro">unwrap!</span>(<span class="ident">replace_attr_repl_name</span>),
+                                                    <span class="ident">name</span>,
+                                                    <span class="ident">repl</span>.<span class="ident">to_string</span>(),
+                                                    <span class="self">self</span>.<span class="ident">data_model_name</span>(),
+                                                    <span class="ident">dom_path</span>
+                                                );
                                             }
                                         }
                                         <span class="comment">// empty the replace_string for the next node</span>
@@ -1112,22 +1068,18 @@
                                 <span class="comment">// one small exception is &lt;textarea&gt; because it ignores the comment syntax.</span>
                                 <span class="comment">// It is still working, and it is not very ugly.</span>
                                 <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;st_&quot;</span>) {
-                                    <span class="kw">let</span> <span class="ident">repl_txt</span> <span class="op">=</span>
-                                        <span class="self">self</span>.<span class="ident">replace_with_string</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
+                                    <span class="kw">let</span> <span class="ident">repl_txt</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">replace_with_string</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_string</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_txt</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;su_&quot;</span>) {
-                                    <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span>
-                                        <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
+                                    <span class="kw">let</span> <span class="ident">repl_url</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">replace_with_url</span>(<span class="ident">txt</span>, <span class="ident">subtemplate</span>, <span class="ident">pos_cursor</span>);
                                     <span class="ident">replace_url</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">repl_url</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;sb_&quot;</span>) {
                                     <span class="comment">// boolean if this is true than render the next node, else don&#39;t render</span>
-                                    <span class="ident">retain_next_node_or_attribute</span> <span class="op">=</span>
-                                        <span class="self">self</span>.<span class="ident">retain_next_node_or_attribute</span>(<span class="ident">txt</span>);
+                                    <span class="ident">retain_next_node_or_attribute</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">retain_next_node_or_attribute</span>(<span class="ident">txt</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;stmplt_&quot;</span>) {
                                     <span class="comment">// replace exactly this placeholder for a sub-template</span>
                                     <span class="kw">let</span> <span class="ident">template_name</span> <span class="op">=</span> <span class="ident">txt</span>.<span class="ident">trim_end_matches</span>(<span class="string">&quot; start&quot;</span>);
-                                    <span class="kw">let</span> <span class="ident">repl_vec_nodes</span> <span class="op">=</span>
-                                        <span class="self">self</span>.<span class="ident">render_sub_template</span>(<span class="ident">template_name</span>, <span class="ident">sub_templates</span>);
+                                    <span class="kw">let</span> <span class="ident">repl_vec_nodes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">render_sub_template</span>(<span class="ident">template_name</span>, <span class="ident">sub_templates</span>);
                                     <span class="ident">element</span>.<span class="ident">children</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">repl_vec_nodes</span>);
                                 } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">txt</span>.<span class="ident">starts_with</span>(<span class="string">&quot;sn_&quot;</span>) {
                                     <span class="comment">// nodes  (in a vector)</span>
@@ -1176,20 +1128,13 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pos_for_loop</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">loop</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">exist_template</span> <span class="op">=</span> <span class="bool-val">false</span>;
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos_start</span>) <span class="op">=</span>
-                <span class="ident">find_pos_before_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>, <span class="ident">pos_for_loop</span>, <span class="string">&quot;&lt;!--stmplt_&quot;</span>)
-            {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos_end_name</span>) <span class="op">=</span>
-                    <span class="ident">find_pos_before_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>, <span class="ident">pos_start</span>, <span class="string">&quot; start--&gt;&quot;</span>)
-                {
-                    <span class="kw">let</span> <span class="ident">sub_template_name</span> <span class="op">=</span>
-                        <span class="macro">s!</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>[<span class="ident">pos_start</span> <span class="op">+</span> <span class="number">4</span>..<span class="ident">pos_end_name</span>]);
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos_start</span>) <span class="op">=</span> <span class="ident">find_pos_before_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>, <span class="ident">pos_for_loop</span>, <span class="string">&quot;&lt;!--stmplt_&quot;</span>) {
+                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos_end_name</span>) <span class="op">=</span> <span class="ident">find_pos_before_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>, <span class="ident">pos_start</span>, <span class="string">&quot; start--&gt;&quot;</span>) {
+                    <span class="kw">let</span> <span class="ident">sub_template_name</span> <span class="op">=</span> <span class="macro">s!</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>[<span class="ident">pos_start</span> <span class="op">+</span> <span class="number">4</span>..<span class="ident">pos_end_name</span>]);
                     <span class="comment">// dbg!(sub_template_name);</span>
                     <span class="kw">let</span> <span class="ident">pos_start_after_tag</span> <span class="op">=</span> <span class="ident">pos_end_name</span> <span class="op">+</span> <span class="number">9</span>;
                     <span class="kw">let</span> <span class="ident">end_tag</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;&lt;!--{} end--&gt;&quot;</span>, <span class="ident">sub_template_name</span>);
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos_end_after_tag</span>) <span class="op">=</span>
-                        <span class="ident">find_pos_after_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>, <span class="ident">pos_start</span>, <span class="kw-2">&amp;</span><span class="ident">end_tag</span>)
-                    {
+                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pos_end_after_tag</span>) <span class="op">=</span> <span class="ident">find_pos_after_delimiter</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>, <span class="ident">pos_start</span>, <span class="kw-2">&amp;</span><span class="ident">end_tag</span>) {
                         <span class="ident">exist_template</span> <span class="op">=</span> <span class="bool-val">true</span>;
                         <span class="comment">// special name for template that will not be used at all.</span>
                         <span class="comment">// this happens when the graphic designer need more repetition of the</span>
@@ -1198,21 +1143,15 @@
                             <span class="comment">// dbg!(pos_start);</span>
                             <span class="comment">// dbg!(pos_end_after_tag);</span>
                             <span class="comment">// remove all the template</span>
-                            <span class="ident">sub_templates</span>[<span class="number">0</span>]
-                                .<span class="ident">template</span>
-                                .<span class="ident">drain</span>(<span class="ident">pos_start</span>..<span class="ident">pos_end_after_tag</span>);
+                            <span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>.<span class="ident">drain</span>(<span class="ident">pos_start</span>..<span class="ident">pos_end_after_tag</span>);
                         } <span class="kw">else</span> {
-                            <span class="kw">let</span> <span class="ident">sub_template_placeholder</span> <span class="op">=</span>
-                                <span class="macro">s!</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>[<span class="ident">pos_start</span>..<span class="ident">pos_start_after_tag</span>]);
+                            <span class="kw">let</span> <span class="ident">sub_template_placeholder</span> <span class="op">=</span> <span class="macro">s!</span>(<span class="kw-2">&amp;</span><span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>[<span class="ident">pos_start</span>..<span class="ident">pos_start_after_tag</span>]);
                             <span class="ident">pos_for_loop</span> <span class="op">=</span> <span class="ident">pos_start_after_tag</span>;
 
                             <span class="comment">// drain - extract a substring and remove it from the original</span>
                             <span class="comment">// leave the header with the name. It will be used</span>
                             <span class="comment">// as placeholder for replace later.</span>
-                            <span class="kw">let</span> <span class="ident">sub_template</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">sub_templates</span>[<span class="number">0</span>]
-                                .<span class="ident">template</span>
-                                .<span class="ident">drain</span>(<span class="ident">pos_start_after_tag</span>..<span class="ident">pos_end_after_tag</span>)
-                                .<span class="ident">collect</span>();
+                            <span class="kw">let</span> <span class="ident">sub_template</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident">sub_templates</span>[<span class="number">0</span>].<span class="ident">template</span>.<span class="ident">drain</span>(<span class="ident">pos_start_after_tag</span>..<span class="ident">pos_end_after_tag</span>).<span class="ident">collect</span>();
                             <span class="comment">// remove the end tag</span>
                             <span class="kw">let</span> <span class="ident">sub_template</span> <span class="op">=</span> <span class="ident">sub_template</span>.<span class="ident">trim_end_matches</span>(<span class="kw-2">&amp;</span><span class="ident">end_tag</span>);
                             <span class="ident">sub_templates</span>.<span class="ident">push</span>(<span class="ident">SubTemplate</span> {
@@ -1239,11 +1178,7 @@
     <span class="kw">fn</span> <span class="ident">root_element_node_to_html_string</span>(<span class="ident">element_node</span>: <span class="kw-2">&amp;</span><span class="ident">ElementNode</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dom_path</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
         <span class="doccomment">/// recursive private fn sub element to html</span>
-        <span class="kw">fn</span> <span class="ident">sub_element_node_mut_html</span>(
-            <span class="ident">html</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>,
-            <span class="ident">element_node</span>: <span class="kw-2">&amp;</span><span class="ident">ElementNode</span>,
-            <span class="ident">dom_path</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
-        ) {
+        <span class="kw">fn</span> <span class="ident">sub_element_node_mut_html</span>(<span class="ident">html</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">String</span>, <span class="ident">element_node</span>: <span class="kw-2">&amp;</span><span class="ident">ElementNode</span>, <span class="ident">dom_path</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) {
             <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="string">&quot;&lt;&quot;</span>);
             <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">element_node</span>.<span class="ident">tag_name</span>);
             <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="string">&quot; &quot;</span>);
@@ -1277,10 +1212,7 @@
                                 <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="ident">encode_5_xml_control_characters</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>));
                             }
                         }
-                        <span class="ident">Node::Comment</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
-                            <span class="string">&quot;&lt;!--{}--&gt;&quot;</span>,
-                            <span class="ident">encode_5_xml_control_characters</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>)
-                        )),
+                        <span class="ident">Node::Comment</span>(<span class="ident">text</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">html</span>.<span class="ident">push_str</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;&lt;!--{}--&gt;&quot;</span>, <span class="ident">encode_5_xml_control_characters</span>(<span class="kw-2">&amp;</span><span class="ident">text</span>))),
                     }
                 }
                 <span class="comment">// end tag</span>
@@ -1344,39 +1276,24 @@
 
 <span class="doccomment">/// boilerplate</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">retain_next_node_or_attribute_match_else</span>(<span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-    <span class="macro">eprintln!</span>(
-        <span class="string">&quot;Error: Unrecognized {} retain_next_node_or_attribute: \&quot;{}\&quot;&quot;</span>,
-        <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>
-    );
+    <span class="macro">eprintln!</span>(<span class="string">&quot;Error: Unrecognized {} retain_next_node_or_attribute: \&quot;{}\&quot;&quot;</span>, <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>);
     <span class="bool-val">true</span>
 }
 <span class="doccomment">/// boilerplate</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_with_string_match_else</span>(<span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
-    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(
-        <span class="string">&quot;Error: Unrecognized {} replace_with_string: \&quot;{}\&quot;&quot;</span>,
-        <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>
-    );
+    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;Error: Unrecognized {} replace_with_string: \&quot;{}\&quot;&quot;</span>, <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>);
     <span class="macro">eprintln!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
     <span class="macro">s!</span>(<span class="ident">err_msg</span>)
 }
 <span class="doccomment">/// boilerplate</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_with_url_match_else</span>(
-    <span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
-    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(
-        <span class="string">&quot;Error: Unrecognized {} replace_with_url: \&quot;{}\&quot;&quot;</span>,
-        <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>
-    );
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_with_url_match_else</span>(<span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
+    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;Error: Unrecognized {} replace_with_url: \&quot;{}\&quot;&quot;</span>, <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>);
     <span class="macro">eprintln!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
     <span class="macro">url_u!</span>(<span class="kw-2">&amp;</span><span class="ident">err_msg</span>, <span class="string">&quot;&quot;</span>)
 }
 <span class="doccomment">/// boilerplate</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replace_with_nodes_match_else</span>(<span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(
-        <span class="string">&quot;Error: Unrecognized {} replace_with_nodes: \&quot;{}\&quot;&quot;</span>,
-        <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>
-    );
+    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;Error: Unrecognized {} replace_with_nodes: \&quot;{}\&quot;&quot;</span>, <span class="ident">data_model_name</span>, <span class="ident">placeholder</span>);
     <span class="macro">eprintln!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
     <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="ident">Node::Element</span>(<span class="ident">ElementNode</span> {
         <span class="ident">tag_name</span>: <span class="macro">s!</span>(<span class="string">&quot;h2&quot;</span>),
@@ -1387,10 +1304,7 @@
 }
 <span class="doccomment">///boilerplate</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">render_sub_template_match_else</span>(<span class="ident">data_model_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">template_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(
-        <span class="string">&quot;Error: Unrecognized {} render_sub_template: \&quot;{}\&quot;&quot;</span>,
-        <span class="ident">data_model_name</span>, <span class="ident">template_name</span>
-    );
+    <span class="kw">let</span> <span class="ident">err_msg</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;Error: Unrecognized {} render_sub_template: \&quot;{}\&quot;&quot;</span>, <span class="ident">data_model_name</span>, <span class="ident">template_name</span>);
     <span class="macro">eprintln!</span>(<span class="string">&quot;{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">err_msg</span>);
     <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="ident">Node::Element</span>(<span class="ident">ElementNode</span> {
         <span class="ident">tag_name</span>: <span class="macro">s!</span>(<span class="string">&quot;h2&quot;</span>),

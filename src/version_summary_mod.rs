@@ -70,17 +70,8 @@ impl HtmlServerTemplateRender for VersionSummary {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!( &placeholder);
         match placeholder {
             "st_version" => s!(&self.version),
@@ -99,59 +90,18 @@ impl HtmlServerTemplateRender for VersionSummary {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
-            "su_filter_version" => url_u!(
-                "/rust-reviews/crate/{}/{}/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_strong" => url_u!(
-                "/rust-reviews/crate/{}/{}/S/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_positive" => url_u!(
-                "/rust-reviews/crate/{}/{}/P/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_neutral" => url_u!(
-                "/rust-reviews/crate/{}/{}/E/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_negative" => url_u!(
-                "/rust-reviews/crate/{}/{}/N/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_none" => url_u!(
-                "/rust-reviews/crate/{}/{}/0/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_alternatives" => url_u!(
-                "/rust-reviews/crate/{}/{}/v/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_issues" => url_u!(
-                "/rust-reviews/crate/{}/{}/i/",
-                &self.crate_name,
-                &self.version
-            ),
-            "su_filter_advisories" => url_u!(
-                "/rust-reviews/crate/{}/{}/a/",
-                &self.crate_name,
-                &self.version
-            ),
+            "su_filter_version" => url_u!("/rust-reviews/crate/{}/{}/", &self.crate_name, &self.version),
+            "su_filter_strong" => url_u!("/rust-reviews/crate/{}/{}/S/", &self.crate_name, &self.version),
+            "su_filter_positive" => url_u!("/rust-reviews/crate/{}/{}/P/", &self.crate_name, &self.version),
+            "su_filter_neutral" => url_u!("/rust-reviews/crate/{}/{}/E/", &self.crate_name, &self.version),
+            "su_filter_negative" => url_u!("/rust-reviews/crate/{}/{}/N/", &self.crate_name, &self.version),
+            "su_filter_none" => url_u!("/rust-reviews/crate/{}/{}/0/", &self.crate_name, &self.version),
+            "su_filter_alternatives" => url_u!("/rust-reviews/crate/{}/{}/v/", &self.crate_name, &self.version),
+            "su_filter_issues" => url_u!("/rust-reviews/crate/{}/{}/i/", &self.crate_name, &self.version),
+            "su_filter_advisories" => url_u!("/rust-reviews/crate/{}/{}/a/", &self.crate_name, &self.version),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -165,11 +115,7 @@ impl HtmlServerTemplateRender for VersionSummary {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        _sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, _sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!( &placeholder);
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),

@@ -173,45 +173,6 @@
 <span id="173">173</span>
 <span id="174">174</span>
 <span id="175">175</span>
-<span id="176">176</span>
-<span id="177">177</span>
-<span id="178">178</span>
-<span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
-<span id="182">182</span>
-<span id="183">183</span>
-<span id="184">184</span>
-<span id="185">185</span>
-<span id="186">186</span>
-<span id="187">187</span>
-<span id="188">188</span>
-<span id="189">189</span>
-<span id="190">190</span>
-<span id="191">191</span>
-<span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
-<span id="195">195</span>
-<span id="196">196</span>
-<span id="197">197</span>
-<span id="198">198</span>
-<span id="199">199</span>
-<span id="200">200</span>
-<span id="201">201</span>
-<span id="202">202</span>
-<span id="203">203</span>
-<span id="204">204</span>
-<span id="205">205</span>
-<span id="206">206</span>
-<span id="207">207</span>
-<span id="208">208</span>
-<span id="209">209</span>
-<span id="210">210</span>
-<span id="211">211</span>
-<span id="212">212</span>
-<span id="213">213</span>
-<span id="214">214</span>
 </pre><pre class="rust"><code><span class="doccomment">//! crates_mod</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="kw-2">*</span>;
@@ -324,17 +285,8 @@
     }
 
     <span class="doccomment">/// returns a String to replace the next text-node</span>
-    <span class="attribute">#[<span class="ident">allow</span>(
-        <span class="ident">clippy::needless_return</span>,
-        <span class="ident">clippy::integer_arithmetic</span>,
-        <span class="ident">clippy::indexing_slicing</span>
-    )]</span>
-    <span class="kw">fn</span> <span class="ident">replace_with_string</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">pos_cursor</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::needless_return</span>, <span class="ident">clippy::integer_arithmetic</span>, <span class="ident">clippy::indexing_slicing</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">replace_with_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="string">&quot;st_cargo_crev_web_version&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">s!</span>(<span class="macro">env!</span>(<span class="string">&quot;CARGO_PKG_VERSION&quot;</span>)),
@@ -344,38 +296,19 @@
             <span class="string">&quot;st_count_of_reviews&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_reviews</span>),
             <span class="string">&quot;st_unique_versions&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">unique_versions</span>),
             <span class="string">&quot;st_unique_reviewers&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">unique_reviewers</span>),
-            <span class="string">&quot;st_count_of_rating_strong&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_strong</span>)
-            }
-            <span class="string">&quot;st_count_of_rating_positive&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_positive</span>)
-            }
-            <span class="string">&quot;st_count_of_rating_neutral&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_neutral</span>)
-            }
-            <span class="string">&quot;st_count_of_rating_negative&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_negative</span>)
-            }
-            <span class="string">&quot;st_count_of_rating_none&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_none</span>)
-            }
-            <span class="string">&quot;st_count_of_alternatives&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_alternatives</span>)
-            }
+            <span class="string">&quot;st_count_of_rating_strong&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_strong</span>),
+            <span class="string">&quot;st_count_of_rating_positive&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_positive</span>),
+            <span class="string">&quot;st_count_of_rating_neutral&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_neutral</span>),
+            <span class="string">&quot;st_count_of_rating_negative&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_negative</span>),
+            <span class="string">&quot;st_count_of_rating_none&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_rating_none</span>),
+            <span class="string">&quot;st_count_of_alternatives&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_alternatives</span>),
             <span class="string">&quot;st_count_of_issues&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_issues</span>),
-            <span class="string">&quot;st_count_of_advisories&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_advisories</span>)
-            }
+            <span class="string">&quot;st_count_of_advisories&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">url_s_zero_to_empty</span>(<span class="self">self</span>.<span class="ident">vec</span>[<span class="ident">pos_cursor</span>].<span class="ident">count_of_advisories</span>),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">replace_with_string_match_else</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data_model_name</span>(), <span class="ident">placeholder</span>),
         }
     }
     <span class="doccomment">/// exclusive url encoded for href and src</span>
-    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">pos_cursor</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
+    <span class="kw">fn</span> <span class="ident">replace_with_url</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">placeholder</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_subtemplate</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">pos_cursor</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UrlUtf8EncodedString</span> {
         <span class="comment">// dbg!( &amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">placeholder</span> {
             <span class="comment">// the href for css is good for static data. For dynamic route it must be different.</span>
@@ -397,26 +330,15 @@
     }
     <span class="doccomment">/// renders sub-template</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::needless_return</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">render_sub_template</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">template_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">sub_templates</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SubTemplate</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">render_sub_template</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">template_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">sub_templates</span>: <span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SubTemplate</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
         <span class="comment">// dbg!(&amp;placeholder);</span>
         <span class="kw">match</span> <span class="ident">template_name</span> {
             <span class="string">&quot;stmplt_crate_summary&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">let</span> <span class="ident">sub_template</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">sub_templates</span>
-                    .<span class="ident">iter</span>()
-                    .<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">template</span><span class="op">|</span> <span class="ident">template</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">template_name</span>));
+                <span class="kw">let</span> <span class="ident">sub_template</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="ident">sub_templates</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">template</span><span class="op">|</span> <span class="ident">template</span>.<span class="ident">name</span> <span class="op">=</span><span class="op">=</span> <span class="ident">template_name</span>));
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">nodes</span> <span class="op">=</span> <span class="macro">vec!</span>[];
                 <span class="comment">// sub-template repeatable</span>
                 <span class="kw">for</span> <span class="ident">cursor_for_crates</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">vec</span>.<span class="ident">len</span>() {
-                    <span class="kw">let</span> <span class="ident">vec_node</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">render_template_raw_to_nodes</span>(
-                        <span class="kw-2">&amp;</span><span class="ident">sub_template</span>.<span class="ident">template</span>,
-                        <span class="ident">HtmlOrSvg::Html</span>,
-                        <span class="ident">template_name</span>,
-                        <span class="ident">cursor_for_crates</span>
-                    ));
+                    <span class="kw">let</span> <span class="ident">vec_node</span> <span class="op">=</span> <span class="macro">unwrap!</span>(<span class="self">self</span>.<span class="ident">render_template_raw_to_nodes</span>(<span class="kw-2">&amp;</span><span class="ident">sub_template</span>.<span class="ident">template</span>, <span class="ident">HtmlOrSvg::Html</span>, <span class="ident">template_name</span>, <span class="ident">cursor_for_crates</span>));
                     <span class="ident">nodes</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">vec_node</span>);
                 }
                 <span class="comment">// return</span>

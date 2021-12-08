@@ -83,17 +83,8 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!(&placeholder);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
@@ -112,12 +103,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -137,11 +123,7 @@ impl HtmlServerTemplateRender for ReviewIndexSummary {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        _sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, _sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!(&placeholder);
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),

@@ -110,17 +110,8 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, pos_cursor: usize) -> String {
         // dbg!(&placeholder);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
@@ -130,38 +121,19 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
             "st_count_of_reviews" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_reviews),
             "st_unique_versions" => url_s_zero_to_empty(self.vec[pos_cursor].unique_versions),
             "st_unique_reviewers" => url_s_zero_to_empty(self.vec[pos_cursor].unique_reviewers),
-            "st_count_of_rating_strong" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong)
-            }
-            "st_count_of_rating_positive" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_positive)
-            }
-            "st_count_of_rating_neutral" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_neutral)
-            }
-            "st_count_of_rating_negative" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_negative)
-            }
-            "st_count_of_rating_none" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_none)
-            }
-            "st_count_of_alternatives" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_alternatives)
-            }
+            "st_count_of_rating_strong" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_strong),
+            "st_count_of_rating_positive" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_positive),
+            "st_count_of_rating_neutral" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_neutral),
+            "st_count_of_rating_negative" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_negative),
+            "st_count_of_rating_none" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_rating_none),
+            "st_count_of_alternatives" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_alternatives),
             "st_count_of_issues" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_issues),
-            "st_count_of_advisories" => {
-                url_s_zero_to_empty(self.vec[pos_cursor].count_of_advisories)
-            }
+            "st_count_of_advisories" => url_s_zero_to_empty(self.vec[pos_cursor].count_of_advisories),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -183,26 +155,15 @@ impl HtmlServerTemplateRender for ReviewIndexByCrate {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!(&placeholder);
         match template_name {
             "stmplt_crate_summary" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
                 for cursor_for_crates in 0..self.vec.len() {
-                    let vec_node = unwrap!(self.render_template_raw_to_nodes(
-                        &sub_template.template,
-                        HtmlOrSvg::Html,
-                        template_name,
-                        cursor_for_crates
-                    ));
+                    let vec_node = unwrap!(self.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, template_name, cursor_for_crates));
                     nodes.extend_from_slice(&vec_node);
                 }
                 // return

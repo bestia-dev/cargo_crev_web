@@ -60,11 +60,8 @@ impl CrateVersionSummary {
                 let mut version_to_push = VersionSummary::new();
                 version_to_push.crate_name = s!(crate_name);
                 version_to_push.version = s!(&review.package.version);
-                version_to_push.version_for_sorting =
-                    s!(unwrap!(review.package.version_for_sorting.clone()));
-                crate_version_summary
-                    .version_summaries
-                    .push(version_to_push);
+                version_to_push.version_for_sorting = s!(unwrap!(review.package.version_for_sorting.clone()));
+                crate_version_summary.version_summaries.push(version_to_push);
                 option_version = Some(unwrap!(crate_version_summary.version_summaries.last_mut()));
             }
             // Here Option is not needed any more.
@@ -164,25 +161,12 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!(&placeholder);
         match placeholder {
             "st_crate_name" => s!(&self.crate_name),
-            "st_cargo_toml_dependency" => s!(
-                r#"{} = "{}""#,
-                &self.crate_name,
-                &self.crate_summary.last_reviewed_version
-            ),
+            "st_cargo_toml_dependency" => s!(r#"{} = "{}""#, &self.crate_name, &self.crate_summary.last_reviewed_version),
             //"st_last_version" => s!(&self.last_version),
             "st_lib_rs_url" => s!("https://lib.rs/crates/{}/", &self.crate_name),
             "st_crate_review_number" => url_s_zero_to_empty(self.crate_summary.review_number),
@@ -201,12 +185,7 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -214,15 +193,14 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             "su_lib_rs_url" => url_u!("https://lib.rs/crates/{}/", &self.crate_name),
             "su_docs_rs_url" => url_u!("https://docs.rs/{}/", &self.crate_name),
             "su_img_src_logo" => url_u!("/rust-reviews/images/Logo_02.png"),
-            "su_review_new" => {
-                if self.crate_name.is_empty() && self.crate_summary.last_reviewed_version.is_empty()
-                {
-                    url_u!("/rust-reviews/review_new/")
+            "su_your_personal_reviews" => {
+                if self.crate_name.is_empty() && self.crate_summary.last_reviewed_version.is_empty() {
+                    url_u!("/rust-reviews/your_personal_reviews/")
                 } else if self.crate_summary.last_reviewed_version.is_empty() {
-                    url_u!("/rust-reviews/review_new/{}/", &self.crate_name)
+                    url_u!("/rust-reviews/your_personal_reviews/{}/", &self.crate_name)
                 } else {
                     url_u!(
-                        "/rust-reviews/review_new/{}/{}/",
+                        "/rust-reviews/your_personal_reviews/{}/{}/",
                         &self.crate_name,
                         &self.crate_summary.last_reviewed_version
                     )
@@ -237,8 +215,8 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
             "su_filter_alternatives" => url_u!("/rust-reviews/crate/{}/crate/v", &self.crate_name),
             "su_filter_issues" => url_u!("/rust-reviews/crate/{}/crate/i", &self.crate_name),
             "su_filter_advisories" => url_u!("/rust-reviews/crate/{}/crate/a", &self.crate_name),
-            //"su_new_review" => url_u!("/rust-reviews/review_new/{}/{}/",&self.crate_name,&self.last_version),
-            "su_new_review" => url_u!("/rust-reviews/review_new/{}/", &self.crate_name),
+            //"su_new_review" => url_u!("/rust-reviews/your_personal_reviews/{}/{}/",&self.crate_name,&self.last_version),
+            "su_new_review" => url_u!("/rust-reviews/your_personal_reviews/{}/", &self.crate_name),
             _ => replace_with_url_match_else(&self.data_model_name(), placeholder),
         }
     }
@@ -252,26 +230,15 @@ impl HtmlServerTemplateRender for CrateVersionSummary {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!( &sub_templates.len());
 
         match template_name {
             "stmplt_summary_version" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 for version_summary in &self.version_summaries {
-                    let vec_node = unwrap!(version_summary.render_template_raw_to_nodes(
-                        &sub_template.template,
-                        HtmlOrSvg::Html,
-                        "",
-                        0
-                    ));
+                    let vec_node = unwrap!(version_summary.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, "", 0));
                     nodes.extend_from_slice(&vec_node);
                 }
                 // return

@@ -110,8 +110,6 @@
 <span id="110">110</span>
 <span id="111">111</span>
 <span id="112">112</span>
-<span id="113">113</span>
-<span id="114">114</span>
 </pre><pre class="rust"><code><span class="doccomment">//! reviewer_index_mod.rs</span>
 
 <span class="kw">use</span> <span class="ident">serde_derive</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -193,9 +191,7 @@
             }
         }
         <span class="comment">// sort by file_path</span>
-        <span class="ident">reviewer_index</span>
-            .<span class="ident">vec</span>
-            .<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">b</span>.<span class="ident">name</span>.<span class="ident">to_lowercase</span>().<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">name</span>.<span class="ident">to_lowercase</span>()));
+        <span class="ident">reviewer_index</span>.<span class="ident">vec</span>.<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">b</span>.<span class="ident">name</span>.<span class="ident">to_lowercase</span>().<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">name</span>.<span class="ident">to_lowercase</span>()));
         <span class="ident">ns_print</span>(<span class="string">&quot;ReviewerIndex.new()&quot;</span>, <span class="ident">ns_start</span>);
         <span class="comment">// return</span>
         <span class="ident">reviewer_index</span>

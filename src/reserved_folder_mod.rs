@@ -42,9 +42,7 @@ impl ReservedFolder {
     /// prepares the data
     pub fn new(_state_global: ArcMutStateGlobal) -> Self {
         // return
-        ReservedFolder {
-            ..Default::default()
-        }
+        ReservedFolder { ..Default::default() }
     }
     pub fn list_trusted_reviewer_id(state_global: ArcMutStateGlobal) -> Self {
         // dbg!(reviewer_index);
@@ -58,11 +56,7 @@ impl ReservedFolder {
                 reviewer_url: r.url.clone(),
             })
             .collect();
-        only_reviewer.sort_by(|a, b| {
-            a.reviewer_name
-                .to_lowercase()
-                .cmp(&b.reviewer_name.to_lowercase())
-        });
+        only_reviewer.sort_by(|a, b| a.reviewer_name.to_lowercase().cmp(&b.reviewer_name.to_lowercase()));
         // return
         ReservedFolder {
             list_trusted_reviewer_id: Some(only_reviewer),
@@ -90,9 +84,7 @@ impl ReservedFolder {
     }
 
     pub fn blocklisted_repos(_state_global: ArcMutStateGlobal) -> Self {
-        let mut reserved_folder = ReservedFolder {
-            ..Default::default()
-        };
+        let mut reserved_folder = ReservedFolder { ..Default::default() };
         reserved_folder.fill_blocklisted_repos();
         //return
         reserved_folder
@@ -100,8 +92,7 @@ impl ReservedFolder {
     /// read blocklisted_repos from json file
     fn fill_blocklisted_repos(&mut self) {
         let blocklisted_repos = unwrap!(fs::read_to_string("blocklisted_repos.json"));
-        let mut blocklisted_repos: Vec<(String, String)> =
-            unwrap!(serde_json::from_str(&blocklisted_repos));
+        let mut blocklisted_repos: Vec<(String, String)> = unwrap!(serde_json::from_str(&blocklisted_repos));
 
         blocklisted_repos.sort_by(|a, b| a.0.to_lowercase().cmp(&b.0.to_lowercase()));
         self.blocklisted_repos = Some(blocklisted_repos);
@@ -157,23 +148,14 @@ impl ReservedFolder {
             } else {
                 let response = client
                     .get(url_for_content)
-                    .header(
-                        "User-Agent",
-                        "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)",
-                    )
-                    .header(
-                        "authorization",
-                        &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))),
-                    )
+                    .header("User-Agent", "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)")
+                    .header("authorization", &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))))
                     .send()
                     .unwrap();
                 let response_text = response.text().unwrap_or("".to_string());
                 if response_text.is_empty() {
                     // add this url to blocklist.json
-                    blocklisted_repos.push((
-                        forked_repo.html_url.to_string(),
-                        "url not exist".to_string(),
-                    ));
+                    blocklisted_repos.push((forked_repo.html_url.to_string(), "url not exist".to_string()));
                     println!("Error for call to url: {}", &url_for_content);
                 } else {
                     let rsl = serde_json::from_str::<Vec<RepoContent>>(&response_text);
@@ -188,9 +170,7 @@ impl ReservedFolder {
                                     count_ids += 1;
                                     // dbg!("    {} {}", content.name, forked_repo.html_url);
                                     vec_of_new_repo.push(OnlyReviewer {
-                                        reviewer_name: reviewer_name_from_url(
-                                            &forked_repo.html_url,
-                                        ),
+                                        reviewer_name: reviewer_name_from_url(&forked_repo.html_url),
                                         reviewer_id: content.name.clone(),
                                         reviewer_url: forked_repo.html_url.clone(),
                                     });
@@ -198,17 +178,14 @@ impl ReservedFolder {
                             }
                             // if there is no id in the repo then add it to blocklisted
                             if count_ids == 0 {
-                                blocklisted_repos
-                                    .push((forked_repo.html_url.to_string(), "no id".to_string()));
+                                blocklisted_repos.push((forked_repo.html_url.to_string(), "no id".to_string()));
                             }
                         }
                     }
                 }
             }
         }
-        let mut reserved_folder = ReservedFolder {
-            ..Default::default()
-        };
+        let mut reserved_folder = ReservedFolder { ..Default::default() };
         /*
         ids:
           - id-type: crev
@@ -243,21 +220,12 @@ impl ReservedFolder {
         let mut page = 1;
         loop {
             // there can be more pages. Max per_page is 100
-            let url_for_page = &format!(
-                "https://api.github.com/repos/crev-dev/crev-proofs/forks?per_page=100&page={}",
-                page
-            );
+            let url_for_page = &format!("https://api.github.com/repos/crev-dev/crev-proofs/forks?per_page=100&page={}", page);
 
             let response = client
                 .get(url_for_page)
-                .header(
-                    "User-Agent",
-                    "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)",
-                )
-                .header(
-                    "authorization",
-                    &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))),
-                )
+                .header("User-Agent", "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)")
+                .header("authorization", &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))))
                 .send()
                 .unwrap();
             let response_text = response.text().unwrap_or("".to_string());
@@ -265,34 +233,19 @@ impl ReservedFolder {
                 println!("Error for call to url: {}", &url_for_page);
                 break;
             } else {
-                let vec_forked_repo: Vec<ForkedRepo> =
-                    serde_json::from_str(&response_text).unwrap();
+                let vec_forked_repo: Vec<ForkedRepo> = serde_json::from_str(&response_text).unwrap();
                 for forked_repo in vec_forked_repo.iter() {
                     // "html_url": "https://github.com/dcsommer/crev-proofs",
                     // "contents_url": "https://api.github.com/repos/dcsommer/crev-proofs/contents/{+path}",
                     let url_for_content = forked_repo.contents_url.trim_end_matches("/{+path}");
 
                     // control in reviewer_index and blocklist to avoid futile calls to api
-                    if unwrap!(state_global.lock())
-                        .reviewer_index
-                        .vec
-                        .iter()
-                        .any(|x| x.url == forked_repo.html_url)
-                    {
+                    if unwrap!(state_global.lock()).reviewer_index.vec.iter().any(|x| x.url == forked_repo.html_url) {
                         // println!("Reviewer_index already contains: {}", forked_repo.html_url);
-                    } else if blocklisted_repos
-                        .iter()
-                        .any(|x| x.0 == forked_repo.html_url)
-                    {
+                    } else if blocklisted_repos.iter().any(|x| x.0 == forked_repo.html_url) {
                         //println!("Blocklisted already contains: {}", forked_repo.html_url);
                     } else {
-                        check_repo_on_github(
-                            forked_repo,
-                            &client,
-                            url_for_content,
-                            &mut blocklisted_repos,
-                            &mut vec_of_new_repo,
-                        );
+                        check_repo_on_github(forked_repo, &client, url_for_content, &mut blocklisted_repos, &mut vec_of_new_repo);
                     }
                 }
                 // the last page has less then 100 items
@@ -304,9 +257,7 @@ impl ReservedFolder {
         }
 
         let mut query_vec: Vec<String> = vec![];
-        let output = unwrap!(std::process::Command::new("cargo")
-            .args(["crev", "id", "query", "all"])
-            .output());
+        let output = unwrap!(std::process::Command::new("cargo").args(["crev", "id", "query", "all"]).output());
         let query_all = output.stdout;
         let query_all = unwrap!(String::from_utf8(query_all));
         for line in query_all.lines() {
@@ -314,10 +265,7 @@ impl ReservedFolder {
             query_vec.push(splitted[3].to_string());
         }
         for html_url in query_vec.iter() {
-            let url_for_content = format!(
-                "https://api.github.com/repos/{}/contents/",
-                html_url.trim_start_matches("https://github.com/")
-            );
+            let url_for_content = format!("https://api.github.com/repos/{}/contents/", html_url.trim_start_matches("https://github.com/"));
             let query_all_repo = ForkedRepo {
                 html_url: html_url.to_string(),
                 contents_url: url_for_content.to_string(),
@@ -326,27 +274,13 @@ impl ReservedFolder {
             // "contents_url": "https://api.github.com/repos/dcsommer/crev-proofs/contents/",
 
             // control in reviewer_index and blocklist to avoid futile calls to api
-            if unwrap!(state_global.lock())
-                .reviewer_index
-                .vec
-                .iter()
-                .any(|x| x.url == query_all_repo.html_url)
-            {
+            if unwrap!(state_global.lock()).reviewer_index.vec.iter().any(|x| x.url == query_all_repo.html_url) {
                 // println!("Reviewer_index already contains: {}", forked_repo.html_url);
-            } else if blocklisted_repos
-                .iter()
-                .any(|x| x.0 == query_all_repo.html_url)
-            {
+            } else if blocklisted_repos.iter().any(|x| x.0 == query_all_repo.html_url) {
                 // println!("Blocklisted already contains: {}", forked_repo.html_url);
             } else {
                 dbg!(&query_all_repo.html_url);
-                check_repo_on_github(
-                    &query_all_repo,
-                    &client,
-                    &url_for_content,
-                    &mut blocklisted_repos,
-                    &mut vec_of_new_repo,
-                );
+                check_repo_on_github(&query_all_repo, &client, &url_for_content, &mut blocklisted_repos, &mut vec_of_new_repo);
             }
         }
 
@@ -355,11 +289,7 @@ impl ReservedFolder {
         let blocklisted_repos_json = unwrap!(serde_json::to_string_pretty(&blocklisted_repos));
         unwrap!(fs::write("blocklisted_repos.json", &blocklisted_repos_json));
 
-        vec_of_new_repo.sort_by(|a, b| {
-            a.reviewer_name
-                .to_lowercase()
-                .cmp(&b.reviewer_name.to_lowercase())
-        });
+        vec_of_new_repo.sort_by(|a, b| a.reviewer_name.to_lowercase().cmp(&b.reviewer_name.to_lowercase()));
 
         reserved_folder.list_new_reviewer_id = Some(vec_of_new_repo);
         // return
@@ -434,12 +364,8 @@ impl HtmlServerTemplateRender for ReservedFolder {
         match placeholder {
             "sb_is_list_trusted_reviewer_id" => self.list_trusted_reviewer_id.is_some(),
             "sb_is_fetch_new_reviews" => self.fetch_new_reviews.is_some(),
-            "sb_is_reindex_after_fetch_new_reviews" => {
-                self.reindex_after_fetch_new_reviews.is_some()
-            }
-            "sb_blocklisted_repos" => {
-                self.blocklisted_repos.is_some() && self.list_new_reviewer_id.is_none()
-            }
+            "sb_is_reindex_after_fetch_new_reviews" => self.reindex_after_fetch_new_reviews.is_some(),
+            "sb_blocklisted_repos" => self.blocklisted_repos.is_some() && self.list_new_reviewer_id.is_none(),
             "sb_list_new_reviewer_id" => self.list_new_reviewer_id.is_some(),
             "sb_daily_visitors" => self.daily_visitors.is_some(),
             _ => retain_next_node_or_attribute_match_else(&self.data_model_name(), placeholder),
@@ -447,30 +373,15 @@ impl HtmlServerTemplateRender for ReservedFolder {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        subtemplate: &str,
-        pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, subtemplate: &str, pos_cursor: usize) -> String {
         // dbg!(&placeholder);
         // list_trusted_reviewer_id is Option and can be None or Some
         let only_reviewer_empty = OnlyReviewer::default();
         let daily_visitors_empty = DailyVisitors::default();
-        let item_at_cursor_1 = self
-            .item_at_cursor_1(subtemplate, pos_cursor)
-            .unwrap_or(&only_reviewer_empty);
-        let item_at_cursor_2 = self
-            .item_at_cursor_2(subtemplate, pos_cursor)
-            .unwrap_or(&only_reviewer_empty);
-        let item_at_cursor_3 = self
-            .item_at_cursor_3(subtemplate, pos_cursor)
-            .unwrap_or(&daily_visitors_empty);
+        let item_at_cursor_1 = self.item_at_cursor_1(subtemplate, pos_cursor).unwrap_or(&only_reviewer_empty);
+        let item_at_cursor_2 = self.item_at_cursor_2(subtemplate, pos_cursor).unwrap_or(&only_reviewer_empty);
+        let item_at_cursor_3 = self.item_at_cursor_3(subtemplate, pos_cursor).unwrap_or(&daily_visitors_empty);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
             "st_ordinal_number" => s!(pos_cursor + 1),
@@ -494,19 +405,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        subtemplate: &str,
-        pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, subtemplate: &str, pos_cursor: usize) -> UrlUtf8EncodedString {
         let only_reviewer_empty = OnlyReviewer::default();
-        let item_at_cursor_1 = self
-            .item_at_cursor_1(subtemplate, pos_cursor)
-            .unwrap_or(&only_reviewer_empty);
-        let item_at_cursor_2 = self
-            .item_at_cursor_2(subtemplate, pos_cursor)
-            .unwrap_or(&only_reviewer_empty);
+        let item_at_cursor_1 = self.item_at_cursor_1(subtemplate, pos_cursor).unwrap_or(&only_reviewer_empty);
+        let item_at_cursor_2 = self.item_at_cursor_2(subtemplate, pos_cursor).unwrap_or(&only_reviewer_empty);
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -537,27 +439,16 @@ impl HtmlServerTemplateRender for ReservedFolder {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!( &placeholder);
         match template_name {
             "stmplt_reviewers" => {
                 let mut nodes = vec![];
                 if let Some(list) = &self.list_trusted_reviewer_id {
-                    let sub_template = unwrap!(sub_templates
-                        .iter()
-                        .find(|&template| template.name == template_name));
+                    let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                     // sub-template repeatable
                     for cursor_for_vec in 0..list.len() {
-                        let vec_node = unwrap!(self.render_template_raw_to_nodes(
-                            &sub_template.template,
-                            HtmlOrSvg::Html,
-                            template_name,
-                            cursor_for_vec,
-                        ));
+                        let vec_node = unwrap!(self.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, template_name, cursor_for_vec,));
                         nodes.extend_from_slice(&vec_node);
                     }
                 }
@@ -567,17 +458,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "stmplt_blocklisted_repos" => {
                 let mut nodes = vec![];
                 if let Some(list) = &self.blocklisted_repos {
-                    let sub_template = unwrap!(sub_templates
-                        .iter()
-                        .find(|&template| template.name == template_name));
+                    let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                     // sub-template repeatable
                     for cursor_for_vec in 0..list.len() {
-                        let vec_node = unwrap!(self.render_template_raw_to_nodes(
-                            &sub_template.template,
-                            HtmlOrSvg::Html,
-                            template_name,
-                            cursor_for_vec
-                        ));
+                        let vec_node = unwrap!(self.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, template_name, cursor_for_vec));
                         nodes.extend_from_slice(&vec_node);
                     }
                 }
@@ -587,17 +471,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "stmplt_reviewers_new" => {
                 let mut nodes = vec![];
                 if let Some(list) = &self.list_new_reviewer_id {
-                    let sub_template = unwrap!(sub_templates
-                        .iter()
-                        .find(|&template| template.name == template_name));
+                    let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                     // sub-template repeatable
                     for cursor_for_vec in 0..list.len() {
-                        let vec_node = unwrap!(self.render_template_raw_to_nodes(
-                            &sub_template.template,
-                            HtmlOrSvg::Html,
-                            template_name,
-                            cursor_for_vec
-                        ));
+                        let vec_node = unwrap!(self.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, template_name, cursor_for_vec));
                         nodes.extend_from_slice(&vec_node);
                     }
                 }
@@ -607,17 +484,10 @@ impl HtmlServerTemplateRender for ReservedFolder {
             "stmplt_daily_visitors" => {
                 let mut nodes = vec![];
                 if let Some(list) = &self.daily_visitors {
-                    let sub_template = unwrap!(sub_templates
-                        .iter()
-                        .find(|&template| template.name == template_name));
+                    let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                     // sub-template repeatable
                     for cursor_for_vec in 0..list.len() {
-                        let vec_node = unwrap!(self.render_template_raw_to_nodes(
-                            &sub_template.template,
-                            HtmlOrSvg::Html,
-                            template_name,
-                            cursor_for_vec
-                        ));
+                        let vec_node = unwrap!(self.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, template_name, cursor_for_vec));
                         nodes.extend_from_slice(&vec_node);
                     }
                 }

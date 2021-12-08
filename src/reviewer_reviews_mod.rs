@@ -64,27 +64,12 @@ impl ReviewerReviews {
             //remove the dummy
             many_file.vec.pop();
         }
-        let ns_read_from_index = ns_print(
-            &format!("read from index, file_path count: {}", many_file.vec.len()),
-            ns_start,
-        );
+        let ns_read_from_index = ns_print(&format!("read from index, file_path count: {}", many_file.vec.len()), ns_start);
         let mut reviews = get_vec_of_selected_reviews(many_file);
-        ns_print(
-            &format!("read from files reviews.len(): {}", reviews.len()),
-            ns_read_from_index,
-        );
+        ns_print(&format!("read from files reviews.len(): {}", reviews.len()), ns_read_from_index);
         // sort reviews by crate and version
-        reviews.sort_by(|a, b| {
-            b.package
-                .version_for_sorting
-                .cmp(&a.package.version_for_sorting)
-        });
-        reviews.sort_by(|a, b| {
-            a.package
-                .name
-                .to_lowercase()
-                .cmp(&b.package.name.to_lowercase())
-        });
+        reviews.sort_by(|a, b| b.package.version_for_sorting.cmp(&a.package.version_for_sorting));
+        reviews.sort_by(|a, b| a.package.name.to_lowercase().cmp(&b.package.name.to_lowercase()));
         // return
         ReviewerReviews {
             reviewer_name: reviewer_name,
@@ -117,17 +102,8 @@ impl HtmlServerTemplateRender for ReviewerReviews {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!(&placeholder);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
@@ -140,12 +116,7 @@ impl HtmlServerTemplateRender for ReviewerReviews {
         }
     }
     /// exclusive url encoded for href and src attribute values
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!(&placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -169,26 +140,15 @@ impl HtmlServerTemplateRender for ReviewerReviews {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!(&placeholder);
         match template_name {
             "stmplt_reviews" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
                 for review in &self.reviews {
-                    let vec_node = unwrap!(review.render_template_raw_to_nodes(
-                        &sub_template.template,
-                        HtmlOrSvg::Html,
-                        "",
-                        0
-                    ));
+                    let vec_node = unwrap!(review.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, "", 0));
                     nodes.extend_from_slice(&vec_node);
                 }
                 // return

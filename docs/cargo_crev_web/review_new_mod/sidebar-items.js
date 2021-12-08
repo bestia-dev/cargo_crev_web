@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["ReviewForVim","simplified review"],["ReviewNew",""]]});

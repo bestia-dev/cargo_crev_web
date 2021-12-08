@@ -79,9 +79,7 @@ impl ReviewerIndex {
             }
         }
         // sort by file_path
-        reviewer_index
-            .vec
-            .sort_by(|a, b| b.name.to_lowercase().cmp(&a.name.to_lowercase()));
+        reviewer_index.vec.sort_by(|a, b| b.name.to_lowercase().cmp(&a.name.to_lowercase()));
         ns_print("ReviewerIndex.new()", ns_start);
         // return
         reviewer_index

@@ -57,9 +57,7 @@ impl ReviewIndex {
             }
         }
         // sort by file_path
-        review_index
-            .vec
-            .sort_by(|a, b| b.file_path.cmp(&a.file_path));
+        review_index.vec.sort_by(|a, b| b.file_path.cmp(&a.file_path));
         ns_print("ReviewIndex.new()", ns_start);
         // return
         review_index
@@ -78,9 +76,7 @@ impl ReviewIndex {
             Ok(review) => {
                 // use only some of the data for the index
                 // convert to Utc for comparison
-                let date: chrono::DateTime<chrono::Utc> = chrono::DateTime::from(unwrap!(
-                    chrono::DateTime::parse_from_rfc3339(&review.date)
-                ));
+                let date: chrono::DateTime<chrono::Utc> = chrono::DateTime::from(unwrap!(chrono::DateTime::parse_from_rfc3339(&review.date)));
                 let review_index_item = ReviewIndexItem {
                     crate_name: s!(&review.package.name),
                     version: s!(&review.package.version),
@@ -91,17 +87,9 @@ impl ReviewIndex {
                     reviewer_id: s!(&review.from.id),
                     file_path: file_path.to_string(),
                     rating_strong: conditional_usize(review.get_rating() == Rating::Strong, 1, 0),
-                    rating_positive: conditional_usize(
-                        review.get_rating() == Rating::Positive,
-                        1,
-                        0,
-                    ),
+                    rating_positive: conditional_usize(review.get_rating() == Rating::Positive, 1, 0),
                     rating_neutral: conditional_usize(review.get_rating() == Rating::Neutral, 1, 0),
-                    rating_negative: conditional_usize(
-                        review.get_rating() == Rating::Negative,
-                        1,
-                        0,
-                    ),
+                    rating_negative: conditional_usize(review.get_rating() == Rating::Negative, 1, 0),
                     rating_none: conditional_usize(review.get_rating() == Rating::None, 1, 0),
 
                     alternatives: {

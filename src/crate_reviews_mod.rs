@@ -13,19 +13,9 @@ pub struct CrateReviews {
 }
 
 impl CrateReviews {
-    pub fn new(
-        state_global: ArcMutStateGlobal,
-        crate_name: &str,
-        version: &str,
-        kind: &str,
-    ) -> CrateReviews {
+    pub fn new(state_global: ArcMutStateGlobal, crate_name: &str, version: &str, kind: &str) -> CrateReviews {
         let ns_start = ns_start("");
-        if unwrap!(state_global.lock())
-            .review_index
-            .vec
-            .iter()
-            .any(|x| x.crate_name == crate_name)
-        {
+        if unwrap!(state_global.lock()).review_index.vec.iter().any(|x| x.crate_name == crate_name) {
             // sort data by file_path
             // the data is sorted by path_file in ReviewIndex.new()
             // nobody else should sort the data
@@ -69,25 +59,14 @@ impl CrateReviews {
                 //remove the dummy
                 many_file.vec.pop();
             }
-            let ns_read_from_index = ns_print(
-                &format!("read from index, file_path count: {}", many_file.vec.len()),
-                ns_start,
-            );
+            let ns_read_from_index = ns_print(&format!("read from index, file_path count: {}", many_file.vec.len()), ns_start);
             let mut reviews = get_vec_of_selected_reviews(many_file);
-            ns_print(
-                &format!("read from files reviews.len(): {}", reviews.len()),
-                ns_read_from_index,
-            );
+            ns_print(&format!("read from files reviews.len(): {}", reviews.len()), ns_read_from_index);
             // sort reviews by version
-            reviews.sort_by(|a, b| {
-                b.package
-                    .version_for_sorting
-                    .cmp(&a.package.version_for_sorting)
-            });
+            reviews.sort_by(|a, b| b.package.version_for_sorting.cmp(&a.package.version_for_sorting));
 
             // the summary is always from all reviews. We must filter the reviews later.
-            let crate_version_summary =
-                CrateVersionSummary::new(state_global, &crate_name, &reviews);
+            let crate_version_summary = CrateVersionSummary::new(state_global, &crate_name, &reviews);
             filter_reviews(&mut reviews, version, kind);
 
             // return (this is empty if crate name does not exist)
@@ -117,26 +96,15 @@ fn filter_reviews(reviews: &mut Vec<Review>, version: &str, kind: &str) {
     if !kind.is_empty() && kind != "c" {
         // strong
         if kind == "S" {
-            reviews.retain(|x| {
-                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Strong
-            });
+            reviews.retain(|x| x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Strong);
         } else if kind == "P" {
-            reviews.retain(|x| {
-                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Positive
-            });
+            reviews.retain(|x| x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Positive);
         } else if kind == "E" {
-            reviews.retain(|x| {
-                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Neutral
-            });
+            reviews.retain(|x| x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Neutral);
         } else if kind == "N" {
-            reviews.retain(|x| {
-                x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Negative
-            });
+            reviews.retain(|x| x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::Negative);
         } else if kind == "0" {
-            reviews.retain(|x| {
-                x.review.is_none()
-                    || (x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::None)
-            });
+            reviews.retain(|x| x.review.is_none() || (x.review.is_some() && x.review.as_ref().unwrap().rating == Rating::None));
         } else if kind == "v" {
             reviews.retain(|x| x.alternatives.is_some());
         } else if kind == "i" {
@@ -170,17 +138,8 @@ impl HtmlServerTemplateRender for CrateReviews {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!( &placeholder);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
@@ -188,12 +147,7 @@ impl HtmlServerTemplateRender for CrateReviews {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -213,42 +167,26 @@ impl HtmlServerTemplateRender for CrateReviews {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!(&placeholder);
         match template_name {
             "stmplt_crate_version_summary" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template NOT repeatable
-                let vec_node = unwrap!(self.crate_version_summary.render_template_raw_to_nodes(
-                    &sub_template.template,
-                    HtmlOrSvg::Html,
-                    "",
-                    0
-                ));
+                let vec_node = unwrap!(self
+                    .crate_version_summary
+                    .render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, "", 0));
                 nodes.extend_from_slice(&vec_node);
                 // return
                 nodes
             }
             "stmplt_reviews" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
                 for review in &self.reviews {
-                    let vec_node = unwrap!(review.render_template_raw_to_nodes(
-                        &sub_template.template,
-                        HtmlOrSvg::Html,
-                        "",
-                        0
-                    ));
+                    let vec_node = unwrap!(review.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, "", 0));
                     nodes.extend_from_slice(&vec_node);
                 }
                 // return

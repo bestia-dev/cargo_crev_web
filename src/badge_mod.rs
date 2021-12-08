@@ -96,12 +96,7 @@ impl HtmlServerTemplateRender for Badge {
     }
 
     /// returns a String to replace the next text-node
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!(&placeholder);
         match placeholder {
             "st_subject_text" => s!(self.subject_text),
@@ -113,24 +108,13 @@ impl HtmlServerTemplateRender for Badge {
             "st_subject_x" => s!(self.subject_x),
             "st_status_x" => s!(self.status_x),
             "st_d1" => s!("M0 0h{}v{}H0z", self.subject_width, self.height),
-            "st_d2" => s!(
-                "M{} 0h{}v{}H{}z",
-                self.subject_width,
-                self.status_width,
-                self.height,
-                self.subject_width
-            ),
+            "st_d2" => s!("M{} 0h{}v{}H{}z", self.subject_width, self.status_width, self.height, self.subject_width),
             "st_d3" => s!("M0 0h{}v{}H0z", self.width, self.height),
             _ => replace_with_string_match_else(&self.data_model_name(), placeholder),
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -149,11 +133,7 @@ impl HtmlServerTemplateRender for Badge {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        _sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, _sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!( &placeholder);
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),

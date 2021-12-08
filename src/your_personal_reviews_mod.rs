@@ -17,7 +17,7 @@ pub struct ReviewForVim {
     pub comment: String,
 }
 #[derive(Clone, Default)]
-pub struct ReviewNew {
+pub struct YourPersonalReviews {
     pub package_name: String,
     pub package_version: String,
     //pub cargo_toml_line: String,
@@ -25,52 +25,45 @@ pub struct ReviewNew {
     pub yaml_text: String,
 }
 
-impl ReviewNew {
+impl YourPersonalReviews {
     #[allow(unused)]
     /// prepares the data
     pub fn new(form_data: HashMap<String, String>) -> Self {
-        let mut review_new = ReviewNew::default();
+        let mut your_personal_reviews = YourPersonalReviews::default();
         // just copy form data into struct. Don't process it here.
         for (key, value) in form_data {
             match key.as_ref() {
-                //"cargo_toml_line" => review_new.cargo_toml_line = value,
-                "package_name" => review_new.package_name = value.to_string(),
-                "package_version" => review_new.package_version = value.to_string(),
-                "thoroughness" => {
-                    review_new.review_for_vim.review.thoroughness = unwrap!(Level::from_str(&value))
-                }
-                "understanding" => {
-                    review_new.review_for_vim.review.understanding =
-                        unwrap!(Level::from_str(&value))
-                }
-                "rating" => {
-                    review_new.review_for_vim.review.rating = unwrap!(Rating::from_str(&value))
-                }
-                "comment" => review_new.review_for_vim.comment = value.to_string(),
+                //"cargo_toml_line" => your_personal_reviews.cargo_toml_line = value,
+                "package_name" => your_personal_reviews.package_name = value.to_string(),
+                "package_version" => your_personal_reviews.package_version = value.to_string(),
+                "thoroughness" => your_personal_reviews.review_for_vim.review.thoroughness = unwrap!(Level::from_str(&value)),
+                "understanding" => your_personal_reviews.review_for_vim.review.understanding = unwrap!(Level::from_str(&value)),
+                "rating" => your_personal_reviews.review_for_vim.review.rating = unwrap!(Rating::from_str(&value)),
+                "comment" => your_personal_reviews.review_for_vim.comment = value.to_string(),
                 _ => {}
             }
         }
-        if review_new.package_name.is_empty() {
-            review_new.package_name = "crate_name".into();
+        if your_personal_reviews.package_name.is_empty() {
+            your_personal_reviews.package_name = "crate_name".into();
         }
-        if review_new.package_version.is_empty() {
-            review_new.package_version = "version".into();
+        if your_personal_reviews.package_version.is_empty() {
+            your_personal_reviews.package_version = "version".into();
         }
         // parse cargo_toml_line if it exist
         /*
-        if !review_new.cargo_toml_line.is_empty(){
-            let (package_name, package_version) = Self::parse_cargo_toml_line(&review_new.cargo_toml_line);
-            review_new.package_name = package_name;
-            review_new.package_version = package_version;
+        if !your_personal_reviews.cargo_toml_line.is_empty(){
+            let (package_name, package_version) = Self::parse_cargo_toml_line(&your_personal_reviews.cargo_toml_line);
+            your_personal_reviews.package_name = package_name;
+            your_personal_reviews.package_version = package_version;
         }
         */
-        review_new.yaml_text = unwrap!(serde_yaml::to_string(&review_new.review_for_vim));
+        your_personal_reviews.yaml_text = unwrap!(serde_yaml::to_string(&your_personal_reviews.review_for_vim));
         //return
-        review_new
+        your_personal_reviews
     }
 
     pub fn new_from_get(crate_name: &str, version: &str) -> Self {
-        let mut review_new = ReviewNew {
+        let mut your_personal_reviews = YourPersonalReviews {
             package_name: crate_name.to_string(),
             package_version: version.to_string(),
             //cargo_toml_line:s!(),
@@ -84,10 +77,10 @@ impl ReviewNew {
             },
             yaml_text: s!(),
         };
-        review_new.yaml_text = unwrap!(serde_yaml::to_string(&review_new.review_for_vim));
+        your_personal_reviews.yaml_text = unwrap!(serde_yaml::to_string(&your_personal_reviews.review_for_vim));
 
         //return
-        review_new
+        your_personal_reviews
     }
     /*
     pub fn parse_cargo_toml_line(value: &str) -> (String, String) {
@@ -108,15 +101,15 @@ impl ReviewNew {
     */
 }
 
-impl HtmlServerTemplateRender for ReviewNew {
+impl HtmlServerTemplateRender for YourPersonalReviews {
     /// data model name is used for eprint
     fn data_model_name(&self) -> String {
         // return
-        s!("ReviewNew")
+        s!("YourPersonalReviews")
     }
     /// renders the complete html file. Not a sub-template/fragment.
     fn render_html_file(&self, templates_folder_name: &str) -> String {
-        let template_file_name = format!("{}review_new_template.html", templates_folder_name);
+        let template_file_name = format!("{}your_personal_reviews_template.html", templates_folder_name);
         let html = self.render_from_file(&template_file_name);
 
         // return
@@ -132,28 +125,14 @@ impl HtmlServerTemplateRender for ReviewNew {
             "sb_has_advisories" => self.review_for_vim.advisories.is_some(),
             */
             // radio buttons in html have this terrible attribute checked. Horror.
-            "sb_thoroughness_none" => {
-                &self.review_for_vim.review.thoroughness.to_string() == "none"
-            }
+            "sb_thoroughness_none" => &self.review_for_vim.review.thoroughness.to_string() == "none",
             "sb_thoroughness_low" => &self.review_for_vim.review.thoroughness.to_string() == "low",
-            "sb_thoroughness_medium" => {
-                &self.review_for_vim.review.thoroughness.to_string() == "medium"
-            }
-            "sb_thoroughness_high" => {
-                &self.review_for_vim.review.thoroughness.to_string() == "high"
-            }
-            "sb_understanding_none" => {
-                &self.review_for_vim.review.understanding.to_string() == "none"
-            }
-            "sb_understanding_low" => {
-                &self.review_for_vim.review.understanding.to_string() == "low"
-            }
-            "sb_understanding_medium" => {
-                &self.review_for_vim.review.understanding.to_string() == "medium"
-            }
-            "sb_understanding_high" => {
-                &self.review_for_vim.review.understanding.to_string() == "high"
-            }
+            "sb_thoroughness_medium" => &self.review_for_vim.review.thoroughness.to_string() == "medium",
+            "sb_thoroughness_high" => &self.review_for_vim.review.thoroughness.to_string() == "high",
+            "sb_understanding_none" => &self.review_for_vim.review.understanding.to_string() == "none",
+            "sb_understanding_low" => &self.review_for_vim.review.understanding.to_string() == "low",
+            "sb_understanding_medium" => &self.review_for_vim.review.understanding.to_string() == "medium",
+            "sb_understanding_high" => &self.review_for_vim.review.understanding.to_string() == "high",
             "sb_rating_none" => &self.review_for_vim.review.rating.to_string() == "none",
             "sb_rating_negative" => &self.review_for_vim.review.rating.to_string() == "negative",
             "sb_rating_neutral" => &self.review_for_vim.review.rating.to_string() == "neutral",
@@ -165,17 +144,8 @@ impl HtmlServerTemplateRender for ReviewNew {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!(&placeholder);
         // list_trusted_reviewer_id is Option and can be None or Some
         match placeholder {
@@ -200,12 +170,7 @@ impl HtmlServerTemplateRender for ReviewNew {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -225,11 +190,7 @@ impl HtmlServerTemplateRender for ReviewNew {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        _sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, _sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!( &placeholder);
         match template_name {
             _ => render_sub_template_match_else(&self.data_model_name(), template_name),

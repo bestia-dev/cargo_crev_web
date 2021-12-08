@@ -25,9 +25,7 @@ impl LastReviews {
             .review_index
             .vec
             .iter()
-            .filter(|x| {
-                x.date > unwrap!(chrono::Utc::now().checked_sub_signed(chrono::Duration::days(60)))
-            })
+            .filter(|x| x.date > unwrap!(chrono::Utc::now().checked_sub_signed(chrono::Duration::days(60))))
             .collect();
 
         a.sort_by(|a, b| Ord::cmp(&a.file_path, &b.file_path));
@@ -61,15 +59,9 @@ impl LastReviews {
             //remove the dummy
             many_file.vec.pop();
         }
-        let ns_read_from_index = ns_print(
-            &format!("read from index, file_path count: {}", many_file.vec.len()),
-            ns_start,
-        );
+        let ns_read_from_index = ns_print(&format!("read from index, file_path count: {}", many_file.vec.len()), ns_start);
         let mut reviews = get_vec_of_selected_reviews(many_file);
-        ns_print(
-            &format!("read from files reviews.len(): {}", reviews.len()),
-            ns_read_from_index,
-        );
+        ns_print(&format!("read from files reviews.len(): {}", reviews.len()), ns_read_from_index);
         // sort reviews by version
         reviews.sort_by(|a, b| b.date.cmp(&a.date));
         // return (this is empty if crate name does not exist)
@@ -100,17 +92,8 @@ impl HtmlServerTemplateRender for LastReviews {
     }
 
     /// returns a String to replace the next text-node
-    #[allow(
-        clippy::needless_return,
-        clippy::integer_arithmetic,
-        clippy::indexing_slicing
-    )]
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> String {
+    #[allow(clippy::needless_return, clippy::integer_arithmetic, clippy::indexing_slicing)]
+    fn replace_with_string(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> String {
         // dbg!( &placeholder);
         match placeholder {
             "st_cargo_crev_web_version" => s!(env!("CARGO_PKG_VERSION")),
@@ -118,12 +101,7 @@ impl HtmlServerTemplateRender for LastReviews {
         }
     }
     /// exclusive url encoded for href and src
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        _subtemplate: &str,
-        _pos_cursor: usize,
-    ) -> UrlUtf8EncodedString {
+    fn replace_with_url(&self, placeholder: &str, _subtemplate: &str, _pos_cursor: usize) -> UrlUtf8EncodedString {
         // dbg!( &placeholder);
         match placeholder {
             // the href for css is good for static data. For dynamic route it must be different.
@@ -143,26 +121,15 @@ impl HtmlServerTemplateRender for LastReviews {
     }
     /// renders sub-template
     #[allow(clippy::needless_return)]
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node> {
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node> {
         // dbg!(&placeholder);
         match template_name {
             "stmplt_reviews" => {
-                let sub_template = unwrap!(sub_templates
-                    .iter()
-                    .find(|&template| template.name == template_name));
+                let sub_template = unwrap!(sub_templates.iter().find(|&template| template.name == template_name));
                 let mut nodes = vec![];
                 // sub-template repeatable
                 for review in &self.reviews {
-                    let vec_node = unwrap!(review.render_template_raw_to_nodes(
-                        &sub_template.template,
-                        HtmlOrSvg::Html,
-                        "",
-                        0
-                    ));
+                    let vec_node = unwrap!(review.render_template_raw_to_nodes(&sub_template.template, HtmlOrSvg::Html, "", 0));
                     nodes.extend_from_slice(&vec_node);
                 }
                 // return

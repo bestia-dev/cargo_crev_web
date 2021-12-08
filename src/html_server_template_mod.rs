@@ -64,34 +64,20 @@ pub trait HtmlServerTemplateRender {
     fn data_model_name(&self) -> String;
     /// returns a String to replace the next text-node or attribute value
     /// use macro s!() for a normal string
-    fn replace_with_string(
-        &self,
-        placeholder: &str,
-        subtemplate: &str,
-        pos_cursor: usize,
-    ) -> String;
+    fn replace_with_string(&self, placeholder: &str, subtemplate: &str, pos_cursor: usize) -> String;
     /// same as replace_with_string, but return url
     /// exclusively for attributes value of href and src
     /// the url must be encoded in the beginning because it encodes segments of
     /// url prior to being composed together.
     /// use macro url_u!() to create an url, very like format!
     /// I try to avoid String here to force the developer to not forget to url_encode
-    fn replace_with_url(
-        &self,
-        placeholder: &str,
-        subtemplate: &str,
-        pos_cursor: usize,
-    ) -> UrlUtf8EncodedString;
+    fn replace_with_url(&self, placeholder: &str, subtemplate: &str, pos_cursor: usize) -> UrlUtf8EncodedString;
     /// boolean : is the next node rendered or not
     fn retain_next_node_or_attribute(&self, placeholder: &str) -> bool;
     /// returns a vector of Nodes to replace the next Node
     fn replace_with_nodes(&self, placeholder: &str) -> Vec<Node>;
     /// renders sub-template
-    fn render_sub_template(
-        &self,
-        template_name: &str,
-        sub_templates: &Vec<SubTemplate>,
-    ) -> Vec<Node>;
+    fn render_sub_template(&self, template_name: &str, sub_templates: &Vec<SubTemplate>) -> Vec<Node>;
     // endregion: methods must be implemented for a specific project
 
     // region: this other methods should be private
@@ -111,8 +97,7 @@ pub trait HtmlServerTemplateRender {
     }
     /// render for root template (not subtemplates) from string
     fn render(&self, html_template_raw: &str) -> String {
-        let nodes =
-            unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, "", 0));
+        let nodes = unwrap!(self.render_template_raw_to_nodes(&html_template_raw, HtmlOrSvg::Html, "", 0));
         // because this is the root template it must return one ElementNode
         let mut html = s!();
         match &nodes[0] {
@@ -284,11 +269,7 @@ pub trait HtmlServerTemplateRender {
                                     // example: data-st_placeholder="href" href="x"
                                     // The replace_string will always be applied to the next attribute. No matter the name.
                                     let placeholder = name.trim_start_matches("data-");
-                                    let repl_txt = self.replace_with_string(
-                                        placeholder,
-                                        subtemplate,
-                                        pos_cursor,
-                                    );
+                                    let repl_txt = self.replace_with_string(placeholder, subtemplate, pos_cursor);
                                     replace_attr_name = Some(s!(value));
                                     replace_attr_repl_name = Some(s!(name));
                                     replace_string = Some(repl_txt);
@@ -296,8 +277,7 @@ pub trait HtmlServerTemplateRender {
                                     // the same as data-st_, but exclusive to href and src
                                     // because they must use an url encoded string
                                     let placeholder = name.trim_start_matches("data-");
-                                    let repl_url =
-                                        self.replace_with_url(placeholder, subtemplate, pos_cursor);
+                                    let repl_url = self.replace_with_url(placeholder, subtemplate, pos_cursor);
                                     replace_attr_name = Some(s!(value));
                                     replace_attr_repl_name = Some(s!(name));
                                     replace_url = Some(repl_url);
@@ -316,21 +296,29 @@ pub trait HtmlServerTemplateRender {
                                     // add attribute to Node
                                     if let Some(repl) = replace_string {
                                         if name != &unwrap!(replace_attr_name) {
-                                            panic!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
-                                            unwrap!(replace_attr_repl_name), name,  self.data_model_name(), dom_path);
+                                            panic!(
+                                                "Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ",
+                                                unwrap!(replace_attr_repl_name),
+                                                name,
+                                                self.data_model_name(),
+                                                dom_path
+                                            );
                                         // replace_attr_name = None;
                                         // replace_attr_repl_name=None;
                                         } else {
                                             // exclusively href and src must contain url
                                             if name == "href" || name == "src" {
                                                 // error it is NOT encoded
-                                                panic!("Error: Repl of  {} name {} is NOT created as url, but as string: {}  data-model:{} dom_path: {:?}", 
-                                                unwrap!(replace_attr_repl_name), name, repl, self.data_model_name(), dom_path);
+                                                panic!(
+                                                    "Error: Repl of  {} name {} is NOT created as url, but as string: {}  data-model:{} dom_path: {:?}",
+                                                    unwrap!(replace_attr_repl_name),
+                                                    name,
+                                                    repl,
+                                                    self.data_model_name(),
+                                                    dom_path
+                                                );
                                             } else {
-                                                element.attributes.push(Attribute {
-                                                    name: s!(name),
-                                                    value: repl,
-                                                });
+                                                element.attributes.push(Attribute { name: s!(name), value: repl });
                                             }
                                             // empty the replace_string for the next node
                                             replace_string = None;
@@ -339,8 +327,13 @@ pub trait HtmlServerTemplateRender {
                                         }
                                     } else if let Some(repl) = replace_url {
                                         if name != unwrap!(replace_attr_name.as_ref()) {
-                                            panic!("Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ", 
-                                             unwrap!(replace_attr_repl_name), name, self.data_model_name(), dom_path);
+                                            panic!(
+                                                "Error: Attr value of {} is not equal the next attr name {} data-model:{} dom_path: {:?} ",
+                                                unwrap!(replace_attr_repl_name),
+                                                name,
+                                                self.data_model_name(),
+                                                dom_path
+                                            );
                                         // replace_attr_name = None;
                                         // replace_attr_repl_name = None;
                                         } else {
@@ -353,8 +346,14 @@ pub trait HtmlServerTemplateRender {
                                                 });
                                             } else {
                                                 //error. it is encoded for other attributes
-                                                panic!("Repl of {} name {} is mistakenly url encoded: {} data-model:{} dom_path: {:?}", 
-                                            unwrap!(replace_attr_repl_name), name, repl.to_string(), self.data_model_name(), dom_path);
+                                                panic!(
+                                                    "Repl of {} name {} is mistakenly url encoded: {} data-model:{} dom_path: {:?}",
+                                                    unwrap!(replace_attr_repl_name),
+                                                    name,
+                                                    repl.to_string(),
+                                                    self.data_model_name(),
+                                                    dom_path
+                                                );
                                             }
                                         }
                                         // empty the replace_string for the next node
@@ -407,22 +406,18 @@ pub trait HtmlServerTemplateRender {
                                 // one small exception is <textarea> because it ignores the comment syntax.
                                 // It is still working, and it is not very ugly.
                                 if txt.starts_with("st_") {
-                                    let repl_txt =
-                                        self.replace_with_string(txt, subtemplate, pos_cursor);
+                                    let repl_txt = self.replace_with_string(txt, subtemplate, pos_cursor);
                                     replace_string = Some(repl_txt);
                                 } else if txt.starts_with("su_") {
-                                    let repl_url =
-                                        self.replace_with_url(txt, subtemplate, pos_cursor);
+                                    let repl_url = self.replace_with_url(txt, subtemplate, pos_cursor);
                                     replace_url = Some(repl_url);
                                 } else if txt.starts_with("sb_") {
                                     // boolean if this is true than render the next node, else don't render
-                                    retain_next_node_or_attribute =
-                                        self.retain_next_node_or_attribute(txt);
+                                    retain_next_node_or_attribute = self.retain_next_node_or_attribute(txt);
                                 } else if txt.starts_with("stmplt_") {
                                     // replace exactly this placeholder for a sub-template
                                     let template_name = txt.trim_end_matches(" start");
-                                    let repl_vec_nodes =
-                                        self.render_sub_template(template_name, sub_templates);
+                                    let repl_vec_nodes = self.render_sub_template(template_name, sub_templates);
                                     element.children.extend_from_slice(&repl_vec_nodes);
                                 } else if txt.starts_with("sn_") {
                                     // nodes  (in a vector)
@@ -471,20 +466,13 @@ pub trait HtmlServerTemplateRender {
         let mut pos_for_loop = 0;
         loop {
             let mut exist_template = false;
-            if let Some(pos_start) =
-                find_pos_before_delimiter(&sub_templates[0].template, pos_for_loop, "<!--stmplt_")
-            {
-                if let Some(pos_end_name) =
-                    find_pos_before_delimiter(&sub_templates[0].template, pos_start, " start-->")
-                {
-                    let sub_template_name =
-                        s!(&sub_templates[0].template[pos_start + 4..pos_end_name]);
+            if let Some(pos_start) = find_pos_before_delimiter(&sub_templates[0].template, pos_for_loop, "<!--stmplt_") {
+                if let Some(pos_end_name) = find_pos_before_delimiter(&sub_templates[0].template, pos_start, " start-->") {
+                    let sub_template_name = s!(&sub_templates[0].template[pos_start + 4..pos_end_name]);
                     // dbg!(sub_template_name);
                     let pos_start_after_tag = pos_end_name + 9;
                     let end_tag = format!("<!--{} end-->", sub_template_name);
-                    if let Some(pos_end_after_tag) =
-                        find_pos_after_delimiter(&sub_templates[0].template, pos_start, &end_tag)
-                    {
+                    if let Some(pos_end_after_tag) = find_pos_after_delimiter(&sub_templates[0].template, pos_start, &end_tag) {
                         exist_template = true;
                         // special name for template that will not be used at all.
                         // this happens when the graphic designer need more repetition of the
@@ -493,21 +481,15 @@ pub trait HtmlServerTemplateRender {
                             // dbg!(pos_start);
                             // dbg!(pos_end_after_tag);
                             // remove all the template
-                            sub_templates[0]
-                                .template
-                                .drain(pos_start..pos_end_after_tag);
+                            sub_templates[0].template.drain(pos_start..pos_end_after_tag);
                         } else {
-                            let sub_template_placeholder =
-                                s!(&sub_templates[0].template[pos_start..pos_start_after_tag]);
+                            let sub_template_placeholder = s!(&sub_templates[0].template[pos_start..pos_start_after_tag]);
                             pos_for_loop = pos_start_after_tag;
 
                             // drain - extract a substring and remove it from the original
                             // leave the header with the name. It will be used
                             // as placeholder for replace later.
-                            let sub_template: String = sub_templates[0]
-                                .template
-                                .drain(pos_start_after_tag..pos_end_after_tag)
-                                .collect();
+                            let sub_template: String = sub_templates[0].template.drain(pos_start_after_tag..pos_end_after_tag).collect();
                             // remove the end tag
                             let sub_template = sub_template.trim_end_matches(&end_tag);
                             sub_templates.push(SubTemplate {
@@ -534,11 +516,7 @@ pub trait HtmlServerTemplateRender {
     fn root_element_node_to_html_string(element_node: &ElementNode) -> Result<String, String> {
         let mut dom_path: Vec<String> = Vec::new();
         /// recursive private fn sub element to html
-        fn sub_element_node_mut_html(
-            html: &mut String,
-            element_node: &ElementNode,
-            dom_path: &mut Vec<String>,
-        ) {
+        fn sub_element_node_mut_html(html: &mut String, element_node: &ElementNode, dom_path: &mut Vec<String>) {
             html.push_str("<");
             html.push_str(&element_node.tag_name);
             html.push_str(" ");
@@ -572,10 +550,7 @@ pub trait HtmlServerTemplateRender {
                                 html.push_str(&encode_5_xml_control_characters(&text));
                             }
                         }
-                        Node::Comment(text) => html.push_str(&format!(
-                            "<!--{}-->",
-                            encode_5_xml_control_characters(&text)
-                        )),
+                        Node::Comment(text) => html.push_str(&format!("<!--{}-->", encode_5_xml_control_characters(&text))),
                     }
                 }
                 // end tag
@@ -639,39 +614,24 @@ fn encode_5_xml_control_characters(input: &str) -> String {
 
 /// boilerplate
 pub fn retain_next_node_or_attribute_match_else(data_model_name: &str, placeholder: &str) -> bool {
-    eprintln!(
-        "Error: Unrecognized {} retain_next_node_or_attribute: \"{}\"",
-        data_model_name, placeholder
-    );
+    eprintln!("Error: Unrecognized {} retain_next_node_or_attribute: \"{}\"", data_model_name, placeholder);
     true
 }
 /// boilerplate
 pub fn replace_with_string_match_else(data_model_name: &str, placeholder: &str) -> String {
-    let err_msg = format!(
-        "Error: Unrecognized {} replace_with_string: \"{}\"",
-        data_model_name, placeholder
-    );
+    let err_msg = format!("Error: Unrecognized {} replace_with_string: \"{}\"", data_model_name, placeholder);
     eprintln!("{}", &err_msg);
     s!(err_msg)
 }
 /// boilerplate
-pub fn replace_with_url_match_else(
-    data_model_name: &str,
-    placeholder: &str,
-) -> UrlUtf8EncodedString {
-    let err_msg = format!(
-        "Error: Unrecognized {} replace_with_url: \"{}\"",
-        data_model_name, placeholder
-    );
+pub fn replace_with_url_match_else(data_model_name: &str, placeholder: &str) -> UrlUtf8EncodedString {
+    let err_msg = format!("Error: Unrecognized {} replace_with_url: \"{}\"", data_model_name, placeholder);
     eprintln!("{}", &err_msg);
     url_u!(&err_msg, "")
 }
 /// boilerplate
 pub fn replace_with_nodes_match_else(data_model_name: &str, placeholder: &str) -> Vec<Node> {
-    let err_msg = format!(
-        "Error: Unrecognized {} replace_with_nodes: \"{}\"",
-        data_model_name, placeholder
-    );
+    let err_msg = format!("Error: Unrecognized {} replace_with_nodes: \"{}\"", data_model_name, placeholder);
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
         tag_name: s!("h2"),
@@ -682,10 +642,7 @@ pub fn replace_with_nodes_match_else(data_model_name: &str, placeholder: &str) -
 }
 ///boilerplate
 pub fn render_sub_template_match_else(data_model_name: &str, template_name: &str) -> Vec<Node> {
-    let err_msg = format!(
-        "Error: Unrecognized {} render_sub_template: \"{}\"",
-        data_model_name, template_name
-    );
+    let err_msg = format!("Error: Unrecognized {} render_sub_template: \"{}\"", data_model_name, template_name);
     eprintln!("{}", &err_msg);
     let node = Node::Element(ElementNode {
         tag_name: s!("h2"),
