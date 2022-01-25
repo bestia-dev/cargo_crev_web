@@ -24,47 +24,41 @@
 
 <https://web.crev.dev/rust-reviews/crates>  
 
-## cargo-crev
+## Motivation
 
-Cargo-crev is a system of review for rust crates in crates.io.  
+Cargo-crev is a system of review for Rust crates in crates.io.  
 <https://github.com/crev-dev/cargo-crev>  
-Originally it is a CLI that programmers use on their local machines while developing.  
-I would like to make a public cargo-crev web app to query reviews globally.  
-The installation of cargo-crev is complicated and involving.  
-Having a web app will be very good for promoting the system.  
-The basis of cargo-crev is a list of trusted individuals.  
-For the web it would be a broader number of people to achieve more understanding in the community.  
-The same machine will have the web server and the git repository for cargo-crev.  
+Originally it is a CLI that programmers use on their local machines while developing. The installation of cargo-crev is complicated and involving.  
+I would like to make a public cargo-crev web app to query reviews globally. Having a web app will be very good for promoting the crev system.  
+This web app will try to show all publicly available reviews, so the community will have a broader understanding of the reviews and crates.  
+The web server will use cargo-crev internally to fetch the reviews.  
 
 ## CREV - Rust code reviews - Raise awareness
 
 Please, spread this info !\
 Open source code needs a community effort to express trustworthiness.\
-Start with reading the reviews of the crates you use. Example: [web.crev.dev/rust-reviews/crates](https://web.crev.dev/rust-reviews/crates) \
-Than install the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\. Read the [Getting Started guide](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md). \
-On your Rust project, verify the trustworthiness of all dependencies, including transient dependencies with `cargo crev verify`\
-Write a new review ! \
-Describe the crates you trust. Or warn about the crate versions you think are dangerous.\
-Help other developers, inform them and share your opinion.\
+Start with reading the reviews of the crates on [web.crev.dev](https://web.crev.dev/rust-reviews/crates). \
+Then install the GUI [cargo_crev_reviews](https://crates.io/crates/cargo_crev_reviews) or the CLI [cargo-crev](https://github.com/crev-dev/cargo-crev)\.  
+Your personal reviews are most important. If you have a boss, he will sooner or later ask you if you reviewed all the dependencies. With [cargo_crev_reviews](https://crates.io/crates/cargo_crev_reviews) you have a basic tool to do that. \
+Write your reviews! Describe the crates you trust. Or warn about the crate versions you think are dangerous. Publish and share your opinion with other developers.\
 
 ## crates.io and lib.rs
 
 A similar web page is also created by @Kornelski at <https://lib.rs/crates/num-traits/crev>.  
 lib.rs is an alternative index to crates.io.  
-Crates.io is official rust-lang server, focused more on the trusted storage of crates. It does near to nothing for searching a crate.  
-Lib.rs is more focused on making easier to find a crate in a category. The code is still stored on crates.io. So the trust of authenticity of the code is high.  
+Crates.io is the official Rust-lang storage of crates source code that is trusted and immutable.  
+Lib.rs is focused on searching for crates in a categories with handy additional information.  
 
 ## warp
 
-Warp is a web server written in rust.  
+Warp is a web server written in Rust.  
 <https://github.com/seanmonstar/warp>  
 It will listen on port 8051 listens to http.  
 
 ## Google vm
 
-One beta working server is installed on my google vm.  
-There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8051.
-Nginx also redirects all http 80 to https 443.  
+A working web server is installed on my google vm.  
+There is a nginx server reverse proxy that accepts https http2 on 443 and relay to internal 8051. Nginx also redirects all http 80 to https 443.  
 In sites-available/default I added this lines:
 
 ```nginx
@@ -87,76 +81,69 @@ In sites-available/default I added this lines:
   #endregion
 ```
 
-The application will be in background with the command "screen" with a session_name.  
+## screen (Linux program)
+
+My application will run in background with the command "screen" with a session_name.  
 So I can see all the stdout of the application easily.  
 create a new session  
 `screen -S cargo_crev_web_8051`,  
 connect to an existing session  
 `screen -r cargo_crev_web_8051`,  
-Set the credentials for cargo-crev CLI in the env variable:
-`export CREV_PASSPHRASE=your_passphrase`
+Set the credentials for cargo-crev CLI in the env variable:  
+`(space) export CREV_PASSPHRASE=your_passphrase`  
+Warning: never write secrets in code or files that are published on Github.  
+Add a space before the command to avoid it to be saved in bash history.
 start the web server  
-`cd /var/www/webapps/cargo_crev_web; ./cargo_crev_web`
-detach the session
-`ctrl+a d`
+`cd /var/www/webapps/cargo_crev_web; ./cargo_crev_web`  
+If you want to scroll the screen session:  
+`ctrl+a ESC`  
+scroll with arrows or page-up, page-down. End scroll mode with:  
+`ESC`  
+detach the session  
+`ctrl+a d`  
 
 ## install cargo-crev to fetch reviews
 
 On my web server I want to fetch the cargo-crev reviews from GitHub in regular intervals.  
 I need to install cargo-crev.  
-My first attempt was to install rust and cargo with rustup with minimal profile.
+My first attempt was to install Rust and cargo with rustup with minimal profile.
 `curl https://sh.rustup.rs -sSf | sh -s -- --profile minimal`  
 Then I tried to install cargo-crev with cargo:  
 `cargo install cargo-crev`  
-It was a disaster. I have the smallest, tiniest possible VM and it looks that compiling the source code of cargo-crev is too much for it. I tried 3 times, waited for a few hours and it didn't succeed.  
-I then deleted the folder `~/.cargo/registry/src` to free some disk space.  
+It was a disaster. I have the smallest, tiniest possible VM and it looks that compiling the source code of cargo-crev is too much for it. I tried 3 times, waited for a few hours and it didn't succeed. I then deleted the big folder `~/.cargo/registry/src` to free some disk space.  
 Fortunately there is a binary release already compiled here:  
 `https://github.com/crev-dev/cargo-crev/releases/download/v0.16.1/cargo-crev-v0.16.1-x86_64-unknown-linux-musl.tar.gz`  
 I unzip it twice and saved the binary file `cargo-crev` in:  
 `~/.cargo/bin`  
-I could use it already and fetch all the repos, but that is not super safe. Better is to fetch only the trusted repos.  
-For this I need to create a crev Id and for that I need to have a GitHub repo.  
-Size of .cache/crev
-On my local machine is 7 MB
-On web server is now 22 MB
-It looks that it is not extremely big.
 
 ## GitHub crev-proofs
 
-I followed the instructions <https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md>  
-I created a new GitHub user: `cargo-crev-web`. I wanted cargo_crev_web, but I couldn't. So I have inconsistent name here.  
+I followed the instructions [getting_started](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md).  
+I created a new GitHub user: `cargo-crev-web`. I wanted to name it `cargo_crev_web`, but underscore is not allowed :-( So now I have inconsistent names :-(  
 I used my second email, because my first email is used for my personal GitHub LucianoBestia.  
 On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.  
 I forked the template <https://github.com/crev-dev/crev-proofs>.  
 For git fetch and reindex I will open a new screen session:  
 `screen -S cargo_crev_web_git`  
-to reconnect later: `screen -r cargo_crev_web_git`  
+to reconnect later:  
+`screen -r cargo_crev_web_git`  
 I will need the credentials for ssh for GitHub:  
 `eval $(ssh-agent -s)`  
 `ssh-add ~/.ssh/bestia2_for_github`  
 create new crev id with my new github repo:  
 `cargo crev id new --url https://github.com/cargo-crev-web/crev-proofs`  
-add a trusted user:  
-`cargo crev id trust <hash>`  
-example for dpc - Dawid Ciężarkiewicz, the author of cargo-crev. I trust him:  
-`cargo crev id trust FYlr8YoYGVvDwHQxqEIs89reKKDy-oWisoO0qXXEfHE`  
-it is possible also to trust a repo:  
-`cargo crev trust --level medium <url of someone's crev-proofs repo>`  
-At the end of editing the local data push:  
+add the trusted user `dpc`, the author of cargo-crev:  
+`cargo crev trust --level medium https://github.com/dpc/crev-proofs`  
+Push my crev data to github:  
 `cargo crev repo publish`  
 
 ## trusted reviewers
 
-TODO: trust and untrust will be made calling `cargo crev trust --level low <url>` or  
-`cargo crev id untrust --level none xxx` from the program.  
-
-For the purpose of showing most existing reviews, the cargo_rev_web will "trust" anybody.  
-It is not really trusting, it is just showing their reviews.  
-The repo <https://gitlab.com/crev-dev/auto-crev-proofs> contains all of the proof repos.  
-It is automated and maintained by @chrysn.  
-<https://github.com/crev-dev/cargo-crev/issues/336>  
-Other reference is <https://github.com/crev-dev/cargo-crev/wiki/List-of-Proof-Repositories>  
-For incomplete, obsolete or otherwise unwanted repos I will have an editable blacklist.  
+For the purpose of showing all public reviews, `cargo_rev_web` will "trust --level low" everybody.  
+I will personally, manually maintain this list.  
+I have a function that searches Github for all crev-proofs repositories. Beside this, the command `cargo crev id query all` returns a list of all repos found in locally cached crev files (trusted people from trusted people).
+Then I manually check every repository if it's correct: it has to contain a crev-id and some reviews in the correct format.  
+If the repo is correct then "cargo crev trust --level low repo". If not I add it to "blocklisted repos" with a description what is wrong.  
 
 ## Linux scheduler
 
@@ -165,11 +152,17 @@ I need to call every hour:
 to have fresh reviews available locally in `~/.cache/crev/`.  
 The Linux scheduler `crontab` is ok, but I miss something more visual.  
 I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
-It is a normal CLI and it is easy to see the output on the screen.  
+It is a normal CLI and it is easy to read the output on the screen.  
 To make this run indefinitely in another terminal session I use `screen`.
-The script is in /var/www/scripts/cargo_crev_web_fetch_reindex.sh\
-I run it:  
-`foreground_scheduler 05 /bin/bash "/var/www/scripts/cargo_crev_web_fetch_reindex.sh"`  
+Open a new screen session:  
+`screen -S cargo_crev_web_git`  
+to reconnect later:  
+`screen -r cargo_crev_web_git`  
+The script is stored in `/var/www/scripts/cargo_crev_web_fetch_reindex.sh`
+I run it (every 5th minute of every hour):  
+`foreground_scheduler 05 /bin/bash "/var/www/scripts/cargo_crev_web/cargo_crev_web_fetch_reindex.sh"`  
+To stop it:  
+`ctrl+c`  
 
 ## testing .cache/crev
 
@@ -195,7 +188,7 @@ The result is normal html and is sent to the browser.
 
 ## markdown md to html
 
-I use the rust comrak lib to convert the review comment from md to html.  
+I use the Rust comrak lib to convert the review comment from md to html.  
 
 ## Badges
 
@@ -203,6 +196,7 @@ A service for SVG badges for `crev count of reviews for one crate` is on url:\
 <https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg>\
 Example how it looks like on GitHub:\
 <https://github.com/LucianoBestia/reader_for_microxml/>  
+
 ```markdown
 [![crev reviews](
 https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg
@@ -234,7 +228,7 @@ Every person on this planet would like to have different colors. That is human n
 To build a website that satisfies everybody's taste for color is impossible.  
 Even hoping to satisfy a few close friends is mission impossible.  
 So there is this Chrome extension named User Css:  
-https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb  
+<https://chrome.google.com/webstore/detail/user-css/okpjlejfhacmgjkmknjhadmkdbcldfcb>  
 You write a css in your browser and while you are typing it immediately changes the look of the webpage.  
 In the webpage <https://web.crev.dev/rust-reviews/> you can find a basic css for the color palette. Just Click-to-Copy and try it in User Css. Then change colors to your liking.  
 At the end save the css for the next time you visit the website.  

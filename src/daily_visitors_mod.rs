@@ -18,7 +18,6 @@ struct GroupRequestsByDay {
 
 #[derive(Debug)]
 struct GroupVisitorsByDay {
-    date: String,
     count_visitors: i32,
 }
 
@@ -149,10 +148,7 @@ fn group_visitors_by_day(log_lines: &mut Vec<LogLine>) -> Vec<GroupVisitorsByDay
             let new_ip = line.ip.to_string();
             if new_day != old_day {
                 if !old_day.is_empty() {
-                    vec_gr.push(GroupVisitorsByDay {
-                        date: old_day.to_string(),
-                        count_visitors,
-                    });
+                    vec_gr.push(GroupVisitorsByDay { count_visitors });
                 }
                 old_day = new_day;
                 old_ip = new_ip.to_string();

@@ -1,172 +1,718 @@
 [
-    ["https://github.com/11ph22il/crev-proofs", "no id"],
-    ["https://github.com/2dav/crev-proofs", "no id"],
-    ["https://github.com/adeschamps/crev-proofs", "empty"],
-    ["https://github.com/adumbidiot/crev-proofs", "no reviews"],
-    ["https://github.com/ahirner/crev-proofs", "no id"],
-    ["https://github.com/aidangilmore/crev-proofs", "no id"],
-    ["https://github.com/ajeser-ametha/crev-proofs", "no id"],
-    ["https://github.com/alaric/crev-proofs", "no id"],
-    ["https://github.com/Alasdair/crev-proofs", "no id"],
-    ["https://github.com/AlekSi/crev-proofs", "no url 404"],
-    ["https://github.com/Alexendoo/crev-proofs", "empty"],
-    ["https://github.com/alexmaco/crev-proofs", "no reviews"],
-    ["https://github.com/alexmoon/crev-proofs", "no id"],
-    ["https://github.com/Aloso/crev-proofs", "no id"],
-    ["https://github.com/Alxandr/crev-proofs", "old format"],
-    ["https://github.com/avrabe/crev-proofs", "no id"],
-    ["https://github.com/avrong/crev-proofs", "no id"],
-    ["https://github.com/Awfa/crev-proofs", "no reviews"],
-    ["https://github.com/axion014/crev-proofs", "no id"],
-    ["https://github.com/bash/crev-proofs", "old format"],
-    ["https://github.com/bash/crev-proofs.git", "old format"],
-    ["https://github.com/bayne/crev-proofs", "no id"],
-    ["https://github.com/berkus/crev-proofs", "no id"],
-    ["https://github.com/bjeanes/crev-proofs", "no reviews"],
-    ["https://github.com/bjorn3/crev-proofs", "old format"],
-    ["https://github.com/braunse/crev-proofs", "no id"],
-    ["https://github.com/brianbruggeman/crev-proofs", "no id"],
-    ["https://github.com/bwbroersma/crev-proofs", "empty"],
-    ["https://github.com/cargo-crev-web/crev-proofs", "cargo-crev-web"],
-    ["https://github.com/cavokz/crev-proofs", "no id"],
-    ["https://github.com/chck/crev-proofs", "no id"],
-    ["https://github.com/chirao237/crev-proofs", "no id"],
-    ["https://github.com/christophebiocca/crev-proofs", "no id"],
-    ["https://github.com/chroche/crev-proofs", "no id"],
-    ["https://github.com/chrysn-pull-requests/crev-proofs", "no id"],
-    ["https://github.com/chrysn/auto-crev-proofs", "auto-crev-proofs"],
-    ["https://github.com/chrysn/crev-proofs", "no url 404"],
-    ["https://github.com/clonejo/crev-proofs", "no id"],
-    ["https://github.com/cole-h/crev-proofs", "no url 404"],
-    ["https://github.com/confio/crev-proofs", "no id"],
-    ["https://github.com/cormacrelf/crev-proofs", "no id"],
-    ["https://github.com/crev-dev/crev-proofs", "no id"],
-    ["https://github.com/dalance/crev-proofs", "no id"],
-    ["https://github.com/damien/crev-proofs", "no reviews"],
-    ["https://github.com/danheuck/crev-proofs", "no id"],
-    ["https://github.com/DarkKirb/crev-proofs", "no reviews"],
-    ["https://github.com/Darksonn/crev-proofs", "no id"],
-    ["https://github.com/dcsommer/crev-proofs", "no id"],
-    ["https://github.com/dennisschagt/crev-proofs", "no reviews"],
-    ["https://github.com/DerekfromMadison/crev-proofs", "no id"],
-    ["https://github.com/desandy/crev-proofs", "no id"],
-    ["https://github.com/Dev380/crev-proofs", "no reviews"],
-    ["https://github.com/diegov/crev-proofs", "no id"],
-    ["https://github.com/dirvine/crev-proofs", "no id"],
-    ["https://github.com/dmerejkowsky/crev-proofs", "old format"],
-    ["https://github.com/dnaka91/crev-proofs", "no reviews"],
-    ["https://github.com/douglascaetano/crev-proofs", "no id"],
-    ["https://github.com/dpbriggs/crev-proofs", "no id"],
-    ["https://github.com/edg-l/crev-proofs", "no reviews"],
-    ["https://github.com/elichai/crev-proofs", "no id"],
-    ["https://github.com/Eraden/crev-proofs", "empty"],
-    ["https://github.com/ethindp/crev-proofs", "no id"],
-    ["https://github.com/Evrey/crev-proofs", "no reviews"],
-    ["https://github.com/fdumontmd/crev-proofs", "no id"],
-    ["https://github.com/Flakebi/crev-proofs", "empty"],
-    ["https://github.com/foo-jin/crev-proofs", "no id"],
-    ["https://github.com/frigus02/crev-proofs", "no reviews"],
-    ["https://github.com/gilescope/crev-proofs", "empty"],
-    ["https://github.com/GregBowyer/crev-proofs", "no id"],
-    ["https://github.com/hacpy/crev-proofs", "no id"],
-    ["https://github.com/helderTZ/crev-proofs", "no id"],
-    ["https://github.com/hgzimmerman/crev-proofs", "empty"],
-    ["https://github.com/hirschenberger/crev-proofs", "old format"],
-    ["https://github.com/hunger.git/crev-proofs", "no url 404"],
-    ["https://github.com/hunger/crev-proofs", "no reviews"],
-    ["https://github.com/hunger/crev-proofs.git", "no reviews"],
-    ["https://github.com/icewind1991/crev-proofs", "no id"],
-    ["https://github.com/ikaros/crev-proofs", "no id"],
-    ["https://github.com/ISibboI/crev-proofs", "no id"],
-    ["https://github.com/ivanceras/crev-proofs", "empty"],
-    ["https://github.com/j-browne/crev-proofs", "no reviews"],
-    ["https://github.com/JamesHinshelwood/crev-proofs", "empty"],
-    ["https://github.com/jcaesar/crev-proofs", "no id"],
-    ["https://github.com/jmmaloney4/crev-proofs", "no id"],
-    ["https://github.com/jnaulty/crev-proofs", "no id"],
-    ["https://github.com/johnbartholomew/crev-proofs", "no id"],
-    ["https://github.com/jonas-schievink/crev-proofs", "empty"],
-    ["https://github.com/joonazan/crev-proofs", "no id"],
-    ["https://github.com/jplatte/crev-proofs", "no url 404"],
-    ["https://github.com/justinaustin/crev-proofs", "no id"],
-    ["https://github.com/kazuk/crev-proofs", "no id"],
-    ["https://github.com/kbknapp/crev-proofs", "no reviews"],
-    ["https://github.com/koba-e964/crev-proofs", "no id"],
-    ["https://github.com/KokaKiwi/crev-proofs", "no id"],
-    ["https://github.com/lahwran/crev-proofs", "no id"],
-    ["https://github.com/LaurenceGA/crev-proofs", "no id"],
-    ["https://github.com/lemueldls/crev-proofs", "no id"],
-    ["https://github.com/leo-lb/crev-proofs", "no id"],
-    ["https://github.com/levackt/crev-proofs", "no reviews"],
-    ["https://github.com/llogiq/crev-proofs", "no id"],
-    ["https://github.com/lparcq/crev-proofs", "no id"],
-    ["https://github.com/maccam912/crev-proofs", "empty"],
-    ["https://github.com/madsmtm/crev-proofs", "no id"],
-    ["https://github.com/MahdiZareie/crev-proofs", "no reviews"],
-    ["https://github.com/mainrs/crev-proofs", "no id"],
-    ["https://github.com/manuthambi/crev-proofs", "no id"],
-    ["https://github.com/marius851000/crev-proofs", "no id"],
-    ["https://github.com/matclab/crev-proofs", "no id"],
-    ["https://github.com/matko/crev-proofs", "no id"],
-    ["https://github.com/mchesser/crev-proofs", "old format"],
-    ["https://github.com/metta-systems/crev-proofs", "no id"],
-    ["https://github.com/MHBauer/crev-proofs", "no id"],
-    ["https://github.com/mimoo/crev-proofs", "no id"],
-    ["https://github.com/mindriot101/crev-proofs", "no id"],
-    ["https://github.com/MitMaro/crev-proofs", "no id"],
-    ["https://github.com/ModdedGamers/crev-proofs", "no id"],
-    ["https://github.com/Monadic-Cat/crev-proofs", "no id"],
-    ["https://github.com/najamelan/crev-proofs", "no id"],
-    ["https://github.com/nashley/crev-proofs", "no reviews"],
-    ["https://github.com/nickray/crev-proofs", "no id"],
-    ["https://github.com/njam/crev-proofs", "no url 404"],
-    ["https://github.com/NobodyXu/crev-proofs", "no id"],
-    ["https://github.com/nyanpasu64/crev-proofs", "no reviews"],
-    ["https://github.com/onsails/crev-proofs", "no id"],
-    ["https://github.com/OriolMunoz/crev-proofs", "no id"],
-    ["https://github.com/otavio/crev-proofs", "old format"],
-    ["https://github.com/pcpthm/crev-proofs", "no id"],
-    ["https://github.com/pimotte/crev-proofs", "no id"],
-    ["https://github.com/pimotte/crev-proofs-1", "no id"],
-    ["https://github.com/rakenodiax/crev-proofs", "no id"],
-    ["https://github.com/ralpha/crev-proofs", "no id"],
-    ["https://github.com/Rapdorian/crev-proofs", "no id"],
-    ["https://github.com/rdimartino/crev-proofs", "no id"],
-    ["https://github.com/ReactorScram/crev-proofs", "no id"],
-    ["https://github.com/rotty/crev-proofs", "no id"],
-    ["https://github.com/rusty-jules/crev-proofs", "no id"],
-    ["https://github.com/RyotaBannai/crev-proofs", "no id"],
-    ["https://github.com/sandhose/crev-proofs", "no reviews"],
-    ["https://github.com/scott-wilson/crev-proofs", "empty"],
-    ["https://github.com/sgeisler/crev-proofs", "old format"],
-    ["https://github.com/simonsan/crev-proofs", "no id"],
-    ["https://github.com/sinkuu/crev-proofs", "no id"],
-    ["https://github.com/skylerqpq/crev-proofs", "no id"],
-    ["https://github.com/soruh/crev-proofs", "no id"],
-    ["https://github.com/sphinxc0re/crev-proofs", "empty"],
-    ["https://github.com/staktrace/crev-proofs", "no id"],
-    ["https://github.com/stisol/crev-proofs", "no id"],
-    ["https://github.com/stusmall/crev-proofs", "empty"],
-    ["https://github.com/tami5/crev-proofs", "no id"],
-    ["https://github.com/tdonovan4/crev-proofs", "no reviews"],
-    ["https://github.com/Thinkofname/crev-proofs", "no id"],
-    ["https://github.com/ThomasdenH/crev-proofs-1", "no id"],
-    ["https://github.com/thomaseizinger/crev-proofs", "no id"],
-    ["https://github.com/thorhs/crev-proofs", "no id"],
-    ["https://github.com/Tiwalun/crev-proofs", "no reviews"],
-    ["https://github.com/tiziano88/crev-proofs", "no id"],
-    ["https://github.com/toasteater/crev-proofs", "no url 404"],
-    ["https://github.com/toddmath/crev-proofs", "no id"],
-    ["https://github.com/traxys/crev-proofs", "no id"],
-    ["https://github.com/tversteeg/crev-proofs", "no id"],
-    ["https://github.com/ubnt-intrepid/crev-proofs", "no id"],
-    ["https://github.com/unleashed/crev-proofs", "no id"],
-    ["https://github.com/uvvy/crev-proofs", "no id"],
-    ["https://github.com/vberger/crev-proofs", "no id"],
-    ["https://github.com/vctibor/crev-proofs", "no url 404"],
-    ["https://github.com/VictorKoenders/crev-proofs", "old format"],
-    ["https://github.com/vonforum/crev-proofs", "no id"],
-    ["https://github.com/weiznich/crev-proofs", "no id"],
-    ["https://github.com/WorldSEnder/crev-proofs", "no id"],
-    ["https://github.com/zicklag/crev-proofs", "no reviews"]
+  [
+    "https://github.com/11ph22il/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/2dav/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/adeschamps/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/adumbidiot/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/ahirner/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/aidangilmore/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ajeser-ametha/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/alaric/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Alasdair/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/AlekSi/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/Alexendoo/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/alexmaco/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/alexmoon/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Aloso/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Alxandr/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/avrabe/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/avrong/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Awfa/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/axion014/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/bash/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/bash/crev-proofs.git",
+    "old format"
+  ],
+  [
+    "https://github.com/bayne/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/berkus/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/bjeanes/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/bjorn3/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/braunse/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/brianbruggeman/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/bwbroersma/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/CAD97/crev-proofs",
+    "exists as lowercase"
+  ],
+  [
+    "https://github.com/cargo-crev-web/crev-proofs",
+    "cargo-crev-web (me)"
+  ],
+  [
+    "https://github.com/cavokz/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/chck/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/chirao237/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/christophebiocca/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/chroche/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/chrysn-pull-requests/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/chrysn/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/clonejo/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/cole-h/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/confio/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/cormacrelf/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/crev-dev/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/cultpony/crev-proofs",
+    "git error when fetching"
+  ],
+  [
+    "https://github.com/dalance/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/damien/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/danheuck/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/DarkKirb/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/Darksonn/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/dcsommer/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/dennisschagt/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/DerekfromMadison/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/desandy/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Dev380/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/diegov/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/dirvine/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/dmerejkowsky/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/dnaka91/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/douglascaetano/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/dpbriggs/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/edg-l/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/elichai/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Eraden/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/ethindp/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Evrey/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/fdumontmd/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Flakebi/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/foo-jin/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/frigus02/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/gilescope/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/gmanev7/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/GregBowyer/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/hacpy/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/helderTZ/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/hgzimmerman/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/hirschenberger/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/huitseeker/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/hunger.git/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/hunger/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/hunger/crev-proofs.git",
+    "no reviews"
+  ],
+  [
+    "https://github.com/icewind1991/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ikaros/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ISibboI/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ivanceras/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/j-browne/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/JamesHinshelwood/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/jcaesar/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/jmmaloney4/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/jnaulty/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/johnbartholomew/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/jonas-schievink/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/joonazan/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/jplatte/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/justinaustin/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/kazuk/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/kbknapp/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/koba-e964/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/KokaKiwi/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/lahwran/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/LaurenceGA/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/lemueldls/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/leo-lb/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/levackt/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/llogiq/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/lparcq/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/maccam912/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/madsmtm/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/MahdiZareie/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/mainrs/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/manuthambi/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/marius851000/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/matclab/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/matko/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/mchesser/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/metta-systems/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/MHBauer/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/mimoo/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/mindriot101/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Minoru/crev-proofs",
+    "exists url that ends with .git"
+  ],
+  [
+    "https://github.com/MitMaro/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/MMKubicki/crev-proofs",
+    "the one review has different url NinProf"
+  ],
+  [
+    "https://github.com/ModdedGamers/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Monadic-Cat/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/najamelan/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/nashley/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/nickray/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/njam/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/NobodyXu/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/nyanpasu64/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/old-mibmo/crev-proofs",
+    "exists as mibmo"
+  ],
+  [
+    "https://github.com/onsails/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/OriolMunoz/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/otavio/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/pcpthm/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/pimotte/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/pimotte/crev-proofs-1",
+    "no id"
+  ],
+  [
+    "https://github.com/rakenodiax/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ralpha/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Rapdorian/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/rdimartino/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ReactorScram/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/rotty/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/rusty-jules/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/RyotaBannai/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/sandhose/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/scott-wilson/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/sgeisler/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/simonsan/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/sinkuu/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/skylerqpq/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/soruh/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/sphinxc0re/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/staktrace/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/stisol/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/stusmall/crev-proofs",
+    "empty"
+  ],
+  [
+    "https://github.com/taladar/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/tami5/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/tdonovan4/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/TheAlgorythm/crev-proofs",
+    "in 1 review, there is no url"
+  ],
+  [
+    "https://github.com/Thinkofname/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ThomasdenH/crev-proofs-1",
+    "no id"
+  ],
+  [
+    "https://github.com/thomaseizinger/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/thorhs/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/Tiwalun/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://github.com/tiziano88/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/toasteater/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/toddmath/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/traxys/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/tversteeg/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/ubnt-intrepid/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/unleashed/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/uvvy/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/vberger/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/vctibor/crev-proofs",
+    "no url 404"
+  ],
+  [
+    "https://github.com/VictorKoenders/crev-proofs",
+    "old format"
+  ],
+  [
+    "https://github.com/vonforum/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/weiznich/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/WorldSEnder/crev-proofs",
+    "no id"
+  ],
+  [
+    "https://github.com/zicklag/crev-proofs",
+    "no reviews"
+  ],
+  [
+    "https://gitlab.com/chrysn/auto-crev-proofs",
+    "auto-crev-proofs does not work anymore"
+  ]
 ]

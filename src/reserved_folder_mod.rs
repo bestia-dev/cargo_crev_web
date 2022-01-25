@@ -124,11 +124,13 @@ impl ReservedFolder {
     /// To use pbpaste and pbcopy in Debian on WSL2 use this instructions: <https://www.techtronic.us/pbcopy-pbpaste-for-wsl/>.
     /// But if `clip.exe` does not work you need to do this first to your /etc/profile file: <https://github.com/microsoft/WSL/issues/5779#issuecomment-675574471>
     /// Use `sudo nano /etc/profile`. I rather comment the lines with #. And after that, restart wsl in Administrative mode Cmd in Win10: `wsl -shutdown`.
+    /// Aaaand it worked locally in my WSL, but it didn't work on my google vm over SSH. So I used this other technique:  
+    /// Add a space before the linux command to avoid it to be stored in the bash history.  
     ///
     /// For unauthenticated requests on Github, the rate limit allows for up to 60 requests per hour.
     /// So I need to be authenticated for Github api with [github PAT (personal access token)](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
     /// Before running the web server I store it in the environment variable:  
-    /// `export GITHUB_TOKEN=$(pbpaste)`    
+    /// `export GITHUB_TOKEN=$(pbpaste)`  or add a space before the command to avoid it being stored in the bash history.  
     pub async fn list_new_reviewer_id(state_global: ArcMutStateGlobal) -> Self {
         fn check_repo_on_github(
             forked_repo: &ForkedRepo,

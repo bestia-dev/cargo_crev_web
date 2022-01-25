@@ -23,7 +23,7 @@
 //!
 //! ## cargo-crev
 //!
-//! Cargo-crev is a system of review for rust crates in crates.io.  
+//! Cargo-crev is a system of review for Rust crates in crates.io.  
 //! <https://github.com/crev-dev/cargo-crev>  
 //! Originally it is a CLI that programmers use on their local machines while developing.  
 //! I would like to make a public cargo-crev web app to query reviews globally.  
@@ -48,12 +48,12 @@
 //!
 //! A similar web page is also created by @Kornelski at <https://lib.rs/crates/num-traits/crev>.  
 //! lib.rs is an alternative index to crates.io.  
-//! Crates.io is official rust-lang server, focused more on the trusted storage of crates. It does near to nothing for searching a crate.  
+//! Crates.io is official Rust-lang server, focused more on the trusted storage of crates. It does near to nothing for searching a crate.  
 //! Lib.rs is more focused on making easier to find a crate in a category. The code is still stored on crates.io. So the trust of authenticity of the code is high.  
 //!
 //! ## warp
 //!
-//! Warp is a web server written in rust.  
+//! Warp is a web server written in Rust.  
 //! <https://github.com/seanmonstar/warp>  
 //! It will listen on port 8051 listens to http.  
 //!
@@ -99,7 +99,7 @@
 //!
 //! On my web server I want to fetch the cargo-crev reviews from GitHub in regular intervals.  
 //! I need to install cargo-crev.  
-//! My first attempt was to install rust and cargo with rustup with minimal profile.
+//! My first attempt was to install Rust and cargo with rustup with minimal profile.
 //! `curl https://sh.rustup.rs -sSf | sh -s -- --profile minimal`  
 //! Then I tried to install cargo-crev with cargo:  
 //! `cargo install cargo-crev`  

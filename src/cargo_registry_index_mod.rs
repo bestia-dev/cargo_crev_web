@@ -79,7 +79,7 @@ impl CrateIndex {
         if let Some(cursor_pos) =  cursor_pos{
             if self.crates[cursor_pos].last_version.is_empty() {
                 // this is the first time, read it from file and store it
-                // the linux shell home dir symbol ~ or HOME is not expanded in raw rust
+                // the linux shell home dir symbol ~ or HOME is not expanded in raw Rust
                 // I must use the dirs crate
                 let mut file_path = dirs::home_dir().expect("Not home dir");
                 file_path.push(".cargo/registry/index/github.com-1ecc6299db9ec823/.cache");
