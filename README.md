@@ -4,8 +4,8 @@
 
 [comment]: # (lmake_cargo_toml_to_md start)
 
-***version: 2020.822.1757  date: 2020-08-22 authors: Luciano Bestia***  
-**web server to query reviews from cargo-crev**
+**web server to query reviews from cargo-crev**  
+***version: 2020.822.1757 date: 2020-08-22 author: [dev_Bestia](https://bestia.dev) repository: [GitHub](https://github.com/LucianoBestia/cargo_crev_web)***  
 
 [comment]: # (lmake_cargo_toml_to_md end)
 
