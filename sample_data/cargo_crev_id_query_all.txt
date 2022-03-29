@@ -1,4 +1,4 @@
-24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw high   == https://github.com/LucianoBestia/crev-proofs
+24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw high   == https://github.com/bestia-dev/crev-proofs
 YdnEoYtqvbBGv0hhENLDUYmc3tNfm5V5NIG5hCovHyM low    == https://git.jcg.re/jcgruenhage/crev-proofs.git
 lr2ldir9XdBsKQkW3YGpRIO2pxhtSucdzf3M5ivfv4A low    == https://git.sr.ht/~icefox/crev-proofs
 qgiO8WQ2iBc6Gp5S80JlvuB_xPdms15j19inVG9J3c0 low    == https://github.com/3541/crev-proofs

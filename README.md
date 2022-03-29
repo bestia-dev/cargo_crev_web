@@ -5,20 +5,20 @@
 [comment]: # (lmake_cargo_toml_to_md start)
 
 **web server to query reviews from cargo-crev**  
-***version: 2020.822.1757 date: 2020-08-22 author: [dev_Bestia](https://bestia.dev) repository: [GitHub](https://github.com/LucianoBestia/cargo_crev_web)***  
+***version: 2020.822.1757 date: 2020-08-22 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_crev_web)***  
 
 [comment]: # (lmake_cargo_toml_to_md end)
 
 [comment]: # (lmake_lines_of_code start)
-[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4270-green.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-508-blue.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-588-purple.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
-[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-57-orange.svg)](https://github.com/LucianoBestia/cargo_crev_web/)
+[![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4270-green.svg)](https://github.com/bestia-dev/cargo_crev_web/)
+[![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-508-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/)
+[![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-588-purple.svg)](https://github.com/bestia-dev/cargo_crev_web/)
+[![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/cargo_crev_web/)
+[![Lines in tests](https://img.shields.io/badge/Lines_in_tests-57-orange.svg)](https://github.com/bestia-dev/cargo_crev_web/)
 
 [comment]: # (lmake_lines_of_code end)
 
-<img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/LucianoBestia/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
+<img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
 
 ## Try it out
 
@@ -120,7 +120,7 @@ I unzip it twice and saved the binary file `cargo-crev` in:
 
 I followed the instructions [getting_started](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md).  
 I created a new GitHub user: `cargo-crev-web`. I wanted to name it `cargo_crev_web`, but underscore is not allowed :-( So now I have inconsistent names :-(  
-I used my second email, because my first email is used for my personal GitHub LucianoBestia.  
+I used my second email, because my first email is used for my personal GitHub bestia-dev.  
 On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.  
 I forked the template <https://github.com/crev-dev/crev-proofs>.  
 For git fetch and reindex I will open a new screen session:  
@@ -151,7 +151,7 @@ I need to call every hour:
 `cargo crev repo fetch trusted`
 to have fresh reviews available locally in `~/.cache/crev/`.  
 The Linux scheduler `crontab` is ok, but I miss something more visual.  
-I wrote <https://github.com/LucianoBestia/foreground_scheduler> to do this.  
+I wrote <https://github.com/bestia-dev/foreground_scheduler> to do this.  
 It is a normal CLI and it is easy to read the output on the screen.  
 To make this run indefinitely in another terminal session I use `screen`.
 Open a new screen session:  
@@ -195,7 +195,7 @@ I use the Rust comrak lib to convert the review comment from md to html.
 A service for SVG badges for `crev count of reviews for one crate` is on url:\
 <https://web.crev.dev/rust-reviews/badge/crev_count/reader_for_microxml.svg>\
 Example how it looks like on GitHub:\
-<https://github.com/LucianoBestia/reader_for_microxml/>  
+<https://github.com/bestia-dev/reader_for_microxml/>  
 
 ```markdown
 [![crev reviews](
@@ -244,7 +244,7 @@ This local server will ue crev-lib to access the crev functionality.
 
 ## Stats
 
-<https://github.com/LucianoBestia/cargo_crev_web/issues/4>
+<https://github.com/bestia-dev/cargo_crev_web/issues/4>
 
 ## References
 

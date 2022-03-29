@@ -648,7 +648,7 @@
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">client</span>
                     .<span class="ident">get</span>(<span class="ident">url_for_content</span>)
-                    .<span class="ident">header</span>(<span class="string">&quot;User-Agent&quot;</span>, <span class="string">&quot;cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)&quot;</span>)
+                    .<span class="ident">header</span>(<span class="string">&quot;User-Agent&quot;</span>, <span class="string">&quot;cargo_crev_web (github.com/bestia-dev/cargo_crev_web)&quot;</span>)
                     .<span class="ident">header</span>(<span class="string">&quot;authorization&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;Bearer {}&quot;</span>, <span class="macro">unwrap!</span>(<span class="ident">std::env::var</span>(<span class="string">&quot;GITHUB_TOKEN&quot;</span>))))
                     .<span class="ident">send</span>()
                     .<span class="ident">unwrap</span>();
@@ -690,7 +690,7 @@
         ids:
           - id-type: crev
             id: 24YKeuThJDN_FSlJy_xcl5diSZcKcRbh-0zXM0YxTOFJw
-            url: &quot;https://github.com/LucianoBestia/crev-proofs&quot;
+            url: &quot;https://github.com/bestia-dev/crev-proofs&quot;
         */</span>
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Deserialize</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
         <span class="kw">struct</span> <span class="ident">ReviewIdsShort</span> {
@@ -724,7 +724,7 @@
 
             <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">client</span>
                 .<span class="ident">get</span>(<span class="ident">url_for_page</span>)
-                .<span class="ident">header</span>(<span class="string">&quot;User-Agent&quot;</span>, <span class="string">&quot;cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)&quot;</span>)
+                .<span class="ident">header</span>(<span class="string">&quot;User-Agent&quot;</span>, <span class="string">&quot;cargo_crev_web (github.com/bestia-dev/cargo_crev_web)&quot;</span>)
                 .<span class="ident">header</span>(<span class="string">&quot;authorization&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;Bearer {}&quot;</span>, <span class="macro">unwrap!</span>(<span class="ident">std::env::var</span>(<span class="string">&quot;GITHUB_TOKEN&quot;</span>))))
                 .<span class="ident">send</span>()
                 .<span class="ident">unwrap</span>();

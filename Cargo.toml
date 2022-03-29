@@ -3,11 +3,11 @@ name = "cargo_crev_web"
 #no need for semver if it is not a library
 version = "2021.1208.1729"
 description = "web server to query reviews from cargo-crev"
-authors = ["Luciano Bestia"]
+authors = ["bestia.dev"]
 edition = "2018"
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/lucianobestia/cargo_crev_web/"
+repository = "https://github.com/bestia-dev/cargo_crev_web/"
 categories = ["web-programming"]
 keywords = ["warp","crev","cargo-crev"]
 publish = false

@@ -4,7 +4,7 @@ date: "2020-01-24T12:13:38.525455100+07:00"
 from:
   id-type: crev
   id: 24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw
-  url: "https://github.com/LucianoBestia/crev-proofs"
+  url: "https://github.com/bestia-dev/crev-proofs"
 package:
   source: "https://crates.io"
   name: unwrap

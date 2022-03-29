@@ -150,7 +150,7 @@ impl ReservedFolder {
             } else {
                 let response = client
                     .get(url_for_content)
-                    .header("User-Agent", "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)")
+                    .header("User-Agent", "cargo_crev_web (github.com/bestia-dev/cargo_crev_web)")
                     .header("authorization", &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))))
                     .send()
                     .unwrap();
@@ -192,7 +192,7 @@ impl ReservedFolder {
         ids:
           - id-type: crev
             id: 24YKeuThJDN_FSlJy_xcl5diSZcKcRbh-0zXM0YxTOFJw
-            url: "https://github.com/LucianoBestia/crev-proofs"
+            url: "https://github.com/bestia-dev/crev-proofs"
         */
         #[derive(Serialize, Deserialize, Clone, Debug)]
         struct ReviewIdsShort {
@@ -226,7 +226,7 @@ impl ReservedFolder {
 
             let response = client
                 .get(url_for_page)
-                .header("User-Agent", "cargo_crev_web (github.com/LucianoBestia/cargo_crev_web)")
+                .header("User-Agent", "cargo_crev_web (github.com/bestia-dev/cargo_crev_web)")
                 .header("authorization", &format!("Bearer {}", unwrap!(std::env::var("GITHUB_TOKEN"))))
                 .send()
                 .unwrap();
