@@ -170,7 +170,7 @@ fn task_doc() {
     let cargo_toml = CargoToml::read();
     #[rustfmt::skip]
     let shell_commands = [
-        "cargo doc --no-deps --document-private-items --open",
+        "cargo doc --no-deps --document-private-items",
         // copy target/doc into docs/ because it is github standard
         "rsync -a --info=progress2 --delete-after target/doc/ docs/",
         "echo Create simple index.html file in docs directory",

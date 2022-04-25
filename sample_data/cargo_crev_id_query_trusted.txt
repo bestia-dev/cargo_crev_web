@@ -1,2 +1,2 @@
 VylyTuk8CMGqIxgHixWaqfiUn3xZyzOA1wFrQ0sR1As low    == https://github.com/BurntSushi/crev-proofs
-24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw high   == https://github.com/bestia-dev/crev-proofs
+24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw high   == https://github.com/LucianoBestia/crev-proofs

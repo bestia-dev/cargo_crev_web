@@ -6,11 +6,11 @@ run:
     - mkdir -p .cargo
     - 'ln -s -f -T  "${PWD}/.cache" ~/.cache'
     - 'ln -s -f -T  "${PWD}/.cargo" ~/.cargo'
-    - apt-get update
-    - apt-get -y install jq git curl
+    - apt update
+    - apt -y install jq git curl
       # Chances are we can skip the minutes long compilation process and just use the cached binary
-    - "[ ! -e ~/.cargo/bin/cargo-crev ] && apt-get -y install build-essential cargo openssl libssl-dev libgcrypt20-dev pkg-config && cargo install cargo-crev"
-    - "[ ! -e ~/.cargo/bin/github-fetch ] && apt-get -y install build-essential cargo openssl libssl-dev pkg-config && cargo install --path ./github-fetch"
+    - "[ ! -e ~/.cargo/bin/cargo-crev ] && apt -y install build-essential cargo openssl libssl-dev libgcrypt20-dev pkg-config && cargo install cargo-crev"
+    - "[ ! -e ~/.cargo/bin/github-fetch ] && apt -y install build-essential cargo openssl libssl-dev pkg-config && cargo install --path ./github-fetch"
     - ./setup.sh
     - ./collect.sh
     - ./pushback.sh

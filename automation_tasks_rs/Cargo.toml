@@ -2,13 +2,13 @@
 [package]
 name = "automation_tasks_rs"
 version = "0.1.1"
-authors = ["bestia.dev <info@bestia.dev>"]
+authors = ["bestia.dev"]
 edition = "2018"
 description = "cargo auto - automation tasks written in Rust language"
 publish = false
 
 [dependencies]
-cargo_auto_lib = "0.7.23"
+cargo_auto_lib = "0.7.24"
 # cargo_auto_lib ={path="../../cargo_auto_lib"}
 
 unwrap="1.2.1"

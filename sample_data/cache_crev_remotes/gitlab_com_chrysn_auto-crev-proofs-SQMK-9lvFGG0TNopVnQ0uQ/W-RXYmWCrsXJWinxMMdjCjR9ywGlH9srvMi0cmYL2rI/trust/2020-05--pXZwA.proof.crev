@@ -9,7 +9,7 @@ from:
 ids:
   - id-type: crev
     id: 24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw
-    url: "https://github.com/bestia-dev/crev-proofs"
+    url: "https://github.com/LucianoBestia/crev-proofs"
 trust: none
 ----- SIGN CREV PROOF -----
 gSc1yiOjgwzhyOtRGeTBH0V6dDu-55krpqeoKN7lMOyI6Nt5XPC3FuNdW14fQK43dAknJa2qXVv7LVHrMCqECw

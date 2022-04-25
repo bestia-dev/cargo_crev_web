@@ -29,7 +29,7 @@ https://github.com/lemueldls/crev-proofs https://api.github.com/repos/lemueldls/
 https://github.com/fkohlgrueber/crev-proofs https://api.github.com/repos/fkohlgrueber/crev-proofs/contents
 https://github.com/yvt/crev-proofs https://api.github.com/repos/yvt/crev-proofs/contents
 https://github.com/toddmath/crev-proofs https://api.github.com/repos/toddmath/crev-proofs/contents
-https://github.com/bestia-dev/crev-proofs https://api.github.com/repos/bestia-dev/crev-proofs/contents
+https://github.com/LucianoBestia/crev-proofs https://api.github.com/repos/LucianoBestia/crev-proofs/contents
 https://github.com/toidiu/crev-proofs https://api.github.com/repos/toidiu/crev-proofs/contents
 https://github.com/hacpy/crev-proofs https://api.github.com/repos/hacpy/crev-proofs/contents
 https://github.com/Lynnesbian/crev-proofs https://api.github.com/repos/Lynnesbian/crev-proofs/contents
