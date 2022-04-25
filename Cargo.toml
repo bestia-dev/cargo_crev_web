@@ -4,6 +4,7 @@ name = "cargo_crev_web"
 version = "2021.1208.1729"
 description = "web server to query reviews from cargo-crev"
 authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
 edition = "2018"
 license = "MIT"
 readme = "README.md"
