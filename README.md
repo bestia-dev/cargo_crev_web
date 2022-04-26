@@ -18,10 +18,10 @@
 
 [comment]: # (lmake_lines_of_code end)
 
-[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/blob/main/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_crev_web/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_crev_web/) [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbestia-dev%2Fcargo_crev_web&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/raw/main/LICENSE) [![Rust](https://github.com/bestia-dev/cargo_crev_web/workflows/RustAction/badge.svg)](https://github.com/bestia-dev/cargo_crev_web/) [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbestia-dev%2Fcargo_crev_web&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 <!-- markdownlint-disable MD033 -->
-<img src="https://github.com/bestia-dev/cargo_crev_web/raw/master/web_server_folder/web_content_folder/images/snip_01.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_02.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_03.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_04.png?raw=true" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/blob/master/web_server_folder/web_content_folder/images/snip_05.png?raw=true" width="400"/>
+<img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_01.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_02.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_03.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_04.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_05.png" width="400"/>
 <!-- markdownlint-enable MD033 -->
 
 ## Try it out
@@ -122,7 +122,7 @@ I unzip it twice and saved the binary file `cargo-crev` in:
 
 ## GitHub crev-proofs
 
-I followed the instructions [getting_started](https://github.com/crev-dev/cargo-crev/blob/master/cargo-crev/src/doc/getting_started.md).  
+I followed the instructions [getting_started](https://github.com/crev-dev/cargo-crev/raw/main/cargo-crev/src/doc/getting_started.md).  
 I created a new GitHub user: `cargo-crev-web`. I wanted to name it `cargo_crev_web`, but underscore is not allowed :-( So now I have inconsistent names :-(  
 I used my second email, because my first email is used for my personal GitHub bestia-dev.  
 On the google vm web server I created an SSH key and copied the key to GitHub to have SSH access.  
