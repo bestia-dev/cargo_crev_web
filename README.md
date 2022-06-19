@@ -21,7 +21,8 @@
 [![Licence](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/raw/main/LICENSE)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbestia-dev%2Fcargo_crev_web&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
-Hashtags: #rustlang #buildtool #developmenttool #server #crev #review #web #html
+Hashtags: #rustlang #buildtool #developmenttool #server #crev #review #web #html  
+My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 
 <!-- markdownlint-disable MD033 -->
 <img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_01.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_02.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_03.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_04.png" width="400"/><img src="https://github.com/bestia-dev/cargo_crev_web/raw/main/web_server_folder/web_content_folder/images/snip_05.png" width="400"/>
