@@ -19,7 +19,7 @@
 [comment]: # (lmake_lines_of_code end)
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/raw/main/LICENSE)
-![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/489082694)
+![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/489082694.svg)
 
 Hashtags: #rustlang #buildtool #developmenttool #server #crev #review #web #html  
 My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
