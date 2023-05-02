@@ -1,4 +1,10 @@
 {
+    "workbench.colorCustomizations": {
+        "titleBar.activeForeground": "#fff",
+        "titleBar.inactiveForeground": "#ffffffcc",
+        "titleBar.activeBackground": "#3f8d3f",
+        "titleBar.inactiveBackground": "#4f8d3fcc"
+      },
     "cSpell.words": [
         "'e",
         "24YKeuThJDNFSlJyxcl5diSZcKcRbh-0zXM0YxTOFJw",
