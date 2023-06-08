@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["path_of_my_trust_folder",""],["trust_crev_files","all file names from trust directories"]],"struct":[["IdYaml",""],["ReviewerIndex","only one field with a generic name vec"],["ReviewerIndexItem","one item in the index"],["TrustYaml",""]]});
+window.SIDEBAR_ITEMS = {"fn":["path_of_my_trust_folder","trust_crev_files"],"struct":["IdYaml","ReviewerIndex","ReviewerIndexItem","TrustYaml"]};

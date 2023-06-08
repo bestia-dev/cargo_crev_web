@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ByCrateItem",""],["ReviewIndexByCrate","only one field with a generic name vec"]]});
+window.SIDEBAR_ITEMS = {"struct":["ByCrateItem","ReviewIndexByCrate"]};

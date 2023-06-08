@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["main_code",""]],"type":[["ArcMutStateGlobal",""]]});
+window.SIDEBAR_ITEMS = {"fn":["main_code"],"type":["ArcMutStateGlobal"]};

@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["group_visitors_by_day",""],["group_visits_by_day",""],["read_nginx_log_and_fill_daily_visitors",""]],"struct":[["GroupRequestsByDay",""],["GroupVisitorsByDay",""],["LogLine",""]]});
+window.SIDEBAR_ITEMS = {"fn":["group_visitors_by_day","group_visits_by_day","read_nginx_log_and_fill_daily_visitors"],"struct":["GroupRequestsByDay","GroupVisitorsByDay","LogLine"]};

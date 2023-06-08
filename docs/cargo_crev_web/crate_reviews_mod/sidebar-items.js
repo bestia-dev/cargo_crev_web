@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["filter_reviews",""]],"struct":[["CrateReviews",""]]});
+window.SIDEBAR_ITEMS = {"fn":["filter_reviews"],"struct":["CrateReviews"]};

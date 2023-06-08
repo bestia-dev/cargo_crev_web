@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["CrateVersionSummary",""]]});
+window.SIDEBAR_ITEMS = {"struct":["CrateVersionSummary"]};

@@ -3,7 +3,6 @@
 // region: (collapsed) use statements
 use crate::*;
 
-use clap::App;
 use env_logger::Env;
 //use futures::{sync::mpsc, Future, Stream};
 #[allow(unused_imports)]
@@ -23,14 +22,14 @@ pub async fn main_code() {
     // in Linux : RUST_LOG=info ./cargo_crev_web.exe
     // in Windows I don't know yet.
     // default for env variable info
-    let mut builder = env_logger::from_env(Env::default().default_filter_or("info"));
+    let mut builder = env_logger::Builder::from_env(Env::default().default_filter_or("info"));
     // nanoseconds in the logger
     builder.format_timestamp_nanos();
     builder.init();
     // endregion
 
     // region: cmdline parameters
-    App::new(env!("CARGO_PKG_NAME"))
+    clap::Command::new(env!("CARGO_PKG_NAME"))
         .version(env!("CARGO_PKG_VERSION"))
         .author(env!("CARGO_PKG_AUTHORS"))
         .about(env!("CARGO_PKG_DESCRIPTION"))

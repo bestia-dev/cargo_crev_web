@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ReviewIndexSummary",""]]});
+window.SIDEBAR_ITEMS = {"struct":["ReviewIndexSummary"]};

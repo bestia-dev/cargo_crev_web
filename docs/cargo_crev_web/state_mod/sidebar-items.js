@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["StateGlobal",""]]});
+window.SIDEBAR_ITEMS = {"struct":["StateGlobal"]};

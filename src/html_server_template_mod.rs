@@ -570,12 +570,12 @@ pub trait HtmlServerTemplateRender {
 }
 // region: utility fn
 
-/// in html the <script> element is encoded differently
+/// in html the 'script' element is encoded differently
 pub fn encode_html_script_node(input: &str) -> String {
     input.replace("</script>", "\\x3c/script>")
 }
 
-/// in html the <script> element is decoded differently
+/// in html the 'script' element is decoded differently
 pub fn decode_html_script_node(input: &str) -> String {
     input.replace("\\x3c/script>", "</script>")
 }
@@ -599,8 +599,8 @@ fn decode_5_xml_control_characters(input: &str) -> String {
 /// TODO: find a faster method // The standard library replace() function makes allocation,
 /// Just to talk about XSS attack on attribute value.
 /// let name = "dummy onmouseover=alert(/XSS/)";    // User input
-/// let tag = format!("<option value={}>", htmlescape::encode_minimal(name));
-/// // Here `tag` is    "<option value=dummy onmouseover=alert(/XSS/)>"
+/// let tag = format!("&lt;option value={}&gt;", htmlescape::encode_minimal(name));
+/// // Here `tag` is    "&lt;option value=dummy onmouseover=alert(/XSS/)&gt;"
 /// I use templates that must be microxml compatible.
 /// There cannot exist an attribute value without quotes.
 fn encode_5_xml_control_characters(input: &str) -> String {
