@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["check_repo_on_github"],"struct":["DailyVisitors","ForkedRepo","OnlyReviewer","RepoContent","ReservedFolder","ReviewIdsShort","VecOfForkedRepos"]};
+window.SIDEBAR_ITEMS = {"struct":["DailyVisitors","OnlyReviewer","ReservedFolder"]};

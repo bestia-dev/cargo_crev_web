@@ -85,9 +85,7 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
     // /rust-reviews/your_personal_reviews/{crate}/{version}/
     // /rust-reviews/people_of_rust/
     // /rust-reviews/reserved_folder/
-    // /rust-reviews/reserved_folder/reindex_after_fetch_new_reviews/
     // /rust-reviews/reserved_folder/blocklisted_repos/
-    // /rust-reviews/reserved_folder/list_new_reviewer_id/
     // /rust-reviews/reserved_folder/list_trusted_reviewer_id/
     // /rust-reviews/reserved_folder/daily_visitors/
 
@@ -160,50 +158,18 @@ pub async fn start_routes(state_global: ArcMutStateGlobal, local_addr: SocketAdd
             ),
         );
 
-    let reserved_folder_route = warp::path!("rust-reviews" / "reserved_folder" / "reindex_after_fetch_new_reviews")
+    let reserved_folder_route = warp::path!("rust-reviews" / "reserved_folder" / "blocklisted_repos")
         .and(state_global.clone())
-        .map(|state_global| {
-            let ns_start = ns_start("reindex_after_fetch_new_reviews");
-            let data_model = reserved_folder_mod::ReservedFolder::reindex_after_fetch_new_reviews(state_global);
+        .and_then(|state_global| async move {
+            let ns_start = ns_start("blocklisted_repos");
+            let data_model = reserved_folder_mod::ReservedFolder::blocklisted_repos(state_global);
             let ns_new = ns_print("new()", ns_start);
             let html_file = data_model.render_html_file("templates/");
             ns_print("render_html_file()", ns_new);
-            warp::reply::html(html_file)
+            // return crazy types
+            let result: Result<Box<dyn warp::Reply>, warp::Rejection> = Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
+            result
         })
-        .or(warp::path!("rust-reviews" / "reserved_folder" / "fetch_new_reviews")
-            .and(state_global.clone())
-            .map(|state_global| {
-                let ns_start = ns_start("fetch_new_reviews");
-                let data_model = reserved_folder_mod::ReservedFolder::fetch_new_reviews(state_global);
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                warp::reply::html(html_file)
-            }))
-        .or(warp::path!("rust-reviews" / "reserved_folder" / "blocklisted_repos")
-            .and(state_global.clone())
-            .and_then(|state_global| async move {
-                let ns_start = ns_start("blocklisted_repos");
-                let data_model = reserved_folder_mod::ReservedFolder::blocklisted_repos(state_global);
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                // return crazy types
-                let result: Result<Box<dyn warp::Reply>, warp::Rejection> = Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
-                result
-            }))
-        .or(warp::path!("rust-reviews" / "reserved_folder" / "list_new_reviewer_id")
-            .and(state_global.clone())
-            .and_then(|state_global| async move {
-                let ns_start = ns_start("list_new_reviewer_id");
-                let data_model = reserved_folder_mod::ReservedFolder::list_new_reviewer_id(state_global).await;
-                let ns_new = ns_print("new()", ns_start);
-                let html_file = data_model.render_html_file("templates/");
-                ns_print("render_html_file()", ns_new);
-                // return crazy types
-                let result: Result<Box<dyn warp::Reply>, warp::Rejection> = Ok(Box::new(warp::reply::html(html_file)) as Box<dyn warp::Reply>);
-                result
-            }))
         .or(warp::path!("rust-reviews" / "reserved_folder" / "list_trusted_reviewer_id")
             .and(state_global.clone())
             .map(|state_global| {
