@@ -224,13 +224,14 @@ fn task_publish_to_web() {
     let cargo_toml = CargoToml::read();
     let package_name = cargo_toml.package_name();
     // git tag
+    println!(r#"    {YELLOW}git tag {RESET}"#);
     let shell_command = format!(
         "git tag -f -a v{version} -m version_{version}",
         version = cargo_toml.package_version()
     );
     run_shell_command(&shell_command);
 
-    // 1. upload sh scripts
+    println!(r#"    {YELLOW}1. upload sh scripts {RESET}"#);
     let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/var_www_scripts/{package_name}/"#);
     let ssh_user_and_server = "luciano_bestia@bestia.dev";
     let ssh_key_file = "/home/rustdevuser/.ssh/webserverssh1";
@@ -239,16 +240,18 @@ fn task_publish_to_web() {
     run_shell_command(&format!(r#"ssh -i {ssh_key_file} {ssh_user_and_server} mkdir -p {remote_temp_folder}"#));
     run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after {project_folder_to_publish} {web_folder_over_ssh}"#));
     run_shell_command(&format!(r#"ssh -i {ssh_key_file} {ssh_user_and_server} chmod a+rx {remote_temp_folder}/cargo_crev_web_publish.sh"#)); 
-   
-    // TODO: use compress to send less over the wire
-    // 2. rsync files from the Rust project to a uploaded_web_server_folder on the remote server.
+
+    // 2. rsync files from the Rust project to uploaded_web_server_folder on the remote server.
+    println!(r#"    {YELLOW}2. upload files to uploaded_web_server_folder on the remote {RESET}"#);
     let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/web_server_folder/"#);    
     let remote_temp_folder = format!(r#"/tmp/bestia-dev/{package_name}/uploaded_web_server_folder/"# );
     let web_folder_over_ssh = format!(r#"{ssh_user_and_server}:{remote_temp_folder}"#);
     run_shell_command(&format!(r#"ssh -i {ssh_key_file} {ssh_user_and_server} mkdir -p {remote_temp_folder}"#));
-    run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after --mkpath {project_folder_to_publish} {web_folder_over_ssh}"#));
-    // 3. run a publishing script that will stop the server, copy the transferred files and restart the server    
+    run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after {project_folder_to_publish} {web_folder_over_ssh}"#));
+    
+    // 3. run the publishing script that will stop the server, copy the transferred files and restart the server    
     // this script will --exclude 'blocklisted_repos.json' when publishing to the web server.
+    println!(r#"    {YELLOW}3. run the publishing script on the remote{RESET}"#);
     let script_for_publishing_on_remote = format!(r#"/tmp/bestia-dev/{package_name}/{package_name}_publish.sh"#);
     run_shell_command(&format!(r#"ssh -tt -i {ssh_key_file} {ssh_user_and_server} {script_for_publishing_on_remote}"#));
  
