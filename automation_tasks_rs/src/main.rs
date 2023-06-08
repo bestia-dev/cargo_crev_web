@@ -212,7 +212,7 @@ fn task_commit_and_push(arg_2: Option<String>) {
             println!(
                 r#"
     {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
-{GREEN}cargo auto task_publish_to_web{RESET}
+{GREEN}cargo auto publish_to_web{RESET}
 "#
             );
         }
@@ -222,6 +222,7 @@ fn task_commit_and_push(arg_2: Option<String>) {
 /// publish to web and git tag
 fn task_publish_to_web() {
     let cargo_toml = CargoToml::read();
+    let package_name = cargo_toml.package_name();
     // git tag
     let shell_command = format!(
         "git tag -f -a v{version} -m version_{version}",
@@ -229,35 +230,36 @@ fn task_publish_to_web() {
     );
     run_shell_command(&shell_command);
 
-    // copy sh scripts
-    // 1. sync files from the Rust project to a transfer folder on the remote server
-    let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/var_www_scripts/{package_name}/"#, package_name = cargo_toml.package_name());
+    // 1. upload sh scripts
+    let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/var_www_scripts/{package_name}/"#);
     let ssh_user_and_server = "luciano_bestia@bestia.dev";
-    let web_folder_over_ssh = format!(r#"{ssh_user_and_server}:/var/www/scripts/{package_name}/"#,ssh_user_and_server =ssh_user_and_server ,package_name = cargo_toml.package_name());
-    run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after {} {}"#,project_folder_to_publish, web_folder_over_ssh));
+    let ssh_key_file = "/home/rustdevuser/.ssh/webserverssh1";
+    let remote_temp_folder = format!(r#"/tmp/bestia-dev/{package_name}/"# );
+    let web_folder_over_ssh = format!(r#"{ssh_user_and_server}:{remote_temp_folder}"# );
+    run_shell_command(&format!(r#"ssh -i {ssh_key_file} {ssh_user_and_server} mkdir -p {remote_temp_folder}"#));
+    run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after {project_folder_to_publish} {web_folder_over_ssh}"#));
+    run_shell_command(&format!(r#"ssh -i {ssh_key_file} {ssh_user_and_server} chmod a+rx {remote_temp_folder}/cargo_crev_web_publish.sh"#)); 
    
-    // cargo publish in 3 steps
-    // 1. sync files from the Rust project to a transfer folder on the remote server.
-    let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/web_server_folder/"#, package_name = cargo_toml.package_name());
-    let ssh_user_and_server = "luciano_bestia@bestia.dev";
-    let web_folder_over_ssh = format!(r#"{ssh_user_and_server}:/var/www/transfer_folder/webapps/{package_name}/"#,ssh_user_and_server =ssh_user_and_server,package_name = cargo_toml.package_name());
-    run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after {} {}"#,project_folder_to_publish, web_folder_over_ssh));
+    // TODO: use compress to send less over the wire
+    // 2. rsync files from the Rust project to a uploaded_web_server_folder on the remote server.
+    let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/web_server_folder/"#);    
+    let remote_temp_folder = format!(r#"/tmp/bestia-dev/{package_name}/uploaded_web_server_folder/"# );
+    let web_folder_over_ssh = format!(r#"{ssh_user_and_server}:{remote_temp_folder}"#);
+    run_shell_command(&format!(r#"ssh -i {ssh_key_file} {ssh_user_and_server} mkdir -p {remote_temp_folder}"#));
+    run_shell_command(&format!(r#"rsync -e ssh -a --info=progress2 --delete-after --mkpath {project_folder_to_publish} {web_folder_over_ssh}"#));
     // 3. run a publishing script that will stop the server, copy the transferred files and restart the server    
-    let ssh_key_file = "/home/luciano/.ssh/webserverssh1";
     // this script will --exclude 'blocklisted_repos.json' when publishing to the web server.
-    let script_for_publishing_on_remote = format!(r#"/var/www/scripts/{package_name}/{package_name}_publish.sh"#, package_name = cargo_toml.package_name());
-    run_shell_command(&format!(r#"ssh -tt -i {ssh_key_file} {ssh_user_and_server} {script_for_publishing_on_remote}"#,
-    ssh_key_file=ssh_key_file,
-    ssh_user_and_server=ssh_user_and_server,
-    script_for_publishing_on_remote = script_for_publishing_on_remote));
-
+    let script_for_publishing_on_remote = format!(r#"/tmp/bestia-dev/{package_name}/{package_name}_publish.sh"#);
+    run_shell_command(&format!(r#"ssh -tt -i {ssh_key_file} {ssh_user_and_server} {script_for_publishing_on_remote}"#));
+ 
     let web_app_url = format!(r#"https://web.crev.dev/rust-reviews/"#);
     println!(
         r#"
-    {YELLOW}After `cargo auto task_publish_to_web', open the browser on {RESET}
+    {YELLOW}After `cargo auto publish_to_web', open the browser on {RESET}
 {GREEN}{web_app_url}{RESET}
+    {YELLOW}Check over ssh if everything is working right{RESET}
+{GREEN}ssh -i {ssh_key_file} {ssh_user_and_server} {RESET}
 "#);
 }
-
 // endregion: tasks
 
