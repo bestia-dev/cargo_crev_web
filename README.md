@@ -8,7 +8,7 @@
 ***version: 2020.822.1757 date: 2020-08-22 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_crev_web)***  
 
 ![status](https://img.shields.io/badge/active_dev-green) 
-![status](https://img.shields.io/badge/in_use-green) 
+![status](https://img.shields.io/badge/work_in_progress-yellow) 
 
 [comment]: # (lmake_cargo_toml_to_md end)
 
