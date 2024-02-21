@@ -7,12 +7,13 @@
 **web server to query reviews from cargo-crev**  
 ***version: 2020.822.1757 date: 2020-08-22 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_crev_web)***  
 
-![status](https://img.shields.io/badge/maintained-green) 
-![status](https://img.shields.io/badge/ready_for_use-green) 
+ ![maintained](https://img.shields.io/badge/maintained-green) 
+ ![ready_for_use](https://img.shields.io/badge/ready_for_use-green) 
 
 [comment]: # (lmake_cargo_toml_to_md end)
 
 [comment]: # (lmake_lines_of_code start)
+
 [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4270-green.svg)](https://github.com/bestia-dev/cargo_crev_web/)
 [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-508-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/)
 [![Lines in Comments](https://img.shields.io/badge/Lines_in_comments-588-purple.svg)](https://github.com/bestia-dev/cargo_crev_web/)
@@ -21,8 +22,8 @@
 
 [comment]: # (lmake_lines_of_code end)
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/raw/main/LICENSE)
-![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/489082694.svg)
+ [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/raw/main/LICENSE)
+ ![cargo_crev_web](https://bestia.dev/webpage_hit_counter/get_svg_image/489082694.svg)
 
 Hashtags: #rustlang #buildtool #developmenttool #server #crev #review #web #html  
 My projects on Github are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
