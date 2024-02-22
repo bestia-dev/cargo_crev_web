@@ -1,8 +1,8 @@
-[comment]: # (lmake_md_to_doc_comments segment start A)
+[//]: # (auto_md_to_doc_comments segment start A)
 
 # Rust-reviews (working title cargo_crev_web)
 
-[comment]: # (lmake_cargo_toml_to_md start)
+[//]: # (auto_cargo_toml_to_md start)
 
 **web server to query reviews from cargo-crev**  
 ***version: 2020.822.1757 date: 2020-08-22 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/cargo_crev_web)***  
@@ -10,9 +10,9 @@
  ![maintained](https://img.shields.io/badge/maintained-green) 
  ![ready_for_use](https://img.shields.io/badge/ready_for_use-green) 
 
-[comment]: # (lmake_cargo_toml_to_md end)
+[//]: # (auto_cargo_toml_to_md end)
 
-[comment]: # (lmake_lines_of_code start)
+[//]: # (auto_lines_of_code start)
 
 [![Lines in Rust code](https://img.shields.io/badge/Lines_in_Rust-4270-green.svg)](https://github.com/bestia-dev/cargo_crev_web/)
 [![Lines in Doc comments](https://img.shields.io/badge/Lines_in_Doc_comments-508-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/)
@@ -20,7 +20,7 @@
 [![Lines in examples](https://img.shields.io/badge/Lines_in_examples-0-yellow.svg)](https://github.com/bestia-dev/cargo_crev_web/)
 [![Lines in tests](https://img.shields.io/badge/Lines_in_tests-57-orange.svg)](https://github.com/bestia-dev/cargo_crev_web/)
 
-[comment]: # (lmake_lines_of_code end)
+[//]: # (auto_lines_of_code end)
 
  [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/raw/main/LICENSE)
  ![cargo_crev_web](https://bestia.dev/webpage_hit_counter/get_svg_image/489082694.svg)
@@ -276,4 +276,4 @@ So I can drink a free beer for your health :-)
 [//bestiadev.substack.com](https://bestiadev.substack.com)  
 [//youtube.com/@bestia-dev-tutorials](https://youtube.com/@bestia-dev-tutorials)  
 
-[comment]: # (lmake_md_to_doc_comments segment end A)
+[//]: # (auto_md_to_doc_comments segment end A)
