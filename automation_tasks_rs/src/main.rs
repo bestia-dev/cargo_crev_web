@@ -67,11 +67,11 @@ fn print_help() {
     {YELLOW}This program automates your custom tasks when developing a Rust project.{RESET}
 
     {YELLOW}User defined tasks in automation_tasks_rs:{RESET}
-{GREEN}cargo auto build{RESET}{YELLOW} - builds the crate in debug mode, fmt, increment version{RESET}
-{GREEN}cargo auto release{RESET}{YELLOW} - builds the crate in release mode, fmt, increment version{RESET}
-{GREEN}cargo auto doc{RESET}{YELLOW} - builds the docs, copy to docs directory{RESET}
-{GREEN}cargo auto test{RESET}{YELLOW} - runs all the tests{RESET}
-{GREEN}cargo auto commit_and_push "message"{RESET}{YELLOW} - commits with message and push with mandatory message{RESET}
+{GREEN}cargo auto build{RESET} - {YELLOW}builds the crate in debug mode, fmt, increment version{RESET}
+{GREEN}cargo auto release{RESET} - {YELLOW}builds the crate in release mode, fmt, increment version{RESET}
+{GREEN}cargo auto doc{RESET} - {YELLOW}builds the docs, copy to docs directory{RESET}
+{GREEN}cargo auto test{RESET} - {YELLOW}runs all the tests{RESET}
+{GREEN}cargo auto commit_and_push "message"{RESET} - {YELLOW}commits with message and push with mandatory message{RESET}
     {YELLOW}(If you use SSH, it is easy to start the ssh-agent in the background and ssh-add your credentials for git.){RESET}
 {GREEN}cargo auto publish_to_web - publish to web, git tag{RESET}
 
@@ -127,7 +127,7 @@ fn task_build() {
 {GREEN}cd ~/rustprojects/cargo_crev_web/web_server_folder; ./{package_name}; {RESET}
     {YELLOW}Forward the port 8051 in VSCode and then open in browser{RESET}
 {GREEN}http://127.0.0.1:8051/rust-reviews/{RESET}    
-    {YELLOW}if ok, then,{RESET}
+    {YELLOW}if ok then{RESET}
 {GREEN}cargo auto release{RESET}
 "#,
 package_name = cargo_toml.package_name(),
@@ -156,7 +156,7 @@ fn task_release() {
 {GREEN}cd ~/rustprojects/cargo_crev_web/web_server_folder; ./{package_name}; {RESET}
     {YELLOW}Forward the port 8051 in VSCode and then open in browser{RESET}
 {GREEN}http://127.0.0.1:8051/rust-reviews/{RESET}    
-    {YELLOW}if ok, then,{RESET}
+    {YELLOW}if ok then{RESET}
 {GREEN}cargo auto doc{RESET}
 "#,
 package_name = cargo_toml.package_name(),
@@ -184,9 +184,9 @@ fn task_doc() {
     // message to help user with next move
     println!(
         r#"
-    {YELLOW}After `cargo auto doc`, check `docs/index.html`. If ok, then test the documentation code examples{RESET}
+    {YELLOW}After `cargo auto doc`, check `docs/index.html`. If ok then test the documentation code examples{RESET}
 {GREEN}cargo auto test{RESET}
-    {YELLOW}{RESET}"#
+    "#
     );
 }
 
@@ -195,7 +195,7 @@ fn task_test() {
     run_shell_command("cargo test");
     println!(
         r#"
-    {YELLOW}After `cargo auto test`. If ok, then {RESET}
+    {YELLOW}After `cargo auto test`. If ok then {RESET}
 {GREEN}cargo auto commit_and_push "message"{RESET}
     {YELLOW}with mandatory commit message{RESET}
 "#
