@@ -234,7 +234,7 @@ fn task_publish_to_web() {
     println!(r#"    {YELLOW}1. upload sh scripts {RESET}"#);
     let project_folder_to_publish = format!(r#"~/rustprojects/{package_name}/var_www_scripts/{package_name}/"#);
     let ssh_user_and_server = "luciano_bestia@bestia.dev";
-    let ssh_key_file = "/home/rustdevuser/.ssh/webserverssh1";
+    let ssh_key_file = "/home/rustdevuser/.ssh/bestia_dev_ssh_1";
     let remote_temp_folder = format!(r#"/tmp/bestia-dev/{package_name}/"# );
     let web_folder_over_ssh = format!(r#"{ssh_user_and_server}:{remote_temp_folder}"# );
     run_shell_command(&format!(r#"ssh -i {ssh_key_file} {ssh_user_and_server} mkdir -p {remote_temp_folder}"#));
