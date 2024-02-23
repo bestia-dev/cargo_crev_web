@@ -113,7 +113,7 @@ fn completion() {
 
 /// cargo build
 fn task_build() {
-    let cargo_toml = CargoToml::read();
+    let cargo_toml = cl::CargoToml::read();
     cl::auto_version_increment_semver_or_date();
     cl::run_shell_command("cargo fmt");
     cl::run_shell_command("cargo build");
@@ -135,7 +135,7 @@ package_name = cargo_toml.package_name(),
 
 /// cargo build --release
 fn task_release() {
-    let cargo_toml = CargoToml::read();
+    let cargo_toml = cl::CargoToml::read();
     cl::auto_version_increment_semver_or_date();
     cl::auto_cargo_toml_to_md();
     cl::auto_lines_of_code("");
@@ -231,7 +231,7 @@ r#"
 
 /// publish to web and git tag
 fn task_publish_to_web() {
-    let cargo_toml = CargoToml::read();
+    let cargo_toml = cl::CargoToml::read();
     let package_name = cargo_toml.package_name();
     // git tag
     println!(r#"    {YELLOW}git tag {RESET}"#);
