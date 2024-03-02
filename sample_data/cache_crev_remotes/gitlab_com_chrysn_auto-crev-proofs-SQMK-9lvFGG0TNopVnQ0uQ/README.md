@@ -1,3 +1,5 @@
+[//]: # (auto_md_to_doc_comments segment start A)
+
 <!-- CREV_README_MARKER_V0 - Please don't remove this first line, or `crev` might overwrite this file.  -->
 
 # Proof Repository
@@ -41,3 +43,5 @@ This repository contains actually four things:
 * The encrypted secret key backing the proof repository (the passphrase is entered through the gitlab CI mechanisms)
 * A list of points where to look for crev proof repositories
 * The mechanism that scrapes those starting points and issues proofs for them.
+
+[//]: # (auto_md_to_doc_comments segment end A)
