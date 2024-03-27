@@ -4,7 +4,7 @@ set -x
 
 PATH=~/.cargo/bin/:${PATH}
 
-echo "${CREV_SECRET_KEY}" | cargo-crev crev trust "$1" --level none
+printf "${CREV_SECRET_KEY}\n" | cargo-crev crev trust "$1" --level none
 
 RESULT=$?
 
