@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 [//]: # (auto_md_to_doc_comments segment start A)
 
 <!-- CREV_README_MARKER_V0 - Please don't remove this first line, or `crev` might overwrite this file.  -->
