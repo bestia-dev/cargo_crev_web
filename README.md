@@ -23,7 +23,7 @@
 
 [//]: # (auto_lines_of_code end)
 
- [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bestia-dev/cargo_crev_web/raw/main/LICENSE)
+ ![License](https://img.shields.io/badge/license-MIT-blue.svg)
  ![cargo_crev_web](https://bestia.dev/webpage_hit_counter/get_svg_image/489082694.svg)
 
 Hashtags: #rustlang #buildtool #developmenttool #server #crev #review #web #html  

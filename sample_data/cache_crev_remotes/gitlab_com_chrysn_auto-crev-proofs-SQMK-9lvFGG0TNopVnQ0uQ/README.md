@@ -7,6 +7,8 @@
 
 This git repository is a [Crev Proof Repository](https://github.com/crev-dev/crev/wiki/Proof-Repository).
 
+ ![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 <!-- Feel free to customize this file below this line -->
 
 Self updating non-trusting crev proofs for everyone
