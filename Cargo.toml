@@ -9,6 +9,7 @@ edition = "2018"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/bestia-dev/cargo_crev_web/"
+# Allowed categories are listed here <https://crates.io/category_slugs>
 categories = ["web-programming"]
 # Keyword must be only one word: lowercase letters, hyphens(-) or numbers, less then 35 characters, at most 5 keywords per crate
 keywords = ["warp","crev","cargo-crev"]
