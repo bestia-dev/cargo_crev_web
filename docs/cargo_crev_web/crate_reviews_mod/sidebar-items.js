@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["filter_reviews"],"struct":["CrateReviews"]};

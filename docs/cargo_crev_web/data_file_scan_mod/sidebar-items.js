@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["get_vec_from_one_file","get_vec_of_selected_reviews","path_of_remotes_folder","push_review_if_selected","push_this_review","reviews_crev_files"],"struct":["ManyFileReviewsPk","OneFileReviewsPk","ProofsInOneFile","ReviewFromShort","ReviewPackageShort","ReviewPk","ReviewShort"]};

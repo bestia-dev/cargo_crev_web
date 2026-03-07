@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["start_routes"],"macro":["boxed_on_debug","combine"],"static":["S"],"struct":["__StaticPath"]};

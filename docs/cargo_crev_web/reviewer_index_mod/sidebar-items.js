@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["path_of_my_trust_folder","trust_crev_files"],"struct":["IdYaml","ReviewerIndex","ReviewerIndexItem","TrustYaml"]};

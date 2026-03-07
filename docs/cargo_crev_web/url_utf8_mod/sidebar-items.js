@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["FRAGMENT"],"struct":["UrlPartUtf8Decoded","UrlUtf8EncodedString"]};

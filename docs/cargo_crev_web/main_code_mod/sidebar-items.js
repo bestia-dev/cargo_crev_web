@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["main_code"],"type":["ArcMutStateGlobal"]};

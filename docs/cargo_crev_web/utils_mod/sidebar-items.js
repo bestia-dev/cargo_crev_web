@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["conditional_usize","find_from","find_pos_after_delimiter","find_pos_before_delimiter","find_range_between_delimiters","ns_elapsed","ns_print","ns_start","parse_next_number","parse_semver","reviewer_name_from_url","traverse_dir_with_exclude_dir","version_for_sorting"]};
